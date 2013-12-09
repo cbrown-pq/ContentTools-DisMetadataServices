@@ -20,11 +20,6 @@
 	  <version>1.0</version>
   	</dependency>
   	<dependency>
-  	  <groupId>com.proquest.mtg.dismetadataservice</groupId>
-  	  <artifactId>dismetadata_common</artifactId>
-	  <version>1.0</version>
-  	</dependency>
-    <dependency>
 	<groupId>com.sun.jersey</groupId>
 	<artifactId>jersey-server</artifactId>
 	<version>1.17.1</version>
