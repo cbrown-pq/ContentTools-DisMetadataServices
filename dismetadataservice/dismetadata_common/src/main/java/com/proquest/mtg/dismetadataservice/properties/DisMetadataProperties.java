@@ -1,0 +1,54 @@
+package com.proquest.mtg.dismetadataservice.properties;
+
+import java.util.ArrayList;
+import java.util.Properties;
+
+import com.google.common.collect.Lists;
+
+public class DisMetadataProperties {
+
+	public final static String EXODUS_DB_URL = "exodus.db.url";
+	public final static String EXODUS_USER_NAME = "exodus.db.username";
+	public final static String EXODUS_PASSWORD = "exodus.db.password";
+	public final static String EXODUS_POOL_SIZE = "exodus.db.poolsize";
+	public final static String EXODUS_DB_CLASSTYPE = "exodus.db.classtype";
+
+	public final static ArrayList<String> kRequiredProps = Lists
+			.newArrayList(
+					EXODUS_DB_URL, 
+					EXODUS_USER_NAME, 
+					EXODUS_PASSWORD, 
+					EXODUS_POOL_SIZE,
+					EXODUS_DB_CLASSTYPE);
+	
+	private String dbUrl;
+	private String userName;
+	private String password;
+	private String dbClassType;
+	private int maxPoolSize;
+
+
+	public DisMetadataProperties(Properties props) {
+		validate(props);
+		this.dbUrl = props.getProperty(EXODUS_DB_URL);
+		this.userName = props.getProperty(EXODUS_USER_NAME);
+		this.password = props.getProperty(EXODUS_PASSWORD);
+		this.maxPoolSize = getIntValueFrom(props, EXODUS_POOL_SIZE);
+		this.dbClassType = props.getProperty(EXODUS_DB_CLASSTYPE);
+	}
+
+	private void validate(Properties props) throws IllegalArgumentException {
+		for (String propKeyName : kRequiredProps) {
+			if (!props.containsKey(propKeyName)) {
+				throw new IllegalArgumentException(
+						"Invalid DismetadataProperties:  missing required key ="
+								+ propKeyName);
+			}
+		}
+	}
+	
+	private int getIntValueFrom(Properties props, String key) {
+		return Integer.parseInt(props.getProperty(key));
+	}
+
+}
