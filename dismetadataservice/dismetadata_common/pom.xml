@@ -26,5 +26,11 @@
         <artifactId>guice</artifactId>
         <version>${guice.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.oracle</groupId>
+      <artifactId>ucp</artifactId>
+      <version>11.2.0.3</version>
+    </dependency>
+    
   </dependencies>
  </project>
