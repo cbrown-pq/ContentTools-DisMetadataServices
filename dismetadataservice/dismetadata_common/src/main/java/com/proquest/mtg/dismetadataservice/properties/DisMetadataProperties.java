@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import com.google.common.collect.Lists;
+import com.proquest.mtg.dismetadataservice.jdbc.JdbcConfig;
 
 public class DisMetadataProperties {
 
@@ -21,22 +22,25 @@ public class DisMetadataProperties {
 					EXODUS_POOL_SIZE,
 					EXODUS_DB_CLASSTYPE);
 	
-	private String dbUrl;
-	private String userName;
-	private String password;
-	private String dbClassType;
-	private int maxPoolSize;
+	
+	private final JdbcConfig exodusConfig;
 
 
 	public DisMetadataProperties(Properties props) {
 		validate(props);
-		this.dbUrl = props.getProperty(EXODUS_DB_URL);
-		this.userName = props.getProperty(EXODUS_USER_NAME);
-		this.password = props.getProperty(EXODUS_PASSWORD);
-		this.maxPoolSize = getIntValueFrom(props, EXODUS_POOL_SIZE);
-		this.dbClassType = props.getProperty(EXODUS_DB_CLASSTYPE);
+		
+		this.exodusConfig = new JdbcConfig(
+				props.getProperty(EXODUS_DB_URL),
+				props.getProperty(EXODUS_USER_NAME),
+				props.getProperty(EXODUS_PASSWORD),
+				props.getProperty(EXODUS_DB_CLASSTYPE),
+				getIntValueFrom(props, EXODUS_POOL_SIZE));
 	}
 
+	public JdbcConfig getExodusJdbcConfig() {
+		return exodusConfig;
+	}
+	
 	private void validate(Properties props) throws IllegalArgumentException {
 		for (String propKeyName : kRequiredProps) {
 			if (!props.containsKey(propKeyName)) {
