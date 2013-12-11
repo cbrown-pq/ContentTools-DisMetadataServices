@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcConfig;
 
 public class DisMetadataProperties {
@@ -25,6 +26,10 @@ public class DisMetadataProperties {
 	
 	private final JdbcConfig exodusConfig;
 
+	@Inject
+	public DisMetadataProperties(IAppConfigReader appConfigReader) throws Exception {
+		this(appConfigReader.getAllProperties());
+	}
 
 	public DisMetadataProperties(Properties props) {
 		validate(props);
