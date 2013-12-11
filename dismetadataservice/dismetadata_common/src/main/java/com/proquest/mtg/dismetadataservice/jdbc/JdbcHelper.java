@@ -6,8 +6,8 @@ public class JdbcHelper {
 	
 	public static JdbcConfig makeConfigForExodusDevelopment() {
 		String url = "jdbc:oracle:thin:@shrdb304.aa1.pqe:1521:exdvl";
-		String user = "mnarayan";
-		String password = "mnarayan";
+		String user = "dos_devl";
+		String password = "dos_devl";
 		String dbClassType = kConnectionFactoryClass_OracleThin;
 		int maxPoolSize = 5;
 		return new JdbcConfig(url, user, password, dbClassType, maxPoolSize);
