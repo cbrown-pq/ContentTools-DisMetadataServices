@@ -14,7 +14,7 @@ public class DisMetadataProperties_Invalid_Tests {
 
 	@Before
 	public void setUp() throws Exception {
-		props = DisoutMetadataProperties_Tests.makePropertyMapForTesting();
+		props = DisMetadataProperties_Tests.makePropertyMapForTesting();
 
 		assertThat("Test Setup", new DisMetadataProperties(props),
 				notNullValue());

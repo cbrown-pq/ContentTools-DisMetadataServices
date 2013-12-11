@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.proquest.mtg.dismetadataservice.helper.MyAsserts;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcConfig;
 
-public class DisoutMetadataProperties_Tests {
+public class DisMetadataProperties_Tests {
 
 	static final String kExodusDbUrl = "FakeURL";
 	static final String kExodusUserName = "FakeUserName";
@@ -32,7 +32,7 @@ public class DisoutMetadataProperties_Tests {
 	@Before
 	public void setUp() throws Exception {
 		target = new DisMetadataProperties(
-				DisoutMetadataProperties_Tests.makePropertyMapForTesting());
+				DisMetadataProperties_Tests.makePropertyMapForTesting());
 	}
 	
 	@Test
