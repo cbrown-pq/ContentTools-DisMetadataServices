@@ -12,7 +12,7 @@ public class DisMetadataService_Tests {
 			Client client = Client.create();
 
 			WebResource webResource = client
-					.resource("http://localhost:8080/dismetadata_service/rest/usmarc/123456");
+					.resource("http://localhost:8080/dismetadata_service/rest/dismetadata/123456/marc");
 
 			ClientResponse response = webResource.accept("application/json")
 					.get(ClientResponse.class);

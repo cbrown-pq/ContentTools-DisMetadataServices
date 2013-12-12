@@ -5,14 +5,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-@Path("/usmarc")
+@Path("/dismetadata/")
 public class DisMetadataService {
 
 	@GET
-	@Path("/{param}")
-    public Response getMsg(@PathParam("param") String pubNumber) {
+	@Path("/{pubNumber}/{type}")
+    public Response getDisMetaData(@PathParam("pubNumber") String pubNumber,@PathParam("type") String type) {
 
-        String output = pubNumber;
+        String output = pubNumber + "-" + type;
 
         return Response.status(200).entity(output).build();
 
