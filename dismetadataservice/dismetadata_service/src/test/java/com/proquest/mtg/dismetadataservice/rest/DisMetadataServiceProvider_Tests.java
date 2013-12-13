@@ -38,7 +38,7 @@ public class DisMetadataServiceProvider_Tests {
     	ClientResponse resp = service.path("dismetadata").path("test/123").get(ClientResponse.class);
         String responseMsg = resp.getEntity(String.class);
         
-        assertEquals("test-123", is(responseMsg));
+        assertEquals("test-123", responseMsg);
         assertEquals( 200, resp.getStatus());
     }
 
