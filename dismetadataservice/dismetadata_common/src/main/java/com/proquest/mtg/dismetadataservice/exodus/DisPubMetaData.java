@@ -1,11 +1,19 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
+import java.util.List;
+
+import com.proquest.mtg.dismetadataservice.metadata.Author;
+
 public class DisPubMetaData {
 	private String pubNumber;
 	private String itemId;
 	private String isbn;
 	private String pubPageNum;
-	private String pageCount;	
+	private String pageCount;
+	private String blNumber;
+	private String referenceLocation;
+	private String externalURL;
+	private List<Author> authors;
 	
 	public String getPubNumber() {
 		return pubNumber;
@@ -45,5 +53,37 @@ public class DisPubMetaData {
 
 	public void setPageCount(String pageCount) {
 		this.pageCount = pageCount;
+	}
+
+	public String getBLNumber() {
+		return blNumber;
+	}
+
+	public void setBLNumber(String blNumber) {
+		this.blNumber = blNumber;
+	}
+
+	public String getReferenceLocation() {
+		return referenceLocation;
+	}
+
+	public void setReferenceLocation(String referenceLocation) {
+		this.referenceLocation = referenceLocation;
+	}
+
+	public String getExternalURL() {
+		return externalURL;
+	}
+
+	public void setExternalURL(String externalURL) {
+		this.externalURL = externalURL;
+	}
+
+	public List<Author> getAuthors() {
+		return authors;
+	}
+
+	public void setAuthors(List<Author> authors) {
+		this.authors = authors;
 	}
 }
