@@ -15,24 +15,15 @@ public class DisMetadataServiceProvider {
 	@GET
 	@Path("/{pubNumber}/{formatType}")
 	@Produces(MediaType.APPLICATION_XML)
-	public DisPubMetaData getDisMetaData(
+	public Response getDisMetaData(
 			@PathParam("pubNumber") String pubNumber,
 			@PathParam("formatType") String formatType) {
 
 		DisPubMetaData disPubMetadata = new DisPubMetaData();
 		disPubMetadata.setPubNumber(pubNumber);
 		disPubMetadata.setFormatType(formatType);
-		return disPubMetadata;
+		return Response.status(200).entity(disPubMetadata).build();
 
 	}
-	
-	@GET
-	@Path("/{pubNumber}")
-    public Response getDisMetaData2(@PathParam("pubNumber") String pubNumber) {
-
-        String output = pubNumber;
-        return Response.status(200).entity(output).build();
-
-    }
 	
 }
