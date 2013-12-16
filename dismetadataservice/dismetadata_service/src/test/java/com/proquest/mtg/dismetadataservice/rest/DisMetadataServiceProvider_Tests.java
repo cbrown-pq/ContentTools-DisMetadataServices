@@ -35,10 +35,10 @@ public class DisMetadataServiceProvider_Tests {
  
     @Test
     public void testResponseOK() {
-    	ClientResponse resp = service.path("dismetadata").path("test/123").get(ClientResponse.class);
+    	ClientResponse resp = service.path("dispubmetadata").path("test").get(ClientResponse.class);
         String responseMsg = resp.getEntity(String.class);
         
-        assertEquals("test-123", responseMsg);
+        assertEquals("test", responseMsg);
         assertEquals( 200, resp.getStatus());
     }
 
