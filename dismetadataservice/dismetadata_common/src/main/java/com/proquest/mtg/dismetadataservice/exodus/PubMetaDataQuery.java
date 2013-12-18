@@ -146,7 +146,7 @@ public class PubMetaDataQuery {
 		String languageDescription = trimmed(cursor.getString(kColumnLanguageDescription));
 		String languageCode = trimmed(cursor.getString(kColumnLanguageCode));
 		DissLanguage language = new DissLanguage(required(languageDescription), required(languageCode));
-		result.setLanguage(language);
+		result.setDissLanguage(language);
 //		result.setTitle(makeTitleFrom(cursor, language));
 //		String source = trimmed(cursor.getString(kColumnSource));
 //		if (null != source && source.equalsIgnoreCase("I")) {

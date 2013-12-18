@@ -90,11 +90,11 @@ public class DisPubMetaData {
 		this.authors = authors;
 	}
 	
-	public DissLanguage getLanguage() {
+	public DissLanguage getDissLanguage() {
 		return dissLanguage;
 	}
 
-	public void setLanguage(DissLanguage value) {
+	public void setDissLanguage(DissLanguage value) {
 		this.dissLanguage = value;
 	}
 
