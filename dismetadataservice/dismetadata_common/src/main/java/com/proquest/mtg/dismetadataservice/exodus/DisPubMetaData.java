@@ -2,15 +2,13 @@ package com.proquest.mtg.dismetadataservice.exodus;
 
 import java.util.List;
 
-import com.proquest.mtg.dismetadataservice.metadata.Author;
-
-
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "DisPubMetaData")
+import com.proquest.mtg.dismetadataservice.metadata.Author;
 
+@XmlRootElement(name = "DisPubMetaData")
 public class DisPubMetaData {
 	private String pubNumber;
 	private String itemId;
