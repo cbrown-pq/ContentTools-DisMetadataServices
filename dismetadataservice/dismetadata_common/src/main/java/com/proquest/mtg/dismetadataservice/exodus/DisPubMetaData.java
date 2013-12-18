@@ -14,6 +14,7 @@ public class DisPubMetaData {
 	private String referenceLocation;
 	private String externalURL;
 	private List<Author> authors;
+	private DissLanguage dissLanguage;
 
 	public String getPubNumber() {
 		return pubNumber;
@@ -87,5 +88,54 @@ public class DisPubMetaData {
 
 	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
+	}
+	
+	public DissLanguage getLanguage() {
+		return dissLanguage;
+	}
+
+	public void setLanguage(DissLanguage value) {
+		this.dissLanguage = value;
+	}
+
+	@Override
+	public String toString() {
+		return "DisPubMetaData [pubNumber=" + pubNumber + ", itemId=" + itemId
+				+ ", isbn=" + isbn + ", pubPageNum=" + pubPageNum
+				+ ", pageCount=" + pageCount + ", blNumber=" + blNumber
+				+ ", referenceLocation=" + referenceLocation + ", externalURL="
+				+ externalURL + ", authors=" + authors + ", language="
+				+ dissLanguage + "]";
+	}
+
+	public static class DissLanguage {
+		private String languageDescription;
+		private String languageCode;
+		
+		public DissLanguage(String languageDescription, String languageCode) {
+			this.languageDescription = languageDescription;
+			this.languageCode = languageCode;
+		}
+		
+		public String getLanguageCode() {
+			return languageCode;
+		}
+		public void setLanguageCode(String value) {
+			this.languageCode = value;
+		}
+		
+		public String getLanguageDescription() {
+			return languageDescription;
+		}
+		public void setLanguageDescription(String value) {
+			this.languageDescription = value;
+		}
+
+		@Override
+		public String toString() {
+			return "Language [languageDescription=" + languageDescription
+					+ ", languageCode=" + languageCode + "]";
+		}
+		
 	}
 }
