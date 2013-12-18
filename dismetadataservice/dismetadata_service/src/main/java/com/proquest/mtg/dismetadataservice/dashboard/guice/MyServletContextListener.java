@@ -28,7 +28,7 @@ public class MyServletContextListener extends GuiceServletContextListener {
 			String appConfigFileName = getPropertiesFrom(sce);
 			if (null != appConfigFileName) {
 				disMetadataServiceGuiceModule = new DisMetadataServiceGuiceModule(appConfigFileName);
-				injector = Guice.createInjector(						
+				injector = Guice.createInjector(new MyServletGuiceModule(),						
 						disMetadataServiceGuiceModule);
 			}
 			super.contextInitialized(sce);
