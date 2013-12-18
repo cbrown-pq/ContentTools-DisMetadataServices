@@ -24,7 +24,7 @@
     <listener-class>com.proquest.mtg.dismetadataservice.dashboard.guice.MyServletContextListener</listener-class>
   </listener> 
    
-  <servlet>
+ <!--  <servlet>
   <servlet-name>Jersey REST Service</servlet-name>
   <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
   <init-param>
@@ -40,10 +40,10 @@
         <param-value>com.sun.jersey.api.container.filter.LoggingFilter</param-value>
     </init-param>
   <load-on-startup>1</load-on-startup>
-  </servlet>
+  </servlet> 
   <servlet-mapping>
   <servlet-name>Jersey REST Service</servlet-name>
   <url-pattern>/rest/*</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping>-->
   
 </web-app>
