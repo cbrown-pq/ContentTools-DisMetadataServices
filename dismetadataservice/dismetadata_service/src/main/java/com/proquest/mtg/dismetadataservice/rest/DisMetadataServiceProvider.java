@@ -21,7 +21,6 @@ public class DisMetadataServiceProvider {
 
 		DisPubMetaData disPubMetadata = new DisPubMetaData();
 		disPubMetadata.setPubNumber(pubNumber);
-		disPubMetadata.setFormatType(formatType);
 		return Response.status(200).entity(disPubMetadata).build();
 
 	}
