@@ -34,9 +34,9 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		verify("PageCount", expected.getPageCount(), actual.getPageCount());
 		verify("PubPageNum", expected.getPubPageNum(), actual.getPubPageNum());
 		verify("ReferenceLocation", expected.getReferenceLocation(), actual.getReferenceLocation());
-//		verify("ExternalURL", expected.getExternalURL(), actual.getExternalURL());
+		verify("ExternalURL", expected.getExternalURL(), actual.getExternalURL());
 //		verifyTitle(actual);
-//		verifyAbstract(actual);
+		verifyAbstract(actual);
 //		verifyBatch(actual);
 //		verifySchool(actual);
 //		verifySubjects(actual);
@@ -72,17 +72,16 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 //		}
 //	}
 
-//	private void verifyAbstract(Dissertation actual) {
-//		if (null != expected.getAbstract()) {
-//			if (verifyNotNullValue("Abstract", actual.getAbstract())) {
-//				verify("Abstract Value",  expected.getAbstract().getValue(), actual.getAbstract().getValue());
-//				verify("Abstract Language",  expected.getAbstract().getLanguage(), actual.getAbstract().getLanguage());
-//			}
-//		}
-//		else {
-//			verifyNullValue("Abstract", actual.getAbstract());
-//		}
-//	}
+	private void verifyAbstract(DisPubMetaData actual) {
+		if (null != expected.getAbstract()) {
+			if (verifyNotNullValue("Abstract", actual.getAbstract())) {
+				verify("Abstract Value",  expected.getAbstract(), actual.getAbstract());
+			}
+		}
+		else {
+			verifyNullValue("Abstract", actual.getAbstract());
+		}
+	}
 
 //	private void verifyBatch(Dissertation actual) {
 //		if (null != expected.getBatch()) {

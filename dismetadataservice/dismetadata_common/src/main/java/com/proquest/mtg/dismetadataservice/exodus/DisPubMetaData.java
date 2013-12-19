@@ -16,6 +16,7 @@ public class DisPubMetaData {
 	private String externalURL;
 	private List<Author> authors;
 	private List<DissLanguage> dissLanguages;
+	private String dissAbstract;
 
 	public String getPubNumber() {
 		return pubNumber;
@@ -99,6 +100,14 @@ public class DisPubMetaData {
 		this.dissLanguages = Lists.newArrayList(value);
 	}
 
+	public String getAbstract() {
+		return dissAbstract;
+	}
+	
+	public void setAbstract(String value) {
+		this.dissAbstract = value;
+	}
+	
 	@Override
 	public String toString() {
 		return "DisPubMetaData [pubNumber=" + pubNumber + ", itemId=" + itemId
@@ -108,6 +117,7 @@ public class DisPubMetaData {
 				+ externalURL + ", authors=" + authors + ", language="
 				+ dissLanguages + "]";
 	}
+
 
 	public static class DissLanguage {
 		private String languageDescription;

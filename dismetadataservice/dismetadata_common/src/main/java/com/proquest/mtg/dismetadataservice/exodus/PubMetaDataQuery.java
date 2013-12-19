@@ -30,8 +30,8 @@ public class PubMetaDataQuery {
 	private static final String kColumnLanguageCode = "LanguageCode";
 	private static final String kColumnMasterTitle = "MasterTitle";
 	private static final String kColumnElectronicTitle = "ElectronicTitle";
-	
-	
+	private static final String kColumnEngOverwriteTitle = "EnglishOevrwriteTitle";
+	private static final String kColumnForeignTitle = "ForeignTitle";
 	
 	private static final String kColumnAuthorId = "AuthorId"; 
 	private static final String kColumnAuthorSequenceNumber = "AuthorSequenceNumber"; 
@@ -42,6 +42,8 @@ public class PubMetaDataQuery {
 	private static final String kColumnDegreeDescription = "DegreeDescription";
 	private static final String kColumnDegreeYear = "DegreeYear";
 	private static final String kColumnDegreeSequenceNumber = "DegreeSequenceNumber";
+	
+	private static final String kColumnAbstract = "Abstract";
 	
 	
 	private static final String kSelectMainPubData =
@@ -59,21 +61,20 @@ public class PubMetaDataQuery {
                   "ditm_ft_url " + kColumnExternalUrl + ", " +
                   "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'M' AND ditm_id = ditm.ditm_id ) " + kColumnMasterTitle + ", " +
                   "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'P' AND ditm_id = ditm.ditm_id ) " + kColumnElectronicTitle + ", " +
+                  "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'E' AND ditm_id = ditm.ditm_id ) " + kColumnEngOverwriteTitle + ", " +
+                  "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'F' AND ditm_id = ditm.ditm_id ) " + kColumnForeignTitle + ", " +
                   "dvl.dvl_description " + kColumnLanguageDescription + ", " +
-                  "dvl.dvl_code " +  kColumnLanguageCode  +       " " +                
+                  "dvl.dvl_code " +  kColumnLanguageCode  + " " +                
             "FROM " +
-                  "dis.dis_items ditm,dis_items_languages dil,dis_valid_languages dvl " +
+                  "dis.dis_items ditm, " +
+                  "dis_items_languages dil, " +
+                  "dis_valid_languages dvl " +
             "WHERE " +
-                  "ditm.ditm_pub_number = ? " +
-                  "AND " +
-                  "ditm.ditm_id = dil.ditm_id " +
-                  "AND " +
-                  "dil.dvl_code = dvl.dvl_code " +
-                  "AND " +
+                  "ditm.ditm_pub_number = ? AND " +
+                  "ditm.ditm_id = dil.ditm_id AND " +
+                  "dil.dvl_code = dvl.dvl_code AND " +
                   "ditm.dvi_id IS NOT NULL ";
 
-
-	
 	private static final String kSelectAuthors = 
 			"SELECT " +
 				"dath.dath_id " + kColumnAuthorId + ", " +
@@ -107,18 +108,26 @@ public class PubMetaDataQuery {
 				"dad.dad_code = dvde.dvde_code " +
 			"ORDER BY dad_sequence_number ";
 	
+	private static final String kSelectAbstract =
+			"SELECT " +
+				"da_abstract_text " + kColumnAbstract + " " + 
+			"FROM " +
+				"dis.dis_abstracts " +
+			"WHERE " +
+				"ditm_id = ? ";
 	
 	private PreparedStatement authorsStatement;
 	private PreparedStatement mainPubDataStatement;
 	private PreparedStatement degreeStatement;
+	private PreparedStatement abstractStatement;
 	
 	public PubMetaDataQuery(Connection connection) throws SQLException {
 		this.authorsStatement = connection.prepareStatement(kSelectAuthors);
 		this.mainPubDataStatement = connection.prepareStatement(kSelectMainPubData);
 		this.degreeStatement = connection.prepareStatement(kSelectDegree);
+		this.abstractStatement = connection.prepareStatement(kSelectAbstract);
 	}
 	
-
 	public DisPubMetaData getFor(String pubId) throws SQLException {
 		DisPubMetaData result = null;
 		ResultSet cursor = null;
@@ -152,14 +161,14 @@ public class PubMetaDataQuery {
 		DissLanguage language = new DissLanguage(required(languageDescription), required(languageCode));
 		result.setDissLanguages(Lists.newArrayList(language));
 //		result.setTitle(makeTitleFrom(cursor, language));
-//		String source = trimmed(cursor.getString(kColumnSource));
-//		if (null != source && source.equalsIgnoreCase("I")) {
-//			result.setExternalURL(trimmed(cursor.getString(kColumnExternalUrl)));
-//		}
+		String source = trimmed(cursor.getString(kColumnSource));
+		if (null != source && source.equalsIgnoreCase("I")) {
+			result.setExternalURL(trimmed(cursor.getString(kColumnExternalUrl)));
+		}
 //		String itemId = cursor.getString(kColumnItemId);
 		if (null != itemId) {
 //			result.setSubjects(getSubjectsFor(itemId));
-//			result.setAbstract(getAbstractFor(itemId, language));
+			result.setAbstract(required(getAbstractFor(itemId)));
 //			result.setDepartments(getDepartmentsFor(itemId));
 //			result.setKeywords(getKeywordsFor(itemId));
 //			result.setSuppFiles(getSupplementalFilesFor(itemId));
@@ -236,11 +245,29 @@ public class PubMetaDataQuery {
 		return result;
 	}
 
+	private String getAbstractFor(String itemId)  throws SQLException {
+		String result = null;
+		ResultSet cursor = null;
+		try {
+			abstractStatement.setString(1, itemId);
+			cursor = abstractStatement.executeQuery();
+			if (cursor.next()) {
+				result = cursor.getString(kColumnAbstract);
+			}
+		}
+		finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+		}
+		return result;
+	}
 	
 	public void close() throws SQLException {
 		closeStatement(authorsStatement);
 		closeStatement(mainPubDataStatement);
 		closeStatement(degreeStatement);
+		closeStatement(abstractStatement);
 	}
 	
 	private void closeStatement(PreparedStatement statment) throws SQLException {
