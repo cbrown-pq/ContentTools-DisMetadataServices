@@ -2,21 +2,26 @@ package com.proquest.mtg.dismetadataservice.rest.helper;
 
 import java.io.IOException;
 
+import com.google.inject.Injector;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import com.sun.jersey.api.core.PackagesResourceConfig;
 import com.sun.jersey.api.core.ResourceConfig;
+import com.sun.jersey.core.spi.component.ioc.IoCComponentProviderFactory;
+import com.sun.jersey.guice.spi.container.GuiceComponentProviderFactory;
 import com.sun.net.httpserver.HttpServer;
 
 @SuppressWarnings("restriction")
-public class MetadataServiceProviderTestHelper {
-
-	static final String kBaseURI = "http://localhost:9999/dismetadata_service/";
+public abstract class ServiceTestHelperBase {
 	
+	static final String kBaseURI = "http://localhost:9999/dismetadata_service/";
 	HttpServer server;
 	
-	public MetadataServiceProviderTestHelper() throws IllegalArgumentException, IOException {
+	
+	public void createHTTPServer(Injector injector) throws IllegalArgumentException, IOException {
 		ResourceConfig rc = new PackagesResourceConfig("com.proquest.mtg.dismetadataservice.rest");
-		server = HttpServerFactory.create(kBaseURI, rc);
+		IoCComponentProviderFactory ioc = new GuiceComponentProviderFactory( rc, injector );
+		server = HttpServerFactory.create(kBaseURI, rc, ioc);
+		
 	}
 	
 	public void startHTTPServer() {
@@ -26,4 +31,6 @@ public class MetadataServiceProviderTestHelper {
 	public void stopHTTPServer() {
            server.stop(0);
     }
+	
+
 }
