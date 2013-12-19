@@ -45,37 +45,41 @@ public class PubMetaDataQuery {
 	
 	
 	private static final String kSelectMainPubData =
-			"SELECT " +
-				"ditm_id " + kColumnItemId + ", " +
-				"dvi_id " + kColumnVolumeIssueId + ", " +
-				"ditm_pub_number " + kColumnPubId  + ", " + 
-				"ditm_adviser " + kColumnAdvisors + ", " +
-				"ditm_isbn_number " + kColumnIsbn + ", " +
-				"ditm_publication_page_number " + kColumnPageNumber + ", " +
-				"ditm_page_count " + kColumnPageCount + ", " +
-				"ditm_reference_location " + kColumnReferenceLocation + ", " +
-				"ditm_bl_no " + kColumnBritishLibraryNumber + ", " +
-				"ditm_source " + kColumnSource + ", " +
-				"ditm_ft_url " + kColumnExternalUrl + ", " +
-				"( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'M' AND ditm_id = ditm.ditm_id ) " + kColumnMasterTitle + ", " +
-				"( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'P' AND ditm_id = ditm.ditm_id ) " + kColumnElectronicTitle + ", " +
-				"( SELECT b.dvl_description " + kColumnLanguageDescription + ", " +
-					"a.dvl_code " +  kColumnLanguageCode + ", " +
-					"FROM dis.dis_items_languages a, dis.dis_valid_languages b " +
-					"WHERE a.ditm_id = ditm.ditm_id AND a.dvl_code = b.dvl_code ) " + 
-			"FROM " +
-				"dis.dis_items ditm " +
-			"WHERE " +
-				"ditm.ditm_pub_number = ? " +
-				"AND " +
-				"ditm.dvi_id IS NOT NULL ";
+            "SELECT " +
+                  "ditm.ditm_id " + kColumnItemId + ", " +
+                  "dvi_id " + kColumnVolumeIssueId + ", " +
+                  "ditm_pub_number " + kColumnPubId  + ", " + 
+                  "ditm_adviser " + kColumnAdvisors + ", " +
+                  "ditm_isbn_number " + kColumnIsbn + ", " +
+                  "ditm_publication_page_number " + kColumnPageNumber + ", " +
+                  "ditm_page_count " + kColumnPageCount + ", " +
+                  "ditm_reference_location " + kColumnReferenceLocation + ", " +
+                  "ditm_bl_no " + kColumnBritishLibraryNumber + ", " +
+                  "ditm_source " + kColumnSource + ", " +
+                  "ditm_ft_url " + kColumnExternalUrl + ", " +
+                  "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'M' AND ditm_id = ditm.ditm_id ) " + kColumnMasterTitle + ", " +
+                  "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'P' AND ditm_id = ditm.ditm_id ) " + kColumnElectronicTitle + ", " +
+                  "dvl.dvl_description " + kColumnLanguageDescription + ", " +
+                  "dvl.dvl_code " +  kColumnLanguageCode  +       " " +                
+            "FROM " +
+                  "dis.dis_items ditm,dis_items_languages dil,dis_valid_languages dvl " +
+            "WHERE " +
+                  "ditm.ditm_pub_number = ? " +
+                  "AND " +
+                  "ditm.ditm_id = dil.ditm_id " +
+                  "AND " +
+                  "dil.dvl_code = dvl.dvl_code " +
+                  "AND " +
+                  "ditm.dvi_id IS NOT NULL ";
+
+
 	
 	private static final String kSelectAuthors = 
 			"SELECT " +
 				"dath.dath_id " + kColumnAuthorId + ", " +
 				"dath_sequence_number " + kColumnAuthorSequenceNumber + ", " +
 				"dath_fullname " + kColumnAuthorFullName + ", " + 
-				"dsa_fullname " + kColumnAuthorAlternateFullName + ", " +
+				"dsa_fullname " + kColumnAuthorAlternateFullName + " " + 
 			"FROM " +
 				"dis.dis_authors dath, " + 
 				"dis.dis_supp_authors dsa " + 
@@ -146,7 +150,7 @@ public class PubMetaDataQuery {
 		String languageDescription = trimmed(cursor.getString(kColumnLanguageDescription));
 		String languageCode = trimmed(cursor.getString(kColumnLanguageCode));
 		DissLanguage language = new DissLanguage(required(languageDescription), required(languageCode));
-		result.setDissLanguage(language);
+		result.setDissLanguages(Lists.newArrayList(language));
 //		result.setTitle(makeTitleFrom(cursor, language));
 //		String source = trimmed(cursor.getString(kColumnSource));
 //		if (null != source && source.equalsIgnoreCase("I")) {

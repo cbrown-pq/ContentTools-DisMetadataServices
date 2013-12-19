@@ -68,7 +68,7 @@ public class Author {
 	}
 
 	public void setDegrees(List<Degree> degree) {
-		if (null == degree) {
+		if (null == this.degree) {
 			this.degree = Lists.newArrayList(degree);
 		} else {
 			this.degree.addAll(degree);

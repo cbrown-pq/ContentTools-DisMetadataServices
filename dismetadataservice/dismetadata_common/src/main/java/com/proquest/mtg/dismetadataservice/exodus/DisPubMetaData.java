@@ -2,6 +2,7 @@ package com.proquest.mtg.dismetadataservice.exodus;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 
 public class DisPubMetaData {
@@ -14,7 +15,7 @@ public class DisPubMetaData {
 	private String referenceLocation;
 	private String externalURL;
 	private List<Author> authors;
-	private DissLanguage dissLanguage;
+	private List<DissLanguage> dissLanguages;
 
 	public String getPubNumber() {
 		return pubNumber;
@@ -86,16 +87,16 @@ public class DisPubMetaData {
 		return authors;
 	}
 
-	public void setAuthors(List<Author> authors) {
-		this.authors = authors;
+	public void setAuthors(Iterable<Author> authors) {
+		this.authors = Lists.newArrayList(authors);
 	}
 	
-	public DissLanguage getDissLanguage() {
-		return dissLanguage;
+	public List<DissLanguage> getDissLanguages() {
+		return dissLanguages;
 	}
 
-	public void setDissLanguage(DissLanguage value) {
-		this.dissLanguage = value;
+	public void setDissLanguages(Iterable<DissLanguage> value) {
+		this.dissLanguages = Lists.newArrayList(value);
 	}
 
 	@Override
@@ -105,7 +106,7 @@ public class DisPubMetaData {
 				+ ", pageCount=" + pageCount + ", blNumber=" + blNumber
 				+ ", referenceLocation=" + referenceLocation + ", externalURL="
 				+ externalURL + ", authors=" + authors + ", language="
-				+ dissLanguage + "]";
+				+ dissLanguages + "]";
 	}
 
 	public static class DissLanguage {
