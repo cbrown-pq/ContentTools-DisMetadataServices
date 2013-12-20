@@ -13,7 +13,10 @@ import org.hamcrest.TypeSafeMatcher;
 
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 
 public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
@@ -39,13 +42,13 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		verifyAbstract(actual);
 //		verifyBatch(actual);
 //		verifySchool(actual);
-//		verifySubjects(actual);
+		verifySubjects(actual);
 //		verifyAlternateTitles(actual);
 		verifyDissLanguages(actual);
 //		verifyDepartments(actual);
 //		verifyKeywords(actual);
-//		verifySupplementalFiles(actual);
-//		verifyCommittee(actual);
+		verifySupplementalFiles(actual);
+		verifyCommittee(actual);
 //		verifyAdvisors(actual);
 		verifyAuthors(actual);
 		
@@ -111,28 +114,28 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 //		}
 //	}
 
-//	private void verifySubjects(Dissertation actual) {
-//		if (null != expected.getSubjects()) {
-//			if (verifyNotNullValue("Subjects", actual.getSubjects())) {
-//				int expectedCount = expected.getSubjects().getSubject().size();
-//				int actualCount = actual.getSubjects().getSubject().size();
-//				verify("Subjects Count", expectedCount, actualCount);
-//				if (expectedCount == actualCount) {
-//					for (int i=0; i<expectedCount; ++i) {
-//						Subject expectedItem = expected.getSubjects().getSubject().get(i);
-//						Subject actualItem = actual.getSubjects().getSubject().get(i);
-//						verify("Subject Group " + i, expectedItem.getSubjectGroupDesc(), actualItem.getSubjectGroupDesc());
-//						verify("Subject Code " + i, expectedItem.getSubjectCode().getValue(), actualItem.getSubjectCode().getValue());
-//						verify("Subject Desc " + i, expectedItem.getSubjectDesc(), actualItem.getSubjectDesc());
-//						verify("Subject Sequence Number " + i, expectedItem.getSequenceNumber(), actualItem.getSequenceNumber());
-//					}
-//				}
-//			}
-//		}
-//		else {
-//			verifyNullValue("Subjects", actual.getSubjects());
-//		}
-//	}
+	private void verifySubjects(DisPubMetaData actual) {
+		if (null != expected.getSubjects()) {
+			if (verifyNotNullValue("Subjects", actual.getSubjects())) {
+				int expectedCount = expected.getSubjects().size();
+				int actualCount = actual.getSubjects().size();
+				verify("Subjects Count", expectedCount, actualCount);
+				if (expectedCount == actualCount) {
+					for (int i=0; i<expectedCount; ++i) {
+						Subject expectedItem = expected.getSubjects().get(i);
+						Subject actualItem = actual.getSubjects().get(i);
+						verify("Subject Group " + i, expectedItem.getSubjectGroupDesc(), actualItem.getSubjectGroupDesc());
+						verify("Subject Code " + i, expectedItem.getSubjectCode(), actualItem.getSubjectCode());
+						verify("Subject Desc " + i, expectedItem.getSubjectDesc(), actualItem.getSubjectDesc());
+						verify("Subject Sequence Number " + i, expectedItem.getSequenceNumber(), actualItem.getSequenceNumber());
+					}
+				}
+			}
+		}
+		else {
+			verifyNullValue("Subjects", actual.getSubjects());
+		}
+	}
 	
 //	private void verifyAlternateTitles(Dissertation actual) {
 //		if (null != expected.getAlternateTitles()) {
@@ -176,50 +179,50 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 //		}
 //	}
 	
-//	private void verifySupplementalFiles(Dissertation actual) {
-//		if (null != expected.getSuppFiles()) {
-//			if (verifyNotNullValue("SuppFiles", actual.getSuppFiles())) {
-//				int expectedCount = expected.getSuppFiles().getSuppFile().size();
-//				int actualCount = actual.getSuppFiles().getSuppFile().size();
-//				verify("SuppFiles Count", expectedCount, actualCount);
-//				if (expectedCount == actualCount) {
-//					for (int i=0; i<expectedCount; ++i) {
-//						SuppFile expectedItem = expected.getSuppFiles().getSuppFile().get(i);
-//						SuppFile actualItem = actual.getSuppFiles().getSuppFile().get(i);
-//						verify("SuppFile FileName " + i, expectedItem.getSuppFilename(), actualItem.getSuppFilename());
-//						verify("SuppFile Description " + i, expectedItem.getSuppFileDesc(), actualItem.getSuppFileDesc());
-//						verify("SuppFile Category " + i, expectedItem.getSuppFileCategory(), actualItem.getSuppFileCategory());
-//					}
-//				}
-//			}
-//		}
-//		else {
-//			verifyNullValue("SuppFiles", actual.getSuppFiles());
-//		}
-//	}
+	private void verifySupplementalFiles(DisPubMetaData actual) {
+		if (null != expected.getSuppFiles()) {
+			if (verifyNotNullValue("SuppFiles", actual.getSuppFiles())) {
+				int expectedCount = expected.getSuppFiles().size();
+				int actualCount = actual.getSuppFiles().size();
+				verify("SuppFiles Count", expectedCount, actualCount);
+				if (expectedCount == actualCount) {
+					for (int i=0; i<expectedCount; ++i) {
+						SuppFile expectedItem = expected.getSuppFiles().get(i);
+						SuppFile actualItem = actual.getSuppFiles().get(i);
+						verify("SuppFile FileName " + i, expectedItem.getSuppFilename(), actualItem.getSuppFilename());
+						verify("SuppFile Description " + i, expectedItem.getSuppFileDesc(), actualItem.getSuppFileDesc());
+						verify("SuppFile Category " + i, expectedItem.getSuppFileCategory(), actualItem.getSuppFileCategory());
+					}
+				}
+			}
+		}
+		else {
+			verifyNullValue("SuppFiles", actual.getSuppFiles());
+		}
+	}
 	
-//	private void verifyCommittee(Dissertation actual) {
-//		if (null != expected.getCmteMembers()) {
-//			if (verifyNotNullValue("CmteMembers", actual.getCmteMembers())) {
-//				int expectedCount = expected.getCmteMembers().getCmteMember().size();
-//				int actualCount = actual.getCmteMembers().getCmteMember().size();
-//				verify("CmteMemberS Count", expectedCount, actualCount);
-//				if (expectedCount == actualCount) {
-//					for (int i=0; i<expectedCount; ++i) {
-//						CmteMember expectedItem = expected.getCmteMembers().getCmteMember().get(i);
-//						CmteMember actualItem = actual.getCmteMembers().getCmteMember().get(i);
-//						verify("CmteMember FirstName " + i, expectedItem.getFirstName(), actualItem.getFirstName());
-//						verify("CmteMember MiddleName " + i, expectedItem.getMiddleName(), actualItem.getMiddleName());
-//						verify("CmteMember LastName " + i, expectedItem.getLastName(), actualItem.getLastName());
-//						verify("CmteMember Suffix " + i, expectedItem.getSuffix(), actualItem.getSuffix());
-//					}
-//				}
-//			}
-//		}
-//		else {
-//			verifyNullValue("CmteMembers", actual.getCmteMembers());
-//		}
-//	}
+	private void verifyCommittee(DisPubMetaData actual) {
+		if (null != expected.getCmteMembers()) {
+			if (verifyNotNullValue("CmteMembers", actual.getCmteMembers())) {
+				int expectedCount = expected.getCmteMembers().size();
+				int actualCount = actual.getCmteMembers().size();
+				verify("CmteMemberS Count", expectedCount, actualCount);
+				if (expectedCount == actualCount) {
+					for (int i=0; i<expectedCount; ++i) {
+						CmteMember expectedItem = expected.getCmteMembers().get(i);
+						CmteMember actualItem = actual.getCmteMembers().get(i);
+						verify("CmteMember FirstName " + i, expectedItem.getFirstName(), actualItem.getFirstName());
+						verify("CmteMember MiddleName " + i, expectedItem.getMiddleName(), actualItem.getMiddleName());
+						verify("CmteMember LastName " + i, expectedItem.getLastName(), actualItem.getLastName());
+						verify("CmteMember Suffix " + i, expectedItem.getSuffix(), actualItem.getSuffix());
+					}
+				}
+			}
+		}
+		else {
+			verifyNullValue("CmteMembers", actual.getCmteMembers());
+		}
+	}
 	
 //	private void verifyAdvisors(Dissertation actual) {
 //		if (null != expected.getAdvisors()) {

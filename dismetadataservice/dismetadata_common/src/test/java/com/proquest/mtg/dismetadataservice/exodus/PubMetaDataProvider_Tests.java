@@ -9,7 +9,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
@@ -32,19 +35,18 @@ public class PubMetaDataProvider_Tests {
 	//static final List<String> kAllPubIds = Lists.newArrayList(   
 	//		pubId0, pubId1, noVolumeIssuePub1, pubId2, pubId3, pubId4, pubId5, pubId6, fakePub1);
 		
-	/*public static Subject makeSubjectForTesting(String group, String code, String description, int sequenceNumber) {
+	public static Subject makeSubjectForTesting(String group, String code, String description, int sequenceNumber) {
 		Subject result = new Subject();
 		result.setSubjectGroupDesc(group);
 		if (null != code) { 
-			result.setSubjectCode(new SubjectCode());
-			result.getSubjectCode().setValue(code);
+			result.setSubjectCode(code);
 		}
 		result.setSubjectDesc(description);
 		result.setSequenceNumber(sequenceNumber);
 		return result;
 	}
 	
-	public static Keyword makeKeywordFrom(String value, String source) {
+	/*public static Keyword makeKeywordFrom(String value, String source) {
 		Keyword result = new Keyword();
 		result.setValue(value);
 		result.setSource(source);
@@ -55,7 +57,7 @@ public class PubMetaDataProvider_Tests {
 		Keywords result = new Keywords();
 		result.getKeyword().addAll(items);
 		return result;
-	}
+	}*/
 	
 	public static SuppFile makeSuppFileFrom(String fileName, String category, String description) {
 		SuppFile result = new SuppFile();
@@ -73,7 +75,7 @@ public class PubMetaDataProvider_Tests {
 		result.setSuffix(suffix);
 		return result;
 	}
-	
+	/*
 	public static Advisor makeAdvisorFrom(String fullName, String alternateName, String language) {
 		Advisor result = new Advisor();
 		result.setAdvisorFullName(fullName);
@@ -136,11 +138,11 @@ public class PubMetaDataProvider_Tests {
 //		school.setSchoolState(null);
 //		x.setSchool(school);
 		
-//		Subjects subjects = new Subjects();
-//		subjects.getSubject().add(makeSubjectForTesting("Applied Sciences", "0796", "Operations Research", 1));
-//		subjects.getSubject().add(makeSubjectForTesting("Applied Sciences", "0546", "Engineering, Industrial", 2));
-//		subjects.getSubject().add(makeSubjectForTesting("Social Sciences", "0454", "Business Administration, Management", 3));
-//		x.setSubjects(subjects);
+		List<Subject> subjects = Lists.newArrayList(
+				makeSubjectForTesting("Applied Sciences", "0796", "Operations Research", 1), 
+				makeSubjectForTesting("Applied Sciences", "0546", "Engineering, Industrial", 2),
+				makeSubjectForTesting("Social Sciences", "0454", "Business Administration, Management", 3));
+		x.setSubjects(subjects);
 
 //		Title title = new Title();
 //		title.setValue("Recovery strategies and reverse logistic network design");
@@ -166,6 +168,8 @@ public class PubMetaDataProvider_Tests {
 //				makeKeywordFrom("consumer products", "By I and L"),
 //				makeKeywordFrom("product recovery", "By I and L")
 //				)));
+		x.setCmteMembers(null);
+		x.setSuppFiles(null);
 		
 		List<Author> authors = Lists.newArrayList();
 		authors.add(
@@ -198,9 +202,9 @@ public class PubMetaDataProvider_Tests {
 //		batch.setVolumeIssue("51-03M(E)");
 //		x.setBatch(batch);
 		
-//		Subjects subjects = new Subjects();
-//		subjects.getSubject().add(makeSubjectForTesting("Language, Literature and Linguistics", "0593", "Literature, English", 1));
-//		x.setSubjects(subjects);
+		List<Subject> subjects = Lists.newArrayList(
+				makeSubjectForTesting("Language, Literature and Linguistics", "0593", "Literature, English", 1));
+		x.setSubjects(subjects);
 
 //		Title title = new Title();
 //		title.setValue("Reviving the Jago: A case for resssesing Arthur Morrison's \"A Child of the Jago\"");
@@ -229,10 +233,12 @@ public class PubMetaDataProvider_Tests {
 //				makeKeywordFrom("S", "For Datrix")
 //				)));
 		
-//		CmteMembers comittee = new CmteMembers();
-//		comittee.getCmteMember().add(makeCmteMemberFrom("Michelle", null, "Hawley", null));
-//		comittee.getCmteMember().add(makeCmteMemberFrom("Ruben", null, "Quintero", null));
-//		x.setCmteMembers(comittee);
+		
+		List<CmteMember> comittee = Lists.newArrayList(
+				makeCmteMemberFrom("Michelle", null, "Hawley", null),
+				makeCmteMemberFrom("Ruben", null, "Quintero", null));
+		x.setCmteMembers(comittee);
+		x.setSuppFiles(null);
 		
 //		Advisors advisors = new Advisors();
 //		advisors.getAdvisor().add(makeAdvisorFrom("Jim Garrett", null, null));
@@ -268,9 +274,9 @@ public class PubMetaDataProvider_Tests {
 //		school.setSchoolState("Minnesota");
 //		x.setSchool(school);
 		
-//		Subjects subjects = new Subjects();
-//		subjects.getSubject().add(makeSubjectForTesting("Education", "0525", "Education, Educational Psychology", 1));
-//		x.setSubjects(subjects);
+		List<Subject> subjects = Lists.newArrayList(
+				makeSubjectForTesting("Education", "0525", "Education, Educational Psychology", 1));
+		x.setSubjects(subjects);
 		
 //		Title title = new Title();
 //		title.setValue("NON-VERBAL GROUP INTELLIGENCE TESTS FOR PRIMARY PUPILS");
@@ -293,6 +299,8 @@ public class PubMetaDataProvider_Tests {
 //				makeKeywordFrom("TESTS", "For Datrix"),
 //				makeKeywordFrom("VERBAL", "For Datrix")
 //				)));
+		x.setCmteMembers(null);
+		x.setSuppFiles(null);
 		
 		List<Author> authors = Lists.newArrayList();
 		authors.add(
@@ -326,9 +334,9 @@ public class PubMetaDataProvider_Tests {
 //		school.setSchoolState(null);
 //		x.setSchool(school);
 		
-//		Subjects subjects = new Subjects();
-//		subjects.getSubject().add(makeSubjectForTesting("Pure Sciences", "0752", "Physics, Optics", 1));
-//		x.setSubjects(subjects);
+		List<Subject> subjects = Lists.newArrayList(
+				makeSubjectForTesting("Pure Sciences", "0752", "Physics, Optics", 1));
+		x.setSubjects(subjects);
 		
 //		Title title = new Title();
 //		title.setValue("Fundamental properties of Bragg gratings and their application to the design of advanced structures.");
@@ -340,7 +348,10 @@ public class PubMetaDataProvider_Tests {
 		
 		DissLanguage language = new DissLanguage("English", "EN");		
 		x.setDissLanguages(Lists.newArrayList(language));
-
+		
+		x.setCmteMembers(null);
+		x.setSuppFiles(null);
+		
 		List<Author> authors = Lists.newArrayList();
 		authors.add(
 				makeAuthorFrom(
@@ -370,9 +381,9 @@ public class PubMetaDataProvider_Tests {
 //		school.setSchoolState(null);
 //		x.setSchool(school);
 		
-//		Subjects subjects = new Subjects();
-//		subjects.getSubject().add(makeSubjectForTesting("Applied Sciences", "0543", "Engineering, Civil", 1));
-//		x.setSubjects(subjects);
+		List<Subject> subjects = Lists.newArrayList(
+				makeSubjectForTesting("Applied Sciences", "0543", "Engineering, Civil", 1));
+		x.setSubjects(subjects);
 		
 //		Title title = new Title();
 //		title.setValue("Development of an air conditioner controller using fuzzy control theory");
@@ -403,6 +414,9 @@ public class PubMetaDataProvider_Tests {
 //		Advisors advisors = new Advisors();
 //		advisors.getAdvisor().add(makeAdvisorFrom("Guan Ping  Feng", "冯冠平", "Chinese"));
 //		x.setAdvisors(advisors);
+		
+		x.setCmteMembers(null);
+		x.setSuppFiles(null);
 		
 		List<Author> authors = Lists.newArrayList();
 		authors.add(
@@ -437,9 +451,9 @@ public class PubMetaDataProvider_Tests {
 //		batch.setDAISectionCode("B");
 //		x.setBatch(batch);
 		
-//		Subjects subjects = new Subjects();
-//		subjects.getSubject().add(makeSubjectForTesting("Applied Sciences", "0794", "Engineering, Materials Science", 1));
-//		x.setSubjects(subjects);
+		List<Subject> subjects = Lists.newArrayList(
+				makeSubjectForTesting("Applied Sciences", "0794", "Engineering, Materials Science", 1));
+		x.setSubjects(subjects);
 		
 //		Title title = new Title();
 //		title.setValue("Rheological behavior and microstructural evolution of semi-solid<p>hypereutectic aluminum-silicon-magnesium-copper alloys using rheoforming process");
@@ -480,6 +494,9 @@ public class PubMetaDataProvider_Tests {
 //		advisors.getAdvisor().add(makeAdvisorFrom("X. Grant Chen", null, null));
 //		x.setAdvisors(advisors);
 		
+		x.setCmteMembers(null);
+		x.setSuppFiles(null);
+		
 		List<Author> authors = Lists.newArrayList();
 		authors.add(
 				makeAuthorFrom(
@@ -511,9 +528,9 @@ public class PubMetaDataProvider_Tests {
 //		batch.setDAISectionCode(null);
 //		x.setBatch(batch);
 		
-//		Subjects subjects = new Subjects();
-//		subjects.getSubject().add(makeSubjectForTesting("Communication and the Arts", "0465", "Theater", 1));
-//		x.setSubjects(subjects);
+		List<Subject> subjects = Lists.newArrayList(
+				makeSubjectForTesting("Communication and the Arts", "0465", "Theater", 1));
+		x.setSubjects(subjects);
 		
 //		Title title = new Title();
 //		title.setValue("Finding the Flow: Management Style in \"In the Red and Brown Water\"");
@@ -542,17 +559,17 @@ public class PubMetaDataProvider_Tests {
 //		departments.getDepartment().add("Theatre and Dance");
 //		x.setDepartments(departments);
 		
-//		SuppFiles supplementalFiles = new SuppFiles();
-//		supplementalFiles.getSuppFile().add(makeSuppFileFrom("ZingleCallingPages11-13.pdf", "pdf", PubMetaDataQuery.kEmptyValue));
-//		supplementalFiles.getSuppFile().add(makeSuppFileFrom("ZingleCallingPages3-5.pdf", "pdf", PubMetaDataQuery.kEmptyValue));
-//		supplementalFiles.getSuppFile().add(makeSuppFileFrom("ZingleCallingPages94-96.pdf", "pdf", "In the Red and Brown Water Calling Pages 94-96"));
-//		x.setSuppFiles(supplementalFiles);
+		List<SuppFile> supplementalFiles = Lists.newArrayList(
+				makeSuppFileFrom("ZingleCallingPages11-13.pdf", "pdf", PubMetaDataQuery.kEmptyValue),
+				makeSuppFileFrom("ZingleCallingPages3-5.pdf", "pdf", PubMetaDataQuery.kEmptyValue),
+				makeSuppFileFrom("ZingleCallingPages94-96.pdf", "pdf", "In the Red and Brown Water Calling Pages 94-96"));
+		x.setSuppFiles(supplementalFiles);
 		
-//		CmteMembers comittee = new CmteMembers();
-//		comittee.getCmteMember().add(makeCmteMemberFrom("John", "B.", "Doller", null));
-//		comittee.getCmteMember().add(makeCmteMemberFrom("Charles", "E.", "Means", null));
-//		comittee.getCmteMember().add(makeCmteMemberFrom("Gregory", "D.", "Wallace", null));
-//		x.setCmteMembers(comittee);
+		List<CmteMember> comittee = Lists.newArrayList(
+				makeCmteMemberFrom("John", "B.", "Doller", null),
+				makeCmteMemberFrom("Charles", "E.", "Means", null), 
+				makeCmteMemberFrom("Gregory", "D.", "Wallace", null));
+		x.setCmteMembers(comittee);
 		
 //		Advisors advisors = new Advisors();
 //		advisors.getAdvisor().add(makeAdvisorFrom("Lisa J. Porter", null, null));

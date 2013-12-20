@@ -16,6 +16,9 @@ public class DisPubMetaData {
 	private String externalURL;
 	private List<Author> authors;
 	private List<DissLanguage> dissLanguages;
+	private List<CmteMember> cmteMembers;
+	private List<Subject> subjects;
+	private List<SuppFile> suppFiles;
 	private String dissAbstract;
 
 	public String getPubNumber() {
@@ -108,6 +111,44 @@ public class DisPubMetaData {
 		this.dissAbstract = value;
 	}
 	
+	public void setCmteMembers(Iterable<CmteMember> value) {
+		if (null == value) {
+			this.cmteMembers = Lists.newArrayList();
+		} else {
+			this.cmteMembers = Lists.newArrayList(value);
+		}
+	}
+	
+	public List<CmteMember> getCmteMembers() {
+		return cmteMembers;
+	}
+	
+	
+	public void setSubjects(Iterable<Subject> value) {
+		if (null == value) {
+			this.subjects = Lists.newArrayList();
+		} else {
+			this.subjects = Lists.newArrayList(value);
+		}
+	}
+	
+	public List<Subject> getSubjects() {
+		return subjects;
+	}
+	
+	public void setSuppFiles(Iterable<SuppFile> value) {
+		if (null == value) {
+			this.suppFiles = Lists.newArrayList();
+		} else {
+			this.suppFiles = Lists.newArrayList(value);
+		}
+	}
+	
+	public List<SuppFile> getSuppFiles() {
+		return suppFiles;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "DisPubMetaData [pubNumber=" + pubNumber + ", itemId=" + itemId
@@ -120,8 +161,8 @@ public class DisPubMetaData {
 
 
 	public static class DissLanguage {
-		private String languageDescription;
-		private String languageCode;
+		private final String languageDescription;
+		private final String languageCode;
 		
 		public DissLanguage(String languageDescription, String languageCode) {
 			this.languageDescription = languageDescription;
@@ -131,15 +172,9 @@ public class DisPubMetaData {
 		public String getLanguageCode() {
 			return languageCode;
 		}
-		public void setLanguageCode(String value) {
-			this.languageCode = value;
-		}
 		
 		public String getLanguageDescription() {
 			return languageDescription;
-		}
-		public void setLanguageDescription(String value) {
-			this.languageDescription = value;
 		}
 
 		@Override
@@ -149,4 +184,112 @@ public class DisPubMetaData {
 		}
 		
 	}
+	
+	public static class CmteMember {
+        protected String firstName;        
+        protected String middleName;        
+        protected String lastName;
+        protected String suffix;
+
+        public String getFirstName() {
+            return firstName;
+        }
+
+        public void setFirstName(String value) {
+            this.firstName = value;
+        }
+
+        public String getMiddleName() {
+            return middleName;
+        }
+
+        public void setMiddleName(String value) {
+            this.middleName = value;
+        }
+
+        public String getLastName() {
+            return lastName;
+        }
+
+        public void setLastName(String value) {
+            this.lastName = value;
+        }
+
+        public String getSuffix() {
+            return suffix;
+        }
+
+        public void setSuffix(String value) {
+            this.suffix = value;
+        }
+    }
+	
+	public static class Subject {
+        private String subjectGroupDesc;
+        private String subjectCode;
+        private String subjectDesc;
+        private Integer sequenceNumber;
+
+        public String getSubjectGroupDesc() {
+            return subjectGroupDesc;
+        }
+
+        public void setSubjectGroupDesc(String value) {
+            this.subjectGroupDesc = value;
+        }
+
+        public String getSubjectCode() {
+            return subjectCode;
+        }
+
+        public void setSubjectCode(String value) {
+            this.subjectCode = value;
+        }
+
+        public String getSubjectDesc() {
+            return subjectDesc;
+        }
+
+        public void setSubjectDesc(String value) {
+            this.subjectDesc = value;
+        }
+
+        public Integer getSequenceNumber() {
+            return sequenceNumber;
+        }
+
+        public void setSequenceNumber(Integer value) {
+            this.sequenceNumber = value;
+        }
+    }
+	
+	public static class SuppFile {
+        private String suppFileCategory;
+        private String suppFilename;
+        private String suppFileDesc;
+
+        public String getSuppFileCategory() {
+            return suppFileCategory;
+        }
+
+        public void setSuppFileCategory(String value) {
+            this.suppFileCategory = value;
+        }
+
+        public String getSuppFilename() {
+            return suppFilename;
+        }
+
+        public void setSuppFilename(String value) {
+            this.suppFilename = value;
+        }
+
+        public String getSuppFileDesc() {
+            return suppFileDesc;
+        }
+
+        public void setSuppFileDesc(String value) {
+            this.suppFileDesc = value;
+        }
+    }
 }
