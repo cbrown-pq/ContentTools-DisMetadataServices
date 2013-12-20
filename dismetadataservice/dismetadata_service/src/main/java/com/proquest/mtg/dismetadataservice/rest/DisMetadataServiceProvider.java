@@ -34,11 +34,8 @@ public class DisMetadataServiceProvider {
 		try {
 			disPubMetadata = pubMetadataProvider.getPubMetaDataFor(pubNumber);
 			result = "Pub Number: " + disPubMetadata.getPubNumber() + "\n"
-					+ "Item Id: " + disPubMetadata.getItemId() + "\n"
-					+ "ISBN: " + disPubMetadata.getISBN() + "\n"
-					+ "Pub Page Number: " + disPubMetadata.getPubPageNum() + "\n" 
-					+ "Page Count: " + disPubMetadata.getPageCount() + "\n"
-				    + "Format Type: " + formatType;
+					+ "ISBN: " + disPubMetadata.getISBN();
+				    
 		} catch (NullPointerException e) {
 			result = "No Data Found";
 		} catch (Exception e) {
