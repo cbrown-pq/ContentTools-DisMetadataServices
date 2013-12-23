@@ -9,6 +9,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
@@ -61,6 +62,10 @@ public class PubMetaDataQuery {
 	private static final String kColumnSupplementalFileName = "SupplementalFileName";
 	private static final String kColumnSupplementalFileDescription = "SupplementalFileDescription";
 	private static final String kColumnSupplementalFileCategory = "SupplementalFileCategory";
+	private static final String kColumnDepartment = "Department";
+	
+	private static final String kColumnKeyword = "Keyword";
+	private static final String kColumnKeywordSource = "KeywordSource";
 	
 	private static final String kSelectMainPubData =
             "SELECT " +
@@ -180,6 +185,28 @@ public class PubMetaDataQuery {
 				"disf.ditm_id = ? " + 
 			"ORDER BY disf_filename ";
 	
+	private static final String kSelectDepartments = 
+			"SELECT " +  
+				"did_department " + kColumnDepartment + " " +
+			"FROM " + 
+				"dis.dis_item_departments " +
+			"WHERE " +
+				"ditm_id = ? " + 
+			"ORDER BY did_department ";
+	
+	private static final String kSelectKeywords = 
+			"SELECT " +
+				"dik_keyword " + kColumnKeyword + ", " +  
+				"rv_abbreviation " + kColumnKeywordSource + " " +
+			"FROM " +
+				"dis_keywords dik, " +
+				"cg_ref_codes rv " +
+			"WHERE " +
+				"dik.dik_source = rv.rv_low_value(+) AND " +
+				"rv.rv_domain(+) = 'KEYWORD SOURCE' AND " +
+				"ditm_id = ? " + 
+			"ORDER BY dik_keyword ";
+	
 	
 	private PreparedStatement authorsStatement;
 	private PreparedStatement mainPubDataStatement;
@@ -189,6 +216,8 @@ public class PubMetaDataQuery {
 	private PreparedStatement subjectsStatement;
 	private PreparedStatement committeeMembersStatement;
 	private PreparedStatement supplementalFilesStatement;
+	private PreparedStatement departmentsStatement;
+	private PreparedStatement keywordsStatement;
 	
 	public PubMetaDataQuery(Connection connection) throws SQLException {
 		this.authorsStatement = connection.prepareStatement(kSelectAuthors);
@@ -199,6 +228,8 @@ public class PubMetaDataQuery {
 		this.subjectsStatement = connection.prepareStatement(kSelectSubjects);
 		this.committeeMembersStatement = connection.prepareStatement(kSelectCommitteeMembers);
 		this.supplementalFilesStatement = connection.prepareStatement(kSelectSupplementalFiles);
+		this.departmentsStatement = connection.prepareStatement(kSelectDepartments);
+		this.keywordsStatement = connection.prepareStatement(kSelectKeywords);
 	}
 	
 	public DisPubMetaData getFor(String pubId) throws SQLException {
@@ -234,13 +265,12 @@ public class PubMetaDataQuery {
 		if (null != source && source.equalsIgnoreCase("I")) {
 			result.setExternalURL(trimmed(cursor.getString(kColumnExternalUrl)));
 		}
-//		String itemId = cursor.getString(kColumnItemId);
 		if (null != itemId) {
 			result.setDissLanguages(getLanguagesFor(itemId));
 			result.setSubjects(getSubjectsFor(itemId));
 			result.setAbstract(required(getAbstractFor(itemId)));
-//			result.setDepartments(getDepartmentsFor(itemId));
-//			result.setKeywords(getKeywordsFor(itemId));
+			result.setDepartments(getDepartmentsFor(itemId));
+			result.setKeywords(getKeywordsFor(itemId));
 			result.setSuppFiles(getSupplementalFilesFor(itemId));
 			result.setAuthors(getAuthorsFor(itemId));
 //			result.setAlternateTitles(getAlternateTitlesFor(itemId));
@@ -428,6 +458,52 @@ public class PubMetaDataQuery {
 		return result;
 	}
 	
+	private List<String> getDepartmentsFor(String itemId) throws SQLException {
+		List<String> result = null;
+		ResultSet cursor = null;
+		try {
+			departmentsStatement.setString(1, itemId);
+			cursor = departmentsStatement.executeQuery();
+			while (cursor.next()) {
+				if (null == result) {
+					result = Lists.newArrayList();
+				}
+				result.add(trimmed(cursor.getString(kColumnDepartment)));
+			}
+		}
+		finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+		}
+		return result;
+	}
+	
+	private List<Keyword> getKeywordsFor(String itemId) throws SQLException {
+		List<Keyword> result = null;
+		ResultSet cursor = null;
+		try {
+			keywordsStatement.setString(1, itemId);
+			cursor = keywordsStatement.executeQuery();
+			while (cursor.next()) {
+				if (null == result) {
+					result = Lists.newArrayList();
+				}
+				Keyword item = new Keyword();
+				item.setValue(trimmed(cursor.getString(kColumnKeyword)));
+				item.setSource(trimmed(cursor.getString(kColumnKeywordSource)));
+				result.add(item);
+			}
+		}
+		finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+		}
+		return result;
+	}
+
+	
 	public void close() throws SQLException {
 		closeStatement(authorsStatement);
 		closeStatement(mainPubDataStatement);
@@ -435,6 +511,7 @@ public class PubMetaDataQuery {
 		closeStatement(abstractStatement);
 		closeStatement(subjectsStatement);
 		closeStatement(languageStatement);
+		closeStatement(departmentsStatement);
 	}
 	
 	private void closeStatement(PreparedStatement statment) throws SQLException {

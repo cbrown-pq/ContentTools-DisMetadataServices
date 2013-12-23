@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
@@ -46,16 +47,16 @@ public class PubMetaDataProvider_Tests {
 		return result;
 	}
 	
-	/*public static Keyword makeKeywordFrom(String value, String source) {
+	public static Keyword makeKeywordFrom(String value, String source) {
 		Keyword result = new Keyword();
 		result.setValue(value);
 		result.setSource(source);
 		return result;
 	}
 	
-	public static Keywords makeKeywordsFrom(List<Keyword> items) {
-		Keywords result = new Keywords();
-		result.getKeyword().addAll(items);
+	/*public static Keywords makeKeywordsFrom(List<Keyword> items) {
+		Keyword result = new Keyword();
+		result.setKeaddAll(items);
 		return result;
 	}*/
 	
@@ -155,19 +156,20 @@ public class PubMetaDataProvider_Tests {
 		DissLanguage language = new DissLanguage("English", "EN");
 		x.setDissLanguages(Lists.newArrayList(language));
 		
-//		x.setKeywords(makeKeywordsFrom(Lists.newArrayList(
-//				makeKeywordFrom("CONSUMER", "For Datrix"),
-//				makeKeywordFrom("DESIGN", "For Datrix"),
-//				makeKeywordFrom("LOGISTIC", "For Datrix"),
-//				makeKeywordFrom("NETWORK", "For Datrix"),
-//				makeKeywordFrom("PRODUCT", "For Datrix"),
-//				makeKeywordFrom("PRODUCTS", "For Datrix"),
-//				makeKeywordFrom("RECOVERY", "For Datrix"),
-//				makeKeywordFrom("REVERSE", "For Datrix"),
-//				makeKeywordFrom("STRATEGIES", "For Datrix"),
-//				makeKeywordFrom("consumer products", "By I and L"),
-//				makeKeywordFrom("product recovery", "By I and L")
-//				)));
+		x.setDepartments(null);
+		x.setKeywords(Lists.newArrayList(
+				makeKeywordFrom("CONSUMER", "For Datrix"),
+				makeKeywordFrom("DESIGN", "For Datrix"),
+				makeKeywordFrom("LOGISTIC", "For Datrix"),
+				makeKeywordFrom("NETWORK", "For Datrix"),
+				makeKeywordFrom("PRODUCT", "For Datrix"),
+				makeKeywordFrom("PRODUCTS", "For Datrix"),
+				makeKeywordFrom("RECOVERY", "For Datrix"),
+				makeKeywordFrom("REVERSE", "For Datrix"),
+				makeKeywordFrom("STRATEGIES", "For Datrix"),
+				makeKeywordFrom("consumer products", "By I and L"),
+				makeKeywordFrom("product recovery", "By I and L")
+				));
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
 		
@@ -217,21 +219,20 @@ public class PubMetaDataProvider_Tests {
 		DissLanguage language = new DissLanguage("English", "EN");
 		x.setDissLanguages(Lists.newArrayList(language));
 		
-//		Departments departments = new Departments();
-//		departments.getDepartment().add("English");
-//		x.setDepartments(departments);
+		String department = "English";
+		x.setDepartments(Lists.newArrayList(department));
 		
-//		x.setKeywords(makeKeywordsFrom(Lists.newArrayList(
-//				makeKeywordFrom("A", "For Datrix"),
-//				makeKeywordFrom("ARTHUR", "For Datrix"),
-//				makeKeywordFrom("CASE", "For Datrix"),
-//				makeKeywordFrom("CHILD", "For Datrix"),
-//				makeKeywordFrom("JAGO", "For Datrix"),
-//				makeKeywordFrom("MORRISON", "For Datrix"),
-//				makeKeywordFrom("RESSSESING", "For Datrix"),
-//				makeKeywordFrom("REVIVING", "For Datrix"),
-//				makeKeywordFrom("S", "For Datrix")
-//				)));
+		x.setKeywords(Lists.newArrayList(
+				makeKeywordFrom("A", "For Datrix"),
+				makeKeywordFrom("ARTHUR", "For Datrix"),
+				makeKeywordFrom("CASE", "For Datrix"),
+				makeKeywordFrom("CHILD", "For Datrix"),
+				makeKeywordFrom("JAGO", "For Datrix"),
+				makeKeywordFrom("MORRISON", "For Datrix"),
+				makeKeywordFrom("RESSSESING", "For Datrix"),
+				makeKeywordFrom("REVIVING", "For Datrix"),
+				makeKeywordFrom("S", "For Datrix")
+				));
 		
 		
 		List<CmteMember> comittee = Lists.newArrayList(
@@ -289,16 +290,16 @@ public class PubMetaDataProvider_Tests {
 		DissLanguage language = new DissLanguage("English", "EN");
 		x.setDissLanguages(Lists.newArrayList(language));
 		
-		
-//		x.setKeywords(makeKeywordsFrom(Lists.newArrayList(
-//				makeKeywordFrom("GROUP", "For Datrix"),
-//				makeKeywordFrom("INTELLIGENCE", "For Datrix"),
-//				makeKeywordFrom("NON", "For Datrix"),
-//				makeKeywordFrom("PRIMARY", "For Datrix"),
-//				makeKeywordFrom("PUPILS", "For Datrix"),
-//				makeKeywordFrom("TESTS", "For Datrix"),
-//				makeKeywordFrom("VERBAL", "For Datrix")
-//				)));
+		x.setDepartments(null);
+		x.setKeywords(Lists.newArrayList(
+				makeKeywordFrom("GROUP", "For Datrix"),
+				makeKeywordFrom("INTELLIGENCE", "For Datrix"),
+				makeKeywordFrom("NON", "For Datrix"),
+				makeKeywordFrom("PRIMARY", "For Datrix"),
+				makeKeywordFrom("PUPILS", "For Datrix"),
+				makeKeywordFrom("TESTS", "For Datrix"),
+				makeKeywordFrom("VERBAL", "For Datrix")
+				));
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
 		
@@ -359,6 +360,9 @@ public class PubMetaDataProvider_Tests {
 						makeDegreeFrom("Ph.D.", "Doctor of Philosophy", "2003", 1)));
 		x.setAuthors(authors);
 		
+		x.setDepartments(null);
+		x.setKeywords(null);
+		
 		return x;
 	}
 	
@@ -403,13 +407,14 @@ public class PubMetaDataProvider_Tests {
 		DissLanguage language = new DissLanguage("Chinese", "CH");
 		x.setDissLanguages(Lists.newArrayList(language));
 		
-//		x.setKeywords(makeKeywordsFrom(Lists.newArrayList(
-//				makeKeywordFrom("房间空调器", "By Author"),
-//				makeKeywordFrom("模糊控制", "By Author"),
-//				makeKeywordFrom("空气调节", "By Author"),
-//				makeKeywordFrom("自由词", "By Author"),
-//				makeKeywordFrom("计算机仿真", "By Author")
-//				)));
+		x.setDepartments(null);
+		x.setKeywords(Lists.newArrayList(
+				makeKeywordFrom("房间空调器", "By Author"),
+				makeKeywordFrom("模糊控制", "By Author"),
+				makeKeywordFrom("空气调节", "By Author"),
+				makeKeywordFrom("自由词", "By Author"),
+				makeKeywordFrom("计算机仿真", "By Author")
+				));
 
 //		Advisors advisors = new Advisors();
 //		advisors.getAdvisor().add(makeAdvisorFrom("Guan Ping  Feng", "冯冠平", "Chinese"));
@@ -466,29 +471,30 @@ public class PubMetaDataProvider_Tests {
 		DissLanguage language = new DissLanguage("English", "EN");
 		x.setDissLanguages(Lists.newArrayList(language));
 		
-//		x.setKeywords(makeKeywordsFrom(Lists.newArrayList(
-//				makeKeywordFrom("ALLOYS", "For Datrix"),
-//				makeKeywordFrom("ALUMINUM", "For Datrix"),
-//				makeKeywordFrom("ALUMINUM ALLOYS", "For Datrix"),
-//				makeKeywordFrom("Aluminum alloys", "By I and L"),
-//				makeKeywordFrom("BEHAVIOR", "For Datrix"),
-//				makeKeywordFrom("COPPER", "For Datrix"),
-//				makeKeywordFrom("EVOLUTION", "For Datrix"),
-//				makeKeywordFrom("MAGNESIUM", "For Datrix"),
-//				makeKeywordFrom("MICROSTRUCTURAL", "For Datrix"),
-//				makeKeywordFrom("PROCESS", "For Datrix"),
-//				makeKeywordFrom("RHEOFORMING", "For Datrix"),
-//				makeKeywordFrom("RHEOLOGICAL", "For Datrix"),
-//				makeKeywordFrom("RHEOLOGY", "For Datrix"),
-//				makeKeywordFrom("Rheoforming", "By I and L"),
-//				makeKeywordFrom("Rheology", "By I and L"),
-//				makeKeywordFrom("SEMI", "For Datrix"),
-//				makeKeywordFrom("SEMISOLID METALS", "For Datrix"),
-//				makeKeywordFrom("SILICON", "For Datrix"),
-//				makeKeywordFrom("SOLID\nHYPEREUTECTIC", "For Datrix"),
-//				makeKeywordFrom("Semisolid metals", "By I and L"),
-//				makeKeywordFrom("USING", "For Datrix")
-//				)));
+		x.setDepartments(null);
+		x.setKeywords(Lists.newArrayList(
+				makeKeywordFrom("ALLOYS", "For Datrix"),
+				makeKeywordFrom("ALUMINUM", "For Datrix"),
+				makeKeywordFrom("ALUMINUM ALLOYS", "For Datrix"),
+				makeKeywordFrom("Aluminum alloys", "By I and L"),
+				makeKeywordFrom("BEHAVIOR", "For Datrix"),
+				makeKeywordFrom("COPPER", "For Datrix"),
+				makeKeywordFrom("EVOLUTION", "For Datrix"),
+				makeKeywordFrom("MAGNESIUM", "For Datrix"),
+				makeKeywordFrom("MICROSTRUCTURAL", "For Datrix"),
+				makeKeywordFrom("PROCESS", "For Datrix"),
+				makeKeywordFrom("RHEOFORMING", "For Datrix"),
+				makeKeywordFrom("RHEOLOGICAL", "For Datrix"),
+				makeKeywordFrom("RHEOLOGY", "For Datrix"),
+				makeKeywordFrom("Rheoforming", "By I and L"),
+				makeKeywordFrom("Rheology", "By I and L"),
+				makeKeywordFrom("SEMI", "For Datrix"),
+				makeKeywordFrom("SEMISOLID METALS", "For Datrix"),
+				makeKeywordFrom("SILICON", "For Datrix"),
+				makeKeywordFrom("SOLID\nHYPEREUTECTIC", "For Datrix"),
+				makeKeywordFrom("Semisolid metals", "By I and L"),
+				makeKeywordFrom("USING", "For Datrix")
+				));
 		
 //		Advisors advisors = new Advisors();
 //		advisors.getAdvisor().add(makeAdvisorFrom("X. Grant Chen", null, null));
@@ -543,21 +549,21 @@ public class PubMetaDataProvider_Tests {
 		DissLanguage language = new DissLanguage("English", "EN");
 		x.setDissLanguages(Lists.newArrayList(language));
 		
-//		x.setKeywords(makeKeywordsFrom(Lists.newArrayList(
-//				makeKeywordFrom("BROWN", "For Datrix"),
-//				makeKeywordFrom("FINDING", "For Datrix"),
-//				makeKeywordFrom("FLOW", "For Datrix"),
-//				makeKeywordFrom("MANAGEMENT", "For Datrix"),
-//				makeKeywordFrom("RED", "For Datrix"),
-//				makeKeywordFrom("STAGE MANAGEMENT", "For Datrix"),
-//				makeKeywordFrom("STYLE", "For Datrix"),
-//				makeKeywordFrom("Stage management", "By Author"),
-//				makeKeywordFrom("WATER", "For Datrix")
-//				)));
+		x.setDepartments(null);
+		x.setKeywords(Lists.newArrayList(
+				makeKeywordFrom("BROWN", "For Datrix"),
+				makeKeywordFrom("FINDING", "For Datrix"),
+				makeKeywordFrom("FLOW", "For Datrix"),
+				makeKeywordFrom("MANAGEMENT", "For Datrix"),
+				makeKeywordFrom("RED", "For Datrix"),
+				makeKeywordFrom("STAGE MANAGEMENT", "For Datrix"),
+				makeKeywordFrom("STYLE", "For Datrix"),
+				makeKeywordFrom("Stage management", "By Author"),
+				makeKeywordFrom("WATER", "For Datrix")
+				));
 		
-//		Departments departments = new Departments();
-//		departments.getDepartment().add("Theatre and Dance");
-//		x.setDepartments(departments);
+		String departments = "Theatre and Dance";
+		x.setDepartments(Lists.newArrayList(departments));
 		
 		List<SuppFile> supplementalFiles = Lists.newArrayList(
 				makeSuppFileFrom("ZingleCallingPages11-13.pdf", "pdf", PubMetaDataQuery.kEmptyValue),

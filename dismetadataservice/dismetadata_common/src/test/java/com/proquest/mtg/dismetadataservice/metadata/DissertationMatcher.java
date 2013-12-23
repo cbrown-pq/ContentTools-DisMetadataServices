@@ -45,7 +45,7 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		verifySubjects(actual);
 //		verifyAlternateTitles(actual);
 		verifyDissLanguages(actual);
-//		verifyDepartments(actual);
+		verifyDepartments(actual);
 //		verifyKeywords(actual);
 		verifySupplementalFiles(actual);
 		verifyCommittee(actual);
@@ -337,19 +337,18 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		}
 	}
 	
-//	private void verifyDepartments(Dissertation actual) {
-//		if (null != expected.getDepartments()) {
-//			if (verifyNotNullValue("Departements", actual.getDepartments()))
-//			{
-//				verifyList("Departments", 
-//					expected.getDepartments().getDepartment(),
-//					actual.getDepartments().getDepartment());
-//			}
-//		}
-//		else {
-//			verifyNullValue("Departements", actual.getDepartments());
-//		}
-//	}
+	private void verifyDepartments(DisPubMetaData actual) {
+		if (null != expected.getDepartments()) {
+			if (verifyNotNullValue("Departements", actual.getDepartments())) {
+				verifyList("Departments", 
+					expected.getDepartments(),
+					actual.getDepartments());
+			}
+		}
+		else {
+			verifyNullValue("Departements", actual.getDepartments());
+		}
+	}
 
 	private <T> void verifyList(String reason, List<T> expected, List<T> actual) {
 		int expectedCount = expected.size();

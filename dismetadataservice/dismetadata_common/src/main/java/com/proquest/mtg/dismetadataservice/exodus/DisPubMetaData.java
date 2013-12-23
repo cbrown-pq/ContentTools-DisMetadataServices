@@ -19,6 +19,8 @@ public class DisPubMetaData {
 	private List<CmteMember> cmteMembers;
 	private List<Subject> subjects;
 	private List<SuppFile> suppFiles;
+	private List<String> departments;
+	private List<Keyword> keywords;
 	private String dissAbstract;
 
 	public String getPubNumber() {
@@ -148,6 +150,29 @@ public class DisPubMetaData {
 		return suppFiles;
 	}
 	
+	public void setDepartments(Iterable<String> value) {
+		if (null == value) {
+			this.departments = Lists.newArrayList();
+		} else {
+			this.departments = Lists.newArrayList(value);
+		}
+	}
+	
+	public List<String> getDepartments() {
+		return departments;
+	}
+	
+	public void setKeywords(Iterable<Keyword> value) {
+		if (null == value) {
+			this.keywords = Lists.newArrayList();
+		} else {
+			this.keywords = Lists.newArrayList(value);
+		}
+	}
+
+	public List<Keyword> getKeywords() {
+		return keywords;
+	}
 	
 	@Override
 	public String toString() {
@@ -292,4 +317,27 @@ public class DisPubMetaData {
             this.suppFileDesc = value;
         }
     }
+	
+    public static class Keyword {
+        private String value;
+        private String source;
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        public String getSource() {
+            return source;
+        }
+
+        public void setSource(String value) {
+            this.source = value;
+        }
+
+    }
+
 }
