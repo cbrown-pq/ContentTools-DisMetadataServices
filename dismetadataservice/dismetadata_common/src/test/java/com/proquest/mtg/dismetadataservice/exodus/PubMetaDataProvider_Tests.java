@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
@@ -53,13 +54,7 @@ public class PubMetaDataProvider_Tests {
 		result.setSource(source);
 		return result;
 	}
-	
-	/*public static Keywords makeKeywordsFrom(List<Keyword> items) {
-		Keyword result = new Keyword();
-		result.setKeaddAll(items);
-		return result;
-	}*/
-	
+		
 	public static SuppFile makeSuppFileFrom(String fileName, String category, String description) {
 		SuppFile result = new SuppFile();
 		result.setSuppFilename(fileName);
@@ -125,12 +120,12 @@ public class PubMetaDataProvider_Tests {
 		x.setPubPageNum("997");
 		x.setPageCount("268");
 
-//		Batch batch = new Batch();
-//		batch.setDBTypeCode("DAI");
-//		batch.setDBTypeDesc("Dissertation Abstracts International");
-//		batch.setVolumeIssue("59-04");
-//		batch.setDAISectionCode("C");
-//		x.setBatch(batch);
+		Batch batch = new Batch();
+		batch.setDBTypeCode("DAC");
+		batch.setDBTypeDesc("Dissertation Abstracts International");
+		batch.setVolumeIssue("59-04C");
+		batch.setDAISectionCode(null);
+		x.setBatch(batch);
 		
 //		School school = new School();
 //		school.setSchoolCode("0237");
@@ -198,11 +193,11 @@ public class PubMetaDataProvider_Tests {
 //		school.setSchoolState("California");
 //		x.setSchool(school);
 		
-//		Batch batch = new Batch();
-//		batch.setDBTypeCode("MAI");
-//		batch.setDBTypeDesc("Masters Abstracts International");
-//		batch.setVolumeIssue("51-03M(E)");
-//		x.setBatch(batch);
+		Batch batch = new Batch();
+		batch.setDBTypeCode("MAI");
+		batch.setDBTypeDesc("Masters Abstracts International");
+		batch.setVolumeIssue("51-03M(E)");
+		x.setBatch(batch);
 		
 		List<Subject> subjects = Lists.newArrayList(
 				makeSubjectForTesting("Language, Literature and Linguistics", "0593", "Literature, English", 1));
@@ -262,11 +257,11 @@ public class PubMetaDataProvider_Tests {
 		x.setPubPageNum("61");
 		x.setPageCount("16");
 		
-//		Batch batch = new Batch();
-//		batch.setDBTypeCode("ADD");
-//		batch.setDBTypeDesc("American Doctoral Dissertations");
-//		batch.setVolumeIssue("L1923");
-//		x.setBatch(batch);
+		Batch batch = new Batch();
+		batch.setDBTypeCode("ADD");
+		batch.setDBTypeDesc("American Doctoral Dissertations");
+		batch.setVolumeIssue("L1923");
+		x.setBatch(batch);
 		
 //		School school = new School();
 //		school.setSchoolCode("0130");
@@ -321,12 +316,12 @@ public class PubMetaDataProvider_Tests {
 		x.setExternalURL("http://eprints.soton.ac.uk/15468");
 		x.setBLNumber("DXN074035");
 		
-//		Batch batch = new Batch();
-//		batch.setDBTypeCode("DAI");
-//		batch.setDBTypeDesc("Dissertation Abstracts International");
-//		batch.setVolumeIssue("70-37");
-//		batch.setDAISectionCode("C");
-//		x.setBatch(batch);
+		Batch batch = new Batch();
+		batch.setDBTypeCode("DAC");
+		batch.setDBTypeDesc("Dissertation Abstracts International");
+		batch.setVolumeIssue("70-37C");
+		batch.setDAISectionCode(null);
+		x.setBatch(batch);
 		
 //		School school = new School();
 //		school.setSchoolCode("5036");
@@ -371,12 +366,12 @@ public class PubMetaDataProvider_Tests {
 		DisPubMetaData x = new DisPubMetaData();
 		x.setPubNumber(pubId4);
 		
-//		Batch batch = new Batch();
-//		batch.setDBTypeCode("DAI");
-//		batch.setDBTypeDesc("Dissertation Abstracts International");
-//		batch.setVolumeIssue("71-17");
-//		batch.setDAISectionCode("C");
-//		x.setBatch(batch);
+		Batch batch = new Batch();
+		batch.setDBTypeCode("DAC");
+		batch.setDBTypeDesc("Dissertation Abstracts International");
+		batch.setVolumeIssue("71-17C");
+		batch.setDAISectionCode(null);
+		x.setBatch(batch);
 		
 //		School school = new School();
 //		school.setSchoolCode("0370");
@@ -449,12 +444,12 @@ public class PubMetaDataProvider_Tests {
 //		school.setSchoolState(null);
 //		x.setSchool(school);
 		
-//		Batch batch = new Batch();
-//		batch.setDBTypeCode("DAI");
-//		batch.setDBTypeDesc("Dissertation Abstracts International");
-//		batch.setVolumeIssue("74-09(E)");
-//		batch.setDAISectionCode("B");
-//		x.setBatch(batch);
+		Batch batch = new Batch();
+		batch.setDBTypeCode("DAI");
+		batch.setDBTypeDesc("Dissertation Abstracts International");
+		batch.setVolumeIssue("74-09(E)");
+		batch.setDAISectionCode("B");
+		x.setBatch(batch);
 		
 		List<Subject> subjects = Lists.newArrayList(
 				makeSubjectForTesting("Applied Sciences", "0794", "Engineering, Materials Science", 1));
@@ -527,12 +522,12 @@ public class PubMetaDataProvider_Tests {
 //		school.setSchoolState("California");
 //		x.setSchool(school);
 		
-//		Batch batch = new Batch();
-//		batch.setDBTypeCode("MAI");
-//		batch.setDBTypeDesc("Masters Abstracts International");
-//		batch.setVolumeIssue("51-05M(E)");
-//		batch.setDAISectionCode(null);
-//		x.setBatch(batch);
+		Batch batch = new Batch();
+		batch.setDBTypeCode("MAI");
+		batch.setDBTypeDesc("Masters Abstracts International");
+		batch.setVolumeIssue("51-05M(E)");
+		batch.setDAISectionCode(null);
+		x.setBatch(batch);
 		
 		List<Subject> subjects = Lists.newArrayList(
 				makeSubjectForTesting("Communication and the Arts", "0465", "Theater", 1));

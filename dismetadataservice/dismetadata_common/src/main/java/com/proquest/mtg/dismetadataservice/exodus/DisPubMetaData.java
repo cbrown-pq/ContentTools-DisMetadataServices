@@ -22,6 +22,7 @@ public class DisPubMetaData {
 	private List<String> departments;
 	private List<Keyword> keywords;
 	private String dissAbstract;
+	private Batch batch;
 
 	public String getPubNumber() {
 		return pubNumber;
@@ -174,6 +175,14 @@ public class DisPubMetaData {
 		return keywords;
 	}
 	
+	public void setBatch(Batch value) {
+		this.batch = value;
+	}
+	
+	public Batch getBatch() {
+		return batch;
+	}
+	
 	@Override
 	public String toString() {
 		return "DisPubMetaData [pubNumber=" + pubNumber + ", itemId=" + itemId
@@ -183,7 +192,6 @@ public class DisPubMetaData {
 				+ externalURL + ", authors=" + authors + ", language="
 				+ dissLanguages + "]";
 	}
-
 
 	public static class DissLanguage {
 		private final String languageDescription;
@@ -339,5 +347,43 @@ public class DisPubMetaData {
         }
 
     }
+    
+    public static class Batch {
+        private String dbTypeCode;
+        private String dbTypeDesc;
+        private String volumeIssue;
+        private String daiSectionCode;
 
+        public String getDBTypeCode() {
+            return dbTypeCode;
+        }
+
+        public void setDBTypeCode(String value) {
+            this.dbTypeCode = value;
+        }
+
+        public String getDBTypeDesc() {
+            return dbTypeDesc;
+        }
+
+        public void setDBTypeDesc(String value) {
+            this.dbTypeDesc = value;
+        }
+
+        public String getVolumeIssue() {
+            return volumeIssue;
+        }
+
+        public void setVolumeIssue(String value) {
+            this.volumeIssue = value;
+        }
+
+        public String getDAISectionCode() {
+            return daiSectionCode;
+        }
+
+        public void setDAISectionCode(String value) {
+            this.daiSectionCode = value;
+        }
+    }
 }

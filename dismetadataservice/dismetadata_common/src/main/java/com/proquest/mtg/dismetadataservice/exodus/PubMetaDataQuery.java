@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
@@ -66,6 +67,11 @@ public class PubMetaDataQuery {
 	
 	private static final String kColumnKeyword = "Keyword";
 	private static final String kColumnKeywordSource = "KeywordSource";
+	
+	private static final String kColumnBatchTypeCode = "BatchTypeCode";
+	private static final String kColumnBatchDescription = "BatchDescription";
+	private static final String kColumnVolumeIssue = "VolumeIssue";
+	private static final String kColumnDiaSectionCode = "DiaSectionCode";
 	
 	private static final String kSelectMainPubData =
             "SELECT " +
@@ -207,6 +213,18 @@ public class PubMetaDataQuery {
 				"ditm_id = ? " + 
 			"ORDER BY dik_keyword ";
 	
+	private static final String kSelectBatch = 
+			"SELECT " +
+				"ddt.ddt_code " + kColumnBatchTypeCode + ", " +
+				"ddt.ddt_description " + kColumnBatchDescription + ", " + 
+				"dvi.dvi_volume_issue " + kColumnVolumeIssue + ", " + 
+				"dvi.dvi_dai_section_code " + kColumnDiaSectionCode + " " +
+			"FROM " +
+				"dis.dis_volume_issues dvi, " +
+				"dis.dis_database_types ddt " +
+			"WHERE " +
+				"dvi.dvi_id = ? AND " +
+				"dvi.ddt_code = ddt.ddt_code";
 	
 	private PreparedStatement authorsStatement;
 	private PreparedStatement mainPubDataStatement;
@@ -218,6 +236,7 @@ public class PubMetaDataQuery {
 	private PreparedStatement supplementalFilesStatement;
 	private PreparedStatement departmentsStatement;
 	private PreparedStatement keywordsStatement;
+	private PreparedStatement batchStatement;
 	
 	public PubMetaDataQuery(Connection connection) throws SQLException {
 		this.authorsStatement = connection.prepareStatement(kSelectAuthors);
@@ -230,6 +249,7 @@ public class PubMetaDataQuery {
 		this.supplementalFilesStatement = connection.prepareStatement(kSelectSupplementalFiles);
 		this.departmentsStatement = connection.prepareStatement(kSelectDepartments);
 		this.keywordsStatement = connection.prepareStatement(kSelectKeywords);
+		this.batchStatement = connection.prepareStatement(kSelectBatch);
 	}
 	
 	public DisPubMetaData getFor(String pubId) throws SQLException {
@@ -280,10 +300,10 @@ public class PubMetaDataQuery {
 //				result.setAdvisors(getAdvisorsFor(itemId, delimitedAdvisorStr, language));
 //			}
 		}
-//		String volumeIssueId = cursor.getString(kColumnVolumeIssueId);
-//		if (null != volumeIssueId) {
-//			result.setBatch(getBatchFor(volumeIssueId));
-//		}
+		String volumeIssueId = cursor.getString(kColumnVolumeIssueId);
+		if (null != volumeIssueId) {
+			result.setBatch(getBatchFor(volumeIssueId));
+		}
 //		result.setSchool(getSchoolFor(cursor.getString(kColumnSchoolId)));
 //		result.setDateOfExtraction(getExtractionDateAsInt());
 //		result.setPQOpenURL(makePqOpenUrlFor(pubId));
@@ -503,6 +523,26 @@ public class PubMetaDataQuery {
 		return result;
 	}
 
+	private Batch getBatchFor(String volumeIssueId) throws SQLException {
+		Batch result = new Batch();
+		ResultSet cursor = null;
+		try {
+			batchStatement.setString(1, volumeIssueId);
+			cursor = batchStatement.executeQuery();
+			while (cursor.next()) {
+				result.setDBTypeCode(required(cursor.getString(kColumnBatchTypeCode)));
+				result.setDBTypeDesc(required(cursor.getString(kColumnBatchDescription)));
+				result.setVolumeIssue(required(cursor.getString(kColumnVolumeIssue)));
+				result.setDAISectionCode(trimmed(cursor.getString(kColumnDiaSectionCode)));
+			}
+		}
+		finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+		}
+		return result;
+	}
 	
 	public void close() throws SQLException {
 		closeStatement(authorsStatement);
@@ -512,6 +552,7 @@ public class PubMetaDataQuery {
 		closeStatement(subjectsStatement);
 		closeStatement(languageStatement);
 		closeStatement(departmentsStatement);
+		closeStatement(batchStatement);
 	}
 	
 	private void closeStatement(PreparedStatement statment) throws SQLException {

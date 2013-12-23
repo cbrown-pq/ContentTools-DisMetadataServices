@@ -40,7 +40,7 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		verify("ExternalURL", expected.getExternalURL(), actual.getExternalURL());
 //		verifyTitle(actual);
 		verifyAbstract(actual);
-//		verifyBatch(actual);
+		verifyBatch(actual);
 //		verifySchool(actual);
 		verifySubjects(actual);
 //		verifyAlternateTitles(actual);
@@ -86,19 +86,19 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		}
 	}
 
-//	private void verifyBatch(Dissertation actual) {
-//		if (null != expected.getBatch()) {
-//			if (verifyNotNullValue("Batch", actual.getBatch())) {
-//				verify("Batch.DAISectionCode", expected.getBatch().getDAISectionCode(), actual.getBatch().getDAISectionCode());
-//				verify("Batch.DBTypeCode", expected.getBatch().getDBTypeCode(), actual.getBatch().getDBTypeCode());
-//				verify("Batch.DBTypeDesc(", expected.getBatch().getDBTypeDesc(), actual.getBatch().getDBTypeDesc());
-//				verify("Batch.VolumeIssue", expected.getBatch().getVolumeIssue(), actual.getBatch().getVolumeIssue());
-//			}
-//		}
-//		else {
-//			verifyNullValue("Batch", actual.getBatch());
-//		}
-//	}
+	private void verifyBatch(DisPubMetaData actual) {
+		if (null != expected.getBatch()) {
+			if (verifyNotNullValue("Batch", actual.getBatch())) {
+				verify("Batch.DAISectionCode", expected.getBatch().getDAISectionCode(), actual.getBatch().getDAISectionCode());
+				verify("Batch.DBTypeCode", expected.getBatch().getDBTypeCode(), actual.getBatch().getDBTypeCode());
+				verify("Batch.DBTypeDesc(", expected.getBatch().getDBTypeDesc(), actual.getBatch().getDBTypeDesc());
+				verify("Batch.VolumeIssue", expected.getBatch().getVolumeIssue(), actual.getBatch().getVolumeIssue());
+			}
+		}
+		else {
+			verifyNullValue("Batch", actual.getBatch());
+		}
+	}
 
 //	private void verifySchool(Dissertation actual) {
 //		if (null != expected.getSchool()) {
