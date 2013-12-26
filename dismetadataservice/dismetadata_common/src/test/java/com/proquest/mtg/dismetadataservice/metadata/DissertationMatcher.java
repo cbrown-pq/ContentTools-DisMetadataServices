@@ -13,8 +13,11 @@ import org.hamcrest.TypeSafeMatcher;
 
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
@@ -43,13 +46,13 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		verifyBatch(actual);
 //		verifySchool(actual);
 		verifySubjects(actual);
-//		verifyAlternateTitles(actual);
+		verifyAlternateTitles(actual);
 		verifyDissLanguages(actual);
 		verifyDepartments(actual);
-//		verifyKeywords(actual);
+		verifyKeywords(actual);
 		verifySupplementalFiles(actual);
 		verifyCommittee(actual);
-//		verifyAdvisors(actual);
+		verifyAdvisors(actual);
 		verifyAuthors(actual);
 		
 		return hasErrors();
@@ -137,47 +140,47 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		}
 	}
 	
-//	private void verifyAlternateTitles(Dissertation actual) {
-//		if (null != expected.getAlternateTitles()) {
-//			if (verifyNotNullValue("AlternateTitles", actual.getAlternateTitles())) {
-//				int expectedCount = expected.getAlternateTitles().getAlternateTitle().size();
-//				int actualCount = actual.getAlternateTitles().getAlternateTitle().size();
-//				verify("AlternateTitles Count", expectedCount, actualCount);
-//				if (expectedCount == actualCount) {
-//					for (int i=0; i<expectedCount; ++i) {
-//						AlternateTitle expectedItem = expected.getAlternateTitles().getAlternateTitle().get(i);
-//						AlternateTitle actualItem = actual.getAlternateTitles().getAlternateTitle().get(i);
-//						verify("AlternateTitle Value " + i, expectedItem.getValue(), actualItem.getValue());
-//						verify("AlternateTitle Language " + i, expectedItem.getLanguage(), actualItem.getLanguage());
-//					}
-//				}
-//			}
-//		}
-//		else {
-//			verifyNullValue("AlternateTitles", actual.getAlternateTitles());
-//		}
-//	}
+	private void verifyAlternateTitles(DisPubMetaData actual) {
+		if (null != expected.getAlternateTitles()) {
+			if (verifyNotNullValue("AlternateTitles", actual.getAlternateTitles())) {
+				int expectedCount = expected.getAlternateTitles().size();
+				int actualCount = actual.getAlternateTitles().size();
+				verify("AlternateTitles Count", expectedCount, actualCount);
+				if (expectedCount == actualCount) {
+					for (int i=0; i<expectedCount; ++i) {
+						AlternateTitle expectedItem = expected.getAlternateTitles().get(i);
+						AlternateTitle actualItem = actual.getAlternateTitles().get(i);
+						verify("AlternateTitle Value " + i, expectedItem.getAltTitle(), actualItem.getAltTitle());
+						verify("AlternateTitle Language " + i, expectedItem.getLanguage(), actualItem.getLanguage());
+					}
+				}
+			}
+		}
+		else {
+			verifyNullValue("AlternateTitles", actual.getAlternateTitles());
+		}
+	}
 	
-//	private void verifyKeywords(Dissertation actual) {
-//		if (null != expected.getKeywords()) {
-//			if (verifyNotNullValue("Keywords", actual.getKeywords())) {
-//				int expectedCount = expected.getKeywords().getKeyword().size();
-//				int actualCount = actual.getKeywords().getKeyword().size();
-//				verify("Keywords Count", expectedCount, actualCount);
-//				if (expectedCount == actualCount) {
-//					for (int i=0; i<expectedCount; ++i) {
-//						Keyword expectedItem = expected.getKeywords().getKeyword().get(i);
-//						Keyword actualItem = actual.getKeywords().getKeyword().get(i);
-//						verify("Keyword Value " + i, expectedItem.getValue(), actualItem.getValue());
-//						verify("Keywords Source " + i, expectedItem.getSource(), actualItem.getSource());
-//					}
-//				}
-//			}
-//		}
-//		else {
-//			verifyNullValue("Keywords", actual.getKeywords());
-//		}
-//	}
+	private void verifyKeywords(DisPubMetaData actual) {
+		if (null != expected.getKeywords()) {
+			if (verifyNotNullValue("Keywords", actual.getKeywords())) {
+				int expectedCount = expected.getKeywords().size();
+				int actualCount = actual.getKeywords().size();
+				verify("Keywords Count", expectedCount, actualCount);
+				if (expectedCount == actualCount) {
+					for (int i=0; i<expectedCount; ++i) {
+						Keyword expectedItem = expected.getKeywords().get(i);
+						Keyword actualItem = actual.getKeywords().get(i);
+						verify("Keyword Value " + i, expectedItem.getValue(), actualItem.getValue());
+						verify("Keywords Source " + i, expectedItem.getSource(), actualItem.getSource());
+					}
+				}
+			}
+		}
+		else {
+			verifyNullValue("Keywords", actual.getKeywords());
+		}
+	}
 	
 	private void verifySupplementalFiles(DisPubMetaData actual) {
 		if (null != expected.getSuppFiles()) {
@@ -224,38 +227,35 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		}
 	}
 	
-//	private void verifyAdvisors(Dissertation actual) {
-//		if (null != expected.getAdvisors()) {
-//			if (verifyNotNullValue("Advisors", actual.getAdvisors())) {
-//				int expectedCount = expected.getAdvisors().getAdvisor().size();
-//				int actualCount = actual.getAdvisors().getAdvisor().size();
-//				verify("Advisors Count", expectedCount, actualCount);
-//				if (expectedCount == actualCount) {
-//					for (int i=0; i<expectedCount; ++i) {
-//						Advisor expectedItem = expected.getAdvisors().getAdvisor().get(i);
-//						Advisor actualItem = actual.getAdvisors().getAdvisor().get(i);
-//						verify("Advisor FullName " + i, expectedItem.getAdvisorFullName(), actualItem.getAdvisorFullName());
-//						if (null != expectedItem.getAltAdvisorFullName()) {
-//							if (verifyNotNullValue("Advisor AltAdvisorFullName" + i, actualItem.getAltAdvisorFullName())) {
-//								verify("Advisor AltAdvisorFullName Value" + i, 
-//										expectedItem.getAltAdvisorFullName().getValue(),
-//										actualItem.getAltAdvisorFullName().getValue());
-//								verify("Advisor AltAdvisorFullName Language" + i, 
-//										expectedItem.getAltAdvisorFullName().getLanguage(),
-//										actualItem.getAltAdvisorFullName().getLanguage());
-//							}
-//						}
-//						else {
-//							verifyNullValue("Advisor AltAdvisorFullName" + i, actualItem.getAltAdvisorFullName());
-//						}
-//					}
-//				}
-//			}
-//		}
-//		else {
-//			verifyNullValue("Advisors", actual.getAdvisors());
-//		}
-//	}
+	private void verifyAdvisors(DisPubMetaData actual) {
+		if (null != expected.getAdvisors()) {
+			if (verifyNotNullValue("Advisors", actual.getAdvisors())) {
+				int expectedCount = expected.getAdvisors().size();
+				int actualCount = actual.getAdvisors().size();
+				verify("Advisors Count", expectedCount, actualCount);
+				if (expectedCount == actualCount) {
+					for (int i=0; i<expectedCount; ++i) {
+						Advisor expectedItem = expected.getAdvisors().get(i);
+						Advisor actualItem = actual.getAdvisors().get(i);
+						verify("Advisor FullName " + i, expectedItem.getAdvisorFullName(), actualItem.getAdvisorFullName());
+						if (null != expectedItem.getAltAdvisorFullName()) {
+							if (verifyNotNullValue("Advisor AltAdvisorFullName" + i, actualItem.getAltAdvisorFullName())) {
+								verify("Advisor AltAdvisorFullName Value" + i, 
+										expectedItem.getAltAdvisorFullName(),
+										actualItem.getAltAdvisorFullName());
+							}
+						}
+						else {
+							verifyNullValue("Advisor AltAdvisorFullName" + i, actualItem.getAltAdvisorFullName());
+						}
+					}
+				}
+			}
+		}
+		else {
+			verifyNullValue("Advisors", actual.getAdvisors());
+		}
+	}
 	
 	private void verifyAuthors(DisPubMetaData actual) {
 		if (null != expected.getAuthors()) {

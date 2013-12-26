@@ -1,12 +1,17 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
@@ -19,6 +24,8 @@ import com.proquest.mtg.dismetadataservice.metadata.SplitAuthorNames;
 
 public class PubMetaDataQuery {
 	public static final String kEmptyValue = "";
+	
+	private static final SimpleDateFormat kDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 	
 	private static final String kColumnItemId = "ItemId";
 	private static final String kColumnVolumeIssueId = "VolumeIssueId";
@@ -72,6 +79,11 @@ public class PubMetaDataQuery {
 	private static final String kColumnBatchDescription = "BatchDescription";
 	private static final String kColumnVolumeIssue = "VolumeIssue";
 	private static final String kColumnDiaSectionCode = "DiaSectionCode";
+	
+	private static final String kColumnAlternateTitle = "AlternateTitle";
+	private static final String kColumnAlternateTitleLanguage = "AlternateTitleLanguage";
+	
+	private static final String kColumnAlternateAdvisorName = "AlternateAdvisorName";
 	
 	private static final String kSelectMainPubData =
             "SELECT " +
@@ -226,6 +238,27 @@ public class PubMetaDataQuery {
 				"dvi.dvi_id = ? AND " +
 				"dvi.ddt_code = ddt.ddt_code";
 	
+	private static final String kSelectAlternateTitles =
+			"SELECT " + 
+				"dst.dst_supp_title " + kColumnAlternateTitle + ", " +
+				"dvl.dvl_description " + kColumnAlternateTitleLanguage + " " +
+			"FROM  " +
+				"dis.dis_supp_titles dst, " + 
+				"dis.dis_valid_languages dvl " +
+			"WHERE " +
+				"dst.ditm_id = ? " +
+				"AND " +
+				"dst.dvl_code = dvl.dvl_code " +
+			"ORDER BY dst.dst_supp_title ";	
+	
+	private static final String kSelectAlternateAdvisors = 
+			"SELECT " +
+				"dsad_fullname " + kColumnAlternateAdvisorName + " " +
+			"FROM " +
+				"dis.dis_supp_advisors advis " +
+			"WHERE " +
+				"ditm_id = ? ";
+	
 	private PreparedStatement authorsStatement;
 	private PreparedStatement mainPubDataStatement;
 	private PreparedStatement languageStatement;
@@ -237,6 +270,8 @@ public class PubMetaDataQuery {
 	private PreparedStatement departmentsStatement;
 	private PreparedStatement keywordsStatement;
 	private PreparedStatement batchStatement;
+	private PreparedStatement alternateTitlesStatement;
+	private PreparedStatement alternateAdvisorsStatement;
 	
 	public PubMetaDataQuery(Connection connection) throws SQLException {
 		this.authorsStatement = connection.prepareStatement(kSelectAuthors);
@@ -250,6 +285,8 @@ public class PubMetaDataQuery {
 		this.departmentsStatement = connection.prepareStatement(kSelectDepartments);
 		this.keywordsStatement = connection.prepareStatement(kSelectKeywords);
 		this.batchStatement = connection.prepareStatement(kSelectBatch);
+		this.alternateTitlesStatement = connection.prepareStatement(kSelectAlternateTitles);
+		this.alternateAdvisorsStatement = connection.prepareStatement(kSelectAlternateAdvisors);
 	}
 	
 	public DisPubMetaData getFor(String pubId) throws SQLException {
@@ -293,19 +330,19 @@ public class PubMetaDataQuery {
 			result.setKeywords(getKeywordsFor(itemId));
 			result.setSuppFiles(getSupplementalFilesFor(itemId));
 			result.setAuthors(getAuthorsFor(itemId));
-//			result.setAlternateTitles(getAlternateTitlesFor(itemId));
+			result.setAlternateTitles(getAlternateTitlesFor(itemId));
 			result.setCmteMembers(getCommitteeMembersFor(itemId));
-//			String delimitedAdvisorStr = cursor.getString(kColumnAdvisors);
-//			if (null != delimitedAdvisorStr) {
-//				result.setAdvisors(getAdvisorsFor(itemId, delimitedAdvisorStr, language));
-//			}
+			String delimitedAdvisorStr = cursor.getString(kColumnAdvisors);
+			if (null != delimitedAdvisorStr) {
+				result.setAdvisors(getAdvisorsFor(itemId, delimitedAdvisorStr));
+			}
 		}
 		String volumeIssueId = cursor.getString(kColumnVolumeIssueId);
 		if (null != volumeIssueId) {
 			result.setBatch(getBatchFor(volumeIssueId));
 		}
 //		result.setSchool(getSchoolFor(cursor.getString(kColumnSchoolId)));
-//		result.setDateOfExtraction(getExtractionDateAsInt());
+		result.setDateOfExtraction(getExtractionDateAsInt());
 //		result.setPQOpenURL(makePqOpenUrlFor(pubId));
 		return result;
 	}
@@ -544,6 +581,67 @@ public class PubMetaDataQuery {
 		return result;
 	}
 	
+	private List<AlternateTitle> getAlternateTitlesFor(String itemId) throws SQLException {
+		List<AlternateTitle> result = null;
+		ResultSet cursor = null;
+		try {
+			alternateTitlesStatement.setString(1, itemId);
+			cursor = alternateTitlesStatement.executeQuery();
+			while (cursor.next()) {
+				if (null == result) {
+					result = Lists.newArrayList();
+				}
+				AlternateTitle item = new AlternateTitle();
+				item.setAltTitle(cursor.getString(kColumnAlternateTitle));
+				item.setLanguage(trimmed(cursor.getString(kColumnAlternateTitleLanguage)));
+				result.add(item);
+			}
+		}
+		finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+		}
+		return result;
+	}
+	
+	private List<Advisor> getAdvisorsFor(String itemId, String delimitedAdvisorStr) throws SQLException {
+		List<Advisor> result = null;
+		List<String> advisors = SplitAdvisors.split(delimitedAdvisorStr); 
+		List<String> altAdvisors = getAlternateAdvisorsFor(itemId);
+		for (int i=0; i<advisors.size(); ++i) {
+			Advisor item = new Advisor();
+			item.setAdvisorFullName(advisors.get(i));
+			if (altAdvisors.size() >= i+1) {
+				item.setAltAdvisorFullName(altAdvisors.get(i));
+			}
+			if (null == result) {
+				result = Lists.newArrayList();
+			}
+			result.add(item);
+		}
+		return result; 
+	}
+
+	private List<String> getAlternateAdvisorsFor(String itemId) throws SQLException {
+		List<String> result = Lists.newArrayList();
+		ResultSet cursor = null;
+		try {
+			alternateAdvisorsStatement.setString(1, itemId);
+			cursor = alternateAdvisorsStatement.executeQuery();
+			while (cursor.next()) {
+				result.add(cursor.getString(kColumnAlternateAdvisorName));
+			}
+		}
+		finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+		}
+		return result; 
+	}
+	
+
 	public void close() throws SQLException {
 		closeStatement(authorsStatement);
 		closeStatement(mainPubDataStatement);
@@ -559,6 +657,11 @@ public class PubMetaDataQuery {
 		if (null != statment) {
 			statment.close();
 		}
+	}
+	
+	private static BigInteger getExtractionDateAsInt() {
+		Date now = new Date(System.currentTimeMillis());
+		return new BigInteger(kDateFormat.format(now));
 	}
 	
 	public static String trimmed(String x) {

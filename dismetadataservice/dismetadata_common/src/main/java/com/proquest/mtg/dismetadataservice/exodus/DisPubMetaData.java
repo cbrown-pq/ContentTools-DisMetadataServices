@@ -1,11 +1,13 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 
 public class DisPubMetaData {
+	private BigInteger dateOfExtraction;
 	private String pubNumber;
 	private String itemId;
 	private String isbn;
@@ -23,11 +25,21 @@ public class DisPubMetaData {
 	private List<Keyword> keywords;
 	private String dissAbstract;
 	private Batch batch;
+	private List<AlternateTitle> alternateTitle;
+	private List<Advisor> advisors;
+
+	public BigInteger getDateOfExtraction() {
+		return dateOfExtraction;
+	}
+	
+	public void setDateOfExtraction(BigInteger dateOfExtraction) {
+		this.dateOfExtraction = dateOfExtraction;
+	}
 
 	public String getPubNumber() {
 		return pubNumber;
 	}
-
+	
 	public void setPubNumber(String pubNumber) {
 		this.pubNumber = pubNumber;
 	}
@@ -181,6 +193,26 @@ public class DisPubMetaData {
 	
 	public Batch getBatch() {
 		return batch;
+	}
+	            
+	public void setAlternateTitles(Iterable<AlternateTitle> value) {
+		if (null == value) {
+			this.alternateTitle = Lists.newArrayList();
+		} else {
+			this.alternateTitle = Lists.newArrayList(value);
+		}
+	}
+
+	public List<AlternateTitle> getAlternateTitles() {
+		return alternateTitle;
+	}
+
+	public void setAdvisors(List<Advisor> advisors) {
+		this.advisors = advisors;
+	}
+	
+	public List<Advisor> getAdvisors() {
+		return advisors;
 	}
 	
 	@Override
@@ -384,6 +416,48 @@ public class DisPubMetaData {
 
         public void setDAISectionCode(String value) {
             this.daiSectionCode = value;
+        }
+    }
+    
+    public static class AlternateTitle {
+        protected String altTitle;
+        protected String language;
+
+        public String getAltTitle() {
+            return altTitle;
+        }
+
+        public void setAltTitle(String value) {
+            this.altTitle = value;
+        }
+
+        public String getLanguage() {
+            return language;
+        }
+
+        public void setLanguage(String value) {
+            this.language = value;
+        }
+    }
+    
+    public static class Advisor {
+        private String advisorFullName;
+        private String altAdvisorFullName;
+        
+        public String getAdvisorFullName() {
+            return advisorFullName;
+        }
+
+        public void setAdvisorFullName(String value) {
+            this.advisorFullName = value;
+        }
+
+        public String getAltAdvisorFullName() {
+            return altAdvisorFullName;
+        }
+
+        public void setAltAdvisorFullName(String value) {
+            this.altAdvisorFullName = value;
         }
     }
 }

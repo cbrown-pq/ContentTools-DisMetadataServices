@@ -9,6 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
@@ -71,18 +73,15 @@ public class PubMetaDataProvider_Tests {
 		result.setSuffix(suffix);
 		return result;
 	}
-	/*
-	public static Advisor makeAdvisorFrom(String fullName, String alternateName, String language) {
+	
+	public static Advisor makeAdvisorFrom(String fullName, String alternateName) {
 		Advisor result = new Advisor();
 		result.setAdvisorFullName(fullName);
 		if (null != alternateName) {
-			AltAdvisorFullName altAdvisor = new AltAdvisorFullName();
-			altAdvisor.setValue(alternateName);
-			altAdvisor.setLanguage(language);
-			result.setAltAdvisorFullName(altAdvisor);
+			result.setAltAdvisorFullName(alternateName);
 		}
 		return result;
-	}*/
+	}
 	
 	public static Author makeAuthorFrom(
 			String fullName, 
@@ -165,8 +164,10 @@ public class PubMetaDataProvider_Tests {
 				makeKeywordFrom("consumer products", "By I and L"),
 				makeKeywordFrom("product recovery", "By I and L")
 				));
+		
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
+		x.setAlternateTitles(null);
 		
 		List<Author> authors = Lists.newArrayList();
 		authors.add(
@@ -235,10 +236,11 @@ public class PubMetaDataProvider_Tests {
 				makeCmteMemberFrom("Ruben", null, "Quintero", null));
 		x.setCmteMembers(comittee);
 		x.setSuppFiles(null);
+		x.setAlternateTitles(null);
 		
-//		Advisors advisors = new Advisors();
-//		advisors.getAdvisor().add(makeAdvisorFrom("Jim Garrett", null, null));
-//		x.setAdvisors(advisors);
+		List<Advisor> advisors = Lists.newArrayList();
+		advisors.add(makeAdvisorFrom("Jim Garrett", null));
+		x.setAdvisors(advisors);
 		
 		List<Author> authors = Lists.newArrayList();
 		authors.add(
@@ -297,6 +299,7 @@ public class PubMetaDataProvider_Tests {
 				));
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
+		x.setAlternateTitles(null);
 		
 		List<Author> authors = Lists.newArrayList();
 		authors.add(
@@ -347,6 +350,7 @@ public class PubMetaDataProvider_Tests {
 		
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
+		x.setAlternateTitles(null);
 		
 		List<Author> authors = Lists.newArrayList();
 		authors.add(
@@ -389,11 +393,10 @@ public class PubMetaDataProvider_Tests {
 //		title.setLanguage("Chinese");
 //		x.setTitle(title);
 		
-//		AlternateTitle alternateTitle = new AlternateTitle();
-//		alternateTitle.setValue("应用模糊控制原理的空调控制器的开发");
-//		alternateTitle.setLanguage("Chinese");
-//		x.setAlternateTitles(new AlternateTitles());
-//		x.getAlternateTitles().getAlternateTitle().add(alternateTitle);
+		AlternateTitle alternateTitle = new AlternateTitle();
+		alternateTitle.setAltTitle("应用模糊控制原理的空调控制器的开发\n\t");
+		alternateTitle.setLanguage("Chinese");
+		x.setAlternateTitles(Lists.newArrayList(alternateTitle));
 		
 		//String abstract_ = "In this paper, a new control method for room air conditioners (RACs) is presented, and a new RAC controller for the conventional RACs without inverters is developed in this basis. First, the RAC market conditions both domestic and abroad, as well as the development of RAC and RAC controllers are shown. Then some latest result on human thermo comfort are introduced. On this basis, a new control method for RACs which has considered the human thermo comfort principles is presented. This method has employed the fuzzy control theory which is suitable for the complex system such as the room-RAC system. After a detailed analysis on conventional RACs, the new method is applied on this kind of RAC. Then, computer simulations on this control method and two other conventional control methods  which are for comparation are done. Results show that the new method performs better on temperature flucturation, on-off times of compressor and unsensitivity on system parameter changes. Last, an RAC controller which employes the new control method is successfully developed. Test showes it has good electrical performance. It has low cost and high reliability which is ready for batch production.";
 		String abstract_ = "In this paper, a new control method for room air conditioners (RACs) is presented, and a new RAC controller for the conventional RACs without inverters is developed in this basis. First, the RAC market conditions both domestic and abroad, as well as the development of RAC and RAC controllers are shown. Then some latest result on human thermo comfort are introduced. On this basis, a new control method for RACs which has considered the human thermo comfort principles is presented. This method has employed the fuzzy control theory which is suitable for the complex system such as the room-RAC system. After a detailed analysis on conventional RACs, the new method is applied on this kind of RAC. Then, computer simulations on this control method and two other conventional control methods  which are for comparation are done. Results show that the new method performs better on temperature flucturation, on-off times of compressor and unsensitivity on system parameter changes. Last, an RAC controller which employes the new control method is successfully developed. Test showes it has good electrical performance. It has low cost and high reliability which is ready for batch production.";
@@ -411,9 +414,9 @@ public class PubMetaDataProvider_Tests {
 				makeKeywordFrom("计算机仿真", "By Author")
 				));
 
-//		Advisors advisors = new Advisors();
-//		advisors.getAdvisor().add(makeAdvisorFrom("Guan Ping  Feng", "冯冠平", "Chinese"));
-//		x.setAdvisors(advisors);
+		List<Advisor> advisors = Lists.newArrayList();
+		advisors.add(makeAdvisorFrom("Guan Ping  Feng", "冯冠平"));
+		x.setAdvisors(advisors);
 		
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
@@ -491,12 +494,13 @@ public class PubMetaDataProvider_Tests {
 				makeKeywordFrom("USING", "For Datrix")
 				));
 		
-//		Advisors advisors = new Advisors();
-//		advisors.getAdvisor().add(makeAdvisorFrom("X. Grant Chen", null, null));
-//		x.setAdvisors(advisors);
+		List<Advisor> advisors = Lists.newArrayList();
+		advisors.add(makeAdvisorFrom("X. Grant Chen", null));
+		x.setAdvisors(advisors);
 		
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
+		x.setAlternateTitles(null);
 		
 		List<Author> authors = Lists.newArrayList();
 		authors.add(
@@ -565,6 +569,7 @@ public class PubMetaDataProvider_Tests {
 				makeSuppFileFrom("ZingleCallingPages3-5.pdf", "pdf", PubMetaDataQuery.kEmptyValue),
 				makeSuppFileFrom("ZingleCallingPages94-96.pdf", "pdf", "In the Red and Brown Water Calling Pages 94-96"));
 		x.setSuppFiles(supplementalFiles);
+		x.setAlternateTitles(null);
 		
 		List<CmteMember> comittee = Lists.newArrayList(
 				makeCmteMemberFrom("John", "B.", "Doller", null),
@@ -572,9 +577,9 @@ public class PubMetaDataProvider_Tests {
 				makeCmteMemberFrom("Gregory", "D.", "Wallace", null));
 		x.setCmteMembers(comittee);
 		
-//		Advisors advisors = new Advisors();
-//		advisors.getAdvisor().add(makeAdvisorFrom("Lisa J. Porter", null, null));
-//		x.setAdvisors(advisors);
+		List<Advisor> advisors = Lists.newArrayList();
+		advisors.add(makeAdvisorFrom("Lisa J. Porter", null));
+		x.setAdvisors(advisors);
 		
 		List<Author> authors = Lists.newArrayList();
 		authors.add(
