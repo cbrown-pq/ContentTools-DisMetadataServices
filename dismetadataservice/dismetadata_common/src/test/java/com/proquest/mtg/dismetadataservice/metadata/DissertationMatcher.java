@@ -41,10 +41,10 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		verify("PubPageNum", expected.getPubPageNum(), actual.getPubPageNum());
 		verify("ReferenceLocation", expected.getReferenceLocation(), actual.getReferenceLocation());
 		verify("ExternalURL", expected.getExternalURL(), actual.getExternalURL());
-//		verifyTitle(actual);
+		verifyTitle(actual);
 		verifyAbstract(actual);
 		verifyBatch(actual);
-//		verifySchool(actual);
+		verifySchool(actual);
 		verifySubjects(actual);
 		verifyAlternateTitles(actual);
 		verifyDissLanguages(actual);
@@ -66,17 +66,23 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		return errorDescriptions.isEmpty();
 	}
 
-//	private void verifyTitle(DisPubMetaData actual) {
-//		if (null != expected.getTitle()) {
-//			if (verifyNotNullValue("Title", actual.getTitle())) {
-//				verify("Title Value",  expected.getTitle().getValue(), actual.getTitle().getValue());
-//				verify("Title Language",  expected.getTitle().getLanguage(), actual.getTitle().getLanguage());
-//			}
-//		}
-//		else {
-//			verifyNullValue("Title", actual.getTitle());
-//		}
-//	}
+	private void verifyTitle(DisPubMetaData actual) {
+		if (null != expected.getTitle()) {
+			if (verifyNotNullValue("Title", actual.getTitle())) {
+				verify("Electronic Title",  expected.getTitle().getElectronicTitle(), 
+						actual.getTitle().getElectronicTitle());
+				verify("Master Title",  expected.getTitle().getMasterTitle(), 
+						actual.getTitle().getMasterTitle());
+				verify("English Overwrite Title",  expected.getTitle().getEnglishOverwriteTitle(), 
+						actual.getTitle().getEnglishOverwriteTitle());
+				verify("Foreign Title",  expected.getTitle().getForeignTitle(), 
+						actual.getTitle().getForeignTitle());
+			}
+		}
+		else {
+			verifyNullValue("Title", actual.getTitle());
+		}
+	}
 
 	private void verifyAbstract(DisPubMetaData actual) {
 		if (null != expected.getAbstract()) {
@@ -103,19 +109,19 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		}
 	}
 
-//	private void verifySchool(Dissertation actual) {
-//		if (null != expected.getSchool()) {
-//			if (verifyNotNullValue("School", actual.getSchool())) {
-//				verify("Schoool.Code", expected.getSchool().getSchoolCode(), actual.getSchool().getSchoolCode());
-//				verify("Schoool.Name", expected.getSchool().getSchoolName(), actual.getSchool().getSchoolName());
-//				verify("Schoool.Country", expected.getSchool().getSchoolCountry(), actual.getSchool().getSchoolCountry());
-//				verify("Schoool.State", expected.getSchool().getSchoolState(), actual.getSchool().getSchoolState());
-//			}
-//		}
-//		else {
-//			verifyNullValue("School", actual.getSchool());
-//		}
-//	}
+	private void verifySchool(DisPubMetaData actual) {
+		if (null != expected.getSchool()) {
+			if (verifyNotNullValue("School", actual.getSchool())) {
+				verify("Schoool.Code", expected.getSchool().getSchoolCode(), actual.getSchool().getSchoolCode());
+				verify("Schoool.Name", expected.getSchool().getSchoolName(), actual.getSchool().getSchoolName());
+				verify("Schoool.Country", expected.getSchool().getSchoolCountry(), actual.getSchool().getSchoolCountry());
+				verify("Schoool.State", expected.getSchool().getSchoolState(), actual.getSchool().getSchoolState());
+			}
+		}
+		else {
+			verifyNullValue("School", actual.getSchool());
+		}
+	}
 
 	private void verifySubjects(DisPubMetaData actual) {
 		if (null != expected.getSubjects()) {

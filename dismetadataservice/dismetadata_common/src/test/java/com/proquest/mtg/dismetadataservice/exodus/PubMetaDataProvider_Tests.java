@@ -15,8 +15,10 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Title;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
@@ -126,12 +128,12 @@ public class PubMetaDataProvider_Tests {
 		batch.setDAISectionCode(null);
 		x.setBatch(batch);
 		
-//		School school = new School();
-//		school.setSchoolCode("0237");
-//		school.setSchoolName("Universiteit Twente (The Netherlands)");
-//		school.setSchoolCountry("NETHERLANDS");
-//		school.setSchoolState(null);
-//		x.setSchool(school);
+		School school = new School();
+		school.setSchoolCode("0237");
+		school.setSchoolName("Universiteit Twente (The Netherlands)");
+		school.setSchoolCountry("NETHERLANDS");
+		school.setSchoolState(null);
+		x.setSchool(school);
 		
 		List<Subject> subjects = Lists.newArrayList(
 				makeSubjectForTesting("Applied Sciences", "0796", "Operations Research", 1), 
@@ -139,10 +141,10 @@ public class PubMetaDataProvider_Tests {
 				makeSubjectForTesting("Social Sciences", "0454", "Business Administration, Management", 3));
 		x.setSubjects(subjects);
 
-//		Title title = new Title();
-//		title.setValue("Recovery strategies and reverse logistic network design");
-//		title.setLanguage("English");
-//		x.setTitle(title);
+		Title title = new Title();
+		title.setElectronicTitle("Recovery strategies and reverse logistic network design");
+		title.setMasterTitle("Recovery strategies and reverse logistic network design");
+		x.setTitle(title);
 		
 		String abstract_ = "In this thesis, we study the set-up of a reverse logistic system for durable consumer products. Decision support models are developed for the determination of recovery strategies, i.e., optimising the degree of disassembly and the assignment of recovery options, as well as determining a reverse logistic network design, i.e., optimising locations and capacities for facilities and optimising good flows between those facilities. The models are developed on the basis of Operations Research techniques, implemented in software and applied in two business cases. ^";
 		x.setAbstract(abstract_);
@@ -187,12 +189,12 @@ public class PubMetaDataProvider_Tests {
 		x.setISBN("978-1-267-73400-6");
 		x.setPageCount("51");
 		
-//		School school = new School();
-//		school.setSchoolCode("0962");
-//		school.setSchoolName("California State University, Los Angeles");
-//		school.setSchoolCountry("UNITED STATES");
-//		school.setSchoolState("California");
-//		x.setSchool(school);
+		School school = new School();
+		school.setSchoolCode("0962");
+		school.setSchoolName("California State University, Los Angeles");
+		school.setSchoolCountry("UNITED STATES");
+		school.setSchoolState("California");
+		x.setSchool(school);
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("MAI");
@@ -204,10 +206,9 @@ public class PubMetaDataProvider_Tests {
 				makeSubjectForTesting("Language, Literature and Linguistics", "0593", "Literature, English", 1));
 		x.setSubjects(subjects);
 
-//		Title title = new Title();
-//		title.setValue("Reviving the Jago: A case for resssesing Arthur Morrison's \"A Child of the Jago\"");
-//		title.setLanguage("English");
-//		x.setTitle(title);
+		Title title = new Title();
+		title.setMasterTitle("Reviving the Jago: A case for resssesing Arthur Morrison's \"A Child of the Jago\"");		
+		x.setTitle(title);
 		
 		String abstract_ = "<?Pub Inc> Arthur Morrison's &ldquo;A Child of The Jago&rdquo; was initially received with dismay and even anger . Contemporary British critics complained bitterly of  its harsh portrayal of the life of the London poor.  Morrison's purpose was to describe the lives of the inhabitants of the worst slum in the nation. This thesis explores why  Morrison's novel was harshly criticized by focusing on its: tone; episodes of violence; and use of the argot of the poor. Morrison's audience were well-to-do Britons who felt that the author had exaggerated the violence and desperation of life in the slum. This thesis also suggests why  Morrison's A Child of The Jago should be included in the cannon of British literature.^";
 		x.setAbstract(abstract_);
@@ -265,21 +266,20 @@ public class PubMetaDataProvider_Tests {
 		batch.setVolumeIssue("L1923");
 		x.setBatch(batch);
 		
-//		School school = new School();
-//		school.setSchoolCode("0130");
-//		school.setSchoolName("University of Minnesota");
-//		school.setSchoolCountry("UNITED STATES");
-//		school.setSchoolState("Minnesota");
-//		x.setSchool(school);
+		School school = new School();
+		school.setSchoolCode("0130");
+		school.setSchoolName("University of Minnesota");
+		school.setSchoolCountry("UNITED STATES");
+		school.setSchoolState("Minnesota");
+		x.setSchool(school);
 		
 		List<Subject> subjects = Lists.newArrayList(
 				makeSubjectForTesting("Education", "0525", "Education, Educational Psychology", 1));
 		x.setSubjects(subjects);
 		
-//		Title title = new Title();
-//		title.setValue("NON-VERBAL GROUP INTELLIGENCE TESTS FOR PRIMARY PUPILS");
-//		title.setLanguage("English");
-//		x.setTitle(title);
+		Title title = new Title();
+		title.setMasterTitle("NON-VERBAL GROUP INTELLIGENCE TESTS FOR PRIMARY PUPILS");
+		x.setTitle(title);
 		
 		String  abstract_ = "";
 		x.setAbstract(abstract_);
@@ -326,21 +326,20 @@ public class PubMetaDataProvider_Tests {
 		batch.setDAISectionCode(null);
 		x.setBatch(batch);
 		
-//		School school = new School();
-//		school.setSchoolCode("5036");
-//		school.setSchoolName("University of Southampton (United Kingdom)");
-//		school.setSchoolCountry("ENGLAND");
-//		school.setSchoolState(null);
-//		x.setSchool(school);
+		School school = new School();
+		school.setSchoolCode("5036");
+		school.setSchoolName("University of Southampton (United Kingdom)");
+		school.setSchoolCountry("ENGLAND");
+		school.setSchoolState(null);
+		x.setSchool(school);
 		
 		List<Subject> subjects = Lists.newArrayList(
 				makeSubjectForTesting("Pure Sciences", "0752", "Physics, Optics", 1));
 		x.setSubjects(subjects);
 		
-//		Title title = new Title();
-//		title.setValue("Fundamental properties of Bragg gratings and their application to the design of advanced structures.");
-//		title.setLanguage("English");
-//		x.setTitle(title);
+		Title title = new Title();
+		title.setMasterTitle("Fundamental properties of Bragg gratings and their application to the design of advanced structures.");
+		x.setTitle(title);
 		
 		String abstract_ = "<![CDATA[This thesis presents the analysis of the local properties of Bragg gratings and their application to the improvement of standard designs and advanced structures.  The time spent by light inside each grating section is derived in terms of complex-valued quantities, and clear meaning is given to both the real and imaginary parts.  Improved physical understanding of propagation and energy distributions inside periodic structures is obtained.  Local properties also explain in a more intuitive way well understood features of different gratings, which improves intuition of new complex designs.  The analysis of the effect of perturbations is immediate using this approach and has important practical applications.  Independent confirmation of the theory is obtained, and experimental measurement of the imaginary part of the local time delay is given.  Phase errors affect the grating writing techniques, and the related sensitivity is analysed in detail. The robustness of different designs is discussed with respect to such manufacturing errors.  Fine tuning of standard or advanced grating designs by means of suitable error distributions is also proposed, and optimised characteristics either in the reflectivity or in the dispersive response are obtained.  This method is integrated with inverse scattering designs to further boost their performances.  Improved complex designs are also proposed in case losses affect propagation in the grating.  Cladding mode losses are compensated using an iterative layer-peeling algorithm.  The design of the first wide-band dispersion-compensating grating realised with a standard single mode fibre is shown.  Background losses and UV-induced losses in gratings are also compensated using a modified layer-peeling method.  The physical limitations related to grating design in lossy media are explained using the derived understanding of local properties.  New advanced designs are also considered that fully exploit the theoretical potentialities and manufacturing capabilities of Bragg gratings.  The performance of code-division multiple access systems based on superstructured gratings is improved by combining encoding, bandwidth filtering, and dispersion compensation in the same high reflectivity grating.\n]]>";
 		x.setAbstract(abstract_);
@@ -377,21 +376,20 @@ public class PubMetaDataProvider_Tests {
 		batch.setDAISectionCode(null);
 		x.setBatch(batch);
 		
-//		School school = new School();
-//		school.setSchoolCode("0370");
-//		school.setSchoolName("Tsinghua University (People's Republic of China)");
-//		school.setSchoolCountry("PEOPLES REP. OF CHINA");
-//		school.setSchoolState(null);
-//		x.setSchool(school);
+		School school = new School();
+		school.setSchoolCode("0370");
+		school.setSchoolName("Tsinghua University (People's Republic of China)");
+		school.setSchoolCountry("PEOPLES REP. OF CHINA");
+		school.setSchoolState(null);
+		x.setSchool(school);
 		
 		List<Subject> subjects = Lists.newArrayList(
 				makeSubjectForTesting("Applied Sciences", "0543", "Engineering, Civil", 1));
 		x.setSubjects(subjects);
 		
-//		Title title = new Title();
-//		title.setValue("Development of an air conditioner controller using fuzzy control theory");
-//		title.setLanguage("Chinese");
-//		x.setTitle(title);
+		Title title = new Title();
+		title.setMasterTitle("Development of an air conditioner controller using fuzzy control theory");
+		x.setTitle(title);
 		
 		AlternateTitle alternateTitle = new AlternateTitle();
 		alternateTitle.setAltTitle("应用模糊控制原理的空调控制器的开发\n\t");
@@ -440,12 +438,12 @@ public class PubMetaDataProvider_Tests {
 		x.setISBN("978-0-494-93884-3");
 		x.setPageCount("186");
 
-//		School school = new School();
-//		school.setSchoolCode("0862");
-//		school.setSchoolName("Universite du Quebec a Chicoutimi (Canada)");
-//		school.setSchoolCountry("CANADA");
-//		school.setSchoolState(null);
-//		x.setSchool(school);
+		School school = new School();
+		school.setSchoolCode("0862");
+		school.setSchoolName("Universite du Quebec a Chicoutimi (Canada)");
+		school.setSchoolCountry("CANADA");
+		school.setSchoolState(null);
+		x.setSchool(school);
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAI");
@@ -458,10 +456,10 @@ public class PubMetaDataProvider_Tests {
 				makeSubjectForTesting("Applied Sciences", "0794", "Engineering, Materials Science", 1));
 		x.setSubjects(subjects);
 		
-//		Title title = new Title();
-//		title.setValue("Rheological behavior and microstructural evolution of semi-solid<p>hypereutectic aluminum-silicon-magnesium-copper alloys using rheoforming process");
-//		title.setLanguage("English");
-//		x.setTitle(title);
+		Title title = new Title();
+		title.setMasterTitle("Rheological behavior and microstructural evolution of semi-solid\nhypereutectic Al-Si-Mg-Cu alloys using rheoforming process");
+		title.setElectronicTitle("Rheological behavior and microstructural evolution of semi-solid\nhypereutectic aluminum-silicon-magnesium-copper alloys using rheoforming process");
+		x.setTitle(title);
 		
 		String abstract_ = "<?Pub Inc> The aim of the current study was to investigate the rheological behavior and microstructural evolution of hypereutectic Al-Si-Cu and Al-Si-Mg-Cu alloys using conventional and modified SEED process (Swirled Enthalpy Equilibration Device). ^   In the first part; the feasibility of semi-solid processing of hypereutectic Al-Si-Cu A390 alloys using a novel rheoforming process was investigated. A combination of the SEED process, isothermal holding using insulation and addition of solid alloy during swirling was introduced as a novel method to improve the processability of semi-solid A390 slurries. The effects of isothermal holding and the addition of solid alloy on the temperature gradient between the centre and the wall and on the formation of &alpha;-Al particles were examined. In addition, phosphorus and strontium were added to the molten metal to refine the primary and eutectic silicon structure to facilitate semi-solid processing. It was found that the combination of the SEED process with two additional processing steps can produce semisolid 390 alloys that can be rheoformed. ^   In the second part, the effects of Mg additions ranging from 6 to 15% on the solidification behaviour of hypereutectic Al-155i-xMg-4Cu alloys was investigated using thermodynamic calculations, thermal analysis and extensive microstructural examination. The Mg level strongly influenced the microstructural evolution of the primary Mg<sub>2</sub>Si phase as well as the solidification behaviour. Thermodynamic predictions using ThermoCalc software reported the occurrence of six reactions, comprising the formation of primary Mg<sub>2 </sub>Si, two pre-eutectic binary reactions, forming either Mg<sub>2</sub>Si + Si or Mg<sub>2</sub>Si + &alpha;-Al phases, the main ternary eutectic reaction forming Mg<sub>2</sub>Si + Si + &alpha;-Al, and two post-eutectic reactions resulting in the precipitation of the Q-Al<sub>5</sub>Mg<sub>8</sub>Cu<sub> 2</sub>Si<sub>6</sub> and &thetas;-Al<sub>2</sub>Cu phases, respectively. Microstructures of the four alloys studied confirmed the presence of these phases, in addition to that of the &pi;-Al<sub>8</sub>Mg<sub>3</sub>FeSi<sub> 6</sub> phase. The presence of the &pi;-phase was also confirmed by thermal analysis. ^   In the third part, the effects of P and Sr on the microstructure of hypereutectic Al-155i14Mg-4Cu alloy were studied. The microstructural examination and phase identification were carried out using optical microscopy and scanning electron microscopy (SEM). The effects of individual and combined additions of P and Sr on the eutectic arrest in Al-155i14Mg-4Cu alloy were examined using thermal analysis. The mean size of primary Mg<sub>2</sub>Si decreases from about 350 &mu;m to less than 60 &mu;m and the morphology changes from coarse dendritic type or equiaxed to polygonal type. In addition, the morphology of the eutectic Mg<sub>2</sub>Si phase changes from coarse Chinese script to fine fiber-like, while that of the eutectic Si phase changes from coarse acicular shape to a fine fibrous form. With Sr addition, the morphology of the &pi;-Fe phase evolved from Chinese script to a fine twin platelet form. Furthermore, the thermal analysis results reveal that the addition of Sr or Sr and P reduces the temperature of eutectic nucleation and growth. ^   Finally, the rheological behaviour and microstructure of semi-solid hypereutectic A390, P-refined A390, Al-15Si-10.5Mg-4Cu and Al-15Si-13.5Mg-4Cu alloys were investigated by using parallel plate viscometry. The flow deformation of these alloys in the semi-solid state was characterized at different deformation rates and at variable solid fractions. The calculated viscosity for variable shear rate was deduced using the analytical method developed by Laxmanan and Flemings. Microstructures of the four alloys, after partial solidification, were examined in order to characterize the flow behaviour during deformation.  (Abstract shortened by UMI.)^";
 		x.setAbstract(abstract_);
@@ -519,12 +517,12 @@ public class PubMetaDataProvider_Tests {
 		x.setISBN("978-1-303-02410-8");
 		x.setPageCount("9");
 
-//		School school = new School();
-//		school.setSchoolCode("0033");
-//		school.setSchoolName("University of California, San Diego");
-//		school.setSchoolCountry("UNITED STATES");
-//		school.setSchoolState("California");
-//		x.setSchool(school);
+		School school = new School();
+		school.setSchoolCode("0033");
+		school.setSchoolName("University of California, San Diego");
+		school.setSchoolCountry("UNITED STATES");
+		school.setSchoolState("California");
+		x.setSchool(school);
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("MAI");
@@ -537,10 +535,9 @@ public class PubMetaDataProvider_Tests {
 				makeSubjectForTesting("Communication and the Arts", "0465", "Theater", 1));
 		x.setSubjects(subjects);
 		
-//		Title title = new Title();
-//		title.setValue("Finding the Flow: Management Style in \"In the Red and Brown Water\"");
-//		title.setLanguage("English");
-//		x.setTitle(title);
+		Title title = new Title();
+		title.setMasterTitle("Finding the Flow: Management Style in \"In the Red and Brown Water\"");
+		x.setTitle(title);
 		
 		String abstract_ = "<?Pub Inc> The prevailing metaphors in <italic>In the Red and Brown Water</italic> are wind and water, and I likened my work on the production to a river. Water can be strong, and also gentle. It can adapt to terrain or transform landscape. During this collaboration I focused on flowing with the production process, as ideas emerged and evolved and decisions were fluid. It has been a huge breakthrough to trust my instincts in a new way to serve the production, and discover that I cannot default to my impulses to impose rigidity and structure.  A production, like a river, is going to keep flowing and a group of artists cannot be controlled. I guided and adapted to the process, but I could not change it, because it was bigger and stronger than me.  ^   During my graduate studies, I have learned that there is no \"right way,\" there is only the way I am working right now, and my approach can be different for each project. As someone who enjoys structure and routine, the open-ended possibilities are challenging to accept. But as an experiential learner, flexibility has been my journey, and through many theatre and dance productions I have developed my personal stage management style to be open to the needs of each project. With the culmination of my formal training, my style is to be more like water: finding the flow and guiding others through the production.^";
 		x.setAbstract(abstract_);

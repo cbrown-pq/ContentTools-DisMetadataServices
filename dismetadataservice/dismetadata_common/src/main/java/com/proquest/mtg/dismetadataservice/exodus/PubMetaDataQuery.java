@@ -16,8 +16,10 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Title;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 import com.proquest.mtg.dismetadataservice.metadata.SplitAuthorNames;
@@ -85,10 +87,29 @@ public class PubMetaDataQuery {
 	
 	private static final String kColumnAlternateAdvisorName = "AlternateAdvisorName";
 	
+	private static final String kColumnSchoolId = "SchoolId";
+	private static final String kColumnSchoolCode = "SchoolCode";
+	private static final String kColumnSchoolName = "SchoolName";
+	private static final String kColumnSchoolCountry = "SchoolCountry";
+	private static final String kColumnSchoolState = "SchoolState";
+	
+	private static final String kSelectSchoolId = 
+			"( " +
+				"SELECT dish_id FROM dis_schools WHERE dish_id = ditm.dish_id " +
+				"UNION " +
+				"SELECT dish_id FROM dis_schools WHERE dish_id = " +
+					"( " +
+						"SELECT dish_id " +
+				        "FROM dis.dis_school_instructions dsin, dis.dis_shipments dshi " +
+				        "WHERE dshi.dsin_id = dsin.dsin_id AND dshi.dshi_id = ditm.dshi_id " +
+				    ") " +
+			") " + kColumnSchoolId + " ";
+	
 	private static final String kSelectMainPubData =
             "SELECT " +
                   "ditm.ditm_id " + kColumnItemId + ", " +
                   "dvi_id " + kColumnVolumeIssueId + ", " +
+                  kSelectSchoolId + ", " +
                   "ditm_pub_number " + kColumnPubId  + ", " + 
                   "ditm_adviser " + kColumnAdvisors + ", " +
                   "ditm_isbn_number " + kColumnIsbn + ", " +
@@ -259,6 +280,23 @@ public class PubMetaDataQuery {
 			"WHERE " +
 				"ditm_id = ? ";
 	
+	private static final String kSelectSchool = 
+			"SELECT " + 
+				"dish_code " + kColumnSchoolCode + ", " + 
+				"dish_name " + kColumnSchoolName + ", " + 
+				"dvc_description " + kColumnSchoolCountry + ", " + 
+				"dsta_name " + kColumnSchoolState + " " +
+			"FROM " + 
+				"dis.dis_schools dish, " + 
+				"dis.dis_valid_countries dvc, " +  
+				"dis.dis_states dsta " + 
+			"WHERE " + 
+				"dish.dish_id = ? " + 
+				"AND " + 
+				"dish.dvc_code = dvc.dvc_code " +  
+				"AND " +  
+				"dish.dsta_code = dsta.dsta_code(+) ";
+	
 	private PreparedStatement authorsStatement;
 	private PreparedStatement mainPubDataStatement;
 	private PreparedStatement languageStatement;
@@ -272,6 +310,7 @@ public class PubMetaDataQuery {
 	private PreparedStatement batchStatement;
 	private PreparedStatement alternateTitlesStatement;
 	private PreparedStatement alternateAdvisorsStatement;
+	private PreparedStatement schoolStatement;
 	
 	public PubMetaDataQuery(Connection connection) throws SQLException {
 		this.authorsStatement = connection.prepareStatement(kSelectAuthors);
@@ -287,6 +326,7 @@ public class PubMetaDataQuery {
 		this.batchStatement = connection.prepareStatement(kSelectBatch);
 		this.alternateTitlesStatement = connection.prepareStatement(kSelectAlternateTitles);
 		this.alternateAdvisorsStatement = connection.prepareStatement(kSelectAlternateAdvisors);
+		this.schoolStatement = connection.prepareStatement(kSelectSchool);
 	}
 	
 	public DisPubMetaData getFor(String pubId) throws SQLException {
@@ -317,7 +357,7 @@ public class PubMetaDataQuery {
 		result.setPageCount(trimmed(cursor.getString(kColumnPageCount)));
 		result.setBLNumber(trimmed(cursor.getString(kColumnBritishLibraryNumber)));
 		result.setReferenceLocation(trimmed(cursor.getString(kColumnReferenceLocation)));
-//		result.setTitle(makeTitleFrom(cursor, language));
+		result.setTitle(makeTitleFrom(cursor));
 		String source = trimmed(cursor.getString(kColumnSource));
 		if (null != source && source.equalsIgnoreCase("I")) {
 			result.setExternalURL(trimmed(cursor.getString(kColumnExternalUrl)));
@@ -341,8 +381,8 @@ public class PubMetaDataQuery {
 		if (null != volumeIssueId) {
 			result.setBatch(getBatchFor(volumeIssueId));
 		}
-//		result.setSchool(getSchoolFor(cursor.getString(kColumnSchoolId)));
 		result.setDateOfExtraction(getExtractionDateAsInt());
+		result.setSchool(getSchoolFor(cursor.getString(kColumnSchoolId)));
 //		result.setPQOpenURL(makePqOpenUrlFor(pubId));
 		return result;
 	}
@@ -641,6 +681,37 @@ public class PubMetaDataQuery {
 		return result; 
 	}
 	
+	private Title makeTitleFrom(ResultSet cursor) throws SQLException {
+		Title result = new Title();
+		result.setElectronicTitle(cursor.getString(kColumnElectronicTitle));
+		result.setMasterTitle(cursor.getString(kColumnMasterTitle));
+		result.setEnglishOverwriteTitle(cursor.getString(kColumnEngOverwriteTitle));
+        result.setForeignTitle(cursor.getString(kColumnForeignTitle)); 
+		return result;
+	}
+	
+	private School getSchoolFor(String schooldId) throws SQLException {
+		School result = new School();
+		if (null != schooldId) {
+			ResultSet cursor = null;
+			try {
+				schoolStatement.setString(1, schooldId);
+				cursor = schoolStatement.executeQuery();
+				if (cursor.next()) {
+					result.setSchoolCode(required(cursor.getString(kColumnSchoolCode)));
+					result.setSchoolName(required(cursor.getString(kColumnSchoolName)));
+					result.setSchoolCountry(required(cursor.getString(kColumnSchoolCountry)));
+					result.setSchoolState(trimmed(cursor.getString(kColumnSchoolState)));
+				}
+			}
+			finally {
+				if (null != cursor) {
+					cursor.close();
+				}
+			}
+		}
+		return result;
+	}
 
 	public void close() throws SQLException {
 		closeStatement(authorsStatement);
@@ -651,6 +722,7 @@ public class PubMetaDataQuery {
 		closeStatement(languageStatement);
 		closeStatement(departmentsStatement);
 		closeStatement(batchStatement);
+		closeStatement(schoolStatement);
 	}
 	
 	private void closeStatement(PreparedStatement statment) throws SQLException {

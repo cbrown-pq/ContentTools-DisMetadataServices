@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Title;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 
 public class DisPubMetaData {
@@ -27,6 +28,8 @@ public class DisPubMetaData {
 	private Batch batch;
 	private List<AlternateTitle> alternateTitle;
 	private List<Advisor> advisors;
+	private Title title;
+	private School school;
 
 	public BigInteger getDateOfExtraction() {
 		return dateOfExtraction;
@@ -213,6 +216,22 @@ public class DisPubMetaData {
 	
 	public List<Advisor> getAdvisors() {
 		return advisors;
+	}
+	
+	public void setTitle(Title value) {
+		this.title = value;
+	}
+
+	public Title getTitle() {
+		return title;
+	}
+
+	public void setSchool(School school) {
+		this.school = school;
+	}
+	
+	public School getSchool() {
+		return school;
 	}
 	
 	@Override
@@ -447,17 +466,85 @@ public class DisPubMetaData {
         public String getAdvisorFullName() {
             return advisorFullName;
         }
-
         public void setAdvisorFullName(String value) {
             this.advisorFullName = value;
         }
-
         public String getAltAdvisorFullName() {
             return altAdvisorFullName;
         }
-
         public void setAltAdvisorFullName(String value) {
             this.altAdvisorFullName = value;
+        }
+    }
+    
+    public static class Title {
+        private String electronicTitle;
+        private String masterTitle;
+        private String englishOverwriteTitle;
+        private String foreignTitle;
+        
+		public String getElectronicTitle() {
+			return electronicTitle;
+		}
+		public void setElectronicTitle(String value) {
+			this.electronicTitle = value;
+		}
+		public String getMasterTitle() {
+			return masterTitle;
+		}
+		public void setMasterTitle(String value) {
+			this.masterTitle = value;
+		}
+		public String getEnglishOverwriteTitle() {
+			return englishOverwriteTitle;
+		}
+		public void setEnglishOverwriteTitle(String value) {
+			this.englishOverwriteTitle = value;
+		}
+		public String getForeignTitle() {
+			return foreignTitle;
+		}
+		public void setForeignTitle(String value) {
+			this.foreignTitle = value;
+		}
+    }
+    
+    public static class School {
+        private String schoolCode;
+        private String schoolName;
+        private String schoolCountry;
+        private String schoolState;
+
+        public String getSchoolCode() {
+            return schoolCode;
+        }
+
+        public void setSchoolCode(String value) {
+            this.schoolCode = value;
+        }
+
+        public String getSchoolName() {
+            return schoolName;
+        }
+
+        public void setSchoolName(String value) {
+            this.schoolName = value;
+        }
+
+        public String getSchoolCountry() {
+            return schoolCountry;
+        }
+
+        public void setSchoolCountry(String value) {
+            this.schoolCountry = value;
+        }
+
+        public String getSchoolState() {
+            return schoolState;
+        }
+
+        public void setSchoolState(String value) {
+            this.schoolState = value;
         }
     }
 }
