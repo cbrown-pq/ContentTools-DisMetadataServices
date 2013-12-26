@@ -8,6 +8,9 @@ import com.google.inject.name.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.proquest.mtg.dismetadataservice.format.FakeFormat;
+import com.proquest.mtg.dismetadataservice.format.MetaDataFormatFactory;
+import com.proquest.mtg.dismetadataservice.helper.WellKnownFormatTypes;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.properties.AppConfigReader;
@@ -53,6 +56,21 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 			return new JdbcConnectionPool(props.getExodusJdbcConfig());
 		} catch (Exception e) {
 			logger.error("Failed to initialize Exodus JDBC Connection Pool, because: " + e.getMessage(), e);
+		}
+		return result;
+	}
+	
+	@Provides @Singleton
+	protected MetaDataFormatFactory formatTaskFactories(DisMetadataProperties props,
+						FakeFormat fakeFormat) {
+		MetaDataFormatFactory result = new MetaDataFormatFactory();
+		if (props.fakeExodusFlag()) {
+			result.add(WellKnownFormatTypes.FAKE_MARC_TESTING, fakeFormat);
+			result.add(WellKnownFormatTypes.USMARC, fakeFormat);
+		}
+		else {
+			result.add(WellKnownFormatTypes.FAKE_MARC_TESTING, fakeFormat);
+			result.add(WellKnownFormatTypes.USMARC, fakeFormat);
 		}
 		return result;
 	}

@@ -8,20 +8,19 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.inject.Inject;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataProvider;
+import com.proquest.mtg.dismetadataservice.format.MetaDataFormatFactory;
 
 @Path("/dispubmetadata/")
 public class DisMetadataServiceProvider {
-	private final PubMetaDataProvider pubMetadataProvider;
+	private final MetaDataFormatFactory metaDataformatFactory;
 
 	@Inject
-	public DisMetadataServiceProvider(PubMetaDataProvider pubMetadataProvider) {
-		this.pubMetadataProvider = pubMetadataProvider;
+	public DisMetadataServiceProvider(MetaDataFormatFactory metaDataformatFactory) {
+		this.metaDataformatFactory = metaDataformatFactory;
 	}
 
-	public PubMetaDataProvider getPubMetadataProvider() {
-		return pubMetadataProvider;
+	public MetaDataFormatFactory getMetaDataFormatFactory() {
+		return metaDataformatFactory;
 	}
 
 	@GET
@@ -30,18 +29,14 @@ public class DisMetadataServiceProvider {
 	public Response getDisMetaData(@PathParam("pubNumber") String pubNumber,
 			@PathParam("formatType") String formatType) {
 		String result = null;
-		DisPubMetaData disPubMetadata = new DisPubMetaData();
 		try {
-			disPubMetadata = pubMetadataProvider.getPubMetaDataFor(pubNumber);
-			result = "Pub Number: " + disPubMetadata.getPubNumber() + "\n"
-					+ "ISBN: " + disPubMetadata.getISBN();
+			result = getMetaDataFormatFactory().getFor(formatType).makeFor(pubNumber);
 				    
 		} catch (NullPointerException e) {
 			result = "No Data Found";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return Response.status(200).entity(result).build();
 
 	}

@@ -5,17 +5,17 @@ import java.io.IOException;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataProvider;
+import com.proquest.mtg.dismetadataservice.format.MetaDataFormatFactory;
 
 public class MockServiceTestHelper extends ServiceTestHelperBase {
 	
-	public MockServiceTestHelper(final PubMetaDataProvider metadataProvider) 
+	public MockServiceTestHelper(final MetaDataFormatFactory metaDataFormatFactory) 
 			throws IllegalArgumentException, IOException {
 		
 		Injector injector = Guice.createInjector( new AbstractModule() {
 									 @Override
 									 protected void configure() {
-										 bind( PubMetaDataProvider.class ).toInstance(metadataProvider);
+										 bind(MetaDataFormatFactory.class).toInstance(metaDataFormatFactory);
 									 }
 		 	 					});
 		

@@ -1,8 +1,6 @@
 package com.proquest.mtg.dismetadataservice.rest;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import org.junit.After;
@@ -45,15 +43,15 @@ public class DisMetadataServiceProvider_Service_Tests {
 		assertThat( responseMsg, is("No Data Found") );
 	}
 	
-	@Test
-	public void whenPubExist() {
-		ClientResponse resp = service.path("dispubmetadata")
-				.path("3062346/test").get(ClientResponse.class);
-		String responseMsg = resp.getEntity(String.class);
-
-		assertThat(resp.getStatus(), is(200));
-		assertThat( responseMsg, is("Pub Number: 3062346\nISBN: 978-0-493-78200-3") );
-	}
+//	@Test
+//	public void whenPubExist() {
+//		ClientResponse resp = service.path("dispubmetadata")
+//				.path("3062346/test").get(ClientResponse.class);
+//		String responseMsg = resp.getEntity(String.class);
+//
+//		assertThat(resp.getStatus(), is(200));
+//		assertThat( responseMsg, is("Pub Number: 3062346\nISBN: 978-0-493-78200-3") );
+//	}
 	
 
 	
