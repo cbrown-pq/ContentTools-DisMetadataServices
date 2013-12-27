@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.proquest.mtg.dismetadataservice.exodus.IMarcProvider;
 import com.proquest.mtg.utils.writer.IWriter;
 
-public class USMarcFormat implements IMarcProvider {
+public class USMarcFormat implements IMetaDataFormats {
 	
 	private final IMarcProvider marcDataProvider;
 	private final IWriter marcDataWriter;
@@ -24,9 +24,8 @@ public class USMarcFormat implements IMarcProvider {
 	}
 
 	@Override
-	public String getMarcResultFor(Iterable<String> pubs) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public String makeFor(String pubNum) throws Exception {
+		return getMarcDataProvider().getMarcResultFor(pubNum);
 	}
 
 }

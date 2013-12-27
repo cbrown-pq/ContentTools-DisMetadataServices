@@ -2,6 +2,6 @@ package com.proquest.mtg.dismetadataservice.format;
 
 public interface IMetaDataFormats {
 	
-	public String makeFor(String pubNum);
+	public String makeFor(String pubNum) throws Exception;
 
 }

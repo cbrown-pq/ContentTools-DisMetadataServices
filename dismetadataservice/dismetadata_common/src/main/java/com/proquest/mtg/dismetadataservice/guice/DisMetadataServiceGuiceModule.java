@@ -8,14 +8,21 @@ import com.google.inject.name.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.proquest.mtg.dismetadataservice.exodus.ExodusDataProvider;
+import com.proquest.mtg.dismetadataservice.exodus.IMarcProvider;
+import com.proquest.mtg.dismetadataservice.exodus.IPubMetaDataProvider;
+import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.format.FakeFormat;
 import com.proquest.mtg.dismetadataservice.format.MetaDataFormatFactory;
+import com.proquest.mtg.dismetadataservice.format.USMarcFormat;
 import com.proquest.mtg.dismetadataservice.helper.WellKnownFormatTypes;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.properties.AppConfigReader;
 import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
 import com.proquest.mtg.dismetadataservice.properties.IAppConfigReader;
+import com.proquest.mtg.utils.writer.IWriter;
+import com.proquest.mtg.utils.writer.StringWriter;
 
 public class DisMetadataServiceGuiceModule extends AbstractModule {
 	
@@ -62,15 +69,15 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 	
 	@Provides @Singleton
 	protected MetaDataFormatFactory formatTaskFactories(DisMetadataProperties props,
-						FakeFormat fakeFormat) {
+						FakeFormat fakeFormat, USMarcFormat usMarcFormat) {
 		MetaDataFormatFactory result = new MetaDataFormatFactory();
 		if (props.fakeExodusFlag()) {
 			result.add(WellKnownFormatTypes.FAKE_MARC_TESTING, fakeFormat);
-			result.add(WellKnownFormatTypes.USMARC, fakeFormat);
+			result.add(WellKnownFormatTypes.USMARC, usMarcFormat);
 		}
 		else {
 			result.add(WellKnownFormatTypes.FAKE_MARC_TESTING, fakeFormat);
-			result.add(WellKnownFormatTypes.USMARC, fakeFormat);
+			result.add(WellKnownFormatTypes.USMARC, usMarcFormat);
 		}
 		return result;
 	}
@@ -79,6 +86,9 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 	protected void configure() {
 		bind(IAppConfigReader.class).toInstance(appConfigReader);
 		bind(DisMetadataProperties.class).asEagerSingleton();
+		bind(IMarcProvider.class).to(ExodusDataProvider.class);
+		bind(IPubMetaDataProvider.class).to(PubMetaDataProvider.class);
+		bind(IWriter.class).to(StringWriter.class);
 	}
 
 }
