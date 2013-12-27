@@ -27,9 +27,11 @@ public class MarcRecordFactory {
 		handleAbstract();
 		handleLocationOfCopy();
 		handleSubjects();
+		handleUrl();
 		
 		return curRecord;
 	}
+
 
 	private void handleRecordId() {
 		String pubId = curMetaData.getPubNumber();
@@ -102,6 +104,16 @@ public class MarcRecordFactory {
 		}
 	}
 
+	private void handleUrl() {
+		String url = curMetaData.getExternalURL();
+		String pubId = curMetaData.getPubNumber();
+		if(null != url && !url.isEmpty()) {
+			addField(MarcTags.kUrl,
+					makeFieldDataFrom(' ', ' ', 'u', url, pubId.trim()));
+		}
+		
+	}
+	
 	private String endWithPeriod(String x) {
 		return x.endsWith(".") ? x : x + ".";
 	}
@@ -121,7 +133,23 @@ public class MarcRecordFactory {
 		builder.append(MarcCharSet.kSubFieldIndicator);
 		builder.append(subFieldIndicator);
 		builder.append(fieldData);
+		System.out.println("dsfdsfdsfsdf:" + builder.toString());
 		return builder.toString();
 	}
 
+	private String makeFieldDataFrom(
+			char dataFieldIndicator1,
+			char dataFieldIndicator2,
+			char subFieldIndicator,
+			String fieldData1, String fieldData2) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(dataFieldIndicator1);
+		builder.append(dataFieldIndicator2);
+		builder.append(MarcCharSet.kSubFieldIndicator);
+		builder.append(subFieldIndicator);
+		builder.append(fieldData1);
+		builder.append(fieldData2);
+		System.out.println("dsfdsfdsfsdf:" + builder.toString());
+		return builder.toString();
+	}
 }
