@@ -15,27 +15,43 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>  
+  
   <dependencies>
       <dependency>
     	<groupId>com.google.guava</groupId>
     	<artifactId>guava</artifactId>
     	<version>${guava.version}</version>
 	</dependency>
+	
 	<dependency>
         <groupId>com.google.inject</groupId>
         <artifactId>guice</artifactId>
         <version>${guice.version}</version>
     </dependency>
+    
     <dependency>
       <groupId>com.oracle</groupId>
       <artifactId>ojdbc6</artifactId>
       <version>11.2.0.3.0</version>
     </dependency>
+    
     <dependency>
       <groupId>com.oracle</groupId>
       <artifactId>ucp</artifactId>
       <version>11.2.0.3</version>
     </dependency>
+    
+    <dependency>
+		<groupId>commons-io</groupId>
+		<artifactId>commons-io</artifactId>
+		<version>2.4</version>
+  	</dependency>
+  	
+    <dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-lang3</artifactId>
+		<version>3.1</version>
+	</dependency>
     
   </dependencies>
  </project>
