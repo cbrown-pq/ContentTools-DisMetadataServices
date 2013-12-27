@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.metadata.TextNormalizer;
 
@@ -27,10 +28,13 @@ public class MarcRecordFactory {
 		handleAbstract();
 		handleLocationOfCopy();
 		handleSubjects();
+		handleDisserationLanguage();
 		handleUrl();
 		
 		return curRecord;
 	}
+
+
 
 
 	private void handleRecordId() {
@@ -104,6 +108,15 @@ public class MarcRecordFactory {
 		}
 	}
 
+	private void handleDisserationLanguage() {
+		List<DissLanguage> dissLanguages = curMetaData.getDissLanguages();
+		if (!dissLanguages.isEmpty()) {
+			for (DissLanguage curDissLanguage : dissLanguages) {
+				addField(MarcTags.kDissertationLanguage,makeFieldDataFrom(' ', ' ', 'a', curDissLanguage.getLanguageDescription()));
+			}
+		}
+	}
+	
 	private void handleUrl() {
 		String url = curMetaData.getExternalURL();
 		String pubId = curMetaData.getPubNumber();
