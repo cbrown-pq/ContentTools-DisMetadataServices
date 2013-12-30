@@ -30,7 +30,7 @@ public class MarcRecordFactory {
 		handleAbstract();
 		handleLocationOfCopy();
 		handleSubjects();
-		handleAdvisor();
+		handleAdvisors();
 		handleDegrees();
 		handleDisserationLanguage();
 		handleUrl();
@@ -109,7 +109,7 @@ public class MarcRecordFactory {
 		}
 	}
 	
-	private void handleAdvisor() {
+	private void handleAdvisors() {
 		List<Advisor> dissAdvisors = curMetaData.getAdvisors();
 		if (!dissAdvisors.isEmpty()) {
 			for (Advisor curAdvisor : dissAdvisors) {	
