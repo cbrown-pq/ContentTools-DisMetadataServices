@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
@@ -31,6 +32,7 @@ public class MarcRecordFactory {
 		handleLocationOfCopy();
 		handleSubjects();
 		handleAdvisors();
+		handleCommitteeMembers();
 		handleDegrees();
 		handleDisserationLanguage();
 		handleUrl();
@@ -118,9 +120,25 @@ public class MarcRecordFactory {
 						MarcTags.kAdvisorname,makeFieldDataFrom('1', '0', 'a' ,curAdvisor.getAdvisorFullName(), adviserString));
 			}
 		}
-
-		
 	}
+	
+	private void handleCommitteeMembers() {
+		List<CmteMember> dissCmteMembers = curMetaData.getCmteMembers();
+		if (!dissCmteMembers.isEmpty()) {
+			for (CmteMember curCmteMember : dissCmteMembers) {	
+				String cmteMemberString = makeFieldDataFrom(' ',',','e',"committee member");
+				String cmteMemberName = curCmteMember.getLastName() + "," + curCmteMember.getFirstName() ;
+				String cmteMiddleName = curCmteMember.getMiddleName();
+				if (null != cmteMiddleName && !cmteMiddleName.isEmpty())
+					cmteMemberName  = cmteMemberName + " " + cmteMiddleName;
+				String cmteSuffix = curCmteMember.getSuffix();
+				if (null != cmteSuffix && !cmteSuffix.isEmpty())
+					cmteMemberName  = cmteMemberName + ", " + cmteSuffix;
+				addField(MarcTags.kAdvisorname,makeFieldDataFrom('1', '0', 'a' ,cmteMemberName, cmteMemberString));
+			}
+		}
+	}
+	
 	private void handleDegrees() {
 		List<Degree> degrees = curMetaData.getAuthors().get(0).getDegrees();
 		if (!degrees.isEmpty()) {
