@@ -7,7 +7,6 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 import com.proquest.mtg.dismetadataservice.metadata.TextNormalizer;
@@ -22,9 +21,7 @@ public class MarcRecordFactory {
 	private MarcRecord curRecord = null;
 
 	public MarcRecord makeFrom(DisPubMetaData metaData) {
-		if (null == metaData) {
-			throw new IllegalArgumentException("metaData is null");
-		}
+		
 		curMetaData = metaData;
 		curRecord = new MarcRecord();
 
@@ -32,6 +29,7 @@ public class MarcRecordFactory {
 		handleAbstract();
 		handleLocationOfCopy();
 		handleSubjects();
+		handleHostItemEntry();
 		handleAdvisors();
 		handleCommitteeMembers();
 		handleSchoolCode();
@@ -113,13 +111,24 @@ public class MarcRecordFactory {
 		}
 	}
 	
+	private void handleHostItemEntry(){		
+		
+	}
+	
 	private void handleAdvisors() {
 		List<Advisor> dissAdvisors = curMetaData.getAdvisors();
 		if (!dissAdvisors.isEmpty()) {
 			for (Advisor curAdvisor : dissAdvisors) {	
 				String adviserString = makeFieldDataFrom(' ',',','e',"advisor");
+				String adviserFirstName = null, adviserLastName = null;
+				int firstBlankIndex = curAdvisor.getAdvisorFullName().indexOf(' ');
+				if (firstBlankIndex >= 0) {
+					adviserFirstName = curAdvisor.getAdvisorFullName().substring(0, firstBlankIndex);
+					adviserLastName = curAdvisor.getAdvisorFullName().substring(firstBlankIndex+1);
+				} 
+				String adviserFullName = adviserLastName + "," + " " +  adviserFirstName;
 				addField(
-						MarcTags.kAdvisorname,makeFieldDataFrom('1', '0', 'a' ,curAdvisor.getAdvisorFullName(), adviserString));
+						MarcTags.kAdvisorname,makeFieldDataFrom('1', '0', 'a' ,adviserFullName, adviserString));
 			}
 		}
 	}
@@ -129,7 +138,7 @@ public class MarcRecordFactory {
 		if (!dissCmteMembers.isEmpty()) {
 			for (CmteMember curCmteMember : dissCmteMembers) {	
 				String cmteMemberString = makeFieldDataFrom(' ',',','e',"committee member");
-				String cmteMemberName = curCmteMember.getLastName() + "," + curCmteMember.getFirstName() ;
+				String cmteMemberName = curCmteMember.getLastName() + ", " + curCmteMember.getFirstName() ;
 				String cmteMiddleName = curCmteMember.getMiddleName();
 				if (null != cmteMiddleName && !cmteMiddleName.isEmpty())
 					cmteMemberName  = cmteMemberName + " " + cmteMiddleName;
