@@ -7,6 +7,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 import com.proquest.mtg.dismetadataservice.metadata.TextNormalizer;
@@ -33,6 +34,7 @@ public class MarcRecordFactory {
 		handleSubjects();
 		handleAdvisors();
 		handleCommitteeMembers();
+		handleSchoolCode();
 		handleDegrees();
 		handleDisserationLanguage();
 		handleUrl();
@@ -136,6 +138,13 @@ public class MarcRecordFactory {
 					cmteMemberName  = cmteMemberName + ", " + cmteSuffix;
 				addField(MarcTags.kAdvisorname,makeFieldDataFrom('1', '0', 'a' ,cmteMemberName, cmteMemberString));
 			}
+		}
+	}
+	
+	private void handleSchoolCode() {
+		String dissSchoolCode = curMetaData.getSchool().getSchoolCode();
+		if (null != dissSchoolCode && ! dissSchoolCode.isEmpty()) {
+			addField(MarcTags.kAdvisorname,makeFieldDataFrom(' ', ' ', 'a' ,dissSchoolCode));
 		}
 	}
 	
