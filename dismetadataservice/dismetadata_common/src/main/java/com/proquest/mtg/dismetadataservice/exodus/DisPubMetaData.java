@@ -4,7 +4,6 @@ import java.math.BigInteger;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Title;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 
 public class DisPubMetaData {
