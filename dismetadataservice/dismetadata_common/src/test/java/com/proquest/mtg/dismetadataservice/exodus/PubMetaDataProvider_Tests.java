@@ -37,6 +37,7 @@ public class PubMetaDataProvider_Tests {
 	static final String pubId4 = "H000684"; // Chinese
 	static final String pubId5 = "NR93884"; // Electronic Title
 	static final String pubId6 = "1535737"; // Supplemental Files
+	static final String pubId7 = "1496919"; // 
 	
 	//static final List<String> kAllPubIds = Lists.newArrayList(   
 	//		pubId0, pubId1, noVolumeIssuePub1, pubId2, pubId3, pubId4, pubId5, pubId6, fakePub1);
@@ -545,7 +546,7 @@ public class PubMetaDataProvider_Tests {
 		DissLanguage language = new DissLanguage("English", "EN");
 		x.setDissLanguages(Lists.newArrayList(language));
 		
-		x.setDepartments(null);
+		
 		x.setKeywords(Lists.newArrayList(
 				makeKeywordFrom("BROWN", "For Datrix"),
 				makeKeywordFrom("FINDING", "For Datrix"),
@@ -588,6 +589,97 @@ public class PubMetaDataProvider_Tests {
 		return x;
 	}
 	
+	// 1496919
+	public static final DisPubMetaData makeExpectedMetaData7() {
+		DisPubMetaData x = new DisPubMetaData();
+		x.setPubNumber(pubId7);
+		x.setISBN("978-1-124-78544-8");
+		x.setPageCount("442");
+		x.setPubPageNum("342");
+
+		School school = new School();
+		school.setSchoolCode("0792");
+		school.setSchoolName("State University of New York at Binghamton");
+		school.setSchoolCountry("UNITED STATES");
+		school.setSchoolState("New York");
+		x.setSchool(school);
+			
+		Batch batch = new Batch();
+		batch.setDBTypeCode("MAI");
+		batch.setDBTypeDesc("Masters Abstracts International");
+		batch.setVolumeIssue("50-01M");
+		batch.setDAISectionCode(null);
+		x.setBatch(batch);
+			
+		List<Subject> subjects = Lists.newArrayList(
+				makeSubjectForTesting("Earth Sciences", "0388", "Hydrology", 1),
+				makeSubjectForTesting("Earth Sciences", "0372", "Geology", 2),
+				makeSubjectForTesting("Earth Sciences", "0407", "Environmental Geology", 3));
+		x.setSubjects(subjects);
+			
+		Title title = new Title();
+		title.setMasterTitle("Characterization of the hydrogeology of the bedrock aquifer in rural Vestal, New York");
+		x.setTitle(title);
+			
+		String abstract_ = "<?Pub Inc> The majority of the Town of Vestal obtains their water supply from wells drilled into the Upper Devonian fractured-bedrock aquifer.  Concerns about quantity and quality of groundwater prompted a study of the aquifer to determine the likelihood of future water quantity and quality issues if the aquifer is developed further.  A written survey of residents was conducted, 251 water samples were collected, 136 depth-to-groundwater measurements were taken, 5 slug/bail-down tests were performed, depth to bedrock data were compiled, and 4 seismic-refraction surveys were conducted.  An average hydraulic conductivity of 9.7 x 10-2 m/day was found.  Water chemistry revealed limited interconnectivity between wells; the aquifer is physically and chemically heterogeneous.  Water availability varies with the seasons; summer well usage will likely cause a decrease in storage.  Moderate development of the aquifer should be supported if low well densities are maintained and summer water usage is monitored. ^";
+		x.setAbstract(abstract_);
+		
+		DissLanguage language = new DissLanguage("English", "EN");
+		x.setDissLanguages(Lists.newArrayList(language));
+			
+		//x.setDepartments(null);
+		x.setKeywords(Lists.newArrayList(
+				makeKeywordFrom("AQUIFER", "For Datrix"),
+				makeKeywordFrom("BEDROCK", "For Datrix"),
+				makeKeywordFrom("CHARACTERIZATION", "For Datrix"),
+				makeKeywordFrom("FRACTURED", "For Datrix"),
+				makeKeywordFrom("Fractured", "By Author"),
+				makeKeywordFrom("HYDRAULIC CONDUCTIVITY", "For Datrix"),
+				makeKeywordFrom("HYDROGEOLOGY", "For Datrix"),
+				makeKeywordFrom("Hydraulic conductivity", "By Author"),
+				makeKeywordFrom("Hydrogeology", "By Author"),
+				makeKeywordFrom("NEW", "For Datrix"),
+				makeKeywordFrom("RECHARGE", "For Datrix"),
+				makeKeywordFrom("RURAL", "For Datrix"),
+				makeKeywordFrom("Recharge", "By Author"),
+				makeKeywordFrom("SUSTAINABILITY", "For Datrix"),
+				makeKeywordFrom("Sustainability", "By Author"),
+				makeKeywordFrom("VESTAL", "For Datrix"),
+				makeKeywordFrom("Vestal", "By Author"),
+				makeKeywordFrom("YORK", "For Datrix")
+				));
+			
+		String departments = "Geological Sciences and Environmental Studies";
+		x.setDepartments(Lists.newArrayList(departments));
+		
+		List<SuppFile> supplementalFiles = Lists.newArrayList(
+				makeSuppFileFrom("NT1_Appendix.xls", "spreadsheet", "NT1 Data Logger Data"),
+				makeSuppFileFrom("NT2_Appendix.xls", "spreadsheet", "NT2 Data Logger Data"),
+				makeSuppFileFrom("ST1_Appendix.xls", "spreadsheet", "ST1 Data Logger Data"),
+				makeSuppFileFrom("ST2_Appendix.xls", "spreadsheet", "ST2 Data Logger Data"));
+		x.setSuppFiles(supplementalFiles);
+		x.setAlternateTitles(null);
+			
+		List<CmteMember> comittee = Lists.newArrayList(
+				makeCmteMemberFrom("Jeffrey", "S.", "Barker", null),
+				makeCmteMemberFrom("Robert", "V.", "Demicco", null), 
+				makeCmteMemberFrom("Joseph", "R.", "Graney", null));
+		x.setCmteMembers(comittee);
+			
+		List<Advisor> advisors = Lists.newArrayList();
+		advisors.add(makeAdvisorFrom("Karen M. Salvage", null));
+		x.setAdvisors(advisors);
+			
+		List<Author> authors = Lists.newArrayList();
+		authors.add(
+				makeAuthorFrom(
+						"Vayo, Lynette Irene", null, 1, 
+						makeDegreeFrom("M.S.", "Master of Science", "2011", 1)));
+		x.setAuthors(authors);
+			
+		return x;
+	}
+		
 	static PubMetaDataProvider target;
 
 	@BeforeClass
@@ -661,5 +753,12 @@ public class PubMetaDataProvider_Tests {
 		DisPubMetaData metaDataResult;
 		metaDataResult = target.getPubMetaDataFor(pubId6);
 		assertThat(metaDataResult, dissertationEqualTo(makeExpectedMetaData6()));
+	}
+	
+	@Test
+	public void onePub_7() throws Exception {
+		DisPubMetaData metaDataResult;
+		metaDataResult = target.getPubMetaDataFor(pubId7);
+		assertThat(metaDataResult, dissertationEqualTo(makeExpectedMetaData7()));
 	}
 }
