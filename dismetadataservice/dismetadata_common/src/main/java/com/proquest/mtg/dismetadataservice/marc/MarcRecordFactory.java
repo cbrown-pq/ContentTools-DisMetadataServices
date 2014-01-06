@@ -1,7 +1,11 @@
 package com.proquest.mtg.dismetadataservice.marc;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
@@ -9,16 +13,27 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
+import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
+import com.proquest.mtg.dismetadataservice.metadata.DisGeneralMapping;
+import com.proquest.mtg.dismetadataservice.metadata.SGMLEntitySubstitution;
 import com.proquest.mtg.dismetadataservice.metadata.TextNormalizer;
 
 public class MarcRecordFactory {
 
 	public static final String kRecordIdPrefix = "AAI";
+	public static final String kSystemControlNumberPrefix = "(UMI)AAI";
+	public static final String kMarcMapping = "MARC_245_IND";
+	public static final int kSingleLineTitleLength = 670;
 
 	private final TextNormalizer abstractNormalizer = new TextNormalizer();
-
+	
 	private DisPubMetaData curMetaData = null;
 	private MarcRecord curRecord = null;
+	private final DisGenMappingProvider disGenMappingProvider;
+
+	public MarcRecordFactory(DisGenMappingProvider disGenMappingProvider) {
+		this.disGenMappingProvider = disGenMappingProvider;
+	}
 
 	public MarcRecord makeFrom(DisPubMetaData metaData) {
 		
@@ -29,6 +44,12 @@ public class MarcRecordFactory {
 		handleAbstract();
 		handleLocationOfCopy();
 		handleSubjects();
+		handleTimeStamp();
+		handleISBN();
+		handleSystemControlNumber();
+		handleFixedLengthElements();
+		handleTitle(); //245
+		handlePageCount(); //300
 		handleHostItemEntry();
 		handleAdvisors();
 		handleCommitteeMembers();
@@ -39,6 +60,8 @@ public class MarcRecordFactory {
 
 		return curRecord;
 	}
+
+
 
 	private void handleRecordId() {
 		String pubId = curMetaData.getPubNumber();
@@ -109,6 +132,49 @@ public class MarcRecordFactory {
 			addField(MarcTags.kSubjectCode,
 					makeFieldDataFrom(' ', ' ', 'a', code));
 		}
+	}
+
+	private void handleFixedLengthElements() {
+		Date now = new Date(); 		
+		String curTime = new SimpleDateFormat("YYMMdd").format(now);
+		String degreeFlag;
+		String degreeYear = curMetaData.getAuthors().get(0).getDegrees().get(0).getDegreeYear();
+		degreeFlag = (degreeYear == null ? "s" : "n");
+		String fixedLengthElement = curTime + degreeFlag;
+		if( null != degreeYear) {
+			fixedLengthElement +=  degreeYear;
+		}
+		fixedLengthElement += "    ||||||||||||||||| ||";
+		String LanguageCode = curMetaData.getDissLanguages().get(0).getLanguageCode();
+		fixedLengthElement += LanguageCodeToPartialLanguageName.getLanguageFor(LanguageCode) + " d";
+		addField(MarcTags.kFiexedLengthDataElements, fixedLengthElement);
+	}
+
+	private void handleSystemControlNumber() {
+		String pubId = curMetaData.getPubNumber();
+		if (null != pubId && !pubId.isEmpty()) {
+			addField(MarcTags.kSystemControlNumber, 
+					makeFieldDataFrom(' ', ' ', 'a', kSystemControlNumberPrefix + pubId.trim()));
+					
+		}
+		
+	}
+
+	private void handleISBN() {
+		addField(MarcTags.kIsbn, makeFieldDataFrom(' ', ' ', 'a', curMetaData.getISBN().replaceAll("-","")));
+	
+		
+	}
+
+	private void handleTimeStamp() {
+		Date now = new Date(); 
+		String curTime = new SimpleDateFormat("yyyyMMddHHmmss.5").format(now);
+		addField(MarcTags.kTransactionTimestamp, curTime);
+	}
+	
+	private void handlePageCount() {
+		addField(MarcTags.kPageCount,
+				makeFieldDataFrom(' ', ' ', 'a', curMetaData.getPageCount() + " p."));
 	}
 	
 	private void handleHostItemEntry(){		
@@ -222,5 +288,69 @@ public class MarcRecordFactory {
 		builder.append(fieldData2);
 		return builder.toString();
 	}	
+	
+	private void handleTitle() {
+		String title = getTitleToInclude();
+		if(null != title) {
+			title = endsWithPunctuationMark(title);
+			title = SGMLEntitySubstitution.applyAllTo(title);
+			char secondFieldIndicator = getSecondFieldIndicator(title);
+			String marcTitle = makeFieldDataFrom('1', secondFieldIndicator, 'a', title);
+			for(String part : splitOnLength(marcTitle, kSingleLineTitleLength)) {
+				addField(MarcTags.kTitle, part);
+			}
+		}
+	}
+	
+	private String getTitleToInclude() {
+		String title = null;
+		if(null != curMetaData.getTitle().getEnglishOverwriteTitle()) {
+			String cleanedFTitle = verifyTitle(curMetaData.getTitle().getForeignTitle());
+			if(null != cleanedFTitle) {
+				title = cleanedFTitle;
+			} else {
+				String masterTitle = verifyTitle(curMetaData.getTitle().getMasterTitle());
+				title = masterTitle;
+			}
+		} else {
+			String cleanedElectronicTitle = verifyTitle(curMetaData.getTitle().getElectronicTitle());
+			if(null != cleanedElectronicTitle) {
+				title = cleanedElectronicTitle;
+			} else {
+				String masterTitle = verifyTitle(curMetaData.getTitle().getMasterTitle());
+				title = masterTitle;
+			}
+		}
+		return title;
+	}
+
+	private String verifyTitle(String title) {
+		
+		String outTitle = null;
+		if(null != title) {
+			outTitle = title.trim();
+			if(outTitle.endsWith(".")) {
+				outTitle = outTitle.substring(0, outTitle.length() - 1);
+			}
+		}
+		return outTitle;
+	}
+
+	private char getSecondFieldIndicator(String title) {
+		String degreeValue2 = null;
+		List<DisGeneralMapping> marcMappings = disGenMappingProvider.getDisMapping().get(kMarcMapping);
+		for(DisGeneralMapping mapping : marcMappings) {
+			if (title.substring(0, Integer.parseInt(mapping.getDegreeValue2())).contentEquals(mapping.getDegreevalue1())) {
+				degreeValue2 = mapping.getDegreeValue2();
+			}
+		}
+		char secondIndicator = (degreeValue2 == null) ? '0' : degreeValue2.charAt(0);
+		return secondIndicator;
+	}
+
+	private String[] splitOnLength(String x, int length) {
+		Iterable<String> result = Splitter.fixedLength(length).split(x);
+		return Iterables.toArray(result, String.class);
+	}
 
 }
