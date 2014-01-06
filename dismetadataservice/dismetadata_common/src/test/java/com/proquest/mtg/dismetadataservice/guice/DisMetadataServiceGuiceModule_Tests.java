@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
 import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties_Tests;
 import com.proquest.mtg.dismetadataservice.properties.IAppConfigReader;
@@ -50,6 +51,13 @@ public class DisMetadataServiceGuiceModule_Tests {
 		DisMetadataProperties object = injector.getInstance(DisMetadataProperties.class);
 		assertThat(object, notNullValue());
 		assertThat(object, instanceOf(DisMetadataProperties.class));
+	}
+	
+	@Test
+	public void hasCorrect_DisGenMappingProvider() throws Exception {
+		DisGenMappingProvider object = injector.getInstance(DisGenMappingProvider.class);
+		assertThat(object, notNullValue());
+		assertThat(object, instanceOf(DisGenMappingProvider.class));
 	}
 
 }
