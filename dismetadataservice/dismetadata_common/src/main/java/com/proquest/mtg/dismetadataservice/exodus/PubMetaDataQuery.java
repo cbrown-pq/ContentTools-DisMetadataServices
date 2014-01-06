@@ -716,12 +716,17 @@ public class PubMetaDataQuery {
 	public void close() throws SQLException {
 		closeStatement(authorsStatement);
 		closeStatement(mainPubDataStatement);
+		closeStatement(languageStatement);
 		closeStatement(degreeStatement);
 		closeStatement(abstractStatement);
 		closeStatement(subjectsStatement);
-		closeStatement(languageStatement);
+		closeStatement(committeeMembersStatement);
+		closeStatement(supplementalFilesStatement);
 		closeStatement(departmentsStatement);
+		closeStatement(keywordsStatement);
 		closeStatement(batchStatement);
+		closeStatement(alternateTitlesStatement);
+		closeStatement(alternateAdvisorsStatement);
 		closeStatement(schoolStatement);
 	}
 	
