@@ -189,9 +189,10 @@ public class MarcRecordFactory {
 				makeHostItemEntryFieldDataFrom('0', ' ', 't', curMetaData.getBatch().getDBTypeDesc(),'g', curMetaData.getBatch().getVolumeIssue(), curMetaData.getBatch().getDAISectionCode()+ "."));
 	}
 
+	
 	private void handleAdvisors() {
 		List<Advisor> dissAdvisors = curMetaData.getAdvisors();
-		if (!dissAdvisors.isEmpty()) {
+		if (!curMetaData.getAdvisors().isEmpty() && curMetaData.getAdvisors() != null) {
 			for (Advisor curAdvisor : dissAdvisors) {
 				String adviserString = makeFieldDataFrom(' ', ',', 'e',
 						"advisor");

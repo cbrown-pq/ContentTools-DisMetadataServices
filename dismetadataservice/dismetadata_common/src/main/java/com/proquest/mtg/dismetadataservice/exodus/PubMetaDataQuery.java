@@ -373,9 +373,7 @@ public class PubMetaDataQuery {
 			result.setAlternateTitles(getAlternateTitlesFor(itemId));
 			result.setCmteMembers(getCommitteeMembersFor(itemId));
 			String delimitedAdvisorStr = cursor.getString(kColumnAdvisors);
-			if (null != delimitedAdvisorStr) {
-				result.setAdvisors(getAdvisorsFor(itemId, delimitedAdvisorStr));
-			}
+			result.setAdvisors(getAdvisorsFor(itemId, delimitedAdvisorStr));
 		}
 		String volumeIssueId = cursor.getString(kColumnVolumeIssueId);
 		if (null != volumeIssueId) {
@@ -646,7 +644,7 @@ public class PubMetaDataQuery {
 	}
 	
 	private List<Advisor> getAdvisorsFor(String itemId, String delimitedAdvisorStr) throws SQLException {
-		List<Advisor> result = null;
+		List<Advisor> result = Lists.newArrayList();
 		List<String> advisors = SplitAdvisors.split(delimitedAdvisorStr); 
 		List<String> altAdvisors = getAlternateAdvisorsFor(itemId);
 		for (int i=0; i<advisors.size(); ++i) {
