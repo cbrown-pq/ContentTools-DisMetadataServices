@@ -209,8 +209,12 @@ public class DisPubMetaData {
 		return alternateTitle;
 	}
 
-	public void setAdvisors(List<Advisor> advisors) {
-		this.advisors = advisors;
+	public void setAdvisors(Iterable<Advisor> advisors) {
+		if (null == advisors) {
+			this.advisors = Lists.newArrayList();
+		} else {
+			this.advisors = Lists.newArrayList(advisors);
+		}
 	}
 	
 	public List<Advisor> getAdvisors() {
