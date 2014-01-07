@@ -165,7 +165,7 @@ public class MakeExodusMetadataForTesting {
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
 		x.setAlternateTitles(null);
-		
+		x.setAdvisors(null);
 		List<Author> authors = Lists.newArrayList();
 		authors.add(
 				makeAuthorFrom(
@@ -296,6 +296,7 @@ public class MakeExodusMetadataForTesting {
 		x.setSuppFiles(null);
 		x.setAlternateTitles(null);
 		
+		x.setAdvisors(null);
 		List<Author> authors = Lists.newArrayList();
 		authors.add(
 				makeAuthorFrom(
@@ -352,8 +353,7 @@ public class MakeExodusMetadataForTesting {
 						"Ghiringhelli, F.", null, 1, 
 						makeDegreeFrom("Ph.D.", "Doctor of Philosophy", "2003", 1)));
 		x.setAuthors(authors);
-		List<Advisor> advisors = Lists.newArrayList();
-		x.setAdvisors(advisors);
+		x.setAdvisors(null);
 		x.setDepartments(null);
 		x.setKeywords(null);
 		

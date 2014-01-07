@@ -40,25 +40,31 @@ public class MarcRecordFactory {
 		curMetaData = metaData;
 		curRecord = new MarcRecord();
 
-		handleRecordId();
-		handleAbstract();
-		handleLocationOfCopy();
-		handleSubjects();
-		handleTimeStamp();
-		handleISBN();
-		handleSystemControlNumber();
-		handleFixedLengthElements();
-		handleTitle(); // 245
-		handlePageCount(); // 300
-		handleHostItemEntry();
-		handleAdvisors();
-		handleCommitteeMembers();
-		handleSchoolCode();
-		handleDegrees();
-		handleDisserationLanguage();
-		handleUrl();
+		handleRecordId(); /*001*/
+		handleAbstract(); /*520*/
+		handleLocationOfCopy(); /*535*/
+		handleSubjects(); /*650 and 690*/
+		handleTimeStamp(); /*005*/
+		handleISBN(); /*020*/
+		handleSystemControlNumber(); /*035*/
+		handleFixedLengthElements(); /*008*/
+		handleEnglishTranslationOfTitle(); /*242*/
+		handleTitle(); /*245*/
+		handlePageCount(); /*300*/
+		handleHostItemEntry(); /*773*/
+		handleAdvisors(); /*790*/
+		handleCommitteeMembers(); /*790*/
+		handleSchoolCode(); /*790*/
+		handleDegrees(); /*791 792*/
+		handleDisserationLanguage(); /*793*/
+		handleUrl(); /*856*/
+		handleDissertationNote(); /*502 */
 
 		return curRecord;
+	}
+
+	private void handleDissertationNote() {
+		
 	}
 
 	private void handleRecordId() {
@@ -164,10 +170,12 @@ public class MarcRecordFactory {
 	}
 
 	private void handleISBN() {
-		addField(
-				MarcTags.kIsbn,
-				makeFieldDataFrom(' ', ' ', 'a', curMetaData.getISBN()
-						.replaceAll("-", "")));
+		String isbn = curMetaData.getISBN();
+		if(null != isbn) {
+			addField(MarcTags.kIsbn, 
+					makeFieldDataFrom(' ', ' ', 'a', 
+							isbn.replaceAll("-","")));
+		}
 	}
 
 	private void handleTimeStamp() {
@@ -334,6 +342,22 @@ public class MarcRecordFactory {
 		return builder.toString();
 	}
 
+	private void handleEnglishTranslationOfTitle() {
+		String title = null;
+		if(null != curMetaData.getTitle().getEnglishOverwriteTitle()) {
+			String cleanedElectronicTitle = verifyTitle(curMetaData.getTitle().getElectronicTitle());
+			if(null != cleanedElectronicTitle) {
+				title = cleanedElectronicTitle;
+			} else {
+				title = curMetaData.getTitle().getEnglishOverwriteTitle();
+				
+			}
+			title = SGMLEntitySubstitution.applyAllTo(title).trim();
+			title  = endsWithPunctuationMark(title);
+			addField(MarcTags.kEnglishTranslationOfTitle, 
+					makeFieldDataFrom('0', '0', 'a' , title + MarcCharSet.kSubFieldIndicator + "yeng"));
+		}
+	}
 
 	private void handleTitle() {
 		String title = getTitleToInclude();
