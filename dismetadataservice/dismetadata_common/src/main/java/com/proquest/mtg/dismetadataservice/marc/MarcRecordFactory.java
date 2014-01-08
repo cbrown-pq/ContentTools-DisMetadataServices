@@ -42,16 +42,20 @@ public class MarcRecordFactory {
 		curRecord = new MarcRecord();
 
 		handleRecordId(); /*001*/
-		handleAbstract(); /*520*/
-		handleLocationOfCopy(); /*535*/
-		handleSubjects(); /*650 and 690*/
 		handleTimeStamp(); /*005*/
+		handleFixedLengthElements(); /*008*/
 		handleISBN(); /*020*/
 		handleSystemControlNumber(); /*035*/
-		handleFixedLengthElements(); /*008*/
+		handleCatalogingSource(); /*040*/
+		handleAuthor(); /*100*/ 
 		handleEnglishTranslationOfTitle(); /*242*/
 		handleTitle(); /*245*/
 		handlePageCount(); /*300*/
+		handleDissertationNote(); /*502*/
+		handleAccessRestrictionNote(); /*506*/
+		handleAbstract(); /*520*/
+		handleLocationOfCopy(); /*535*/
+		handleSubjects(); /*650 and 690*/
 		handleMultipleAuthors(); /*700*/
 		handleCorporateEntry(); /*710*/
 		handleVariantTitle(); /*740*/
@@ -62,12 +66,14 @@ public class MarcRecordFactory {
 		handleDegrees(); /*791 792*/
 		handleDisserationLanguage(); /*793*/
 		handleUrl(); /*856*/
-		handleDissertationNote(); /*502*/
-		handleAccessRestrictionNote(); /*506*/
-		handleAuthor(); /*100*/ 
 		return curRecord;
 	}
 	
+
+	private void handleCatalogingSource() {
+		addField(MarcTags.kCatalogingSource, makeFieldDataFrom(' ', ' ', 'a', "UMI") +
+				makeFieldDataFrom('c', "UMI"));
+	}
 
 	private void handleAuthor() {
 		String authorFullname = null;
