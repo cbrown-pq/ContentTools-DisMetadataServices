@@ -13,6 +13,7 @@ public class DisPubMetaData {
 	private String isbn;
 	private String pubPageNum;
 	private String pageCount;
+	private String publisher;
 	private String blNumber;
 	private String referenceLocation;
 	private String externalURL;
@@ -209,8 +210,12 @@ public class DisPubMetaData {
 		return alternateTitle;
 	}
 
-	public void setAdvisors(List<Advisor> advisors) {
-		this.advisors = advisors;
+	public void setAdvisors(Iterable<Advisor> value) {
+		if (null == value) {
+			this.advisors = Lists.newArrayList();
+		} else {
+			this.advisors = Lists.newArrayList(value);
+		}
 	}
 	
 	public List<Advisor> getAdvisors() {
@@ -225,12 +230,20 @@ public class DisPubMetaData {
 		return title;
 	}
 
-	public void setSchool(School school) {
-		this.school = school;
+	public void setSchool(School value) {
+		this.school = value;
 	}
 	
 	public School getSchool() {
 		return school;
+	}
+	
+	public void setPublisher(String value) {
+		this.publisher = value;
+	}
+	
+	public String getPublisher() {
+		return publisher;
 	}
 	
 	@Override

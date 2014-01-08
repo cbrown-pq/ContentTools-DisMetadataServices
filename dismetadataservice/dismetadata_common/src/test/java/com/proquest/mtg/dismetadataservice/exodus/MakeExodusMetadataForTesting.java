@@ -115,6 +115,7 @@ public class MakeExodusMetadataForTesting {
 		x.setISBN("978-90-365-1123-0");
 		x.setPubPageNum("997");
 		x.setPageCount("268");
+		x.setAdvisors(null);
 
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAC");
@@ -254,6 +255,7 @@ public class MakeExodusMetadataForTesting {
 		x.setPubNumber(pubId2);
 		x.setPubPageNum("61");
 		x.setPageCount("16");
+		x.setAdvisors(null);
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("ADD");
@@ -313,6 +315,7 @@ public class MakeExodusMetadataForTesting {
 		x.setPageCount("1");
 		x.setExternalURL("http://eprints.soton.ac.uk/15468");
 		x.setBLNumber("DXN074035");
+		x.setAdvisors(null);
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAC");
@@ -838,12 +841,13 @@ public class MakeExodusMetadataForTesting {
 		x.setPubPageNum("23");
 		DissLanguage language = new DissLanguage("Estonian, Russian, and English", "EZ");
 		x.setDissLanguages(Lists.newArrayList(language));
+		x.setAdvisors(null);
+		x.setPublisher("Aivar Kriiska, Side 10A2, Parnu 80017, Estonia");
 		
 		Title title = new Title();
 		title.setMasterTitle("Stone Age settlement and economic processes in the Estonian coastal area and islands");
 		x.setTitle(title);
 		
-		x.setAdvisors(null);
 					
 		String abstract_ = "Since 1994 the author has carried out intensive investigations in Estonian coastal areas and on the islands. He has discovered nearly 50 Stone Age settlement sites, and carried out archaeological excavations on 12 sites. The dissertation comprises 12 articles printed in various publications, and a summary. The articles present the reviews of the results of archaeological fieldwork, and conclusions&mdash;on micro-, meso- and macrolevel&mdash;based on artefact and bone analysis, comparative study and radiocarbon dates. ^   At the present stage of investigations, we can date coastal settlement in Estonia to the beginning of the Litorina Sea, when a diverse hunting economy based on seal hunting, marine and river fishing and game hunting, was completely formed. Most likely this was the basis for the colonisation of the islands, which started presumably from the coastal area of West Estonia. Radiocarbon dates provide evidence for the earliest habitation of Saaremaa in about 5800 cal BC, on Hiiumaa in 5700 cal BC, and in Ruhnu in 5300 cal BC. At first, the islands were probably visited only seasonally. Nevertheless, it is likely that permanent settlement appeared on Saaremaa already in Late Mesolithic times. In the Middle and Late Neolithic periods, a diverse hunting economy developed on the islands, based on marine fishing and hunting of different species of seals (ringed seal, grey seal, harp seal) and porpoise. This may indicate the formation of all-year-round villages. ^   New dates enable us to elaborate more accurately the chronology of the Estonian Stone Age. The summary presents the new chronological system of the Estonian Stone Age: the Kunda Culture ca 9000&ndash;4900 cal BC, the Narva Culture ca 4900&ndash;4150 cal BC, the Typical Combed Ware Culture ca 4150&ndash;3650 cal BC, the Late Combed Ware Culture ca 3650&ndash;1500(?) cal BC, and the Corded Ware Culture ca 3200&ndash;1500(?) cal BC. ^";
 		x.setAbstract(abstract_);

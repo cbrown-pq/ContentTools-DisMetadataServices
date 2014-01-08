@@ -36,6 +36,7 @@ public class PubMetaDataQuery {
 	private static final String kColumnIsbn = "Isbn";
 	private static final String kColumnPageNumber = "PageNumber";
 	private static final String kColumnPageCount = "PageCount";
+	private static final String kColumnPublisher = "Publisher";
 	private static final String kColumnReferenceLocation = "ReferenceLocation";
 	private static final String kColumnBritishLibraryNumber = "BritishLibraryNumber";
 	private static final String kColumnSource = "Source";
@@ -115,6 +116,7 @@ public class PubMetaDataQuery {
                   "ditm_isbn_number " + kColumnIsbn + ", " +
                   "ditm_publication_page_number " + kColumnPageNumber + ", " +
                   "ditm_page_count " + kColumnPageCount + ", " +
+                  "ditm_publisher " + kColumnPublisher + ", " +
                   "ditm_reference_location " + kColumnReferenceLocation + ", " +
                   "ditm_bl_no " + kColumnBritishLibraryNumber + ", " +
                   "ditm_source " + kColumnSource + ", " +
@@ -355,6 +357,7 @@ public class PubMetaDataQuery {
 		result.setISBN(trimmed(cursor.getString(kColumnIsbn)));
 		result.setPubPageNum(trimmed(cursor.getString(kColumnPageNumber)));
 		result.setPageCount(trimmed(cursor.getString(kColumnPageCount)));
+		result.setPublisher(trimmed(cursor.getString(kColumnPublisher)));
 		result.setBLNumber(trimmed(cursor.getString(kColumnBritishLibraryNumber)));
 		result.setReferenceLocation(trimmed(cursor.getString(kColumnReferenceLocation)));
 		result.setTitle(makeTitleFrom(cursor));
