@@ -51,6 +51,7 @@ public class MarcRecordFactory {
 		handleEnglishTranslationOfTitle(); /*242*/
 		handleTitle(); /*245*/
 		handlePageCount(); /*300*/
+		handleCorporateEntry(); /*710*/
 		handleVariantTitle(); /*740*/
 		handleHostItemEntry(); /*773*/
 		handleAdvisors(); /*790*/
@@ -198,6 +199,29 @@ public class MarcRecordFactory {
 				makeHostItemEntryFieldDataFrom('0', ' ', 't', curMetaData.getBatch().getDBTypeDesc(),'g', curMetaData.getBatch().getVolumeIssue(), curMetaData.getBatch().getDAISectionCode()+ "."));
 	}
 	
+	private void handleCorporateEntry() {
+		List<String> deptNames = curMetaData.getDepartments();
+		String deptName = "";
+		for (String curDeptName : deptNames) {
+		if (null != curDeptName && !curDeptName.isEmpty()) {
+			deptName = deptName + curDeptName.trim() + ".";
+		}
+		}
+		String schoolName = curMetaData.getSchool().getSchoolName();
+		if (null != schoolName && !schoolName.isEmpty()) {
+			if(null != deptName && !deptName.isEmpty())
+				addField(
+					MarcTags.kCorporatename,
+					makeFieldDataFrom('2', '0', 'a', schoolName + "."+ makeDeptNameFieldDataFrom('b',deptName)));
+			else
+				addField(
+						MarcTags.kCorporatename,
+						makeFieldDataFrom('2', '0', 'a', schoolName + "."));
+		}
+	
+	}
+	
+
 	private void handleVariantTitle() {
 		String variantTitle = curMetaData.getTitle().getEnglishOverwriteTitle();
 		if (null != variantTitle && !variantTitle.isEmpty()) {
@@ -351,6 +375,14 @@ public class MarcRecordFactory {
 		return builder.toString();
 	}
 
+	private String makeDeptNameFieldDataFrom(char subFieldIndicator, String fieldData) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(MarcCharSet.kSubFieldIndicator);
+		builder.append(subFieldIndicator);
+		builder.append(fieldData);
+		return builder.toString();
+	}
+	
 	private void handleEnglishTranslationOfTitle() {
 		String title = null;
 		if(null != curMetaData.getTitle().getEnglishOverwriteTitle()) {
