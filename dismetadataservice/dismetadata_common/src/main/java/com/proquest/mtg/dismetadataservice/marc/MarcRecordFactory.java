@@ -12,6 +12,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
+import com.proquest.mtg.dismetadataservice.metadata.Author;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.metadata.DisGeneralMapping;
@@ -21,7 +22,7 @@ import com.proquest.mtg.dismetadataservice.metadata.TextNormalizer;
 public class MarcRecordFactory {
 
 	public static final String kRecordIdPrefix = "AAI";
-	public static final String kSystemControlNumberPrefix = "(MiAaPQ)AAI";
+	public static final String kSystemControlNumberPrefix = "(UMI)AAI";
 	public static final String kMarcMapping = "MARC_245_IND";
 	public static final int kSingleLineTitleLength = 670;
 
@@ -58,12 +59,57 @@ public class MarcRecordFactory {
 		handleDegrees(); /*791 792*/
 		handleDisserationLanguage(); /*793*/
 		handleUrl(); /*856*/
-		handleDissertationNote(); /*502 */
-
+		handleDissertationNote(); /*502*/
+		handleAccessRestrictionNote(); /*506*/
+		handleAuthor(); /*100*/ 
 		return curRecord;
+	}
+	
+
+	private void handleAuthor() {
+		String authorFullname = null;
+		List<Author> authors = curMetaData.getAuthors();
+		if(null != authors) {
+			 authorFullname = authors.get(0).getAuthorFullName();
+			if(null != authorFullname) {
+				authorFullname = SGMLEntitySubstitution.applyAllTo(authorFullname);			
+				addField(MarcTags.kAuthor, 
+						makeFieldDataFrom('1', ' ', 'a',  endWithPeriod(authorFullname)));
+			}
+		}
+	}
+
+	private void handleAccessRestrictionNote() {
+		//String accessrestrictionNote = curMetaData.
+		
 	}
 
 	private void handleDissertationNote() {
+		String dadCode = null;
+		String degreeYear = null;
+		String disNote = null;
+		List<Author> authors = curMetaData.getAuthors();
+		if(null != authors) {
+			List<Degree> degrees = authors.get(0).getDegrees();
+			if(null != degrees) {
+				dadCode = degrees.get(0).getDegreeCode();
+				degreeYear = degrees.get(0).getDegreeYear();
+			}
+		}
+		if(null != dadCode && !dadCode.contentEquals("X")) {
+			disNote = "(" + dadCode + ")";
+		}
+		String schoolName = curMetaData.getSchool().getSchoolName();
+		if(null != schoolName) {
+			disNote += "--" + schoolName;
+		}
+		if(null != degreeYear) {
+			disNote += ", " + degreeYear;
+		}
+		if(null != disNote) {
+			addField(MarcTags.kDissertationNote,
+					makeFieldDataFrom(' ', ' ', 'a', "Thesis " + endWithPeriod(disNote)));
+		}
 		
 	}
 
