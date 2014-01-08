@@ -18,6 +18,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
@@ -51,6 +52,7 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		verifyDissLanguages(actual);
 		verifyDepartments(actual);
 		verifyKeywords(actual);
+		verifySalesRestriction(actual);
 		verifySupplementalFiles(actual);
 		verifyCommittee(actual);
 		verifyAdvisors(actual);
@@ -186,6 +188,26 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		}
 		else {
 			verifyNullValue("Keywords", actual.getKeywords());
+		}
+	}
+	
+	private void verifySalesRestriction(DisPubMetaData actual) {
+		if (null != expected.getSalesRestrictions()) {
+			if (verifyNotNullValue("Sales Restriction", actual.getSalesRestrictions())) {
+				int expectedCount = expected.getSalesRestrictions().size();
+				int actualCount = actual.getSalesRestrictions().size();
+				verify("Sales Restriction Count", expectedCount, actualCount);
+				if (expectedCount == actualCount) {
+					for (int i=0; i<expectedCount; ++i) {
+						SalesRestriction expectedItem = expected.getSalesRestrictions().get(i);
+						SalesRestriction actualItem = actual.getSalesRestrictions().get(i);
+						verify("Sales Restriction Description " + i, expectedItem.getDescription(), actualItem.getDescription());
+					}
+				}
+			}
+		}
+		else {
+			verifyNullValue("Sales Restriction", actual.getSalesRestrictions());
 		}
 	}
 	

@@ -16,6 +16,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
@@ -77,6 +78,8 @@ public class PubMetaDataQuery {
 	
 	private static final String kColumnKeyword = "Keyword";
 	private static final String kColumnKeywordSource = "KeywordSource";
+	
+	private static final String kColumnSalesRestrctionDescription = "SalesRestrictionDescription";
 	
 	private static final String kColumnBatchTypeCode = "BatchTypeCode";
 	private static final String kColumnBatchDescription = "BatchDescription";
@@ -248,6 +251,17 @@ public class PubMetaDataQuery {
 				"ditm_id = ? " + 
 			"ORDER BY dik_keyword ";
 	
+	private static final String kSelectSalesRestriction = 
+			"SELECT " + 
+				"dvsr.dvsr_description " + kColumnSalesRestrctionDescription + " " +
+			"FROM " + 
+				"dis_sales_restrictions dsr, " +  
+				"dis_valid_sales_rstcns dvsr " +
+			"WHERE " + 
+				"dvsr.dvsr_code = dsr.dvsr_code AND " + 
+				"dsr.ditm_id = ? " +
+			"ORDER BY dvsr.dvsr_code";
+	
 	private static final String kSelectBatch = 
 			"SELECT " +
 				"ddt.ddt_code " + kColumnBatchTypeCode + ", " +
@@ -299,6 +313,7 @@ public class PubMetaDataQuery {
 				"AND " +  
 				"dish.dsta_code = dsta.dsta_code(+) ";
 	
+	
 	private PreparedStatement authorsStatement;
 	private PreparedStatement mainPubDataStatement;
 	private PreparedStatement languageStatement;
@@ -309,6 +324,7 @@ public class PubMetaDataQuery {
 	private PreparedStatement supplementalFilesStatement;
 	private PreparedStatement departmentsStatement;
 	private PreparedStatement keywordsStatement;
+	private PreparedStatement salesRestrictionStatement;
 	private PreparedStatement batchStatement;
 	private PreparedStatement alternateTitlesStatement;
 	private PreparedStatement alternateAdvisorsStatement;
@@ -325,6 +341,7 @@ public class PubMetaDataQuery {
 		this.supplementalFilesStatement = connection.prepareStatement(kSelectSupplementalFiles);
 		this.departmentsStatement = connection.prepareStatement(kSelectDepartments);
 		this.keywordsStatement = connection.prepareStatement(kSelectKeywords);
+		this.salesRestrictionStatement= connection.prepareStatement(kSelectSalesRestriction); 
 		this.batchStatement = connection.prepareStatement(kSelectBatch);
 		this.alternateTitlesStatement = connection.prepareStatement(kSelectAlternateTitles);
 		this.alternateAdvisorsStatement = connection.prepareStatement(kSelectAlternateAdvisors);
@@ -371,6 +388,7 @@ public class PubMetaDataQuery {
 			result.setAbstract(required(getAbstractFor(itemId)));
 			result.setDepartments(getDepartmentsFor(itemId));
 			result.setKeywords(getKeywordsFor(itemId));
+			result.setSalesRestrictions(getSalesRestrictionsFor(itemId));
 			result.setSuppFiles(getSupplementalFilesFor(itemId));
 			result.setAuthors(getAuthorsFor(itemId));
 			result.setAlternateTitles(getAlternateTitlesFor(itemId));
@@ -601,6 +619,29 @@ public class PubMetaDataQuery {
 		return result;
 	}
 
+	private List<SalesRestriction> getSalesRestrictionsFor(String itemId) throws SQLException {
+		List<SalesRestriction> result = null;
+		ResultSet cursor = null;
+		try {
+			salesRestrictionStatement.setString(1, itemId);
+			cursor = salesRestrictionStatement.executeQuery();
+			while (cursor.next()) {
+				if (null == result) {
+					result = Lists.newArrayList();
+				}
+				SalesRestriction item = new SalesRestriction();
+				item.setDescription(trimmed(cursor.getString(kColumnSalesRestrctionDescription)));
+				result.add(item);
+			}
+		}
+		finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+		}
+		return result;
+	} 
+	
 	private Batch getBatchFor(String volumeIssueId) throws SQLException {
 		Batch result = new Batch();
 		ResultSet cursor = null;

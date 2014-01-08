@@ -9,6 +9,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
@@ -51,6 +52,12 @@ public class MakeExodusMetadataForTesting {
 		Keyword result = new Keyword();
 		result.setValue(value);
 		result.setSource(source);
+		return result;
+	}
+	
+	public static SalesRestriction makeSalesDescriptionFrom(String description) {
+		SalesRestriction result = new SalesRestriction();
+		result.setDescription(description);
 		return result;
 	}
 		
@@ -163,6 +170,10 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("product recovery", "By I and L")
 				));
 		
+		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
+				makeSalesDescriptionFrom("Do not Sell"));
+		x.setSalesRestrictions(salesRestrictions);
+		
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
 		x.setAlternateTitles(null);
@@ -227,6 +238,10 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("S", "For Datrix")
 				));
 		
+		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
+				makeSalesDescriptionFrom("Not Available for Sale"),
+				makeSalesDescriptionFrom("Do not sell third party vendor"));
+		x.setSalesRestrictions(salesRestrictions);
 		
 		List<CmteMember> comittee = Lists.newArrayList(
 				makeCmteMemberFrom("Michelle", null, "Hawley", null),
@@ -294,6 +309,11 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("TESTS", "For Datrix"),
 				makeKeywordFrom("VERBAL", "For Datrix")
 				));
+		
+		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
+				makeSalesDescriptionFrom("Do not Sell"));
+		x.setSalesRestrictions(salesRestrictions);
+		
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
 		x.setAlternateTitles(null);
@@ -330,6 +350,10 @@ public class MakeExodusMetadataForTesting {
 		school.setSchoolCountry("ENGLAND");
 		school.setSchoolState(null);
 		x.setSchool(school);
+		
+		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
+				makeSalesDescriptionFrom("Do not Sell"));
+		x.setSalesRestrictions(salesRestrictions);
 		
 		List<Subject> subjects = Lists.newArrayList(
 				makeSubjectForTesting("Pure Sciences", "0752", "Physics, Optics", 1));
@@ -409,6 +433,8 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("自由词", "By Author"),
 				makeKeywordFrom("计算机仿真", "By Author")
 				));
+		
+		x.setSalesRestrictions(null);
 
 		List<Advisor> advisors = Lists.newArrayList();
 		advisors.add(makeAdvisorFrom("Guan Ping  Feng", "冯冠平"));
@@ -490,6 +516,11 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("USING", "For Datrix")
 				));
 		
+		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
+				makeSalesDescriptionFrom("Do not sell third party vendor"),
+				makeSalesDescriptionFrom("Do not sell third party Indexing"));
+		x.setSalesRestrictions(salesRestrictions);
+		
 		List<Advisor> advisors = Lists.newArrayList();
 		advisors.add(makeAdvisorFrom("X. Grant Chen", null));
 		x.setAdvisors(advisors);
@@ -555,6 +586,11 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("Stage management", "By Author"),
 				makeKeywordFrom("WATER", "For Datrix")
 				));
+		
+		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
+				makeSalesDescriptionFrom("Do not sell third party vendor"),
+				makeSalesDescriptionFrom("Do not sell third party Indexing"));
+		x.setSalesRestrictions(salesRestrictions);
 		
 		String departments = "Theatre and Dance";
 		x.setDepartments(Lists.newArrayList(departments));
@@ -646,6 +682,10 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("YORK", "For Datrix")
 				));
 			
+		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
+				makeSalesDescriptionFrom("Do not sell third party vendor"));
+		x.setSalesRestrictions(salesRestrictions);
+		
 		String departments = "Geological Sciences and Environmental Studies";
 		x.setDepartments(Lists.newArrayList(departments));
 		
@@ -734,6 +774,11 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("Teacher quality standards", "By I and L")
 				));
 		
+		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
+				makeSalesDescriptionFrom("Do not sell third party vendor"),
+				makeSalesDescriptionFrom("Do not sell third party Indexing"));
+		x.setSalesRestrictions(salesRestrictions);
+		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAI");
 		batch.setDBTypeDesc("Dissertation Abstracts International");
@@ -802,6 +847,11 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("PREPARE", "For Datrix"),
 				makeKeywordFrom("TELLURURE", "For Datrix")
 				));
+		
+		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
+				makeSalesDescriptionFrom("Do not sell third party vendor"),
+				makeSalesDescriptionFrom("Do not sell third party Indexing"));
+		x.setSalesRestrictions(salesRestrictions);
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("MAI");
@@ -875,6 +925,10 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("Settlement", "From Title"),
 				makeKeywordFrom("Stone Age", "From Title")));
 		
+		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
+				makeSalesDescriptionFrom("Do not Sell"));
+		x.setSalesRestrictions(salesRestrictions);
+		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAC");
 		batch.setDBTypeDesc("Dissertation Abstracts International");
@@ -946,6 +1000,11 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("SYSTEM IDENTIFICATION", "For Datrix"),
 				makeKeywordFrom("Spectral learning", "By I and L"),
 				makeKeywordFrom("System identification", "By I and L")));
+		
+		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
+				makeSalesDescriptionFrom("Do not sell third party vendor"),
+				makeSalesDescriptionFrom("Do not sell third party Indexing"));
+		x.setSalesRestrictions(salesRestrictions);
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAI");
@@ -1023,6 +1082,10 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("REINFORCED", "For Datrix"),
 				makeKeywordFrom("SIC", "For Datrix"),
 				makeKeywordFrom("SILICON", "For Datrix")));
+		
+		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
+				makeSalesDescriptionFrom("Do not sell third party vendor"));
+		x.setSalesRestrictions(salesRestrictions);
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("MAI");

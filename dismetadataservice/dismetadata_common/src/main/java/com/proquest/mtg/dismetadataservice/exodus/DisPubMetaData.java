@@ -24,6 +24,7 @@ public class DisPubMetaData {
 	private List<SuppFile> suppFiles;
 	private List<String> departments;
 	private List<Keyword> keywords;
+	private List<SalesRestriction> salesRestrictions;
 	private String dissAbstract;
 	private Batch batch;
 	private List<AlternateTitle> alternateTitle;
@@ -190,6 +191,18 @@ public class DisPubMetaData {
 		return keywords;
 	}
 	
+	public void setSalesRestrictions(Iterable<SalesRestriction> value) {
+		if (null == value) {
+			this.salesRestrictions = Lists.newArrayList();
+		} else {
+			this.salesRestrictions = Lists.newArrayList(value);
+		}
+	}
+	
+	public List<SalesRestriction> getSalesRestrictions() {
+		return salesRestrictions;
+	}
+		
 	public void setBatch(Batch value) {
 		this.batch = value;
 	}
@@ -245,7 +258,6 @@ public class DisPubMetaData {
 	public String getPublisher() {
 		return publisher;
 	}
-	
 	@Override
 	public String toString() {
 		return "DisPubMetaData [pubNumber=" + pubNumber + ", itemId=" + itemId
@@ -409,6 +421,18 @@ public class DisPubMetaData {
             this.source = value;
         }
 
+    }
+    
+    public static class SalesRestriction {
+        private String description;
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String value) {
+            this.description = value;
+        }
     }
     
     public static class Batch {
