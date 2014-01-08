@@ -37,10 +37,7 @@ public class DisMetadataServiceProvider_Service_Tests {
 	public void whenPubDoesNotExist() {
 		ClientResponse resp = service.path("dispubmetadata")
 				.path("fakepub/test").get(ClientResponse.class);
-		String responseMsg = resp.getEntity(String.class);
-
-		assertThat(resp.getStatus(), is(300));
-		assertThat( responseMsg, is("No Data Found") );
+		assertThat(resp.getStatus(), is(300));		
 	}
 	
 //	@Test
