@@ -58,7 +58,7 @@ public class MarcRecordFactory {
 		handleHostItemEntry(); /*773*/
 		handleAdvisors(); /*790*/
 		handleCommitteeMembers(); /*790*/
-		handleSchoolCode(); /*790*/
+		handleSchoolCode(); /*590 and 790*/
 		handleDegrees(); /*791 792*/
 		handleDisserationLanguage(); /*793*/
 		handleUrl(); /*856*/
@@ -342,6 +342,8 @@ public class MarcRecordFactory {
 		if (null != dissSchoolCode && !dissSchoolCode.isEmpty()) {
 			addField(MarcTags.kAdvisorname,
 					makeFieldDataFrom(' ', ' ', 'a', dissSchoolCode));
+			addField(MarcTags.kLocalNoteSchoolCode,
+					makeFieldDataFrom(' ', ' ', 'a', "School code: ",dissSchoolCode) + ".");
 		}
 	}
 
