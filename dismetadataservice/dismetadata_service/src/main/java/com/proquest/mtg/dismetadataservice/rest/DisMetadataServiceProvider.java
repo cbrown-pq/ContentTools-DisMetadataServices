@@ -34,8 +34,10 @@ public class DisMetadataServiceProvider {
 				    
 		} catch (NullPointerException e) {
 			result = "No Data Found";
+			return Response.status(300).entity(result).build();
 		} catch (Exception e) {
-			e.printStackTrace();
+			result = e.toString();
+			return Response.status(400).entity(result).build();
 		}
 		return Response.status(200).entity(result).build();
 
