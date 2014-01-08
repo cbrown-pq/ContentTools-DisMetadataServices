@@ -51,6 +51,7 @@ public class MarcRecordFactory {
 		handleEnglishTranslationOfTitle(); /*242*/
 		handleTitle(); /*245*/
 		handlePageCount(); /*300*/
+		handleVariantTitle(); /*740*/
 		handleHostItemEntry(); /*773*/
 		handleAdvisors(); /*790*/
 		handleCommitteeMembers(); /*790*/
@@ -196,7 +197,15 @@ public class MarcRecordFactory {
 				MarcTags.kHostItemEntry,
 				makeHostItemEntryFieldDataFrom('0', ' ', 't', curMetaData.getBatch().getDBTypeDesc(),'g', curMetaData.getBatch().getVolumeIssue(), curMetaData.getBatch().getDAISectionCode()+ "."));
 	}
-
+	
+	private void handleVariantTitle() {
+		String variantTitle = curMetaData.getTitle().getEnglishOverwriteTitle();
+		if (null != variantTitle && !variantTitle.isEmpty()) {
+			addField(
+					MarcTags.kVariantTitle,
+					makeFieldDataFrom('0', '0', 'a', variantTitle.trim() + "."));
+		}
+	}
 	
 	private void handleAdvisors() {
 		List<Advisor> dissAdvisors = curMetaData.getAdvisors();
