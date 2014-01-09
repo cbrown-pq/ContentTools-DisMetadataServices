@@ -9,7 +9,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
@@ -61,7 +60,6 @@ public class MarcRecordFactory {
 		handleVariantTitle(); /*740*/
 		handleHostItemEntry(); /*773*/
 		handleAdvisors(); /*790*/
-		handleCommitteeMembers(); /*790*/
 		handleSchoolCode(); /*590 and 790*/
 		handleDegrees(); /*791 792*/
 		handleDisserationLanguage(); /*793*/
@@ -300,45 +298,22 @@ public class MarcRecordFactory {
 		List<Advisor> dissAdvisors = curMetaData.getAdvisors();
 		if (!curMetaData.getAdvisors().isEmpty() && curMetaData.getAdvisors() != null) {
 			for (Advisor curAdvisor : dissAdvisors) {
-				String adviserString = makeFieldDataFrom(' ', ',', 'e',
-						"advisor");
-				String adviserFirstName = null, adviserLastName = null;
-				int firstBlankIndex = curAdvisor.getAdvisorFullName().indexOf(
+				String adviserString = makeFieldDataFrom( 'e',"advisor");
+				String adviserFirstName = null, adviserLastName = null, adviserMiddleInitial = null;
+				String adviserFullName = curAdvisor.getAdvisorFullName().trim();
+				int firstBlankIndex = adviserFullName.indexOf(
 						' ');
 				if (firstBlankIndex >= 0) {
-					adviserFirstName = curAdvisor.getAdvisorFullName()
-							.substring(0, firstBlankIndex);
-					adviserLastName = curAdvisor.getAdvisorFullName()
-							.substring(firstBlankIndex + 1);
+					adviserFirstName = adviserFullName.substring(0, firstBlankIndex);
+					adviserMiddleInitial = adviserFullName.substring(firstBlankIndex + 1, firstBlankIndex + 3);
+					adviserLastName = adviserFullName.substring(firstBlankIndex + 4);
 				}
-				String adviserFullName = adviserLastName + "," + " "
-						+ adviserFirstName;
+				adviserFullName = adviserLastName + "," + " "
+						+ adviserFirstName + " " + adviserMiddleInitial + ",";
 				addField(
 						MarcTags.kAdvisorname,
 						makeFieldDataFrom('1', '0', 'a', adviserFullName,
 								adviserString));
-			}
-		}
-	}
-
-	private void handleCommitteeMembers() {
-		List<CmteMember> dissCmteMembers = curMetaData.getCmteMembers();
-		if (!dissCmteMembers.isEmpty()) {
-			for (CmteMember curCmteMember : dissCmteMembers) {
-				String cmteMemberString = makeFieldDataFrom(' ', ',', 'e',
-						"committee member");
-				String cmteMemberName = curCmteMember.getLastName() + ", "
-						+ curCmteMember.getFirstName();
-				String cmteMiddleName = curCmteMember.getMiddleName();
-				if (null != cmteMiddleName && !cmteMiddleName.isEmpty())
-					cmteMemberName = cmteMemberName + " " + cmteMiddleName;
-				String cmteSuffix = curCmteMember.getSuffix();
-				if (null != cmteSuffix && !cmteSuffix.isEmpty())
-					cmteMemberName = cmteMemberName + ", " + cmteSuffix;
-				addField(
-						MarcTags.kAdvisorname,
-						makeFieldDataFrom('1', '0', 'a', cmteMemberName,
-								cmteMemberString));
 			}
 		}
 	}
