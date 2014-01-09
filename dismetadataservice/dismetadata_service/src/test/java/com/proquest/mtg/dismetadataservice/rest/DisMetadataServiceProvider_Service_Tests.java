@@ -37,7 +37,7 @@ public class DisMetadataServiceProvider_Service_Tests {
 	public void whenPubDoesNotExist() {
 		ClientResponse resp = service.path("dispubmetadata")
 				.path("fakepub/test").get(ClientResponse.class);
-		assertThat(resp.getStatus(), is(300));		
+		assertThat(resp.getStatus(), is(404));		
 	}
 	
 //	@Test

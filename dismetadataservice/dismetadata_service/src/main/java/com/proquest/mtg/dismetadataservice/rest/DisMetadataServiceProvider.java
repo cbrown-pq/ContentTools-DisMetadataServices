@@ -35,10 +35,10 @@ public class DisMetadataServiceProvider {
 			statusCode = 200;	    
 		} catch (NullPointerException e) {
 			result = "No Data Found";
-			statusCode = 300;	
+			statusCode = 404;	
 		} catch (Exception e) {
 			result = e.toString();
-			statusCode = 400;	
+			statusCode = 500;	
 		}
 		return Response.status(statusCode).entity(result).build();
 
