@@ -215,7 +215,7 @@ public class MarcRecordFactory {
 		if (null != pubId && !pubId.isEmpty()) {
 			addField(
 					MarcTags.kSystemControlNumber,
-					makeFieldDataFrom(' ', ' ', 'a', "(" +kSystemPQPrefix + ")" + "kRecordIdPrefix"
+					makeFieldDataFrom(' ', ' ', 'a', "(" +kSystemPQPrefix + ")" + kRecordIdPrefix
 							+ pubId.trim()));
 
 		}
