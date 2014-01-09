@@ -21,7 +21,7 @@ import com.proquest.mtg.dismetadataservice.metadata.TextNormalizer;
 public class MarcRecordFactory {
 
 	public static final String kRecordIdPrefix = "AAI";
-	public static final String kSystemControlNumberPrefix = "(UMI)AAI";
+	public static final String kSystemPQPrefix = "MiAaPQ";
 	public static final String kMarcMapping = "MARC_245_IND";
 	public static final int kSingleLineTitleLength = 670;
 
@@ -69,8 +69,8 @@ public class MarcRecordFactory {
 	
 
 	private void handleCatalogingSource() {
-		addField(MarcTags.kCatalogingSource, makeFieldDataFrom(' ', ' ', 'a', "UMI") +
-				makeFieldDataFrom('c', "UMI"));
+		addField(MarcTags.kCatalogingSource, makeFieldDataFrom(' ', ' ', 'a', kSystemPQPrefix) +
+				makeFieldDataFrom('c', kSystemPQPrefix));
 	}
 
 	private void handleAuthor() {
@@ -215,7 +215,7 @@ public class MarcRecordFactory {
 		if (null != pubId && !pubId.isEmpty()) {
 			addField(
 					MarcTags.kSystemControlNumber,
-					makeFieldDataFrom(' ', ' ', 'a', kSystemControlNumberPrefix
+					makeFieldDataFrom(' ', ' ', 'a', "(" +kSystemPQPrefix + ")" + "kRecordIdPrefix"
 							+ pubId.trim()));
 
 		}
