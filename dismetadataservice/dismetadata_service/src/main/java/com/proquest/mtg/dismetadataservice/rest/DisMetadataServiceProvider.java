@@ -34,8 +34,7 @@ public class DisMetadataServiceProvider {
 			result = getMetaDataFormatFactory().getFor(formatType).makeFor(pubNumber);
 			statusCode = 200;	    
 		} catch (NullPointerException e) {
-			result = "No Data Found";
-			statusCode = 404;	
+			statusCode = 204;	
 		} catch (Exception e) {
 			result = e.toString();
 			statusCode = 500;	
