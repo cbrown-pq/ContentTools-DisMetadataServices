@@ -29,17 +29,18 @@ public class DisMetadataServiceProvider {
 	public Response getDisMetaData(@PathParam("pubNumber") String pubNumber,
 			@PathParam("formatType") String formatType) {
 		String result = null;
+		int statusCode;
 		try {
 			result = getMetaDataFormatFactory().getFor(formatType).makeFor(pubNumber);
-				    
+			statusCode = 200;	    
 		} catch (NullPointerException e) {
 			result = "No Data Found";
-			return Response.status(300).entity(result).build();
+			statusCode = 300;	
 		} catch (Exception e) {
 			result = e.toString();
-			return Response.status(400).entity(result).build();
+			statusCode = 400;	
 		}
-		return Response.status(200).entity(result).build();
+		return Response.status(statusCode).entity(result).build();
 
 	}
 
