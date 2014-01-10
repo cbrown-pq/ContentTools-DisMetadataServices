@@ -371,7 +371,9 @@ public class MarcRecordFactory {
 	}
 	
 	private void handleAdvisors() {
-		List<Advisor> dissAdvisors = curMetaData.getAdvisors().getAdvisor();
+		List<Advisor> dissAdvisors = curMetaData.getAdvisors() != null 
+													? curMetaData.getAdvisors().getAdvisor() 
+													: null ;
 		if (dissAdvisors != null && !dissAdvisors.isEmpty()) {
 			for (Advisor curAdvisor : dissAdvisors) {
 				String adviserString = makeFieldDataFrom( 'e',"advisor");
@@ -396,7 +398,9 @@ public class MarcRecordFactory {
 
 
 	private void handleSchoolCode() {
-		String dissSchoolCode = curMetaData.getSchool() != null ? curMetaData.getSchool().getSchoolCode() : null;
+		String dissSchoolCode = curMetaData.getSchool() != null 
+										? curMetaData.getSchool().getSchoolCode() 
+										: null;
 		if (null != dissSchoolCode && !dissSchoolCode.isEmpty()) {
 			addField(MarcTags.kAdvisorname,
 					makeFieldDataFrom(' ', ' ', 'a', dissSchoolCode));
