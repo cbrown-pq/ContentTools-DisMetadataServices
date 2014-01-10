@@ -37,6 +37,10 @@ public class MarcRecordFactory {
 
 	public MarcRecord makeFrom(DisPubMetaData metaData) {
 
+		if (null == metaData) {
+			throw new IllegalArgumentException("metaData is null");
+		}
+
 		curMetaData = metaData;
 		curRecord = new MarcRecord();
 
@@ -106,7 +110,7 @@ public class MarcRecordFactory {
 		if(null != dadCode && !dadCode.contentEquals("X")) {
 			disNote = "(" + dadCode + ")";
 		}
-		String schoolName = curMetaData.getSchool().getSchoolName();
+		String schoolName = curMetaData.getSchool() == null ? null : curMetaData.getSchool().getSchoolName();
 		if(null != schoolName) {
 			disNote += "--" + schoolName;
 		}
@@ -117,7 +121,6 @@ public class MarcRecordFactory {
 			addField(MarcTags.kDissertationNote,
 					makeFieldDataFrom(' ', ' ', 'a', "Thesis " + endWithPeriod(disNote)));
 		}
-		
 	}
 
 	private void handleRecordId() {
@@ -168,7 +171,7 @@ public class MarcRecordFactory {
 
 	private void handleSubjects() {
 		List<Subject> subjects = curMetaData.getSubjects();
-		if (!subjects.isEmpty()) {
+		if (subjects != null && !subjects.isEmpty()) {
 			for (Subject curSubject : subjects) {
 				addSubjectTerm(curSubject.getSubjectDesc());
 				addSubjectCode(curSubject.getSubjectCode());
@@ -195,16 +198,28 @@ public class MarcRecordFactory {
 		Date now = new Date();
 		String curTime = new SimpleDateFormat("YYMMdd").format(now);
 		String degreeFlag;
-		String degreeYear = curMetaData.getAuthors().get(0).getDegrees().get(0)
-				.getDegreeYear();
+		String degreeYear = null;
+		
+		
+		List<Author> authors = curMetaData.getAuthors();
+		if(null != authors) {
+			List<Degree> degrees = authors.get(0).getDegrees();
+			if(null != degrees) {
+				degreeYear = degrees.get(0).getDegreeYear();
+			}
+		}
+	
 		degreeFlag = (degreeYear == null ? "s" : "n");
 		String fixedLengthElement = curTime + degreeFlag;
 		if (null != degreeYear) {
 			fixedLengthElement += degreeYear;
 		}
+		
 		fixedLengthElement += "    ||||||||||||||||| ||";
-		String LanguageCode = curMetaData.getDissLanguages().get(0)
-				.getLanguageCode();
+		String LanguageCode = null;
+		if(null != curMetaData.getDissLanguages()) {
+			LanguageCode = curMetaData.getDissLanguages().get(0).getLanguageCode();
+		}
 		fixedLengthElement += LanguageCodeToPartialLanguageName
 				.getLanguageFor(LanguageCode) + " d";
 		addField(MarcTags.kFiexedLengthDataElements, fixedLengthElement);
@@ -217,9 +232,7 @@ public class MarcRecordFactory {
 					MarcTags.kSystemControlNumber,
 					makeFieldDataFrom(' ', ' ', 'a', "(" +kSystemPQPrefix + ")" + kRecordIdPrefix
 							+ pubId.trim()));
-
 		}
-
 	}
 
 	private void handleISBN() {
@@ -238,10 +251,12 @@ public class MarcRecordFactory {
 	}
 
 	private void handlePageCount() {
-		addField(
-				MarcTags.kPageCount,
-				makeFieldDataFrom(' ', ' ', 'a', curMetaData.getPageCount()
-						+ " p."));
+		if(null != curMetaData.getPageCount()){
+			addField(
+					MarcTags.kPageCount,
+					makeFieldDataFrom(' ', ' ', 'a', curMetaData.getPageCount()
+							+ " p."));
+		}
 	}
 	
 	private void handleMultipleAuthors() {
@@ -260,12 +275,14 @@ public class MarcRecordFactory {
 	private void handleCorporateEntry() {
 		List<String> deptNames = curMetaData.getDepartments();
 		String deptName = "";
-		for (String curDeptName : deptNames) {
-			if (null != curDeptName && !curDeptName.isEmpty()) {
-				deptName = deptName + curDeptName.trim() + ".";
+		if(deptNames != null && !deptNames.isEmpty()) {
+			for (String curDeptName : deptNames) {
+				if (null != curDeptName && !curDeptName.isEmpty()) {
+					deptName = deptName + curDeptName.trim() + ".";
+				}
 			}
 		}
-		String schoolName = curMetaData.getSchool().getSchoolName();
+		String schoolName = curMetaData.getSchool() != null ? curMetaData.getSchool().getSchoolName() : null;
 		if (null != schoolName && !schoolName.isEmpty()) {
 			if(null != deptName && !deptName.isEmpty())
 				addField(
@@ -280,7 +297,7 @@ public class MarcRecordFactory {
 	}
 	
 	private void handleVariantTitle() {
-		String variantTitle = curMetaData.getTitle().getEnglishOverwriteTitle();
+		String variantTitle = curMetaData.getTitle() != null ? curMetaData.getTitle().getEnglishOverwriteTitle() : null;
 		if (null != variantTitle && !variantTitle.isEmpty()) {
 			addField(
 					MarcTags.kVariantTitle,
@@ -296,7 +313,7 @@ public class MarcRecordFactory {
 	
 	private void handleAdvisors() {
 		List<Advisor> dissAdvisors = curMetaData.getAdvisors();
-		if (!curMetaData.getAdvisors().isEmpty() && curMetaData.getAdvisors() != null) {
+		if (dissAdvisors != null && !dissAdvisors.isEmpty()) {
 			for (Advisor curAdvisor : dissAdvisors) {
 				String adviserString = makeFieldDataFrom( 'e',"advisor");
 				String adviserFirstName = null, adviserLastName = null, adviserMiddleInitial = null;
@@ -318,8 +335,9 @@ public class MarcRecordFactory {
 		}
 	}
 
+
 	private void handleSchoolCode() {
-		String dissSchoolCode = curMetaData.getSchool().getSchoolCode();
+		String dissSchoolCode = curMetaData.getSchool() != null ? curMetaData.getSchool().getSchoolCode() : null;
 		if (null != dissSchoolCode && !dissSchoolCode.isEmpty()) {
 			addField(MarcTags.kAdvisorname,
 					makeFieldDataFrom(' ', ' ', 'a', dissSchoolCode));
@@ -329,8 +347,8 @@ public class MarcRecordFactory {
 	}
 
 	private void handleDegrees() {
-		List<Degree> degrees = curMetaData.getAuthors().get(0).getDegrees();
-		if (!degrees.isEmpty()) {
+		List<Degree> degrees = curMetaData.getAuthors() != null ? curMetaData.getAuthors().get(0).getDegrees() : null;
+		if (degrees !=null && !degrees.isEmpty()) {
 			for (Degree curDegree : degrees) {
 				if (curDegree.getSequenceNumber() == 1) {
 					addField(
@@ -349,7 +367,7 @@ public class MarcRecordFactory {
 
 	private void handleDisserationLanguage() {
 		List<DissLanguage> dissLanguages = curMetaData.getDissLanguages();
-		if (!dissLanguages.isEmpty()) {
+		if (dissLanguages != null && !dissLanguages.isEmpty()) {
 			for (DissLanguage curDissLanguage : dissLanguages) {
 				addField(
 						MarcTags.kDissertationLanguage,
@@ -427,7 +445,9 @@ public class MarcRecordFactory {
 	
 	private void handleEnglishTranslationOfTitle() {
 		String title = null;
-		if(null != curMetaData.getTitle().getEnglishOverwriteTitle()) {
+		String englishOverwriteTitle = (curMetaData.getTitle() == null) ? 
+								null : curMetaData.getTitle().getEnglishOverwriteTitle();
+		if(null != englishOverwriteTitle) {
 			String cleanedElectronicTitle = verifyTitle(curMetaData.getTitle().getElectronicTitle());
 			if(null != cleanedElectronicTitle) {
 				title = cleanedElectronicTitle;
@@ -458,7 +478,9 @@ public class MarcRecordFactory {
 
 	private String getTitleToInclude() {
 		String title = null;
-		if (null != curMetaData.getTitle().getEnglishOverwriteTitle()) {
+		String englishOverwriteTitle = (curMetaData.getTitle() == null) ? 
+				null : curMetaData.getTitle().getEnglishOverwriteTitle();
+		if (null != englishOverwriteTitle) {
 			String cleanedFTitle = verifyTitle(curMetaData.getTitle()
 					.getForeignTitle());
 			if (null != cleanedFTitle) {
@@ -469,13 +491,13 @@ public class MarcRecordFactory {
 				title = masterTitle;
 			}
 		} else {
-			String cleanedElectronicTitle = verifyTitle(curMetaData.getTitle()
-					.getElectronicTitle());
+			String cleanedElectronicTitle = curMetaData.getTitle() == null ? 
+													null : verifyTitle(curMetaData.getTitle().getElectronicTitle());
 			if (null != cleanedElectronicTitle) {
 				title = cleanedElectronicTitle;
 			} else {
-				String masterTitle = verifyTitle(curMetaData.getTitle()
-						.getMasterTitle());
+				String masterTitle = curMetaData.getTitle() == null ? 
+										null :	verifyTitle(curMetaData.getTitle().getMasterTitle());
 				title = masterTitle;
 			}
 		}
