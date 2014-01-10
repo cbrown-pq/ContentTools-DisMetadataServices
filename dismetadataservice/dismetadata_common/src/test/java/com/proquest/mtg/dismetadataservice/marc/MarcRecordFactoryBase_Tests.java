@@ -22,7 +22,7 @@ public class MarcRecordFactoryBase_Tests {
 	
 	@Before
 	public void setUp() throws Exception {
-		IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusProd();
+		IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
 		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(connectionPool);
 		factory = new MarcRecordFactory(disGenMappingProvider);
 	}

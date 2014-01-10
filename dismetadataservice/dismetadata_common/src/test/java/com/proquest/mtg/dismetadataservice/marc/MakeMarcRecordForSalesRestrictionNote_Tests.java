@@ -64,7 +64,6 @@ public class MakeMarcRecordForSalesRestrictionNote_Tests extends MarcRecordFacto
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 3);
 	}
 	
-	
 	@Test
 	public void withMatching() throws Exception {
 		String tag = MarcTags.kAccessRestrictionNote;
@@ -82,6 +81,5 @@ public class MakeMarcRecordForSalesRestrictionNote_Tests extends MarcRecordFacto
 		metaData.setSalesRestrictions(Lists.newArrayList(salesRestriction));
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 3);
 	}
-	
 	
 }
