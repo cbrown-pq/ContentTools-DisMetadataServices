@@ -223,6 +223,7 @@ public class DisPubMetaData {
 		return alternateTitle;
 	}
 
+
 	public void setAdvisors(Iterable<Advisor> value) {
 		if (null == value) {
 			this.advisors = Lists.newArrayList();

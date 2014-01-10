@@ -9,9 +9,9 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
+import com.proquest.mtg.dismetadataservice.metadata.Author;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.metadata.DisGeneralMapping;
@@ -21,7 +21,7 @@ import com.proquest.mtg.dismetadataservice.metadata.TextNormalizer;
 public class MarcRecordFactory {
 
 	public static final String kRecordIdPrefix = "AAI";
-	public static final String kSystemControlNumberPrefix = "(MiAaPQ)AAI";
+	public static final String kSystemPQPrefix = "MiAaPQ";
 	public static final String kMarcMapping = "MARC_245_IND";
 	public static final int kSingleLineTitleLength = 670;
 
@@ -40,25 +40,84 @@ public class MarcRecordFactory {
 		curMetaData = metaData;
 		curRecord = new MarcRecord();
 
-		handleRecordId();
-		handleAbstract();
-		handleLocationOfCopy();
-		handleSubjects();
-		handleTimeStamp();
-		handleISBN();
-		handleSystemControlNumber();
-		handleFixedLengthElements();
-		handleTitle(); // 245
-		handlePageCount(); // 300
-		handleHostItemEntry();
-		handleAdvisors();
-		handleCommitteeMembers();
-		handleSchoolCode();
-		handleDegrees();
-		handleDisserationLanguage();
-		handleUrl();
-
+		handleRecordId(); /*001*/
+		handleTimeStamp(); /*005*/
+		handleFixedLengthElements(); /*008*/
+		handleISBN(); /*020*/
+		handleSystemControlNumber(); /*035*/
+		handleCatalogingSource(); /*040*/
+		handleAuthor(); /*100*/ 
+		handleEnglishTranslationOfTitle(); /*242*/
+		handleTitle(); /*245*/
+		handlePageCount(); /*300*/
+		handleDissertationNote(); /*502*/
+		handleAccessRestrictionNote(); /*506*/
+		handleAbstract(); /*520*/
+		handleLocationOfCopy(); /*535*/
+		handleSubjects(); /*650 and 690*/
+		handleMultipleAuthors(); /*700*/
+		handleCorporateEntry(); /*710*/
+		handleVariantTitle(); /*740*/
+		handleHostItemEntry(); /*773*/
+		handleAdvisors(); /*790*/
+		handleSchoolCode(); /*590 and 790*/
+		handleDegrees(); /*791 792*/
+		handleDisserationLanguage(); /*793*/
+		handleUrl(); /*856*/
 		return curRecord;
+	}
+	
+
+	private void handleCatalogingSource() {
+		addField(MarcTags.kCatalogingSource, makeFieldDataFrom(' ', ' ', 'a', kSystemPQPrefix) +
+				makeFieldDataFrom('c', kSystemPQPrefix));
+	}
+
+	private void handleAuthor() {
+		String authorFullname = null;
+		List<Author> authors = curMetaData.getAuthors();
+		if(null != authors) {
+			 authorFullname = authors.get(0).getAuthorFullName();
+			if(null != authorFullname) {
+				authorFullname = SGMLEntitySubstitution.applyAllTo(authorFullname);			
+				addField(MarcTags.kAuthor, 
+						makeFieldDataFrom('1', ' ', 'a',  endWithPeriod(authorFullname)));
+			}
+		}
+	}
+
+	private void handleAccessRestrictionNote() {
+		//String accessrestrictionNote = curMetaData.
+		
+	}
+
+	private void handleDissertationNote() {
+		String dadCode = null;
+		String degreeYear = null;
+		String disNote = null;
+		List<Author> authors = curMetaData.getAuthors();
+		if(null != authors) {
+			List<Degree> degrees = authors.get(0).getDegrees();
+			if(null != degrees) {
+				dadCode = degrees.get(0).getDegreeCode();
+				degreeYear = degrees.get(0).getDegreeYear();
+			}
+		}
+		if(null != dadCode && !dadCode.contentEquals("X")) {
+			disNote = "(" + dadCode + ")";
+		}
+		String schoolName = curMetaData.getSchool().getSchoolName();
+		if(null != schoolName) {
+			disNote += "--" + schoolName;
+		}
+		if(null != degreeYear) {
+			disNote += ", " + degreeYear;
+		}
+		if(null != disNote) {
+			addField(MarcTags.kDissertationNote,
+					makeFieldDataFrom(' ', ' ', 'a', "Thesis " + endWithPeriod(disNote)));
+		}
+		
 	}
 
 	private void handleRecordId() {
@@ -156,7 +215,7 @@ public class MarcRecordFactory {
 		if (null != pubId && !pubId.isEmpty()) {
 			addField(
 					MarcTags.kSystemControlNumber,
-					makeFieldDataFrom(' ', ' ', 'a', kSystemControlNumberPrefix
+					makeFieldDataFrom(' ', ' ', 'a', "(" +kSystemPQPrefix + ")" + kRecordIdPrefix
 							+ pubId.trim()));
 
 		}
@@ -164,10 +223,12 @@ public class MarcRecordFactory {
 	}
 
 	private void handleISBN() {
-		addField(
-				MarcTags.kIsbn,
-				makeFieldDataFrom(' ', ' ', 'a', curMetaData.getISBN()
-						.replaceAll("-", "")));
+		String isbn = curMetaData.getISBN();
+		if(null != isbn) {
+			addField(MarcTags.kIsbn, 
+					makeFieldDataFrom(' ', ' ', 'a', 
+							isbn.replaceAll("-","")));
+		}
 	}
 
 	private void handleTimeStamp() {
@@ -182,57 +243,77 @@ public class MarcRecordFactory {
 				makeFieldDataFrom(' ', ' ', 'a', curMetaData.getPageCount()
 						+ " p."));
 	}
+	
+	private void handleMultipleAuthors() {
+		List<Author> authors = curMetaData.getAuthors();
+		if (null != authors && !authors.isEmpty()) {
+			for (Author curAuthor : authors) {
+				int authorSequence = curAuthor.getSequenceNumber();
+				if(authorSequence > 1)
+					addField(
+						MarcTags.kMulitpleAuthor,
+						makeFieldDataFrom('1', '0', 'a', curAuthor.getAuthorFullName()) + makeFieldDataFrom('e',"joint author"));
+			}
+		}
+	}
 
+	private void handleCorporateEntry() {
+		List<String> deptNames = curMetaData.getDepartments();
+		String deptName = "";
+		for (String curDeptName : deptNames) {
+			if (null != curDeptName && !curDeptName.isEmpty()) {
+				deptName = deptName + curDeptName.trim() + ".";
+			}
+		}
+		String schoolName = curMetaData.getSchool().getSchoolName();
+		if (null != schoolName && !schoolName.isEmpty()) {
+			if(null != deptName && !deptName.isEmpty())
+				addField(
+						MarcTags.kCorporatename,
+						makeFieldDataFrom('2', '0', 'a', schoolName + "."+ makeFieldDataFrom('b',deptName)));
+			else
+				addField(
+						MarcTags.kCorporatename,
+						makeFieldDataFrom('2', '0', 'a', schoolName + "."));
+		}
+		
+	}
+	
+	private void handleVariantTitle() {
+		String variantTitle = curMetaData.getTitle().getEnglishOverwriteTitle();
+		if (null != variantTitle && !variantTitle.isEmpty()) {
+			addField(
+					MarcTags.kVariantTitle,
+					makeFieldDataFrom('0', '0', 'a', variantTitle.trim() + "."));
+		}
+	}
+	
 	private void handleHostItemEntry() {
 		addField(
 				MarcTags.kHostItemEntry,
 				makeHostItemEntryFieldDataFrom('0', ' ', 't', curMetaData.getBatch().getDBTypeDesc(),'g', curMetaData.getBatch().getVolumeIssue(), curMetaData.getBatch().getDAISectionCode()+ "."));
 	}
-
 	
 	private void handleAdvisors() {
 		List<Advisor> dissAdvisors = curMetaData.getAdvisors();
 		if (!curMetaData.getAdvisors().isEmpty() && curMetaData.getAdvisors() != null) {
 			for (Advisor curAdvisor : dissAdvisors) {
-				String adviserString = makeFieldDataFrom(' ', ',', 'e',
-						"advisor");
-				String adviserFirstName = null, adviserLastName = null;
-				int firstBlankIndex = curAdvisor.getAdvisorFullName().indexOf(
+				String adviserString = makeFieldDataFrom( 'e',"advisor");
+				String adviserFirstName = null, adviserLastName = null, adviserMiddleInitial = null;
+				String adviserFullName = curAdvisor.getAdvisorFullName().trim();
+				int firstBlankIndex = adviserFullName.indexOf(
 						' ');
 				if (firstBlankIndex >= 0) {
-					adviserFirstName = curAdvisor.getAdvisorFullName()
-							.substring(0, firstBlankIndex);
-					adviserLastName = curAdvisor.getAdvisorFullName()
-							.substring(firstBlankIndex + 1);
+					adviserFirstName = adviserFullName.substring(0, firstBlankIndex);
+					adviserMiddleInitial = adviserFullName.substring(firstBlankIndex + 1, firstBlankIndex + 3);
+					adviserLastName = adviserFullName.substring(firstBlankIndex + 4);
 				}
-				String adviserFullName = adviserLastName + "," + " "
-						+ adviserFirstName;
+				adviserFullName = adviserLastName + "," + " "
+						+ adviserFirstName + " " + adviserMiddleInitial + ",";
 				addField(
 						MarcTags.kAdvisorname,
 						makeFieldDataFrom('1', '0', 'a', adviserFullName,
 								adviserString));
-			}
-		}
-	}
-
-	private void handleCommitteeMembers() {
-		List<CmteMember> dissCmteMembers = curMetaData.getCmteMembers();
-		if (!dissCmteMembers.isEmpty()) {
-			for (CmteMember curCmteMember : dissCmteMembers) {
-				String cmteMemberString = makeFieldDataFrom(' ', ',', 'e',
-						"committee member");
-				String cmteMemberName = curCmteMember.getLastName() + ", "
-						+ curCmteMember.getFirstName();
-				String cmteMiddleName = curCmteMember.getMiddleName();
-				if (null != cmteMiddleName && !cmteMiddleName.isEmpty())
-					cmteMemberName = cmteMemberName + " " + cmteMiddleName;
-				String cmteSuffix = curCmteMember.getSuffix();
-				if (null != cmteSuffix && !cmteSuffix.isEmpty())
-					cmteMemberName = cmteMemberName + ", " + cmteSuffix;
-				addField(
-						MarcTags.kAdvisorname,
-						makeFieldDataFrom('1', '0', 'a', cmteMemberName,
-								cmteMemberString));
 			}
 		}
 	}
@@ -242,6 +323,8 @@ public class MarcRecordFactory {
 		if (null != dissSchoolCode && !dissSchoolCode.isEmpty()) {
 			addField(MarcTags.kAdvisorname,
 					makeFieldDataFrom(' ', ' ', 'a', dissSchoolCode));
+			addField(MarcTags.kLocalNoteSchoolCode,
+					makeFieldDataFrom(' ', ' ', 'a', "School code: ",dissSchoolCode) + ".");
 		}
 	}
 
@@ -334,6 +417,30 @@ public class MarcRecordFactory {
 		return builder.toString();
 	}
 
+	private String makeFieldDataFrom(char subFieldIndicator, String fieldData) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(MarcCharSet.kSubFieldIndicator);
+		builder.append(subFieldIndicator);
+		builder.append(fieldData);
+		return builder.toString();
+	}
+	
+	private void handleEnglishTranslationOfTitle() {
+		String title = null;
+		if(null != curMetaData.getTitle().getEnglishOverwriteTitle()) {
+			String cleanedElectronicTitle = verifyTitle(curMetaData.getTitle().getElectronicTitle());
+			if(null != cleanedElectronicTitle) {
+				title = cleanedElectronicTitle;
+			} else {
+				title = curMetaData.getTitle().getEnglishOverwriteTitle();
+				
+			}
+			title = SGMLEntitySubstitution.applyAllTo(title).trim();
+			title  = endsWithPunctuationMark(title);
+			addField(MarcTags.kEnglishTranslationOfTitle, 
+					makeFieldDataFrom('0', '0', 'a' , title + MarcCharSet.kSubFieldIndicator + "yeng"));
+		}
+	}
 
 	private void handleTitle() {
 		String title = getTitleToInclude();
