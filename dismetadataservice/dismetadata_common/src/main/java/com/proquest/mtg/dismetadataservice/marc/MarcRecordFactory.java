@@ -9,7 +9,9 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
@@ -92,8 +94,31 @@ public class MarcRecordFactory {
 	}
 
 	private void handleAccessRestrictionNote() {
-		//String accessrestrictionNote = curMetaData.
-		
+		Batch batch = curMetaData.getBatch();
+		if(null != batch) {
+			if(curMetaData.getBatch().getDBTypeCode().equals("DAC")) {
+				if(curMetaData.getPubNumber().substring(0, 1).matches("[01-8]")) {
+					addField(MarcTags.kAccessRestrictionNote, getSalesRestrictionMarcTag());
+				}
+			}
+		}
+			
+	}
+
+	private String getSalesRestrictionMarcTag() {
+		String accessrestrictionNote = "";
+		List<SalesRestriction> saleRestrictions = curMetaData.getSalesRestrictions(); 
+		if(null == saleRestrictions || saleRestrictions.isEmpty()) {
+			accessrestrictionNote = makeFieldDataFrom(' ', ' ', 'a',  
+							"This item is not available from University Microfilms International.");
+		} else {
+			for(SalesRestriction salesRrestriction : saleRestrictions ) {
+				String restrictionDesc = salesRrestriction.getDescription().trim();
+				if(null != restrictionDesc && !restrictionDesc.isEmpty())
+				accessrestrictionNote += makeFieldDataFrom(' ', ' ', 'a', restrictionDesc);
+			}
+		}
+		return accessrestrictionNote;
 	}
 
 	private void handleDissertationNote() {
