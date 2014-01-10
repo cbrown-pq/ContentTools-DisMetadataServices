@@ -234,9 +234,9 @@ public class MarcRecordFactory {
 			}
 		}
 	
-		degreeFlag = (degreeYear == null ? "s" : "n");
+		degreeFlag = (degreeYear != null ? "s" : "n");
 		String fixedLengthElement = curTime + degreeFlag;
-		if (null != degreeYear && fixedLengthElement.isEmpty()) {
+		if (null != degreeYear) {
 			fixedLengthElement += degreeYear;
 		}
 		
@@ -340,7 +340,8 @@ public class MarcRecordFactory {
 	}
 	
 	private void handleHostItemEntry() {
-		if (null != curMetaData.getBatch().getDBTypeDesc()
+		if (null != curMetaData.getBatch() 
+				&& null != curMetaData.getBatch().getDBTypeDesc()
 				&& !curMetaData.getBatch().getDBTypeDesc().isEmpty()
 				&& null != curMetaData.getBatch().getVolumeIssue()
 				&& !curMetaData.getBatch().getVolumeIssue().isEmpty()
