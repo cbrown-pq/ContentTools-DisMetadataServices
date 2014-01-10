@@ -259,13 +259,16 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 	private void verifyAdvisors(DisPubMetaData actual) {
 		if (null != expected.getAdvisors()) {
 			if (verifyNotNullValue("Advisors", actual.getAdvisors())) {
-				int expectedCount = expected.getAdvisors().size();
-				int actualCount = actual.getAdvisors().size();
+				verify("Advisor Exodus String", 
+						expected.getAdvisors().getAdvisorsExodusStr(),
+						actual.getAdvisors().getAdvisorsExodusStr());
+				int expectedCount = expected.getAdvisors().getAdvisor().size();
+				int actualCount = actual.getAdvisors().getAdvisor().size();
 				verify("Advisors Count", expectedCount, actualCount);
 				if (expectedCount == actualCount) {
 					for (int i=0; i<expectedCount; ++i) {
-						Advisor expectedItem = expected.getAdvisors().get(i);
-						Advisor actualItem = actual.getAdvisors().get(i);
+						Advisor expectedItem = expected.getAdvisors().getAdvisor().get(i);
+						Advisor actualItem = actual.getAdvisors().getAdvisor().get(i);
 						verify("Advisor FullName " + i, expectedItem.getAdvisorFullName(), actualItem.getAdvisorFullName());
 						if (null != expectedItem.getAltAdvisorFullName()) {
 							if (verifyNotNullValue("Advisor AltAdvisorFullName" + i, actualItem.getAltAdvisorFullName())) {

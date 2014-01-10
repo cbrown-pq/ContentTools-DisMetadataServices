@@ -28,7 +28,7 @@ public class DisPubMetaData {
 	private String dissAbstract;
 	private Batch batch;
 	private List<AlternateTitle> alternateTitle;
-	private List<Advisor> advisors;
+	private Advisors advisors;
 	private Title title;
 	private School school;
 
@@ -224,15 +224,11 @@ public class DisPubMetaData {
 	}
 
 
-	public void setAdvisors(Iterable<Advisor> value) {
-		if (null == value) {
-			this.advisors = Lists.newArrayList();
-		} else {
-			this.advisors = Lists.newArrayList(value);
-		}
+	public void setAdvisors(Advisors value) {
+		this.advisors = value;
 	}
 	
-	public List<Advisor> getAdvisors() {
+	public Advisors getAdvisors() {
 		return advisors;
 	}
 	
@@ -493,6 +489,28 @@ public class DisPubMetaData {
 
         public void setLanguage(String value) {
             this.language = value;
+        }
+    }
+    
+    public static class Advisors {
+        private String advisorsExodusStr;
+        private List<Advisor> advisors;
+        
+        public String getAdvisorsExodusStr() {
+            return advisorsExodusStr;
+        }
+        public void setAdvisorsExodusStr(String value) {
+            this.advisorsExodusStr = value;
+        }
+        public List<Advisor> getAdvisor() {
+            return advisors;
+        }
+        public void setAdvisor(Iterable<Advisor> value) {
+        	if (null == value) {
+        		this.advisors = Lists.newArrayList();
+        	} else {
+        		this.advisors = Lists.newArrayList(value);
+        	}
         }
     }
     

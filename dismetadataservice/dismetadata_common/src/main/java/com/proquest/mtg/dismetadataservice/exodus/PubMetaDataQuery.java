@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
@@ -687,21 +688,24 @@ public class PubMetaDataQuery {
 		return result;
 	}
 	
-	private List<Advisor> getAdvisorsFor(String itemId, String delimitedAdvisorStr) throws SQLException {
-		List<Advisor> result = Lists.newArrayList();
-		List<String> advisors = SplitAdvisors.split(delimitedAdvisorStr); 
-		List<String> altAdvisors = getAlternateAdvisorsFor(itemId);
-		for (int i=0; i<advisors.size(); ++i) {
-			Advisor item = new Advisor();
-			item.setAdvisorFullName(advisors.get(i));
-			if (altAdvisors.size() >= i+1) {
-				item.setAltAdvisorFullName(altAdvisors.get(i));
+	private Advisors getAdvisorsFor(String itemId, String delimitedAdvisorStr) throws SQLException {
+		Advisors result = null;
+		if (null != delimitedAdvisorStr && ! delimitedAdvisorStr.isEmpty()) {
+			result = new Advisors();
+			result.setAdvisorsExodusStr(delimitedAdvisorStr);
+			List<Advisor> advisors = Lists.newArrayList();
+			List<String> advisorNames = SplitAdvisors.split(delimitedAdvisorStr); 
+			List<String> altAdvisorNames = getAlternateAdvisorsFor(itemId);
+			for (int i=0; i<advisorNames.size(); ++i) {
+				Advisor item = new Advisor();
+				item.setAdvisorFullName(advisorNames.get(i));
+				if (altAdvisorNames.size() >= i+1) {
+					item.setAltAdvisorFullName(altAdvisorNames.get(i));
+				}
+				advisors.add(item);
 			}
-			if (null == result) {
-				result = Lists.newArrayList();
-			}
-			result.add(item);
-		}
+			result.setAdvisor(advisors);
+		} 
 		return result; 
 	}
 

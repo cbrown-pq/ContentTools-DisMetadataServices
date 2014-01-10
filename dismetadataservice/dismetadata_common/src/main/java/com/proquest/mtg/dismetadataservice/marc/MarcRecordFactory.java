@@ -11,6 +11,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
@@ -54,7 +55,8 @@ public class MarcRecordFactory {
 		handleEnglishTranslationOfTitle(); /*242*/
 		handleTitle(); /*245*/
 		handlePageCount(); /*300*/
-		handleGeneralNotePublisher(); /*500 */
+		handleGeneralNoteForPublisher(); /*500 */
+		handleGeneralNoteForSuppFiles(); /*500 */
 		handleDissertationNote(); /*502*/
 		handleAccessRestrictionNote(); /*506*/
 		handleAbstract(); /*520*/
@@ -250,8 +252,21 @@ public class MarcRecordFactory {
 		addField(MarcTags.kTransactionTimestamp, curTime);
 	}
 
-	private void handleGeneralNotePublisher() {
-		
+	private void handleGeneralNoteForPublisher() {
+		String publisher = curMetaData.getPublisher();
+		if(null != publisher && ! publisher.isEmpty()) {
+			publisher = SGMLEntitySubstitution.applyAllTo(publisher);			
+			addField(MarcTags.kGeneralNote, 
+						makeFieldDataFrom(' ', ' ', 'a', "Publisher info.: " + endWithPeriod(publisher)));
+		}
+	}
+	
+	private void handleGeneralNoteForSuppFiles() {
+		List<SuppFile> publisher = curMetaData.getSuppFiles();
+		if(null != publisher && ! publisher.isEmpty()) {
+			addField(MarcTags.kGeneralNote, 
+						makeFieldDataFrom(' ', ' ', 'a', "Includes supplementary digital materials."));
+		}
 	}
 	
 	private void handlePageCount() {
@@ -324,7 +339,7 @@ public class MarcRecordFactory {
 	}
 	
 	private void handleAdvisors() {
-		List<Advisor> dissAdvisors = curMetaData.getAdvisors();
+		List<Advisor> dissAdvisors = curMetaData.getAdvisors().getAdvisor();
 		if (dissAdvisors != null && !dissAdvisors.isEmpty()) {
 			for (Advisor curAdvisor : dissAdvisors) {
 				String adviserString = makeFieldDataFrom( 'e',"advisor");

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
@@ -78,6 +79,12 @@ public class MakeExodusMetadataForTesting {
 		return result;
 	}
 	
+	public static Advisors makeAdvisorsFrom(String advisorExodusStr, Iterable<Advisor> advisor) {
+		Advisors result = new Advisors();
+		result.setAdvisorsExodusStr(advisorExodusStr);
+		result.setAdvisor(advisor);
+		return result;
+	}
 	public static Advisor makeAdvisorFrom(String fullName, String alternateName) {
 		Advisor result = new Advisor();
 		result.setAdvisorFullName(fullName);
@@ -250,8 +257,10 @@ public class MakeExodusMetadataForTesting {
 		x.setSuppFiles(null);
 		x.setAlternateTitles(null);
 		
-		List<Advisor> advisors = Lists.newArrayList();
-		advisors.add(makeAdvisorFrom("Jim Garrett", null));
+		Advisors advisors = makeAdvisorsFrom(
+				"Adviser: Jim Garrett",
+				Lists.newArrayList(
+						makeAdvisorFrom("Jim Garrett", null)));
 		x.setAdvisors(advisors);
 		
 		List<Author> authors = Lists.newArrayList();
@@ -437,10 +446,12 @@ public class MakeExodusMetadataForTesting {
 		
 		x.setSalesRestrictions(null);
 
-		List<Advisor> advisors = Lists.newArrayList();
-		advisors.add(makeAdvisorFrom("Guan Ping  Feng", "冯冠平"));
+		Advisors advisors = makeAdvisorsFrom(
+				"Adviser: Guan Ping  Feng",
+				Lists.newArrayList(
+						makeAdvisorFrom("Guan Ping  Feng", "冯冠平")));
 		x.setAdvisors(advisors);
-		
+	
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
 		
@@ -522,8 +533,10 @@ public class MakeExodusMetadataForTesting {
 				makeSalesDescriptionFrom("Do not sell third party Indexing"));
 		x.setSalesRestrictions(salesRestrictions);
 		
-		List<Advisor> advisors = Lists.newArrayList();
-		advisors.add(makeAdvisorFrom("X. Grant Chen", null));
+		Advisors advisors = makeAdvisorsFrom(
+				"Adviser: X. Grant Chen",
+				Lists.newArrayList(
+						makeAdvisorFrom("X. Grant Chen", null)));
 		x.setAdvisors(advisors);
 		
 		x.setCmteMembers(null);
@@ -609,8 +622,10 @@ public class MakeExodusMetadataForTesting {
 				makeCmteMemberFrom("Gregory", "D.", "Wallace", null));
 		x.setCmteMembers(comittee);
 		
-		List<Advisor> advisors = Lists.newArrayList();
-		advisors.add(makeAdvisorFrom("Lisa J. Porter", null));
+		Advisors advisors = makeAdvisorsFrom(
+				"Adviser: Lisa J. Porter",
+				Lists.newArrayList(
+						makeAdvisorFrom("Lisa J. Porter", null)));
 		x.setAdvisors(advisors);
 		
 		List<Author> authors = Lists.newArrayList();
@@ -703,9 +718,11 @@ public class MakeExodusMetadataForTesting {
 				makeCmteMemberFrom("Robert", "V.", "Demicco", null), 
 				makeCmteMemberFrom("Joseph", "R.", "Graney", null));
 		x.setCmteMembers(comittee);
-			
-		List<Advisor> advisors = Lists.newArrayList();
-		advisors.add(makeAdvisorFrom("Karen M. Salvage", null));
+		
+		Advisors advisors = makeAdvisorsFrom(
+				"Adviser: Karen M. Salvage",
+				Lists.newArrayList(
+						makeAdvisorFrom("Karen M. Salvage", null)));
 		x.setAdvisors(advisors);
 			
 		List<Author> authors = Lists.newArrayList();
@@ -731,9 +748,11 @@ public class MakeExodusMetadataForTesting {
 		Title title = new Title();
 		title.setMasterTitle("A problem-based learning project focused on the Missouri teacher quality standards");
 		x.setTitle(title);
-		
-		List<Advisor> advisors = Lists.newArrayList();
-		advisors.add(makeAdvisorFrom("William T. Rebore", null));
+				
+		Advisors advisors = makeAdvisorsFrom(
+				"Adviser: William T. Rebore",
+				Lists.newArrayList(
+						makeAdvisorFrom("William T. Rebore", null)));
 		x.setAdvisors(advisors);
 					
 		String abstract_ = "<?Pub Inc> This team project was a requirement for the Saint Louis University Executive Doctor of Education program. It was a problem-based learning project focused on the teacher quality standards adopted by the Missouri State Board of Education in June 2011. In the earliest stages prior to adoption of the standards, the researchers hired by the state indicated the problem with evaluating all nine standards and 36 indicators. As there was no system to determine what the most important standards were, the project sought to provide a system of weight to assist with the implementation of the standards. ^   As the background information indicated, the standards were research-based and provided an excellent framework for quality teaching. This project utilized perceptual data from Missouri principals and superintendents. These principals represented the highest and lowest achieving schools in the state based on the criteria for accreditation. A discrepancy analysis was completed to ascertain the importance of each standard. ^   At the conclusion of the project with all survey data analyzed, the solution was to weight the standards based on three things. First, the highest weight standards were based on the highest-achieving schools' responses. Second, the lowest standards were identified by both groups as the lowest. Finally, the five standards between were labeled as being within the purview of local discretion, but between the highest and lowest weighted standards. This system of weight was rooted in the survey responses and ensures local districts find value in the use of the standards as evaluative criteria.^";
@@ -973,11 +992,12 @@ public class MakeExodusMetadataForTesting {
 		title.setMasterTitle("Spectral Approaches to Learning Predictive Representations");
 		x.setTitle(title);
 		
-		List<Advisor> advisors = Lists.newArrayList();
-		advisors.add(makeAdvisorFrom("Geoffrey J. Gordon", null));
+		Advisors advisors = makeAdvisorsFrom(
+				"Adviser: Geoffrey J. Gordon",
+				Lists.newArrayList(
+						makeAdvisorFrom("Geoffrey J. Gordon", null)));
 		x.setAdvisors(advisors);
 		
-					
 		String abstract_ = "A central problem in artificial intelligence is to choose actions to maximize reward in a partially observable, uncertain environment. To do so, we must obtain an accurate environment model, and then plan to maximize reward. However, for complex domains, specifying a model by hand can be a time consuming process. This motivates an alternative approach: learning a model directly from observations. Unfortunately, learning algorithms often recover a model that is too inaccurate to support planning or too large and complex for planning to succeed; or, they require excessive prior domain knowledge or fail to provide guarantees such as statistical consistency. To address this gap, we propose spectral subspace identification algorithms which provably learn compact, accurate, predictive models of partially observable dynamical systems directly from sequences of action-observation pairs. Our research agenda includes several variations of this general approach: spectral methods for classical models like Kalman filters and hidden Markov models, batch algorithms and online algorithms, and kernel-based algorithms for learning models in high- and infinite-dimensional feature spaces. All of these approaches share a common framework: the model's belief space is represented as predictions of observable quantities and spectral algorithms are applied to learn the model parameters. Unlike the popular EM algorithm, spectral learning algorithms are statistically consistent, computationally efficient, and easy to implement using established matrix-algebra techniques. We evaluate our learning algorithms on a series of prediction and planning tasks involving simulated data and real robotic systems. ^";
 		x.setAbstract(abstract_);
 		
@@ -1057,11 +1077,13 @@ public class MakeExodusMetadataForTesting {
 		title.setMasterTitle("Development and Characterization of Carbon Nanotubes (CNTs) and Silicon Carbide (SiC) Reinforced Al-based Nanocomposites");
 		title.setForeignTitle("Development and Characterization of Carbon Nanotubes (CNTs) and Silicon Carbide (SiC) Reinforced Aluminum-based Nanocomposites");
 		x.setTitle(title);
-		
-		List<Advisor> advisors = Lists.newArrayList();
-		advisors.add(makeAdvisorFrom("Nasser Al-Aqeeli", null));
+			
+		Advisors advisors = makeAdvisorsFrom(
+				"Adviser: Nasser Al-Aqeeli",
+				Lists.newArrayList(
+						makeAdvisorFrom("Nasser Al-Aqeeli", null)));
 		x.setAdvisors(advisors);
-					
+		
 		String abstract_ = "<?Pub Inc> Composites are engineered materials developed from constituent materials; matrix and reinforcements, to attain synergistic behavior at the micro and macroscopic level which are different from the individual materials. The high specific strength, low weight, excellent chemical resistance and fatigue endurance makes these composites superior than other materials despite anisotropic behaviors. Metal matrix composites (MMCs) have excellent physical and mechanical properties and alumium (Al) alloy composites have gained considerable interest and are used in multiple industries including: aerospace, structural and automotive. The aim of this research work is to develop an advanced Al-based nanocomposites reinforced with Carbon nanotubes (CNTs) and silicon carbide particulates (SiCp) nanophases using mechanical alloying and advanced consolidation procedure (Non-conventional) i.e. Spark Plasma Sintering (SPS) using two types of aluminum alloys (Al-7Si-0.3mg and Al-12Si-0.3Mg). Different concentrations of SiCp and CNTs were added and ball milled for different milling periods under controlled atmosphere to study the effect of milling time and the distribution of the second phases. Characterization techniques were used to investigate the morphology of the as received monolithic and milled powder using Field Emission Scanning Electron Microscope (FESEM), Energy Dispersive Spectroscopy (EDS), X-Ray Mapping, X-Ray Diffraction (XRD) and Particle Size Analyses (PSA). The results revealed that the addition of high concentrations of SiCp and CNTs in both alloys aided in refining the structure of the resulting powder further as the reinforcement particles acted like a grinding agent. Good distribution of reinforcing particles was observed from SEM and no compositional fluctuations were observed from the EDS. Some degree of agglomerations was observed despite the ethyl alcohol sonication effect of the CNTs before ball milling. From the XRD; continuous reduction in crystallite size and increase in internal strains were observed as milling progressed with increase in wt.% reinforcement due to the severe plastic deformation. Al/SiC and Al/CNTs were successfully consolidated by the SPS at sintering temperatures of 400, 450 and 500&deg;C with SiC at 5, 12 and 20wt% and 0.5wt%CNT milled for 20hrs and 3 hrs respectively. It was obtained that sintering temperature of 500&deg;C was the most suitable as the densification achieved for SiC reinforced sample was above 98% and 100% for unreinforced sample. The hardness increased with increasing SiC content from 0, 5 to 12 wt% i.e 68, 82, 85 respectively. At 20%wt of SiC a slight decrease in the hardness was observed i.e. 70 which might be attributed to high wt.% SiC, a similar trend was observed for the other alloy studied. For CNT reinforced samples, the hardness and densification increased significantly and 100% densification was obtained at 500&ordm;C, a hardness value from 68 to 82 was achieved from 0 to 0.5wt%CNT with a similar trend to the other alloy of interest. Conclusively, sintering of both alloys at 500&ordm;C and above is the most suitable, the use of SiCp and CNTs as reinforcements improved the hardness, 12wt% SiC showed better hardness values than 20wt% SiC at all three temperatures and the Al alloy containing higher Si in its alloying elements showed better hardness values using the same reinforcement and sintering parameters. ^";
 		x.setAbstract(abstract_);
 		
