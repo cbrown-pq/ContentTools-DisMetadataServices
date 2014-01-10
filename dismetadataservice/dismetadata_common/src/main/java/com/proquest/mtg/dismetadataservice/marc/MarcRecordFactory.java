@@ -9,6 +9,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
@@ -59,6 +60,7 @@ public class MarcRecordFactory {
 		handlePageCount(); /*300*/
 		handleGeneralNoteForPublisher(); /*500 */
 		handleGeneralNoteForSuppFiles(); /*500 */
+		handleGeneralNoteForAdvisor(); /* 500 */
 		handleDissertationNote(); /*502*/
 		handleAccessRestrictionNote(); /*506*/
 		handleAbstract(); /*520*/
@@ -282,20 +284,39 @@ public class MarcRecordFactory {
 		if(null != publisher && ! publisher.isEmpty()) {
 			publisher = SGMLEntitySubstitution.applyAllTo(publisher);			
 			addField(MarcTags.kGeneralNote, 
-						makeFieldDataFrom(' ', ' ', 'a', "Publisher info.: " + endWithPeriod(publisher)));
+						makeFieldDataFrom(' ', ' ', 'a', 
+								"Publisher info.: " + endWithPeriod(publisher)));
 		}
 	}
 	
 	private void handleGeneralNoteForSuppFiles() {
 		List<SuppFile> publisher = curMetaData.getSuppFiles();
-		if(null != publisher && ! publisher.isEmpty()) {
+		if (null != publisher && ! publisher.isEmpty()) {
 			addField(MarcTags.kGeneralNote, 
-						makeFieldDataFrom(' ', ' ', 'a', "Includes supplementary digital materials."));
+						makeFieldDataFrom(' ', ' ', 'a', 
+								"Includes supplementary digital materials."));
+		}
+	}
+	
+	private void handleGeneralNoteForAdvisor() {
+		Advisors advisors = curMetaData.getAdvisors();
+		if (null != advisors) {
+			String advisor = advisors.getAdvisorsExodusStr();
+			if (!advisor.isEmpty()) {
+				advisor = SGMLEntitySubstitution.applyAllTo(advisor);
+				advisor.replace("@", " ");
+				advisor.replaceAll("\\s+$", "");
+				if (! advisor.endsWith(".")) {
+					advisor = advisor + ".";
+				}
+			}
+			addField(MarcTags.kGeneralNote, 
+						makeFieldDataFrom(' ', ' ', 'a', advisor));
 		}
 	}
 	
 	private void handlePageCount() {
-		if(null != curMetaData.getPageCount()){
+		if (null != curMetaData.getPageCount()){
 			addField(
 					MarcTags.kPageCount,
 					makeFieldDataFrom(' ', ' ', 'a', curMetaData.getPageCount()
@@ -321,7 +342,7 @@ public class MarcRecordFactory {
 	private void handleCorporateEntry() {
 		List<String> deptNames = curMetaData.getDepartments();
 		String deptName = "";
-		if(deptNames != null && !deptNames.isEmpty()) {
+		if (deptNames != null && !deptNames.isEmpty()) {
 			for (String curDeptName : deptNames) {
 				if (null != curDeptName && !curDeptName.isEmpty()) {
 					deptName = deptName + curDeptName.trim() + ".";
@@ -330,7 +351,7 @@ public class MarcRecordFactory {
 		}
 		String schoolName = curMetaData.getSchool() != null ? curMetaData.getSchool().getSchoolName() : null;
 		if (null != schoolName && !schoolName.isEmpty()) {
-			if(null != deptName && !deptName.isEmpty())
+			if (null != deptName && !deptName.isEmpty())
 				addField(
 						MarcTags.kCorporatename,
 						makeFieldDataFrom('2', '0', 'a', schoolName + "." 
