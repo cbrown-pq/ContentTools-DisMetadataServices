@@ -315,12 +315,18 @@ public class MarcRecordFactory {
 	}
 	
 	private void handleHostItemEntry() {
-		addField(
-				MarcTags.kHostItemEntry,
-				makeHostItemEntryFieldDataFrom('0', ' ', 't', 
-						curMetaData.getBatch().getDBTypeDesc(),'g', 
-						curMetaData.getBatch().getVolumeIssue(), 
-						curMetaData.getBatch().getDAISectionCode()+ "."));
+		if (null != curMetaData.getBatch().getDBTypeDesc()
+				&& !curMetaData.getBatch().getDBTypeDesc().isEmpty()
+				&& null != curMetaData.getBatch().getVolumeIssue()
+				&& !curMetaData.getBatch().getVolumeIssue().isEmpty()
+				&& null != curMetaData.getBatch().getDAISectionCode()
+				&& !curMetaData.getBatch().getDAISectionCode().isEmpty())
+			addField(
+					MarcTags.kHostItemEntry,
+					makeHostItemEntryFieldDataFrom('0', ' ', 't', curMetaData
+							.getBatch().getDBTypeDesc(), 'g', curMetaData
+							.getBatch().getVolumeIssue(), curMetaData
+							.getBatch().getDAISectionCode() + "."));
 	}
 	
 	private void handleAdvisors() {
