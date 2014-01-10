@@ -3,6 +3,11 @@ package com.proquest.mtg.dismetadataservice.marc;
 public class LanguageCodeToPartialLanguageName {
 
 	public static String getLanguageFor(String languageCode) {
+		
+		if(null == languageCode){
+			return "|||";
+		}
+		
 		if (languageCode.contentEquals("EN")) {
 			return "eng";
 		}
