@@ -198,14 +198,14 @@ public class SGMLEntitySubstitution {
                 new SGMLEntitySubstitution("&thetav;", "theta"),
                 new SGMLEntitySubstitution("&hellip;", "..."),
                 new SGMLEntitySubstitution("\n", " "),
-                new SGMLEntitySubstitution("@", " "),
-                new SGMLEntitySubstitution("@?", ""),
+                new SGMLEntitySubstitution("@\\?", ""),
                 new SGMLEntitySubstitution("\\*@", ""),
                 new SGMLEntitySubstitution("@\\*", ""),
                 new SGMLEntitySubstitution("-@", "-"),
                 new SGMLEntitySubstitution("@-", "-"),
                 new SGMLEntitySubstitution("@/", "/"),
-                new SGMLEntitySubstitution(" @", " ")
+                new SGMLEntitySubstitution(" @", " "),
+				new SGMLEntitySubstitution("@", " ")
 				);
 	
 	public static String applyAllTo(String x) {
