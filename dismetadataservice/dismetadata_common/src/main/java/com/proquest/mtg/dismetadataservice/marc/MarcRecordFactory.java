@@ -304,7 +304,6 @@ public class MarcRecordFactory {
 			String advisor = advisors.getAdvisorsExodusStr();
 			if (!advisor.isEmpty()) {
 				advisor = SGMLEntitySubstitution.applyAllTo(advisor);
-				advisor.replace("@", " ");
 				advisor.replaceAll("\\s+$", "");
 				if (! advisor.endsWith(".")) {
 					advisor = advisor + ".";
