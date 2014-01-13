@@ -70,7 +70,6 @@ public class MakeMarcRecord_FromPubMetaData_Tests {
 		String pubId = "C660938";
 		DisPubMetaData metaData = new DisPubMetaData();
 		metaData.setPubNumber(pubId);
-		
 		MarcRecord marc = factory.makeFrom(metaData);
 		assertThat(marc.getFieldCount(), is(2 + kDataIndependentFieldCount));
 		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
@@ -78,18 +77,53 @@ public class MakeMarcRecord_FromPubMetaData_Tests {
 		assertThat(fieldsMatchingTag.get(0).getData(), notNullValue());
 	}
 	
-//	@Test
-//	public void canGenerateFixedLengthElement() {
-//		String tag = MarcTags.kFiexedLengthDataElements;
-//		DisPubMetaData metaData = new DisPubMetaData();
-//		metaData.setPubNumber(pubId);
-//		
-//		MarcRecord marc = factory.makeFrom(metaData);
-//		assertThat(marc.getFieldCount(), is(2 + kDataIndependentFieldCount));
-//		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
-//		assertThat(fieldsMatchingTag.size(), is(1));
-//		assertThat(fieldsMatchingTag.get(0).getData(), notNullValue());
-//	}
+	@Test
+	public void withOnly_ISBN() {
+		String tag = MarcTags.kIsbn;
+		DisPubMetaData metaData = new DisPubMetaData();
+		metaData.setISBN("test-isbn");
+		
+		MarcRecord marc = factory.makeFrom(metaData);
+		String expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a" + "testisbn";
+		assertThat(marc.getFieldCount(), is(1 + kDataIndependentFieldCount));
+		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
+		assertThat(fieldsMatchingTag.size(), is(1));
+		assertThat(fieldsMatchingTag.get(0).getData(), is(expectedMarcFieldData));
+	}
+	
+	@Test
+	public void withOnly_SystemControlNumber() {
+		String tag = MarcTags.kSystemControlNumber;
+		String pubId = "C660938";
+		DisPubMetaData metaData = new DisPubMetaData();
+		metaData.setPubNumber(pubId);
+		
+		MarcRecord marc = factory.makeFrom(metaData);
+		String expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a" 
+				+ "(MiAaPQ)AAI" 
+				+ pubId.trim();
+		
+		assertThat(marc.getFieldCount(), is(2 + kDataIndependentFieldCount));
+		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
+		assertThat(fieldsMatchingTag.size(), is(1));
+		assertThat(fieldsMatchingTag.get(0).getData(), is(expectedMarcFieldData));
+	}
+	
+	@Test
+	public void withOnly_CatalogingSource() {
+		String tag = MarcTags.kCatalogingSource;
+		
+		DisPubMetaData metaData = new DisPubMetaData();
+		MarcRecord marc = factory.makeFrom(metaData);
+		String expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a" 
+				+ "MiAaPQ" + MarcCharSet.kSubFieldIndicator + "c" +  "MiAaPQ";
+		
+		assertThat(marc.getFieldCount(), is(kDataIndependentFieldCount));
+		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
+		assertThat(fieldsMatchingTag.size(), is(1));
+		assertThat(fieldsMatchingTag.get(0).getData(), is(expectedMarcFieldData));
+	}
+	
 	
 	@Test
 	public void withOnly_LocationOfCopy() throws Exception {
