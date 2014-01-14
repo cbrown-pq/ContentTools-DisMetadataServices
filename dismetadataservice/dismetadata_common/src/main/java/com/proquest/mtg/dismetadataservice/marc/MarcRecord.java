@@ -8,6 +8,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.proquest.mtg.dismetadataservice.metadata.PlainTextNormalizer;
 
 public class MarcRecord {
 	private final char status;
@@ -134,11 +135,11 @@ public class MarcRecord {
 		return result;
 	}
 	
-//	public void apply(PlainTextNormalizer plainTextNormalizer) {
-//		for (MarcField curField : getAllFields()) {
-//			curField.setData(plainTextNormalizer.applyTo(curField.getData()));
-//		}
-//	}
+	public void apply(PlainTextNormalizer plainTextNormalizer) {
+		for (MarcField curField : getAllFields()) {
+			curField.setData(plainTextNormalizer.applyTo(curField.getData()));
+		}
+	}
 	
 	///////////////////////////////////////////////////////
 	
