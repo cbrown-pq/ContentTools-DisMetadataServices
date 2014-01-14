@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -58,6 +60,7 @@ public class MarcRecordFactory {
 		handleEnglishTranslationOfTitle(); /*242*/
 		handleTitle(); /*245*/
 		handlePageCount(); /*300*/
+		handleGeneralNoteForSource(); /*500 */
 		handleGeneralNoteForPublisher(); /*500 */
 		handleGeneralNoteForSuppFiles(); /*500 */
 		handleGeneralNoteForAdvisor(); /* 500 */
@@ -279,6 +282,88 @@ public class MarcRecordFactory {
 		addField(MarcTags.kTransactionTimestamp, curTime);
 	}
 
+	private void handleGeneralNoteForSource() {
+		String resultPageNumStr = "";
+		String sourceGeneralNote = "";
+		
+		String pubPageNum = curMetaData.getPubPageNum();
+		if(null == pubPageNum || pubPageNum.isEmpty()) {
+			resultPageNumStr = "";
+		} else {
+			resultPageNumStr = ", page: " + StringUtils.rightPad(pubPageNum, 4, '0');
+		}		
+		
+		Batch batch = curMetaData.getBatch();
+		if (null == batch) {
+			return;
+		}
+		
+		String dbTypeCode = batch.getDBTypeCode();
+		String dbTypeDesc = batch.getDBTypeDesc();
+		String volumeIssue = batch.getVolumeIssue();
+		String daiSectionCode = batch.getDAISectionCode();
+		
+		if (null != dbTypeCode && !dbTypeCode.isEmpty()  
+				&& dbTypeCode.equals("DAI")) {
+			String resultVolumeIssueStr ;
+			if ( null != volumeIssue && ! volumeIssue.isEmpty()) {
+				resultVolumeIssueStr = ", Volume: " + volumeIssue;
+			} else {
+				resultVolumeIssueStr = "";
+			}
+			
+			String resultDaiSectionCodeStr = "";
+			if ( null != daiSectionCode && !daiSectionCode.isEmpty()) {
+				resultDaiSectionCodeStr = ", Section: " + daiSectionCode;
+			} else {
+				resultDaiSectionCodeStr = "";
+			}
+			
+			sourceGeneralNote = "Source: " + dbTypeDesc 
+							+ resultVolumeIssueStr 
+							+ resultDaiSectionCodeStr
+							+ resultPageNumStr 
+							+ ".";
+		} else if (null != dbTypeCode && !dbTypeCode.isEmpty()
+					&& dbTypeCode.equals("MAI")) {
+			String resultVolumeIssueStr ;
+			if ( null != volumeIssue && !volumeIssue.isEmpty()) {
+				resultVolumeIssueStr = ", Volume: " + volumeIssue.substring(0, 5);
+			} else {
+				resultVolumeIssueStr = "";
+			}
+			
+			sourceGeneralNote = "Source: " + dbTypeDesc 
+					+ resultVolumeIssueStr 
+					+ resultPageNumStr 
+					+ ".";
+		} else if (null != dbTypeCode && !dbTypeCode.isEmpty()) {
+			String resultVolumeIssueStr;
+			if ( null != volumeIssue && ! volumeIssue.isEmpty()) {
+				if (pubPageNum == null || pubPageNum.isEmpty()) {
+					resultVolumeIssueStr = ", Volume: " + volumeIssue;
+				} else {
+					resultVolumeIssueStr = ", Volume: " + volumeIssue.substring(0, 2)
+							+ "-" + volumeIssue.substring(2, 2);
+					resultVolumeIssueStr = resultVolumeIssueStr + ", Section: C";
+				}
+			} else {
+				resultVolumeIssueStr = "";
+			}
+			
+			sourceGeneralNote = "Source: " + dbTypeDesc 
+					+ resultVolumeIssueStr 
+					+ resultPageNumStr 
+					+ ".";
+		}
+		
+		if (! sourceGeneralNote.isEmpty()) {
+			addField(MarcTags.kGeneralNote, 
+					makeFieldDataFrom(' ', ' ', 'a', 
+							 endWithPeriod(sourceGeneralNote)));
+		}
+	}
+	
 	private void handleGeneralNoteForPublisher() {
 		String publisher = curMetaData.getPublisher();
 		if(null != publisher && ! publisher.isEmpty()) {

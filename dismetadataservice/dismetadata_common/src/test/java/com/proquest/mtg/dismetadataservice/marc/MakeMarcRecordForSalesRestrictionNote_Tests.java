@@ -61,7 +61,7 @@ public class MakeMarcRecordForSalesRestrictionNote_Tests extends MarcRecordFacto
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAC");
 		metaData.setBatch(batch);
-		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 3);
+		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 4);
 	}
 	
 	@Test
@@ -79,7 +79,7 @@ public class MakeMarcRecordForSalesRestrictionNote_Tests extends MarcRecordFacto
 		SalesRestriction salesRestriction = new SalesRestriction();
 		salesRestriction.setDescription(salesRestrictioNote);
 		metaData.setSalesRestrictions(Lists.newArrayList(salesRestriction));
-		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 3);
+		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 4);
 	}
 	
 }
