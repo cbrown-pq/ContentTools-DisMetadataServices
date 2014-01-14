@@ -25,11 +25,11 @@ public class ExodusDataProvider implements IMarcProvider {
 	}
 
 	@Override
-	public String getMarcResultFor(String pubNum) throws Exception {
+	public MarcRecord getMarcResultFor(String pubNum) throws Exception {
 		MarcRecordFactory marcFactory = new MarcRecordFactory(getDisGenMappingProvider());
 		MarcRecord marcRecord = marcFactory.makeFrom(
 				getPubMetaDataProvider().getPubMetaDataFor(pubNum));
-		return marcRecord.toMarcString();
+		return marcRecord;
 	}
 	
 

@@ -1,7 +1,9 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
+import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
+
 public interface IMarcProvider {
 	
-	String getMarcResultFor(String pubNum) throws Exception;
+	MarcRecord getMarcResultFor(String pubNum) throws Exception;
 
 }
