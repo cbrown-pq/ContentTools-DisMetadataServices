@@ -476,27 +476,45 @@ public class MarcRecordFactory {
 	}
 	
 	private void handleAdvisors() {
-		List<Advisor> dissAdvisors = curMetaData.getAdvisors() != null 
-													? curMetaData.getAdvisors().getAdvisor() 
-													: null ;
+		List<Advisor> dissAdvisors = curMetaData.getAdvisors() != null ? curMetaData.getAdvisors().getAdvisor()	: null ;
 		if (dissAdvisors != null && !dissAdvisors.isEmpty()) {
 			for (Advisor curAdvisor : dissAdvisors) {
-				String adviserString = makeFieldDataFrom( 'e',"advisor");
-				String adviserFirstName = null, adviserLastName = null, adviserMiddleInitial = null;
-				String adviserFullName = curAdvisor.getAdvisorFullName().trim();
-				int firstBlankIndex = adviserFullName.indexOf(
-						' ');
-				if (firstBlankIndex >= 0) {
-					adviserFirstName = adviserFullName.substring(0, firstBlankIndex);
-					adviserMiddleInitial = adviserFullName.substring(firstBlankIndex + 1, firstBlankIndex + 3);
-					adviserLastName = adviserFullName.substring(firstBlankIndex + 4);
+				String advisorString = makeFieldDataFrom( 'e',"advisor");
+				String advisorFirstName = null, advisorLastName = null, advisorMiddleInitial = null,advisorGenerationSuffix = null;
+				String adviserFullName = null;
+				String[] adviserName = curAdvisor.getAdvisorFullName().trim().split(" ");
+				if(adviserName.length == 4)
+				{
+					advisorFirstName = adviserName[0];
+					advisorMiddleInitial = adviserName[1];
+					advisorLastName = adviserName[2];
+					advisorGenerationSuffix = adviserName[3];
+					adviserFullName = advisorLastName + "," + " "
+							+ advisorFirstName + " " + advisorMiddleInitial + "," + advisorGenerationSuffix + ",";
 				}
-				adviserFullName = adviserLastName + "," + " "
-						+ adviserFirstName + " " + adviserMiddleInitial + ",";
+				else if(adviserName.length == 3)
+				{
+					advisorFirstName = adviserName[0];
+					advisorMiddleInitial = adviserName[1];
+					advisorLastName = adviserName[2];
+					adviserFullName = advisorLastName + "," + " "
+							+ advisorFirstName + " " + advisorMiddleInitial + ",";
+				}
+				else if(adviserName.length == 2)
+				{
+					advisorFirstName = adviserName[0];
+					advisorLastName = adviserName[1];
+					adviserFullName = advisorLastName + "," + " "
+							+ advisorFirstName + ",";
+				}
+				else
+				{
+					adviserFullName = curAdvisor.getAdvisorFullName().trim();
+				}
 				addField(
 						MarcTags.kAdvisorname,
 						makeFieldDataFrom('1', '0', 'a', adviserFullName,
-								adviserString));
+								advisorString));
 			}
 		}
 	}

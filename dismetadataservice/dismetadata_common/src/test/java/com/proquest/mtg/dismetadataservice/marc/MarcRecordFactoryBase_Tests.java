@@ -34,5 +34,11 @@ public class MarcRecordFactoryBase_Tests {
 		assertThat(fieldsMatchingTag.size(), is(1));
 		assertThat(fieldsMatchingTag.get(0).getData(), is(expectedMarcFieldData));
 	}
+	
+	public void verifyMarcRecordHasEmptyField(DisPubMetaData metaData, String tag) {
+		MarcRecord marc = factory.makeFrom(metaData);
+		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
+		assertThat(fieldsMatchingTag.size(), is(0));
+	}
 
 }

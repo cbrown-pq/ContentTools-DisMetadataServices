@@ -1,18 +1,20 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
+import static org.hamcrest.CoreMatchers.sameInstance;
+import static org.junit.Assert.assertThat;
+
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
-
-import static org.hamcrest.CoreMatchers.sameInstance;
-import static org.junit.Assert.assertThat;
+import com.proquest.mtg.dismetadataservice.metadata.PlainTextNormalizer;
 
 public class ExodusDataProvider_Construct_Tests {
 	
 	IPubMetaDataProvider pubMetaDataProvider;
 	DisGenMappingProvider disGenMappingProvider;
+	PlainTextNormalizer plainTextNormalizer;
 	
 	ExodusDataProvider target;
 	
@@ -20,7 +22,8 @@ public class ExodusDataProvider_Construct_Tests {
 	public void setUp() throws Exception {
 		pubMetaDataProvider = EasyMock.createMock(IPubMetaDataProvider.class);
 		disGenMappingProvider = EasyMock.createMock(DisGenMappingProvider.class);
-		target = new ExodusDataProvider(pubMetaDataProvider, disGenMappingProvider);
+		plainTextNormalizer = EasyMock.createMock(PlainTextNormalizer.class);
+		target = new ExodusDataProvider(pubMetaDataProvider, disGenMappingProvider, plainTextNormalizer);
 	}
 	
 	@Test
@@ -31,6 +34,11 @@ public class ExodusDataProvider_Construct_Tests {
 	@Test
 	public void has_Correct_DisGenMappingProvider() {
 		assertThat(target.getDisGenMappingProvider(), sameInstance(disGenMappingProvider));
+	}
+	
+	@Test
+	public void has_Correct_PlainTextNormalizer() {
+		assertThat(target.getPlainTextNormalizer(), sameInstance(plainTextNormalizer));
 	}
 	
 
