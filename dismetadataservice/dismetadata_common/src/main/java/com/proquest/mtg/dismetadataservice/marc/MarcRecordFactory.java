@@ -103,7 +103,8 @@ public class MarcRecordFactory {
 	private void handleAccessRestrictionNote() {
 		Batch batch = curMetaData.getBatch();
 		if(null != batch) {
-			if(curMetaData.getBatch().getDBTypeCode().equals("DAC")) {
+			if(null != batch.getDBTypeCode() 
+					&& batch.getDBTypeCode().equals("DAC")) {
 				if(curMetaData.getPubNumber().substring(0, 1).matches("[01-8]")) {
 					addField(MarcTags.kAccessRestrictionNote, getSalesRestrictionMarcTag());
 				}
