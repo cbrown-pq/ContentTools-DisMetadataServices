@@ -654,11 +654,7 @@ public class MarcRecordFactory {
 			title = endsWithPunctuationMark(title);
 			title = SGMLEntitySubstitution.applyAllTo(title);
 			char secondFieldIndicator = getSecondFieldIndicator(title);
-			String marcTitle = makeFieldDataFrom('1', secondFieldIndicator,
-					'a', title);
-			for (String part : splitOnLength(marcTitle, kSingleLineTitleLength)) {
-				addField(MarcTags.kTitle, part);
-			}
+			addField(MarcTags.kTitle, makeFieldDataFrom('1', secondFieldIndicator, 'a', title));
 		}
 	}
 
@@ -712,14 +708,7 @@ public class MarcRecordFactory {
 				degreeValue2 = mapping.getDegreeValue2();
 			}
 		}
-		char secondIndicator = (degreeValue2 == null) ? '0' : degreeValue2
-				.charAt(0);
+		char secondIndicator = (degreeValue2 == null) ? '0' : degreeValue2.charAt(0);
 		return secondIndicator;
 	}
-
-	private String[] splitOnLength(String x, int length) {
-		Iterable<String> result = Splitter.fixedLength(length).split(x);
-		return Iterables.toArray(result, String.class);
-	}
-
 }
