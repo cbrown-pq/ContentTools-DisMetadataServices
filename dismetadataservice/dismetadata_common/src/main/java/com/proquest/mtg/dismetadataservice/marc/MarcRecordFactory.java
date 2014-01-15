@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
@@ -29,7 +27,6 @@ public class MarcRecordFactory {
 	public static final String kRecordIdPrefix = "AAI";
 	public static final String kSystemPQPrefix = "MiAaPQ";
 	public static final String kMarcMapping = "MARC_245_IND";
-	public static final int kSingleLineTitleLength = 670;
 
 	private final TextNormalizer abstractNormalizer = new TextNormalizer();
 
