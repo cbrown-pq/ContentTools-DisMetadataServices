@@ -169,6 +169,7 @@ public class MarcRecordFactory {
 			abstractText = abstractNormalizer.applyTo(abstractText);
 			for (String curParagraph : makeAbstractParagraphsFrom(abstractText)) {
 				curParagraph = endsWithPunctuationMark(curParagraph);
+				curParagraph = SGMLEntitySubstitution.applyAllTo(curParagraph);
 				addField(MarcTags.kAbstract,
 						makeFieldDataFrom(' ', ' ', 'a', curParagraph));
 			}
@@ -196,6 +197,7 @@ public class MarcRecordFactory {
 	private void handleLocationOfCopy() {
 		String locationOfCopy = curMetaData.getReferenceLocation();
 		if (null != locationOfCopy && !locationOfCopy.isEmpty()) {
+			locationOfCopy = SGMLEntitySubstitution.applyAllTo(locationOfCopy);
 			locationOfCopy = endWithPeriod(locationOfCopy.trim());
 			addField(MarcTags.kLocationOfCopy,
 					makeFieldDataFrom('2', ' ', 'a', locationOfCopy));
@@ -453,6 +455,7 @@ public class MarcRecordFactory {
 									? curMetaData.getTitle().getEnglishOverwriteTitle() 
 									: null;
 		if (null != variantTitle && !variantTitle.isEmpty()) {
+			variantTitle = SGMLEntitySubstitution.applyAllTo(variantTitle);
 			addField(
 					MarcTags.kVariantTitle,
 					makeFieldDataFrom('0', '0', 'a', variantTitle.trim() + "."));
@@ -511,6 +514,8 @@ public class MarcRecordFactory {
 				{
 					adviserFullName = curAdvisor.getAdvisorFullName().trim();
 				}
+				adviserFullName = SGMLEntitySubstitution.applyAllTo(adviserFullName);
+				advisorString = SGMLEntitySubstitution.applyAllTo(advisorString);
 				addField(
 						MarcTags.kAdvisorname,
 						makeFieldDataFrom('1', '0', 'a', adviserFullName,
@@ -518,7 +523,6 @@ public class MarcRecordFactory {
 			}
 		}
 	}
-
 
 	private void handleSchoolCode() {
 		String dissSchoolCode = curMetaData.getSchool() != null 
