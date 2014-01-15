@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
@@ -29,7 +27,6 @@ public class MarcRecordFactory {
 	public static final String kRecordIdPrefix = "AAI";
 	public static final String kSystemPQPrefix = "MiAaPQ";
 	public static final String kMarcMapping = "MARC_245_IND";
-	public static final int kSingleLineTitleLength = 670;
 
 	private final TextNormalizer abstractNormalizer = new TextNormalizer();
 
@@ -170,6 +167,7 @@ public class MarcRecordFactory {
 			abstractText = abstractNormalizer.applyTo(abstractText);
 			for (String curParagraph : makeAbstractParagraphsFrom(abstractText)) {
 				curParagraph = endsWithPunctuationMark(curParagraph);
+				curParagraph = SGMLEntitySubstitution.applyAllTo(curParagraph);
 				addField(MarcTags.kAbstract,
 						makeFieldDataFrom(' ', ' ', 'a', curParagraph));
 			}
@@ -197,6 +195,7 @@ public class MarcRecordFactory {
 	private void handleLocationOfCopy() {
 		String locationOfCopy = curMetaData.getReferenceLocation();
 		if (null != locationOfCopy && !locationOfCopy.isEmpty()) {
+			locationOfCopy = SGMLEntitySubstitution.applyAllTo(locationOfCopy);
 			locationOfCopy = endWithPeriod(locationOfCopy.trim());
 			addField(MarcTags.kLocationOfCopy,
 					makeFieldDataFrom('2', ' ', 'a', locationOfCopy));
@@ -454,6 +453,7 @@ public class MarcRecordFactory {
 									? curMetaData.getTitle().getEnglishOverwriteTitle() 
 									: null;
 		if (null != variantTitle && !variantTitle.isEmpty()) {
+			variantTitle = SGMLEntitySubstitution.applyAllTo(variantTitle);
 			addField(
 					MarcTags.kVariantTitle,
 					makeFieldDataFrom('0', '0', 'a', variantTitle.trim() + "."));
@@ -512,6 +512,8 @@ public class MarcRecordFactory {
 				{
 					adviserFullName = curAdvisor.getAdvisorFullName().trim();
 				}
+				adviserFullName = SGMLEntitySubstitution.applyAllTo(adviserFullName);
+				advisorString = SGMLEntitySubstitution.applyAllTo(advisorString);
 				addField(
 						MarcTags.kAdvisorname,
 						makeFieldDataFrom('1', '0', 'a', adviserFullName,
@@ -519,7 +521,6 @@ public class MarcRecordFactory {
 			}
 		}
 	}
-
 
 	private void handleSchoolCode() {
 		String dissSchoolCode = curMetaData.getSchool() != null 
@@ -655,11 +656,7 @@ public class MarcRecordFactory {
 			title = endsWithPunctuationMark(title);
 			title = SGMLEntitySubstitution.applyAllTo(title);
 			char secondFieldIndicator = getSecondFieldIndicator(title);
-			String marcTitle = makeFieldDataFrom('1', secondFieldIndicator,
-					'a', title);
-			for (String part : splitOnLength(marcTitle, kSingleLineTitleLength)) {
-				addField(MarcTags.kTitle, part);
-			}
+			addField(MarcTags.kTitle, makeFieldDataFrom('1', secondFieldIndicator, 'a', title));
 		}
 	}
 
@@ -713,14 +710,7 @@ public class MarcRecordFactory {
 				degreeValue2 = mapping.getDegreeValue2();
 			}
 		}
-		char secondIndicator = (degreeValue2 == null) ? '0' : degreeValue2
-				.charAt(0);
+		char secondIndicator = (degreeValue2 == null) ? '0' : degreeValue2.charAt(0);
 		return secondIndicator;
 	}
-
-	private String[] splitOnLength(String x, int length) {
-		Iterable<String> result = Splitter.fixedLength(length).split(x);
-		return Iterables.toArray(result, String.class);
-	}
-
 }
