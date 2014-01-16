@@ -27,6 +27,9 @@ public class MarcRecordFactory {
 	public static final String kRecordIdPrefix = "AAI";
 	public static final String kSystemPQPrefix = "MiAaPQ";
 	public static final String kMarcMapping = "MARC_245_IND";
+	public static final String kDoctoralPrefix = "DAI";
+	public static final String kMastersPrefix = "MAI";
+
 
 	private final TextNormalizer abstractNormalizer = new TextNormalizer();
 
@@ -461,20 +464,47 @@ public class MarcRecordFactory {
 	}
 	
 	private void handleHostItemEntry() {
-		if (null != curMetaData.getBatch() 
-				&& null != curMetaData.getBatch().getDBTypeDesc()
-				&& !curMetaData.getBatch().getDBTypeDesc().isEmpty()
-				&& null != curMetaData.getBatch().getVolumeIssue()
-				&& !curMetaData.getBatch().getVolumeIssue().isEmpty()
-				&& null != curMetaData.getBatch().getDAISectionCode()
-				&& !curMetaData.getBatch().getDAISectionCode().isEmpty())
-			addField(
-					MarcTags.kHostItemEntry,
-					makeHostItemEntryFieldDataFrom('0', ' ', 't', curMetaData
-							.getBatch().getDBTypeDesc(), 'g', curMetaData
-							.getBatch().getVolumeIssue(), curMetaData
-							.getBatch().getDAISectionCode() + "."));
-	}
+		String batchTypeCode = curMetaData.getBatch() != null ? curMetaData.getBatch().getDBTypeCode() :null;
+		String batchTypeDesc = curMetaData.getBatch() != null ? curMetaData.getBatch().getDBTypeDesc() :null;
+		String batchVolumeIssue = curMetaData.getBatch() != null ? curMetaData.getBatch().getVolumeIssue() :null;
+		String daiSectionCode = curMetaData.getBatch() != null ? curMetaData.getBatch().getDAISectionCode() :null;
+		String fieldData = null;
+		if (null != batchTypeCode && batchTypeCode.equalsIgnoreCase(kDoctoralPrefix)) {
+			if (null != batchVolumeIssue && !batchVolumeIssue.isEmpty()) {
+				fieldData = batchVolumeIssue.substring(0, 5) + daiSectionCode + batchVolumeIssue.substring(5) + ".";
+				addField(
+						MarcTags.kHostItemEntry,
+						makeHostItemEntryFieldDataFrom('0', ' ', 't',
+								batchTypeDesc, 'g', fieldData));
+			} else
+				addField(MarcTags.kHostItemEntry,
+						makeFieldDataFrom('0', ' ', 't', batchTypeDesc));
+		} else if (null != batchTypeCode && batchTypeCode.equalsIgnoreCase(kMastersPrefix)) {
+			fieldData = batchVolumeIssue.substring(0, 5) + batchVolumeIssue.substring(6) + ".";
+			if (null != batchVolumeIssue && !batchVolumeIssue.isEmpty())
+				addField(
+						MarcTags.kHostItemEntry,
+						makeHostItemEntryFieldDataFrom('0', ' ', 't',
+								batchTypeDesc, 'g', fieldData));
+			else
+				addField(MarcTags.kHostItemEntry,
+						makeFieldDataFrom('0', ' ', 't', batchTypeDesc));
+		} else {
+			if (null != batchVolumeIssue && !batchVolumeIssue.isEmpty()) {
+				if(batchVolumeIssue.contains("-"))
+					fieldData = batchVolumeIssue.substring(0, 2) + "-" + batchVolumeIssue.substring(3, 5) + "C.";
+				else
+					fieldData = batchVolumeIssue.substring(1, 3) + "-" + batchVolumeIssue.substring(3, 5) + "C.";
+				addField(
+						MarcTags.kHostItemEntry,
+						makeHostItemEntryFieldDataFrom('0', ' ', 't',
+								batchTypeDesc, 'g', fieldData));
+			}
+			else if (null != batchTypeDesc && !batchTypeDesc.isEmpty())
+				addField(MarcTags.kHostItemEntry,
+						makeFieldDataFrom('0', ' ', 't', batchTypeDesc));
+		}
+}
 	
 	private void handleAdvisors() {
 		List<Advisor> dissAdvisors = curMetaData.getAdvisors() != null ? curMetaData.getAdvisors().getAdvisor()	: null ;
@@ -609,7 +639,7 @@ public class MarcRecordFactory {
 	
 	private String makeHostItemEntryFieldDataFrom(char dataFieldIndicator1,
 			char dataFieldIndicator2, char subFieldIndicator1,
-			String fieldData1, char subFieldIndicator2, String fieldData2, String fieldData3) {
+			String fieldData1, char subFieldIndicator2, String fieldData2) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(dataFieldIndicator1);
 		builder.append(dataFieldIndicator2);
@@ -619,7 +649,6 @@ public class MarcRecordFactory {
 		builder.append(MarcCharSet.kSubFieldIndicator);
 		builder.append(subFieldIndicator2);
 		builder.append(fieldData2);
-		builder.append(fieldData3);
 		return builder.toString();
 	}
 
