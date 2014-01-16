@@ -469,18 +469,27 @@ public class MarcRecordFactory {
 		String batchVolumeIssue = curMetaData.getBatch() != null ? curMetaData.getBatch().getVolumeIssue() :null;
 		String daiSectionCode = curMetaData.getBatch() != null ? curMetaData.getBatch().getDAISectionCode() :null;
 		String fieldData = null;
+		
 		if (null != batchTypeCode && batchTypeCode.equalsIgnoreCase(kDoctoralPrefix)) {
 			if (null != batchVolumeIssue && !batchVolumeIssue.isEmpty()) {
-				fieldData = batchVolumeIssue.substring(0, 5) + daiSectionCode + batchVolumeIssue.substring(5) + ".";
+				
+				if (null != daiSectionCode && !daiSectionCode.isEmpty()) 
+					fieldData = endWithPeriod(batchVolumeIssue.substring(0, 5) + daiSectionCode + batchVolumeIssue.substring(5));
+				else
+					fieldData = endWithPeriod(batchVolumeIssue.substring(0, 5) + batchVolumeIssue.substring(5));
+				
 				addField(
 						MarcTags.kHostItemEntry,
 						makeHostItemEntryFieldDataFrom('0', ' ', 't',
 								batchTypeDesc, 'g', fieldData));
 			} else
 				addField(MarcTags.kHostItemEntry,
-						makeFieldDataFrom('0', ' ', 't', batchTypeDesc));
+						makeFieldDataFrom('0', ' ', 't', endWithPeriod(batchTypeDesc)));
 		} else if (null != batchTypeCode && batchTypeCode.equalsIgnoreCase(kMastersPrefix)) {
-			fieldData = batchVolumeIssue.substring(0, 5) + batchVolumeIssue.substring(6) + ".";
+			if (batchVolumeIssue.length() == 6 || batchVolumeIssue.length() == 9) 
+				fieldData = endWithPeriod(batchVolumeIssue.substring(0, 5) + batchVolumeIssue.substring(6));
+			else
+				fieldData = endWithPeriod(batchVolumeIssue);
 			if (null != batchVolumeIssue && !batchVolumeIssue.isEmpty())
 				addField(
 						MarcTags.kHostItemEntry,
@@ -488,13 +497,13 @@ public class MarcRecordFactory {
 								batchTypeDesc, 'g', fieldData));
 			else
 				addField(MarcTags.kHostItemEntry,
-						makeFieldDataFrom('0', ' ', 't', batchTypeDesc));
+						makeFieldDataFrom('0', ' ', 't', endWithPeriod(batchTypeDesc)));
 		} else {
 			if (null != batchVolumeIssue && !batchVolumeIssue.isEmpty()) {
 				if(batchVolumeIssue.contains("-"))
-					fieldData = batchVolumeIssue.substring(0, 2) + "-" + batchVolumeIssue.substring(3, 5) + "C.";
+					fieldData = endWithPeriod(batchVolumeIssue.substring(0, 2) + "-" + batchVolumeIssue.substring(3, 5) + "C");
 				else
-					fieldData = batchVolumeIssue.substring(1, 3) + "-" + batchVolumeIssue.substring(3, 5) + "C.";
+					fieldData = endWithPeriod(batchVolumeIssue.substring(1, 3) + "-" + batchVolumeIssue.substring(3, 5) + "C");
 				addField(
 						MarcTags.kHostItemEntry,
 						makeHostItemEntryFieldDataFrom('0', ' ', 't',
@@ -502,7 +511,7 @@ public class MarcRecordFactory {
 			}
 			else if (null != batchTypeDesc && !batchTypeDesc.isEmpty())
 				addField(MarcTags.kHostItemEntry,
-						makeFieldDataFrom('0', ' ', 't', batchTypeDesc));
+						makeFieldDataFrom('0', ' ', 't', endWithPeriod(batchTypeDesc)));
 		}
 }
 	
