@@ -13,7 +13,6 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 
 public class MarcRecordFactory_DissertationLanguage_Tests extends
 		MarcRecordFactoryBase_Tests {
-	DisPubMetaData disPubMetaData;
 	String tag = MarcTags.kDissertationLanguage;
 	String expectedMarcFieldData;
 	DisPubMetaData metaData;

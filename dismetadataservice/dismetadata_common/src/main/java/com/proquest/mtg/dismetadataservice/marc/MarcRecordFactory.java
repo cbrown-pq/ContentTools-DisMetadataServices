@@ -237,7 +237,7 @@ public class MarcRecordFactory {
 		String degreeYear = null;
 		
 		List<Author> authors = curMetaData.getAuthors();
-		if(null != authors) {
+		if(null != authors && !authors.isEmpty()) {
 			List<Degree> degrees = authors.get(0).getDegrees();
 			if (null != degrees && ! degrees.isEmpty()) {
 				degreeYear = degrees.get(0).getDegreeYear();
@@ -565,15 +565,17 @@ public class MarcRecordFactory {
 	}
 
 	private void handleDegrees() {
-		List<Degree> degrees = curMetaData.getAuthors() != null ? curMetaData.getAuthors().get(0).getDegrees() : null;
+		List<Degree> degrees = curMetaData.getAuthors() != null &&  !curMetaData.getAuthors().isEmpty() ? curMetaData.getAuthors().get(0).getDegrees() : null;
 		if (degrees !=null && !degrees.isEmpty()) {
 			for (Degree curDegree : degrees) {
-				if (curDegree.getSequenceNumber() == 1) {
-					addField(
+				if (curDegree.getSequenceNumber() != null && curDegree.getSequenceNumber() == 1) {
+					if(null != curDegree.getDegreeCode() && !curDegree.getDegreeCode().isEmpty())
+						addField(
 							MarcTags.kDegreeName,
 							makeFieldDataFrom(' ', ' ', 'a',
 									curDegree.getDegreeCode()));
-					addField(
+					if(null != curDegree.getDegreeYear() && !curDegree.getDegreeYear().isEmpty())
+						addField(
 							MarcTags.kDegreeDate,
 							makeFieldDataFrom(' ', ' ', 'a',
 									curDegree.getDegreeYear()));
