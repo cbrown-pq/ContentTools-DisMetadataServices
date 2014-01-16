@@ -16,24 +16,25 @@ public class MarcRecordFactory_DissertationLanguage_Tests extends
 	DisPubMetaData disPubMetaData;
 	String tag = MarcTags.kDissertationLanguage;
 	String expectedMarcFieldData;
+	DisPubMetaData metaData;
 
 	@Test
 	public void withNullURL() {
-		DisPubMetaData metaData = new DisPubMetaData();
+		metaData = new DisPubMetaData();
 		metaData.setExternalURL(null);
 		verifyMarcRecordHasEmptyField(metaData, tag);
 	}
 
 	@Test
 	public void withEmptyURL() {
-		DisPubMetaData metaData = new DisPubMetaData();
+		metaData = new DisPubMetaData();
 		metaData.setExternalURL("");
 		verifyMarcRecordHasEmptyField(metaData, tag);
 	}
 
 	@Test
 	public void withOnlyLanguage() {
-		DisPubMetaData metaData = new DisPubMetaData();
+		metaData = new DisPubMetaData();
 		List<DissLanguage> languages = new ArrayList<DissLanguage>();
 		DissLanguage language = new DissLanguage("Description", "Code");
 		languages.add(language);
@@ -50,7 +51,7 @@ public class MarcRecordFactory_DissertationLanguage_Tests extends
 
 	@Test
 	public void withMultipleLanguages() {
-		DisPubMetaData metaData = new DisPubMetaData();
+		metaData = new DisPubMetaData();
 		List<DissLanguage> languages = new ArrayList<DissLanguage>();
 		DissLanguage language1 = new DissLanguage("Description1", "Code1");
 		languages.add(language1);
