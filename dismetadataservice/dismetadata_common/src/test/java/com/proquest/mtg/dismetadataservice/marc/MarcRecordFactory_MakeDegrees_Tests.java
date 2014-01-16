@@ -1,7 +1,7 @@
 package com.proquest.mtg.dismetadataservice.marc;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 
