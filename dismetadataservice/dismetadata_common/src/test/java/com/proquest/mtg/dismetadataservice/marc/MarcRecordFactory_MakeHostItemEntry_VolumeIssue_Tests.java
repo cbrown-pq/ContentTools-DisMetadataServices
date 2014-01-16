@@ -24,23 +24,7 @@ MarcRecordFactoryBase_Tests{
 		batch = new Batch();
 		metaData = new DisPubMetaData();
 	}
-	
-	@Test
-	public void withVolumeIssueAndRareDBType(){
-		batch.setVolumeIssue("S0098");
-		batch.setDAISectionCode(null);
-		batch.setDBTypeDesc("Description");
-		batch.setDBTypeCode("XYZ");
-		
-		metaData.setBatch(batch);
-		MarcRecord marc = factory.makeFrom(metaData);
-		String expectedData = "0 " + MarcCharSet.kSubFieldIndicator  + "t" 
-				+ "Description" + MarcCharSet.kSubFieldIndicator  + "g" + "00-98C.";
-		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
-		assertThat(fieldsMatchingTag.size(), is(1));
-		assertThat(fieldsMatchingTag.get(0).getData(), is(expectedData));
-	}
-	
+
 	@Test
 	public void withVolumeIssueAndDAIDBType_DAICode(){
 		String desc = "Disseration Abstracts International";
@@ -139,6 +123,24 @@ MarcRecordFactoryBase_Tests{
 		assertThat(fieldsMatchingTag.size(), is(1));
 		assertThat(fieldsMatchingTag.get(0).getData(), is(expectedData));
 	}
+	
+	@Test
+	public void withVolumeIssueAndOtherDBTypes(){
+		String desc = "All Others Dissertations";
+		batch.setVolumeIssue("volumeissue");
+		batch.setDBTypeDesc(desc);
+		batch.setDBTypeCode("XYZ");
+		
+		metaData.setBatch(batch);
+		MarcRecord marc = factory.makeFrom(metaData);
+		String expectedData = "0 " + MarcCharSet.kSubFieldIndicator  + "t" 
+				+ desc + MarcCharSet.kSubFieldIndicator  + "g" + "volumeissue.";
+		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
+		assertThat(fieldsMatchingTag.size(), is(1));
+		assertThat(fieldsMatchingTag.get(0).getData(), is(expectedData));
+	}
+	
+	
 
 	
 }

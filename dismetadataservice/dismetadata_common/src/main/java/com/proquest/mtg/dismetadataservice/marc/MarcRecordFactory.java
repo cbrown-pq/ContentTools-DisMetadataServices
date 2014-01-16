@@ -500,10 +500,7 @@ public class MarcRecordFactory {
 						makeFieldDataFrom('0', ' ', 't', endWithPeriod(batchTypeDesc)));
 		} else {
 			if (null != batchVolumeIssue && !batchVolumeIssue.isEmpty()) {
-				if(batchVolumeIssue.contains("-"))
-					fieldData = endWithPeriod(batchVolumeIssue.substring(0, 2) + "-" + batchVolumeIssue.substring(3, 5) + "C");
-				else
-					fieldData = endWithPeriod(batchVolumeIssue.substring(1, 3) + "-" + batchVolumeIssue.substring(3, 5) + "C");
+				fieldData = endWithPeriod(batchVolumeIssue);
 				addField(
 						MarcTags.kHostItemEntry,
 						makeHostItemEntryFieldDataFrom('0', ' ', 't',
@@ -528,8 +525,8 @@ public class MarcRecordFactory {
 					advisorFirstName = adviserName[0];
 					advisorMiddleInitial = adviserName[1];
 					advisorLastName = adviserName[2];
-					advisorGenerationSuffix = adviserName[3];
-					adviserFullName = advisorLastName + "," + " "
+					advisorGenerationSuffix = adviserName[3];					
+					adviserFullName = endWithComma(advisorLastName) + " "
 							+ advisorFirstName + " " + advisorMiddleInitial + "," + advisorGenerationSuffix + ",";
 				}
 				else if(adviserName.length == 3)
@@ -538,24 +535,23 @@ public class MarcRecordFactory {
 					advisorMiddleInitial = adviserName[1];
 					advisorLastName = adviserName[2];
 					adviserFullName = advisorLastName + "," + " "
-							+ advisorFirstName + " " + advisorMiddleInitial + ",";
+							+ advisorFirstName + " " + advisorMiddleInitial + ",";					
 				}
 				else if(adviserName.length == 2)
 				{
 					advisorFirstName = adviserName[0];
 					advisorLastName = adviserName[1];
-					adviserFullName = advisorLastName + "," + " "
-							+ advisorFirstName + ",";
+					adviserFullName = advisorLastName.replace("@", " ") + "," + " " + advisorFirstName + ",";					
 				}
 				else
 				{
-					adviserFullName = curAdvisor.getAdvisorFullName().trim();
+					adviserFullName = curAdvisor.getAdvisorFullName();
 				}
 				adviserFullName = SGMLEntitySubstitution.applyAllTo(adviserFullName);
 				advisorString = SGMLEntitySubstitution.applyAllTo(advisorString);
 				addField(
 						MarcTags.kAdvisorname,
-						makeFieldDataFrom('1', '0', 'a', adviserFullName,
+						makeFieldDataFrom('1', '0', 'a', adviserFullName.trim(),
 								advisorString));
 			}
 		}
@@ -618,6 +614,10 @@ public class MarcRecordFactory {
 
 	}
 
+	private String endWithComma(String x) {
+		return x.endsWith(",") ? x : x + ",";
+	}
+	
 	private String endWithPeriod(String x) {
 		return x.endsWith(".") ? x : x + ".";
 	}
