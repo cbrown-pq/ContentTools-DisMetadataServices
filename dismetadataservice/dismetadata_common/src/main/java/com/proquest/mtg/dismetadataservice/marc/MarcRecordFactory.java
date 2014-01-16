@@ -585,13 +585,15 @@ public class MarcRecordFactory {
 
 	private void handleDisserationLanguage() {
 		List<DissLanguage> dissLanguages = curMetaData.getDissLanguages();
+		String languageDescription = "";
 		if (dissLanguages != null && !dissLanguages.isEmpty()) {
 			for (DissLanguage curDissLanguage : dissLanguages) {
+				 languageDescription = languageDescription + curDissLanguage.getLanguageDescription() + ";" ;
+			}
 				addField(
 						MarcTags.kDissertationLanguage,
 						makeFieldDataFrom(' ', ' ', 'a',
-								curDissLanguage.getLanguageDescription()));
-			}
+								languageDescription.substring(0,languageDescription.length()-1)));
 		}
 	}
 

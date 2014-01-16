@@ -1,0 +1,70 @@
+package com.proquest.mtg.dismetadataservice.marc;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Test;
+
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+
+public class MarcRecordFactory_DissertationLanguage_Tests extends
+		MarcRecordFactoryBase_Tests {
+	DisPubMetaData disPubMetaData;
+	String tag = MarcTags.kDissertationLanguage;
+	String expectedMarcFieldData;
+
+	@Test
+	public void withNullURL() {
+		DisPubMetaData metaData = new DisPubMetaData();
+		metaData.setExternalURL(null);
+		verifyMarcRecordHasEmptyField(metaData, tag);
+	}
+
+	@Test
+	public void withEmptyURL() {
+		DisPubMetaData metaData = new DisPubMetaData();
+		metaData.setExternalURL("");
+		verifyMarcRecordHasEmptyField(metaData, tag);
+	}
+
+	@Test
+	public void withOnlyLanguage() {
+		DisPubMetaData metaData = new DisPubMetaData();
+		List<DissLanguage> languages = new ArrayList<DissLanguage>();
+		DissLanguage language = new DissLanguage("Description", "Code");
+		languages.add(language);
+		metaData.setDissLanguages(languages);
+		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a"
+				+ "Description";
+		MarcRecord marc = factory.makeFrom(metaData);
+		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag);
+		assertThat(fieldsMatchingTag.size(), is(1));
+		assertThat(fieldsMatchingTag.get(0).getData(),
+				is(expectedMarcFieldData));
+
+	}
+
+	@Test
+	public void withMultipleLanguages() {
+		DisPubMetaData metaData = new DisPubMetaData();
+		List<DissLanguage> languages = new ArrayList<DissLanguage>();
+		DissLanguage language1 = new DissLanguage("Description1", "Code1");
+		languages.add(language1);
+		DissLanguage language2 = new DissLanguage("Description2", "Code2");
+		languages.add(language2);
+		metaData.setDissLanguages(languages);
+		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a"
+				+ "Description1;Description2";
+		MarcRecord marc = factory.makeFrom(metaData);
+		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag);
+		assertThat(fieldsMatchingTag.size(), is(1));
+		assertThat(fieldsMatchingTag.get(0).getData(),
+				is(expectedMarcFieldData));
+
+	}
+
+}
