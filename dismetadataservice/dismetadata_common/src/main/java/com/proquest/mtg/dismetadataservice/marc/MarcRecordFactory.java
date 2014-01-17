@@ -390,7 +390,7 @@ public class MarcRecordFactory {
 		Advisors advisors = curMetaData.getAdvisors();
 		if (null != advisors) {
 			String advisor = advisors.getAdvisorsExodusStr();
-			if (!advisor.isEmpty()) {
+			if (null != advisor && !advisor.isEmpty()) {
 				advisor = SGMLEntitySubstitution.applyAllTo(advisor);
 				advisor.replaceAll("\\s+$", "");
 				if (! advisor.endsWith(".")) {
@@ -527,21 +527,39 @@ public class MarcRecordFactory {
 					advisorLastName = adviserName[2];
 					advisorGenerationSuffix = adviserName[3];					
 					adviserFullName = endWithComma(advisorLastName) + " "
-							+ advisorFirstName + " " + advisorMiddleInitial + "," + advisorGenerationSuffix + ",";
+							+ advisorFirstName + " " + advisorMiddleInitial + "," + advisorGenerationSuffix;
 				}
 				else if(adviserName.length == 3)
 				{
+					String pattern="^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$";
 					advisorFirstName = adviserName[0];
-					advisorMiddleInitial = adviserName[1];
-					advisorLastName = adviserName[2];
-					adviserFullName = advisorLastName + "," + " "
-							+ advisorFirstName + " " + advisorMiddleInitial + ",";					
+					if(adviserName[1].length() == 2) {
+						advisorMiddleInitial = adviserName[1];
+						advisorLastName = adviserName[2];
+						adviserFullName = advisorLastName + "," + " "
+							+ advisorFirstName + " " + advisorMiddleInitial;	
+					}
+					else if(adviserName[2].endsWith(".")){
+						advisorLastName = adviserName[1];
+						advisorGenerationSuffix = adviserName[2];
+						adviserFullName = advisorLastName + "," + " "
+							+ advisorFirstName + "," + advisorGenerationSuffix;	
+					}
+					else if(adviserName[2].matches(pattern)) {
+						advisorLastName = adviserName[1];
+						advisorGenerationSuffix = adviserName[2];
+						adviserFullName = advisorLastName + "," + " "
+								+ advisorFirstName + "," + advisorGenerationSuffix;	
+					}
+					else {
+						adviserFullName = curAdvisor.getAdvisorFullName();
+					}
 				}
 				else if(adviserName.length == 2)
 				{
 					advisorFirstName = adviserName[0];
 					advisorLastName = adviserName[1];
-					adviserFullName = advisorLastName.replace("@", " ") + "," + " " + advisorFirstName + ",";					
+					adviserFullName = advisorLastName.replace("@", " ") + "," + " " + advisorFirstName;					
 				}
 				else
 				{
@@ -551,7 +569,7 @@ public class MarcRecordFactory {
 				advisorString = SGMLEntitySubstitution.applyAllTo(advisorString);
 				addField(
 						MarcTags.kAdvisorname,
-						makeFieldDataFrom('1', '0', 'a', adviserFullName.trim(),
+						makeFieldDataFrom('1', '0', 'a', endWithComma(adviserFullName.trim()),
 								advisorString));
 			}
 		}
