@@ -11,7 +11,7 @@ import org.junit.Test;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 
-public class MarcRecordFactory_MakeHostItemEntry_VolumeIssue_Tests extends
+public class MarcRecordFactory_MakeHostItemEntry_Tests extends
 MarcRecordFactoryBase_Tests{
 
 	Batch batch;
