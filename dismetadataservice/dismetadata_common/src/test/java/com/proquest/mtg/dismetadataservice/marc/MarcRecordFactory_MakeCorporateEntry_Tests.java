@@ -91,6 +91,25 @@ public class MarcRecordFactory_MakeCorporateEntry_Tests extends
 		assertThat(fieldsMatchingTag1.get(0).getData(),
 				is(expectedMarcFieldData));
 	}
+	
+	@Test
+	public void withMultipleCorporateNamesAndWithSchool() {
+		corpName = "CorporateName1";
+		departments.add(corpName);
+		departments.add("CorporateName2");
+		schoolName = "SchoolName";
+		school.setSchoolName(schoolName);
+		metaData.setDepartments(departments);
+		metaData.setSchool(school);
+		expectedMarcFieldData = "20" + MarcCharSet.kSubFieldIndicator + "a"
+				+ schoolName + "." + MarcCharSet.kSubFieldIndicator + "b"
+				+ corpName + "." + "CorporateName2" + ".";
+		MarcRecord marc = factory.makeFrom(metaData);
+		List<MarcField> fieldsMatchingTag1 = marc.getFieldsMatchingTag(tag);
+		assertThat(fieldsMatchingTag1.size(), is(1));
+		assertThat(fieldsMatchingTag1.get(0).getData(),
+				is(expectedMarcFieldData));
+	}
 
 	@Test
 	public void withCorporateNameAndNoSchoolHasNoTag() {
