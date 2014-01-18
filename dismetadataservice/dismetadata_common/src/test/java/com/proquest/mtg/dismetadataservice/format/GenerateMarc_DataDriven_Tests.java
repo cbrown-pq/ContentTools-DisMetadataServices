@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
@@ -45,7 +46,7 @@ public class GenerateMarc_DataDriven_Tests {
 			marcRecord.removeFieldsWithTag(MarcTags.kFiexedLengthDataElements); // This has some TimeStamp stuff too.
 		}
 		
-		public PubAndMarcRecord(String pubName, String marcData) throws MarcParserException {
+		public PubAndMarcRecord(String pubName, String marcData) throws MarcParserException, UnsupportedEncodingException {
 			this(pubName, MarcRecord.makeFrom(marcData));
 		}
 		
@@ -115,8 +116,8 @@ public class GenerateMarc_DataDriven_Tests {
 	
 	private void verifyMarc(
 			String message, 
-			PubAndMarcRecord expectedMarc, 
-			PubAndMarcRecord actualMarc) { 
+			PubAndMarcRecord actualMarc, 
+			PubAndMarcRecord expectedMarc) { 
 		verifyMarcRecordTags(message, actualMarc, expectedMarc);
 		verifyMarcFields(message, actualMarc, expectedMarc);
 	}
