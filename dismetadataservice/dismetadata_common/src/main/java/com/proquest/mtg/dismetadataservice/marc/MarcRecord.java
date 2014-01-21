@@ -1,5 +1,6 @@
 package com.proquest.mtg.dismetadataservice.marc;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -102,7 +103,7 @@ public class MarcRecord {
 		}
 	}
 	
-	public String toMarcString() {
+	public String toMarcString() throws UnsupportedEncodingException {
 		return new MarcParser().write(this); 
 	}
 	
@@ -143,7 +144,7 @@ public class MarcRecord {
 	
 	///////////////////////////////////////////////////////
 	
-	public static MarcRecord makeFrom(String marcString) throws MarcParserException {
+	public static MarcRecord makeFrom(String marcString) throws MarcParserException, UnsupportedEncodingException {
 		return new MarcParser().read(marcString);
 	}
 
