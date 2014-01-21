@@ -15,14 +15,13 @@ import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 
-public class MarcRecordFactory_SubjectTerm_Tests {
-	
+public class MarcRecordFactory_SubjectCode_Tests {
 	String tag;
 	MarcRecordFactory factory ;
 	
 	@Before
 	public void setUp() throws Exception {
-		tag = MarcTags.kSubjectTerm;
+		tag = MarcTags.kSubjectCode;
 		IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
 		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(connectionPool);
 		factory = new MarcRecordFactory(disGenMappingProvider);
@@ -50,14 +49,14 @@ public class MarcRecordFactory_SubjectTerm_Tests {
 	@Test
 	public void withOneSubject() throws Exception {
 		
-		String subjectDesc = "Sample Subject";
+		String subjectCode = "0010";
 		Subject subject = new Subject();
-		subject.setSubjectDesc(subjectDesc);
+		subject.setSubjectCode(subjectCode);
 		List<Subject> subjects = Lists.newArrayList(subject);
 		DisPubMetaData metaData = new DisPubMetaData();
 		metaData.setSubjects(subjects);
 		
-		String expectedSubject = " 4" + MarcCharSet.kSubFieldIndicator + "a" + subjectDesc + ".";
+		String expectedSubject = "  " + MarcCharSet.kSubFieldIndicator + "a" + subjectCode;
 		MarcRecord marc = factory.makeFrom(metaData);
 		
 		List<MarcField> subjectTermFields = marc.getFieldsMatchingTag(tag); 
@@ -68,24 +67,24 @@ public class MarcRecordFactory_SubjectTerm_Tests {
 	@Test
 	public void withMultipleSubjects() throws Exception {
 		
-		String subjectDesc1 = "Sample Subject 1";
-		String subjectDesc2 = "Sample Subject 2";
-		String subjectDesc3 = "Sample Subject 3";
+		String subjectCode1 = "1234";
+		String subjectCode2 = "2345";
+		String subjectCode3 = "3456";
 		Subject subject1 = new Subject();
 		Subject subject2 = new Subject();
 		Subject subject3 = new Subject();
 		
-		subject1.setSubjectDesc(subjectDesc1);
-		subject2.setSubjectDesc(subjectDesc2);
-		subject3.setSubjectDesc(subjectDesc3);
+		subject1.setSubjectCode(subjectCode1);
+		subject2.setSubjectCode(subjectCode2);
+		subject3.setSubjectCode(subjectCode3);
 		
 		List<Subject> subjects = Lists.newArrayList(subject1, subject2, subject3);
 		DisPubMetaData metaData = new DisPubMetaData();
 		metaData.setSubjects(subjects);
 		
-		String expectedSubject1 = " 4" + MarcCharSet.kSubFieldIndicator + "a" + subjectDesc1 + ".";
-		String expectedSubject2 = " 4" + MarcCharSet.kSubFieldIndicator + "a" + subjectDesc2 + ".";
-		String expectedSubject3 = " 4" + MarcCharSet.kSubFieldIndicator + "a" + subjectDesc3 + ".";
+		String expectedSubject1 = "  " + MarcCharSet.kSubFieldIndicator + "a" + subjectCode1;
+		String expectedSubject2 = "  " + MarcCharSet.kSubFieldIndicator + "a" + subjectCode2;
+		String expectedSubject3 = "  " + MarcCharSet.kSubFieldIndicator + "a" + subjectCode3;
 		
 		MarcRecord marc = factory.makeFrom(metaData);
 		
