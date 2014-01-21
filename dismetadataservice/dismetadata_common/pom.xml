@@ -54,4 +54,11 @@
 	</dependency>
     
   </dependencies>
+    <build>
+        <resources>
+      <resource>
+        <directory>${basedir}/../config</directory>
+      </resource>
+    </resources>
+    </build>
  </project>

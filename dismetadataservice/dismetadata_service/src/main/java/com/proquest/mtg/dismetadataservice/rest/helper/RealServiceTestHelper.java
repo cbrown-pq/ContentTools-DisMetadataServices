@@ -8,7 +8,7 @@ import com.proquest.mtg.dismetadataservice.guice.DisMetadataServiceGuiceModule;
 
 public class RealServiceTestHelper extends ServiceTestHelperBase {
 	
-	static final String kPropertyFileName = "dismetadata.local.properties";
+	static final String kPropertyFileName = "dismetadata.preprod.properties";
 	
 	DisMetadataServiceGuiceModule disMetadataGuiceModule;
 	
