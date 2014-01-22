@@ -11,7 +11,7 @@ public class MyServletGuiceModule extends ServletModule {
 	
 	@Override
     protected void configureServlets() {
-		serve("/rest/*").with(GuiceContainer.class);
+		serve("/disout/*").with(GuiceContainer.class);
 		ResourceConfig rc = new PackagesResourceConfig( "com.proquest.mtg.dismetadataservice.rest");
 		 for ( Class<?> resource : rc.getClasses() ) {
 			 bind( resource );
