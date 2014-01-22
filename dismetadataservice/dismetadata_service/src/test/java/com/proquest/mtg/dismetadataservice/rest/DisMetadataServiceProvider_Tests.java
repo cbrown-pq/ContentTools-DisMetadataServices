@@ -54,7 +54,7 @@ public class DisMetadataServiceProvider_Tests extends EasyMockSupport {
 
 	@Test
 	public void acceptance() throws Exception {
-		ClientResponse resp = service.path("dispubmetadata")
+		ClientResponse resp = service.path("metadata")
 				.path("TESTPUB/MARC").get(ClientResponse.class);
 		String responseMsg = resp.getEntity(String.class);
 
