@@ -16,6 +16,7 @@ import com.google.common.collect.Lists;
 public class MarcParser {
 	
 	public static final String kFieldDataEnCoding = "UTF-8";
+	public static final char kMarcRecordDelimChar = (char)0x19;
 	
 	public static final int kLeaderByteCount = 24;
 	public static final int kTerminatorByteCount = 1;
@@ -67,6 +68,7 @@ public class MarcParser {
 		result.append(MarcCharSet.kFieldTerminator);
 		writeFields(result, marcRecord);
 		result.append(MarcCharSet.kRecordTerminator);
+		result.append(kMarcRecordDelimChar);
 		return result.toString();
 	}
 	
