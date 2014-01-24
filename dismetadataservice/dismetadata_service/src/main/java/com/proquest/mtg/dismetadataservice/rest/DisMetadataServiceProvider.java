@@ -5,7 +5,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
 import javax.ws.rs.core.Response;
 
 import com.google.inject.Inject;
@@ -28,17 +27,14 @@ public class DisMetadataServiceProvider {
 	@Path("/{pubNumber}/{formatType}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response getDisMetaData(@PathParam("pubNumber") String pubNumber,
-			@PathParam("formatType") String formatType) {
+			@PathParam("formatType") String formatType) throws MetaDataServiceException {
 		String result = null;
 		int statusCode;
 		try {
 			result = getMetaDataFormatFactory().getFor(formatType).makeFor(pubNumber);
 			statusCode = 200;	    
-		} catch (NullPointerException e) {
-			statusCode = 204;	
-		} catch (Exception e) {
-			result = e.toString();
-			statusCode = 500;	
+		} catch (Exception ex) {
+			throw new MetaDataServiceException(ex);
 		}
 		return Response.status(statusCode).entity(result).build();
 
