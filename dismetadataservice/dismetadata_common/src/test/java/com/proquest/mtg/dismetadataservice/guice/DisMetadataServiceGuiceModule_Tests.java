@@ -33,7 +33,7 @@ public class DisMetadataServiceGuiceModule_Tests {
 		
 		disMetadataProps = new DisMetadataProperties(props);
 		
-		String unitTestPropertyFile = "dismetadata.local.properties";
+		String unitTestPropertyFile = "dismetadata.preprod.properties";
 		guiceModule = new DisMetadataServiceGuiceModule(unitTestPropertyFile);
 		injector = Guice.createInjector(guiceModule);
 	}

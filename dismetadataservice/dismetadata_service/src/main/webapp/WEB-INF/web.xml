@@ -9,7 +9,7 @@
   
   <context-param>
       <param-name>dismetadata.appConfigFileName</param-name>
-      <param-value>dismetadata.local.properties</param-value>
+      <param-value>dismetadata.preprod.properties</param-value>
    </context-param>  
     <filter>
       <filter-name>guiceFilter</filter-name>
