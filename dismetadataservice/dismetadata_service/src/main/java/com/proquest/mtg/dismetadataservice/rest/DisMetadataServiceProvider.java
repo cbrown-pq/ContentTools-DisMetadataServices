@@ -4,6 +4,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -27,17 +28,16 @@ public class DisMetadataServiceProvider {
 	@Path("/{pubNumber}/{formatType}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response getDisMetaData(@PathParam("pubNumber") String pubNumber,
-			@PathParam("formatType") String formatType) throws MetaDataServiceException {
+			@PathParam("formatType") String formatType) throws WebApplicationException {
 		String result = null;
-		int statusCode;
 		try {
 			result = getMetaDataFormatFactory().getFor(formatType).makeFor(pubNumber);
-			statusCode = 200;	    
-		} catch (Exception ex) {
-			throw new MetaDataServiceException(ex);
+		} catch(IllegalArgumentException e) {
+			throw new MetaDataServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
+		} catch (Exception e) {
+			throw new MetaDataServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
-		return Response.status(statusCode).entity(result).build();
-
+		return Response.status(Response.Status.OK).entity(result).build();
 	}
 
 }
