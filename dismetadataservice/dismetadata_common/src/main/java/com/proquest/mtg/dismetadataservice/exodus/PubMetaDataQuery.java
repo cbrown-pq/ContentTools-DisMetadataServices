@@ -80,7 +80,10 @@ public class PubMetaDataQuery {
 	private static final String kColumnKeyword = "Keyword";
 	private static final String kColumnKeywordSource = "KeywordSource";
 	
+	private static final String kColumnSalesRestrctionCode = "SalesRestrictionCode";
 	private static final String kColumnSalesRestrctionDescription = "SalesRestrictionDescription";
+	private static final String kColumnSalesRestrctionStartDate = "SalesRestrictionStartDate";
+	private static final String kColumnSalesRestrctionEndDate = "SalesRestrictionEndDate";
 	
 	private static final String kColumnBatchTypeCode = "BatchTypeCode";
 	private static final String kColumnBatchDescription = "BatchDescription";
@@ -254,10 +257,13 @@ public class PubMetaDataQuery {
 	
 	private static final String kSelectSalesRestriction = 
 			"SELECT " + 
+				"dsr.dvsr_code " + kColumnSalesRestrctionCode + ", " +
+				"TO_CHAR(dsr.dsr_res_start_date, 'DD-MON-YYYY') " + kColumnSalesRestrctionStartDate + ", " +
+				"TO_CHAR(dsr.dsr_res_lift_date, 'DD-MON-YYYY') " + kColumnSalesRestrctionEndDate + ", " +
 				"dvsr.dvsr_description " + kColumnSalesRestrctionDescription + " " +
 			"FROM " + 
-				"dis_sales_restrictions dsr, " +  
-				"dis_valid_sales_rstcns dvsr " +
+				"dis.dis_sales_restrictions dsr, " +  
+				"dis.dis_valid_sales_rstcns dvsr " +
 			"WHERE " + 
 				"dvsr.dvsr_code = dsr.dvsr_code AND " + 
 				"dsr.ditm_id = ? " +
@@ -631,6 +637,9 @@ public class PubMetaDataQuery {
 					result = Lists.newArrayList();
 				}
 				SalesRestriction item = new SalesRestriction();
+				item.setCode(trimmed(cursor.getString(kColumnSalesRestrctionCode)));
+				item.setRestrictionStartDate(cursor.getString(kColumnSalesRestrctionStartDate));
+				item.setRestrictionEndDate(cursor.getString(kColumnSalesRestrctionEndDate));
 				item.setDescription(trimmed(cursor.getString(kColumnSalesRestrctionDescription)));
 				result.add(item);
 			}

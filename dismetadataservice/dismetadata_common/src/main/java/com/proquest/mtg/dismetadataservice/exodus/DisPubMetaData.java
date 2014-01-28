@@ -1,6 +1,7 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -421,7 +422,10 @@ public class DisPubMetaData {
     }
     
     public static class SalesRestriction {
+    	private String code;
         private String description;
+        private String restrictionStartDate;
+        private String restrictionEndDate;
 
         public String getDescription() {
             return description;
@@ -430,6 +434,30 @@ public class DisPubMetaData {
         public void setDescription(String value) {
             this.description = value;
         }
+
+		public String getCode() {
+			return code;
+		}
+
+		public void setCode(String value) {
+			this.code = value;
+		}
+
+		public String getRestrictionStartDate() {
+			return restrictionStartDate;
+		}
+
+		public void setRestrictionStartDate(String value) {
+			this.restrictionStartDate = value;
+		}
+
+		public String getRestrictionEndDate() {
+			return restrictionEndDate;
+		}
+
+		public void setRestrictionEndDate(String value) {
+			this.restrictionEndDate = value;
+		}
     }
     
     public static class Batch {

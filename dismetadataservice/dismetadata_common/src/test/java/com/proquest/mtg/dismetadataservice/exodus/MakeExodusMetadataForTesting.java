@@ -1,5 +1,6 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -16,8 +17,8 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Title;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
-import com.proquest.mtg.dismetadataservice.metadata.SplitAuthorNames;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
+import com.proquest.mtg.dismetadataservice.metadata.SplitAuthorNames;
 
 public class MakeExodusMetadataForTesting {
 	
@@ -56,8 +57,12 @@ public class MakeExodusMetadataForTesting {
 		return result;
 	}
 	
-	public static SalesRestriction makeSalesDescriptionFrom(String description) {
+	public static SalesRestriction makeSalesDescriptionFrom(String code, String startDate, 
+			String endDate, String description) {
 		SalesRestriction result = new SalesRestriction();
+		result.setCode(code);
+		result.setRestrictionStartDate(startDate);
+		result.setRestrictionEndDate(endDate);
 		result.setDescription(description);
 		return result;
 	}
@@ -121,7 +126,7 @@ public class MakeExodusMetadataForTesting {
 	}
 	
 	// Pub C660938
-	public static final DisPubMetaData makeExpectedMetaData0() {
+	public static final DisPubMetaData makeExpectedMetaData0() throws ParseException {
 		DisPubMetaData x = new DisPubMetaData();
 		x.setPubNumber(pubId0);
 		x.setReferenceLocation(
@@ -178,7 +183,7 @@ public class MakeExodusMetadataForTesting {
 				));
 		
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
-				makeSalesDescriptionFrom("Do not Sell"));
+				makeSalesDescriptionFrom("9", "01-JAN-1998", null, "Do not Sell"));
 		x.setSalesRestrictions(salesRestrictions);
 		
 		x.setCmteMembers(null);
@@ -196,7 +201,7 @@ public class MakeExodusMetadataForTesting {
 	}
 		
 	// Pub 1529601
-	public static final DisPubMetaData makeExpectedMetaData1() {
+	public static final DisPubMetaData makeExpectedMetaData1() throws ParseException {
 		DisPubMetaData x = new DisPubMetaData();
 		x.setPubNumber(pubId1);
 		
@@ -246,8 +251,8 @@ public class MakeExodusMetadataForTesting {
 				));
 		
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
-				makeSalesDescriptionFrom("Not Available for Sale"),
-				makeSalesDescriptionFrom("Do not sell third party vendor"));
+				makeSalesDescriptionFrom("1", "15-OCT-2012", null, "Not Available for Sale"),
+				makeSalesDescriptionFrom("5", "15-OCT-2012", null, "Do not sell third party vendor"));
 		x.setSalesRestrictions(salesRestrictions);
 		
 		List<CmteMember> comittee = Lists.newArrayList(
@@ -274,7 +279,7 @@ public class MakeExodusMetadataForTesting {
 	}
 	
 	// Pub 0123559
-	public static final DisPubMetaData makeExpectedMetaData2() {
+	public static final DisPubMetaData makeExpectedMetaData2() throws ParseException {
 		DisPubMetaData x = new DisPubMetaData();
 		x.setPubNumber(pubId2);
 		x.setPubPageNum("61");
@@ -320,7 +325,7 @@ public class MakeExodusMetadataForTesting {
 				));
 		
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
-				makeSalesDescriptionFrom("Do not Sell"));
+				makeSalesDescriptionFrom("9", "01-JAN-1921", null, "Do not Sell"));
 		x.setSalesRestrictions(salesRestrictions);
 		
 		x.setCmteMembers(null);
@@ -339,7 +344,7 @@ public class MakeExodusMetadataForTesting {
 	}
 	
 	// Pub U183503
-	public static final DisPubMetaData makeExpectedMetaData3() {
+	public static final DisPubMetaData makeExpectedMetaData3() throws ParseException {
 		DisPubMetaData x = new DisPubMetaData();
 		x.setPubNumber(pubId3);
 		x.setPageCount("1");
@@ -362,7 +367,7 @@ public class MakeExodusMetadataForTesting {
 		x.setSchool(school);
 		
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
-				makeSalesDescriptionFrom("Do not Sell"));
+				makeSalesDescriptionFrom("9", "10-JUN-2009", null, "Do not Sell"));
 		x.setSalesRestrictions(salesRestrictions);
 		
 		List<Subject> subjects = Lists.newArrayList(
@@ -468,7 +473,7 @@ public class MakeExodusMetadataForTesting {
 	}
 	
 	// NR93884
-	public static final DisPubMetaData makeExpectedMetaData5() {
+	public static final DisPubMetaData makeExpectedMetaData5() throws ParseException {
 		DisPubMetaData x = new DisPubMetaData();
 		x.setPubNumber(pubId5);
 		x.setISBN("978-0-494-93884-3");
@@ -529,8 +534,8 @@ public class MakeExodusMetadataForTesting {
 				));
 		
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
-				makeSalesDescriptionFrom("Do not sell third party vendor"),
-				makeSalesDescriptionFrom("Do not sell third party Indexing"));
+				makeSalesDescriptionFrom("5", "08-JUL-2013", null, "Do not sell third party vendor"),
+				makeSalesDescriptionFrom("8", "08-JUL-2013", null, "Do not sell third party Indexing"));
 		x.setSalesRestrictions(salesRestrictions);
 		
 		Advisors advisors = makeAdvisorsFrom(
@@ -554,7 +559,7 @@ public class MakeExodusMetadataForTesting {
 	}
 	
 	// 1535737
-	public static final DisPubMetaData makeExpectedMetaData6() {
+	public static final DisPubMetaData makeExpectedMetaData6() throws ParseException {
 		DisPubMetaData x = new DisPubMetaData();
 		x.setPubNumber(pubId6);
 		x.setISBN("978-1-303-02410-8");
@@ -602,8 +607,8 @@ public class MakeExodusMetadataForTesting {
 				));
 		
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
-				makeSalesDescriptionFrom("Do not sell third party vendor"),
-				makeSalesDescriptionFrom("Do not sell third party Indexing"));
+				makeSalesDescriptionFrom("5", "12-APR-2013", null, "Do not sell third party vendor"),
+				makeSalesDescriptionFrom("8", "12-APR-2013", null, "Do not sell third party Indexing"));
 		x.setSalesRestrictions(salesRestrictions);
 		
 		String departments = "Theatre and Dance";
@@ -639,7 +644,7 @@ public class MakeExodusMetadataForTesting {
 	}
 	
 	// 1496919
-	public static final DisPubMetaData makeExpectedMetaData7() {
+	public static final DisPubMetaData makeExpectedMetaData7() throws ParseException {
 		DisPubMetaData x = new DisPubMetaData();
 		x.setPubNumber(pubId7);
 		x.setISBN("978-1-124-78544-8");
@@ -699,7 +704,7 @@ public class MakeExodusMetadataForTesting {
 				));
 			
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
-				makeSalesDescriptionFrom("Do not sell third party vendor"));
+				makeSalesDescriptionFrom("5", "25-JUL-2011", null, "Do not sell third party vendor"));
 		x.setSalesRestrictions(salesRestrictions);
 		
 		String departments = "Geological Sciences and Environmental Studies";
@@ -736,7 +741,7 @@ public class MakeExodusMetadataForTesting {
 	}
 	
 	// 3587237
-	public static final DisPubMetaData makeExpectedMetaData8() {
+	public static final DisPubMetaData makeExpectedMetaData8() throws ParseException {
 		DisPubMetaData x = new DisPubMetaData();
 		x.setPubNumber(pubId8);
 		x.setISBN("978-1-303-24310-3");
@@ -795,8 +800,8 @@ public class MakeExodusMetadataForTesting {
 				));
 		
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
-				makeSalesDescriptionFrom("Do not sell third party vendor"),
-				makeSalesDescriptionFrom("Do not sell third party Indexing"));
+				makeSalesDescriptionFrom("5", "03-JUL-2013", null, "Do not sell third party vendor"),
+				makeSalesDescriptionFrom("8", "03-JUL-2013", null, "Do not sell third party Indexing"));
 		x.setSalesRestrictions(salesRestrictions);
 		
 		Batch batch = new Batch();
@@ -829,7 +834,7 @@ public class MakeExodusMetadataForTesting {
 	}
 	
 	// MR82571
-	public static final DisPubMetaData makeExpectedMetaData9() {
+	public static final DisPubMetaData makeExpectedMetaData9() throws ParseException {
 		DisPubMetaData x = new DisPubMetaData();
 		x.setPubNumber(pubId9);
 		x.setISBN("978-0-494-82571-6");
@@ -869,8 +874,8 @@ public class MakeExodusMetadataForTesting {
 				));
 		
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
-				makeSalesDescriptionFrom("Do not sell third party vendor"),
-				makeSalesDescriptionFrom("Do not sell third party Indexing"));
+				makeSalesDescriptionFrom("5", "21-NOV-2012", null, "Do not sell third party vendor"),
+				makeSalesDescriptionFrom("8", "21-NOV-2012", null, "Do not sell third party Indexing"));
 		x.setSalesRestrictions(salesRestrictions);
 		
 		Batch batch = new Batch();
@@ -903,7 +908,7 @@ public class MakeExodusMetadataForTesting {
 	}
 	
 	// C806973
-	public static final DisPubMetaData makeExpectedMetaData10() {
+	public static final DisPubMetaData makeExpectedMetaData10() throws ParseException {
 		DisPubMetaData x = new DisPubMetaData();
 		x.setPubNumber(pubId10);
 		x.setISBN("978-951-45-9858-6");
@@ -946,7 +951,7 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("Stone Age", "From Title")));
 		
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
-				makeSalesDescriptionFrom("Do not Sell"));
+				makeSalesDescriptionFrom("9", "23-JAN-2002", null, "Do not Sell"));
 		x.setSalesRestrictions(salesRestrictions);
 		
 		Batch batch = new Batch();
@@ -979,7 +984,7 @@ public class MakeExodusMetadataForTesting {
 	}
 	
 	// 3533463
-	public static final DisPubMetaData makeExpectedMetaData11() {
+	public static final DisPubMetaData makeExpectedMetaData11() throws ParseException {
 		DisPubMetaData x = new DisPubMetaData();
 		x.setPubNumber(pubId11);
 		x.setISBN("978-1-267-77436-1");
@@ -1023,8 +1028,8 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("System identification", "By I and L")));
 		
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
-				makeSalesDescriptionFrom("Do not sell third party vendor"),
-				makeSalesDescriptionFrom("Do not sell third party Indexing"));
+				makeSalesDescriptionFrom("5", "06-NOV-2012", null, "Do not sell third party vendor"),
+				makeSalesDescriptionFrom("8", "06-NOV-2012", null, "Do not sell third party Indexing"));
 		x.setSalesRestrictions(salesRestrictions);
 		
 		Batch batch = new Batch();
@@ -1064,7 +1069,7 @@ public class MakeExodusMetadataForTesting {
 	
 
 	// 1533698
-	public static final DisPubMetaData makeExpectedMetaData12() {
+	public static final DisPubMetaData makeExpectedMetaData12() throws ParseException {
 		DisPubMetaData x = new DisPubMetaData();
 		x.setPubNumber(pubId12);
 		x.setISBN("978-1-267-91928-1");
@@ -1107,7 +1112,7 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("SILICON", "For Datrix")));
 		
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
-				makeSalesDescriptionFrom("Do not sell third party vendor"));
+				makeSalesDescriptionFrom("5", "04-FEB-2013", null, "Do not sell third party vendor"));
 		x.setSalesRestrictions(salesRestrictions);
 		
 		Batch batch = new Batch();

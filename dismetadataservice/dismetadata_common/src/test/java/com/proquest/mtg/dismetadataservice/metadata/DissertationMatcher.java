@@ -201,7 +201,13 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 					for (int i=0; i<expectedCount; ++i) {
 						SalesRestriction expectedItem = expected.getSalesRestrictions().get(i);
 						SalesRestriction actualItem = actual.getSalesRestrictions().get(i);
-						verify("Sales Restriction Description " + i, expectedItem.getDescription(), actualItem.getDescription());
+						verify("Sales Restriction Code " + i, expectedItem.getCode(), actualItem.getCode());
+						verify("Sales Restriction Start date " + i, expectedItem.getRestrictionStartDate(), 
+								actualItem.getRestrictionStartDate());
+						verify("Sales Restriction End date " + i, expectedItem.getRestrictionEndDate(), 
+								actualItem.getRestrictionEndDate());
+						verify("Sales Restriction Description " + i, expectedItem.getDescription(), 
+								actualItem.getDescription());
 					}
 				}
 			}
