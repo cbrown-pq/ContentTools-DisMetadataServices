@@ -1,17 +1,21 @@
 package com.proquest.mtg.dismetadataservice.rest;
 
-@SuppressWarnings("serial")
-public class MetaDataServiceException extends Exception {
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 
-	public MetaDataServiceException(Throwable cause) {
-		super(cause);
+
+@SuppressWarnings("serial")
+public class MetaDataServiceException extends WebApplicationException {
+
+	public MetaDataServiceException(Response.Status status) {
+		super(createResponse(status, null));
 	}
 	
-	public MetaDataServiceException(String message) {
-		super(message);
+	public MetaDataServiceException(Response.Status status, String message) {
+		super(createResponse(status, message));
 	}
 	
-	public MetaDataServiceException(String message, Throwable cause) {
-		super(message, cause);
+	private static Response createResponse(Response.Status statusCode, String message) {
+		return Response.status(statusCode).entity(message).build();
 	}
 }

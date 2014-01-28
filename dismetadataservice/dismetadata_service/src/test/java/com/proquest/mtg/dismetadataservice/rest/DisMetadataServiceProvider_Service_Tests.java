@@ -36,8 +36,15 @@ public class DisMetadataServiceProvider_Service_Tests {
 	@Test
 	public void whenPubDoesNotExist() {
 		ClientResponse resp = service.path("metadata")
-				.path("fakepub/test").get(ClientResponse.class);
+				.path("testpub/USMARC").get(ClientResponse.class);
 		assertThat(resp.getStatus(), is(204));		
+	}
+	
+	@Test
+	public void withInvalidFormatType() {
+		ClientResponse resp = service.path("metadata")
+				.path("12345/test").get(ClientResponse.class);
+		assertThat(resp.getStatus(), is(500));		
 	}
 	
 //	@Test
