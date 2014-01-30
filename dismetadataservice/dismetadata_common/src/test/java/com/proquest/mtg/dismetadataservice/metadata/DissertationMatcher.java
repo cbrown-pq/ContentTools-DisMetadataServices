@@ -17,6 +17,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
@@ -53,10 +54,12 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		verifyDepartments(actual);
 		verifyKeywords(actual);
 		verifySalesRestriction(actual);
+		verifyFormatRestriction(actual);
 		verifySupplementalFiles(actual);
 		verifyCommittee(actual);
 		verifyAdvisors(actual);
 		verifyAuthors(actual);
+		verifyPdfStatus(actual);
 		
 		return hasErrors();
 	}
@@ -214,6 +217,26 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		}
 		else {
 			verifyNullValue("Sales Restriction", actual.getSalesRestrictions());
+		}
+	}
+	
+	private void verifyFormatRestriction(DisPubMetaData actual) {
+		if (null != expected.getFormatRestrictions()) {
+			if (verifyNotNullValue("Format Restriction", actual.getFormatRestrictions())) {
+				int expectedCount = expected.getFormatRestrictions().size();
+				int actualCount = actual.getFormatRestrictions().size();
+				verify("Format Restriction Count", expectedCount, actualCount);
+				if (expectedCount == actualCount) {
+					for (int i=0; i<expectedCount; ++i) {
+						FormatRestriction expectedItem = expected.getFormatRestrictions().get(i);
+						FormatRestriction actualItem = actual.getFormatRestrictions().get(i);
+						verify("Format Restriction Code " + i, expectedItem.getCode(), actualItem.getCode());
+					}
+				}
+			}
+		}
+		else {
+			verifyNullValue("Format Restriction", actual.getFormatRestrictions());
 		}
 	}
 	
@@ -385,6 +408,20 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		}
 		else {
 			verifyNullValue("Departements", actual.getDepartments());
+		}
+	}
+	
+	private void verifyPdfStatus(DisPubMetaData actual) {
+		if (null != expected.getPdfStatus()) {
+			if (verifyNotNullValue("Pdf Status", actual.getPdfStatus())) {
+				verify("PdfStatus.AvailableDate", expected.getPdfStatus().getPdfAvailableDate(), 
+						actual.getPdfStatus().getPdfAvailableDate());
+				verify("PdfStatus.IsAvailable", expected.getPdfStatus().isPdfAvailable(), 
+						actual.getPdfStatus().isPdfAvailable());
+			}
+		}
+		else {
+			verifyNullValue("Pdf Status", actual.getPdfStatus());
 		}
 	}
 

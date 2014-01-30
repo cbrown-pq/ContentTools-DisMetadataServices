@@ -16,7 +16,9 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfStatus;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
@@ -85,6 +87,8 @@ public class PubMetaDataQuery {
 	private static final String kColumnSalesRestrctionStartDate = "SalesRestrictionStartDate";
 	private static final String kColumnSalesRestrctionEndDate = "SalesRestrictionEndDate";
 	
+	private static final String kColumnFormatRestrctionCode = "FormatRestrictionCode";
+	
 	private static final String kColumnBatchTypeCode = "BatchTypeCode";
 	private static final String kColumnBatchDescription = "BatchDescription";
 	private static final String kColumnVolumeIssue = "VolumeIssue";
@@ -100,6 +104,8 @@ public class PubMetaDataQuery {
 	private static final String kColumnSchoolName = "SchoolName";
 	private static final String kColumnSchoolCountry = "SchoolCountry";
 	private static final String kColumnSchoolState = "SchoolState";
+	
+	private static final String kColumnPdfAvailableDate = "PdfAvailableDate";
 	
 	private static final String kSelectSchoolId = 
 			"( " +
@@ -269,6 +275,15 @@ public class PubMetaDataQuery {
 				"dsr.ditm_id = ? " +
 			"ORDER BY dvsr.dvsr_code";
 	
+	private static final String kSelectFormatRestriction = 
+			"SELECT " + 
+				"dfr.dvfr_code " + kColumnFormatRestrctionCode + " " +
+			"FROM " + 
+				"dis.dis_format_restrictions dfr " +  
+			"WHERE " + 
+				"dfr.ditm_id = ? " +
+			"ORDER BY dfr.dvfr_code";
+	
 	private static final String kSelectBatch = 
 			"SELECT " +
 				"ddt.ddt_code " + kColumnBatchTypeCode + ", " +
@@ -320,6 +335,18 @@ public class PubMetaDataQuery {
 				"AND " +  
 				"dish.dsta_code = dsta.dsta_code(+) ";
 	
+	private static final String kSelectPdfStatus = 
+			"SELECT " + 
+				"TO_CHAR(GREATEST (diaf_date_created, " +
+							"NVL (diaf_date_modified, diaf_date_created))," +
+							" 'DD-MON-YYYY')  " + kColumnPdfAvailableDate + " " +
+			"FROM " + 
+				"dis.dis_item_available_formats diaf " + 
+			"WHERE " + 
+				"diaf.ditm_id = ? " + 
+				"AND " + 
+				"diaf.dvf_code = 'PDF' ";
+	
 	
 	private PreparedStatement authorsStatement;
 	private PreparedStatement mainPubDataStatement;
@@ -332,10 +359,12 @@ public class PubMetaDataQuery {
 	private PreparedStatement departmentsStatement;
 	private PreparedStatement keywordsStatement;
 	private PreparedStatement salesRestrictionStatement;
+	private PreparedStatement formatRestrictionStatement;
 	private PreparedStatement batchStatement;
 	private PreparedStatement alternateTitlesStatement;
 	private PreparedStatement alternateAdvisorsStatement;
 	private PreparedStatement schoolStatement;
+	private PreparedStatement pdfStatusStatement;
 	
 	public PubMetaDataQuery(Connection connection) throws SQLException {
 		this.authorsStatement = connection.prepareStatement(kSelectAuthors);
@@ -349,10 +378,12 @@ public class PubMetaDataQuery {
 		this.departmentsStatement = connection.prepareStatement(kSelectDepartments);
 		this.keywordsStatement = connection.prepareStatement(kSelectKeywords);
 		this.salesRestrictionStatement= connection.prepareStatement(kSelectSalesRestriction); 
+		this.formatRestrictionStatement= connection.prepareStatement(kSelectFormatRestriction);
 		this.batchStatement = connection.prepareStatement(kSelectBatch);
 		this.alternateTitlesStatement = connection.prepareStatement(kSelectAlternateTitles);
 		this.alternateAdvisorsStatement = connection.prepareStatement(kSelectAlternateAdvisors);
 		this.schoolStatement = connection.prepareStatement(kSelectSchool);
+		this.pdfStatusStatement = connection.prepareStatement(kSelectPdfStatus);
 	}
 	
 	public DisPubMetaData getFor(String pubId) throws SQLException {
@@ -396,12 +427,14 @@ public class PubMetaDataQuery {
 			result.setDepartments(getDepartmentsFor(itemId));
 			result.setKeywords(getKeywordsFor(itemId));
 			result.setSalesRestrictions(getSalesRestrictionsFor(itemId));
+			result.setFormatRestrictions(getFormatRestrictionsFor(itemId));
 			result.setSuppFiles(getSupplementalFilesFor(itemId));
 			result.setAuthors(getAuthorsFor(itemId));
 			result.setAlternateTitles(getAlternateTitlesFor(itemId));
 			result.setCmteMembers(getCommitteeMembersFor(itemId));
 			String delimitedAdvisorStr = cursor.getString(kColumnAdvisors);
 			result.setAdvisors(getAdvisorsFor(itemId, delimitedAdvisorStr));
+			result.setPdfStatus(getPdfStatusFor(itemId));
 		}
 		String volumeIssueId = cursor.getString(kColumnVolumeIssueId);
 		if (null != volumeIssueId) {
@@ -652,6 +685,29 @@ public class PubMetaDataQuery {
 		return result;
 	} 
 	
+	private List<FormatRestriction> getFormatRestrictionsFor(String itemId) throws SQLException {
+		List<FormatRestriction> result = null;
+		ResultSet cursor = null;
+		try {
+			formatRestrictionStatement.setString(1, itemId);
+			cursor = formatRestrictionStatement.executeQuery();
+			while (cursor.next()) {
+				if (null == result) {
+					result = Lists.newArrayList();
+				}
+				FormatRestriction item = new FormatRestriction();
+				item.setCode(trimmed(cursor.getString(kColumnFormatRestrctionCode)));
+				result.add(item);
+			}
+		}
+		finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+		}
+		return result;
+	}
+	
 	private Batch getBatchFor(String volumeIssueId) throws SQLException {
 		Batch result = new Batch();
 		ResultSet cursor = null;
@@ -717,6 +773,21 @@ public class PubMetaDataQuery {
 		} 
 		return result; 
 	}
+	
+	private PdfStatus getPdfStatusFor(String itemId) throws SQLException {
+		PdfStatus result = new PdfStatus();
+		pdfStatusStatement.setString(1, itemId);
+		ResultSet cursor = pdfStatusStatement.executeQuery();
+		if (cursor.next()) {
+			result.setPdfAvailableDate(cursor.getString(kColumnPdfAvailableDate));
+			result.setPdfAvailableStatus(true);
+		} else {
+			result.setPdfAvailableStatus(false);
+		}
+		
+		return result; 
+	}
+	
 
 	private List<String> getAlternateAdvisorsFor(String itemId) throws SQLException {
 		List<String> result = Lists.newArrayList();

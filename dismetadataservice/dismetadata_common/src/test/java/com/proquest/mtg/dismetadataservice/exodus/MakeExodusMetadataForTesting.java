@@ -10,7 +10,9 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfStatus;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
@@ -37,7 +39,8 @@ public class MakeExodusMetadataForTesting {
 	static final String pubId9 = "MR82571"; // Canadian Pub
 	static final String pubId10 = "C806973"; // Multiple Languages
 	static final String pubId11 = "3533463"; // Multiple Department
-	static final String pubId12 = "1533698"; // Foreign Title 
+	static final String pubId12 = "1533698"; // Foreign Title
+	static final String pubId13 = "NQ61050"; // Multiple Sales Restriction 
 	
 	public static Subject makeSubjectForTesting(String group, String code, String description, int sequenceNumber) {
 		Subject result = new Subject();
@@ -64,6 +67,12 @@ public class MakeExodusMetadataForTesting {
 		result.setRestrictionStartDate(startDate);
 		result.setRestrictionEndDate(endDate);
 		result.setDescription(description);
+		return result;
+	}
+	
+	public static FormatRestriction makeFormatDescriptionFrom(String code) {
+		FormatRestriction result = new FormatRestriction();
+		result.setCode(code);
 		return result;
 	}
 		
@@ -122,6 +131,17 @@ public class MakeExodusMetadataForTesting {
 		result.setDegreeDescription(description);
 		result.setDegreeYear(year);
 		result.setSequenceNumber(sequenceNumber);
+		return result;
+	}
+	
+	public static PdfStatus makePdfStatusFrom(String value) {
+		PdfStatus result = new PdfStatus();
+		if (null == value) {
+			result.setPdfAvailableStatus(false);
+		} else {
+			result.setPdfAvailableStatus(true);
+			result.setPdfAvailableDate(value); 
+		}
 		return result;
 	}
 	
@@ -186,6 +206,8 @@ public class MakeExodusMetadataForTesting {
 				makeSalesDescriptionFrom("9", "01-JAN-1998", null, "Do not Sell"));
 		x.setSalesRestrictions(salesRestrictions);
 		
+		x.setFormatRestrictions(null);
+		
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
 		x.setAlternateTitles(null);
@@ -196,6 +218,8 @@ public class MakeExodusMetadataForTesting {
 						"Krikke, Hans Ronald", null, 1, 
 						makeDegreeFrom("Dr.", "Doctorate/Docteur", "1998", 1)));
 		x.setAuthors(authors);
+		
+		x.setPdfStatus(makePdfStatusFrom(null));
 		
 		return x;
 	}
@@ -255,6 +279,8 @@ public class MakeExodusMetadataForTesting {
 				makeSalesDescriptionFrom("5", "15-OCT-2012", null, "Do not sell third party vendor"));
 		x.setSalesRestrictions(salesRestrictions);
 		
+		x.setFormatRestrictions(null);
+		
 		List<CmteMember> comittee = Lists.newArrayList(
 				makeCmteMemberFrom("Michelle", null, "Hawley", null),
 				makeCmteMemberFrom("Ruben", null, "Quintero", null));
@@ -274,6 +300,8 @@ public class MakeExodusMetadataForTesting {
 						"Munoz-Hodgson, Krishana", null, 1, 
 						makeDegreeFrom("M.A.", "Master of Arts", "2012", 1)));
 		x.setAuthors(authors);
+		
+		x.setPdfStatus(makePdfStatusFrom("28-NOV-2012"));
 		
 		return x;
 	}
@@ -328,6 +356,7 @@ public class MakeExodusMetadataForTesting {
 				makeSalesDescriptionFrom("9", "01-JAN-1921", null, "Do not Sell"));
 		x.setSalesRestrictions(salesRestrictions);
 		
+		x.setFormatRestrictions(null);
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
 		x.setAlternateTitles(null);
@@ -339,7 +368,9 @@ public class MakeExodusMetadataForTesting {
 						"JOHNSON, OSCAR JULIUS", null, 1, 
 						makeDegreeFrom("Ph.D.", "Doctor of Philosophy", "1921", 1)));
 		x.setAuthors(authors);
-					
+
+		x.setPdfStatus(makePdfStatusFrom(null));
+		
 		return x;
 	}
 	
@@ -369,6 +400,7 @@ public class MakeExodusMetadataForTesting {
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
 				makeSalesDescriptionFrom("9", "10-JUN-2009", null, "Do not Sell"));
 		x.setSalesRestrictions(salesRestrictions);
+		x.setFormatRestrictions(null);
 		
 		List<Subject> subjects = Lists.newArrayList(
 				makeSubjectForTesting("Pure Sciences", "0752", "Physics, Optics", 1));
@@ -397,6 +429,8 @@ public class MakeExodusMetadataForTesting {
 		x.setAdvisors(null);
 		x.setDepartments(null);
 		x.setKeywords(null);
+		
+		x.setPdfStatus(makePdfStatusFrom(null));
 		
 		return x;
 	}
@@ -450,6 +484,7 @@ public class MakeExodusMetadataForTesting {
 				));
 		
 		x.setSalesRestrictions(null);
+		x.setFormatRestrictions(null);
 
 		Advisors advisors = makeAdvisorsFrom(
 				"Adviser: Guan Ping  Feng",
@@ -469,6 +504,8 @@ public class MakeExodusMetadataForTesting {
 						makeDegreeFrom("M.Eng.", "Master of Engineering", "2001", 1)));
 		x.setAuthors(authors);
 
+		x.setPdfStatus(makePdfStatusFrom(null));
+		
 		return x;
 	}
 	
@@ -537,6 +574,7 @@ public class MakeExodusMetadataForTesting {
 				makeSalesDescriptionFrom("5", "08-JUL-2013", null, "Do not sell third party vendor"),
 				makeSalesDescriptionFrom("8", "08-JUL-2013", null, "Do not sell third party Indexing"));
 		x.setSalesRestrictions(salesRestrictions);
+		x.setFormatRestrictions(null);
 		
 		Advisors advisors = makeAdvisorsFrom(
 				"Adviser: X. Grant Chen",
@@ -554,6 +592,8 @@ public class MakeExodusMetadataForTesting {
 						"Tebib, Mehand", null, 1, 
 						makeDegreeFrom("Ph.D.", "Doctor of Philosophy", "2012", 1)));
 		x.setAuthors(authors);
+		
+		x.setPdfStatus(makePdfStatusFrom("15-JUL-2013"));
 		
 		return x;
 	}
@@ -610,6 +650,7 @@ public class MakeExodusMetadataForTesting {
 				makeSalesDescriptionFrom("5", "12-APR-2013", null, "Do not sell third party vendor"),
 				makeSalesDescriptionFrom("8", "12-APR-2013", null, "Do not sell third party Indexing"));
 		x.setSalesRestrictions(salesRestrictions);
+		x.setFormatRestrictions(null);
 		
 		String departments = "Theatre and Dance";
 		x.setDepartments(Lists.newArrayList(departments));
@@ -639,7 +680,7 @@ public class MakeExodusMetadataForTesting {
 						"Zingle, Laura Maria", null, 1, 
 						makeDegreeFrom("M.F.A.", "Master of Fine Arts", "2013", 1)));
 		x.setAuthors(authors);
-		
+		x.setPdfStatus(makePdfStatusFrom("02-MAY-2013"));
 		return x;
 	}
 	
@@ -706,6 +747,7 @@ public class MakeExodusMetadataForTesting {
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
 				makeSalesDescriptionFrom("5", "25-JUL-2011", null, "Do not sell third party vendor"));
 		x.setSalesRestrictions(salesRestrictions);
+		x.setFormatRestrictions(null);
 		
 		String departments = "Geological Sciences and Environmental Studies";
 		x.setDepartments(Lists.newArrayList(departments));
@@ -736,7 +778,7 @@ public class MakeExodusMetadataForTesting {
 						"Vayo, Lynette Irene", null, 1, 
 						makeDegreeFrom("M.S.", "Master of Science", "2011", 1)));
 		x.setAuthors(authors);
-			
+		x.setPdfStatus(makePdfStatusFrom("24-APR-2012"));	
 		return x;
 	}
 	
@@ -803,6 +845,7 @@ public class MakeExodusMetadataForTesting {
 				makeSalesDescriptionFrom("5", "03-JUL-2013", null, "Do not sell third party vendor"),
 				makeSalesDescriptionFrom("8", "03-JUL-2013", null, "Do not sell third party Indexing"));
 		x.setSalesRestrictions(salesRestrictions);
+		x.setFormatRestrictions(null);
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAI");
@@ -828,8 +871,9 @@ public class MakeExodusMetadataForTesting {
 		x.setCmteMembers(comittee);
 		
 		x.setSuppFiles(null);
-		
 		x.setDepartments(Lists.newArrayList("Educational Leadership"));
+		x.setPdfStatus(makePdfStatusFrom("21-AUG-2013"));
+		
 		return x;
 	}
 	
@@ -877,6 +921,7 @@ public class MakeExodusMetadataForTesting {
 				makeSalesDescriptionFrom("5", "21-NOV-2012", null, "Do not sell third party vendor"),
 				makeSalesDescriptionFrom("8", "21-NOV-2012", null, "Do not sell third party Indexing"));
 		x.setSalesRestrictions(salesRestrictions);
+		x.setFormatRestrictions(null);
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("MAI");
@@ -903,6 +948,7 @@ public class MakeExodusMetadataForTesting {
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
 		x.setDepartments(null);
+		x.setPdfStatus(makePdfStatusFrom("24-APR-2012"));
 		
 		return x;
 	}
@@ -953,6 +999,8 @@ public class MakeExodusMetadataForTesting {
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
 				makeSalesDescriptionFrom("9", "23-JAN-2002", null, "Do not Sell"));
 		x.setSalesRestrictions(salesRestrictions);
+		x.setFormatRestrictions(Lists.newArrayList(
+				makeFormatDescriptionFrom("M")));
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAC");
@@ -979,6 +1027,7 @@ public class MakeExodusMetadataForTesting {
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
 		x.setDepartments(null);
+		x.setPdfStatus(makePdfStatusFrom(null));
 		
 		return x;
 	}
@@ -1031,6 +1080,7 @@ public class MakeExodusMetadataForTesting {
 				makeSalesDescriptionFrom("5", "06-NOV-2012", null, "Do not sell third party vendor"),
 				makeSalesDescriptionFrom("8", "06-NOV-2012", null, "Do not sell third party Indexing"));
 		x.setSalesRestrictions(salesRestrictions);
+		x.setFormatRestrictions(null);
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAI");
@@ -1063,6 +1113,7 @@ public class MakeExodusMetadataForTesting {
 		x.setSuppFiles(null);
 		
 		x.setDepartments(Lists.newArrayList("Computer Science", "Machine Learning"));
+		x.setPdfStatus(makePdfStatusFrom("02-DEC-2012"));
 		
 		return x;
 	}	
@@ -1114,6 +1165,7 @@ public class MakeExodusMetadataForTesting {
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
 				makeSalesDescriptionFrom("5", "04-FEB-2013", null, "Do not sell third party vendor"));
 		x.setSalesRestrictions(salesRestrictions);
+		x.setFormatRestrictions(null);
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("MAI");
@@ -1140,6 +1192,112 @@ public class MakeExodusMetadataForTesting {
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
 		x.setDepartments(Lists.newArrayList("Mechanical Engineering Department"));
+		x.setPdfStatus(makePdfStatusFrom("28-FEB-2013"));
+		
+		return x;
+	}
+	
+	// Pub NQ61050
+	public static final DisPubMetaData makeExpectedMetaData13() throws ParseException {
+		DisPubMetaData x = new DisPubMetaData();
+		x.setPubNumber(pubId13);
+		
+		x.setISBN("978-0-612-61050-7");
+		x.setPageCount("296");
+		x.setPubPageNum("2702");
+		
+		School school = new School();
+		school.setSchoolCode("2500");
+		school.setSchoolName("The University of British Columbia (Canada)");
+		school.setSchoolCountry("CANADA");
+		school.setSchoolState(null);
+		x.setSchool(school);
+		
+		Batch batch = new Batch();
+		batch.setDBTypeCode("DAI");
+		batch.setDBTypeDesc("Dissertation Abstracts International");
+		batch.setVolumeIssue("62-08");
+		batch.setDAISectionCode("A");
+		x.setBatch(batch);
+		
+		List<Subject> subjects = Lists.newArrayList(
+				makeSubjectForTesting("Education", "0279", "Education, Language and Literature", 1),
+				makeSubjectForTesting("Education", "0710", "Education, Technology of", 2),
+				makeSubjectForTesting("Education", "0282", "Education, Bilingual and Multicultural", 3),
+				makeSubjectForTesting("Education", "0530", "Education, Teacher Training", 4));
+		x.setSubjects(subjects);
+
+		Title title = new Title();
+		title.setMasterTitle("Subjects -in -Interaction version 3.0:  An intellectual system for modern language student teachers to appropriate multiliteracies as designers and interpreters of media texts");		
+		x.setTitle(title);
+		
+		String abstract_ = "This dissertation, which draws on the fields of critical theory, sociolinguistic theory, teacher education, and human-computer interaction, examines issues of culture and intercultural understanding, critical multiliteracies, learning in general and, specifically, the role of new media in the creation and interpretation of (learning) cultures. ^   Critical modern language education theorists advocate engaging in ethnographic studies of one's own and the target language culture as a way to shed traditional, static, product-based notions of culture for postmodern, dynamic, process-based interpretations of culture(s). To this end, how can teacher educators prepare student teachers to be reflexive about their own classroom practice? ^   In this approach, sixty secondary-level student teachers made short digital movies on their cultural interpretations of an object of their choice, such as cars. They filmed each other and were filmed as they worked and reflected on their movies and then used an on-line video analysis tool to share, annotate and critique the digital representations of their processes and products in relation to the course content. The participants assumed a variety of research roles, such as research initiators, qualitative researchers, video ethnographers, reflective practitioners and beta-testers of previously unreleased software. ^   Multimedia profiles of eight participants, presented on an accompanying CD-ROM, illustrate learning experiences that occurred throughout the group. They found it <italic>challenging</italic> to reconcile their prior schema and new concepts; <italic>confusing</italic> to develop a teaching approach while their basic assumptions were evolving; <italic>exciting</italic> to use state of the art tools and take on research roles; <italic>rewarding</italic> to participate in forums for productive reflection and discover new capacities; <italic> effective</italic> for making abstract ideas concrete; and <italic>empowering </italic> to appropriate the technical and intellectual skills to carry out similar projects. ^   This study points to a need for a pedagogical shift in preparing modern language student teachers which positions them to claim the classroom as their own. This includes claiming the right to: include culture in a language driven classroom; choose their own media materials; determine their own curriculum within standardized curricular and textbook guidelines; use non-traditional language teaching approaches; and hold high expectations for their students for critical thinking and use of the target language.* ^   *This dissertation includes a CD that is compound (contains both a paper copy and a CD as part of the dissertation). The CD requires the following applications: QuickTime, JPEG.^";
+		x.setAbstract(abstract_);
+		
+		DissLanguage language = new DissLanguage("English", "EN");
+		x.setDissLanguages(Lists.newArrayList(language));
+		
+		x.setDepartments(null);
+		
+		x.setKeywords(Lists.newArrayList(
+				makeKeywordFrom("0", "For Datrix"),
+				makeKeywordFrom("3", "For Datrix"),
+				makeKeywordFrom("APPROPRIATE", "For Datrix"),
+				makeKeywordFrom("DESIGNERS", "For Datrix"),
+				makeKeywordFrom("INTELLECTUAL", "For Datrix"),
+				makeKeywordFrom("INTELLECTUAL SYSTEM", "For Datrix"),
+				makeKeywordFrom("INTERACTION", "For Datrix"),
+				makeKeywordFrom("INTERPRETERS", "For Datrix"),
+				makeKeywordFrom("Intellectual system", "From Title"),
+				makeKeywordFrom("LANGUAGE", "For Datrix"),
+				makeKeywordFrom("MEDIA", "For Datrix"),
+				makeKeywordFrom("MEDIA TEXTS", "For Datrix"),
+				makeKeywordFrom("MODERN", "For Datrix"),
+				makeKeywordFrom("MODERN LANGUAGE", "For Datrix"),
+				makeKeywordFrom("MULTILITERACIES", "For Datrix"),
+				makeKeywordFrom("Media texts", "From Title"),
+				makeKeywordFrom("Modern language", "From Title"),
+				makeKeywordFrom("Multiliteracies", "From Title"),
+				makeKeywordFrom("STUDENT", "For Datrix"),
+				makeKeywordFrom("STUDENT TEACHERS", "For Datrix"),
+				makeKeywordFrom("SUBJECTS", "For Datrix"),
+				makeKeywordFrom("SUBJECTS-IN-INTERACTION", "For Datrix"),
+				makeKeywordFrom("SYSTEM", "For Datrix"),
+				makeKeywordFrom("Student teachers", "From Title"),
+				makeKeywordFrom("Subjects-in-Interaction", "From Title"),
+				makeKeywordFrom("TEACHERS", "For Datrix"),
+				makeKeywordFrom("TEXTS", "For Datrix"),
+				makeKeywordFrom("VERSION", "For Datrix")
+				));
+		
+		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
+				makeSalesDescriptionFrom("5", "21-NOV-2012", null, "Do not sell third party vendor"),
+				makeSalesDescriptionFrom("8", "21-NOV-2012", null, "Do not sell third party Indexing"));
+		x.setSalesRestrictions(salesRestrictions);
+		
+		x.setFormatRestrictions(Lists.newArrayList(
+				makeFormatDescriptionFrom("CE"),
+				makeFormatDescriptionFrom("E"),
+				makeFormatDescriptionFrom("FM"),
+				makeFormatDescriptionFrom("FME")));
+		
+		x.setCmteMembers(null);
+		x.setSuppFiles(null);
+		x.setAlternateTitles(null);
+		
+		Advisors advisors = makeAdvisorsFrom(
+				"Adviser:  Ricki Goldman-Segall",
+				Lists.newArrayList(
+						makeAdvisorFrom("Ricki Goldman-Segall", null)));
+		x.setAdvisors(advisors);
+		
+		List<Author> authors = Lists.newArrayList();
+		authors.add(
+				makeAuthorFrom(
+						"Beers, Maggie", null, 1, 
+						makeDegreeFrom("Ph.D.", "Doctor of Philosophy", "2001", 1)));
+		x.setAuthors(authors);
+		x.setPdfStatus(makePdfStatusFrom("16-AUG-2010"));
 		
 		return x;
 	}

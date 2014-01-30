@@ -1,7 +1,6 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
 import java.math.BigInteger;
-import java.util.Date;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -26,12 +25,14 @@ public class DisPubMetaData {
 	private List<String> departments;
 	private List<Keyword> keywords;
 	private List<SalesRestriction> salesRestrictions;
+	private List<FormatRestriction> formatRestrictions;
 	private String dissAbstract;
 	private Batch batch;
 	private List<AlternateTitle> alternateTitle;
 	private Advisors advisors;
 	private Title title;
 	private School school;
+	private PdfStatus pdfStatus;
 
 	public BigInteger getDateOfExtraction() {
 		return dateOfExtraction;
@@ -203,6 +204,18 @@ public class DisPubMetaData {
 	public List<SalesRestriction> getSalesRestrictions() {
 		return salesRestrictions;
 	}
+	
+	public List<FormatRestriction> getFormatRestrictions() {
+		return formatRestrictions;
+	}
+	
+	public void setFormatRestrictions(Iterable<FormatRestriction> value) {
+		if (null == value) {
+			this.formatRestrictions = Lists.newArrayList();
+		} else {
+			this.formatRestrictions = Lists.newArrayList(value);
+		}
+	}
 		
 	public void setBatch(Batch value) {
 		this.batch = value;
@@ -249,6 +262,14 @@ public class DisPubMetaData {
 		return school;
 	}
 	
+	public PdfStatus getPdfStatus() {
+		return pdfStatus;
+	}
+	
+	public void setPdfStatus(PdfStatus value) {
+		this.pdfStatus = value;
+	}
+	
 	public void setPublisher(String value) {
 		this.publisher = value;
 	}
@@ -256,6 +277,7 @@ public class DisPubMetaData {
 	public String getPublisher() {
 		return publisher;
 	}
+	
 	@Override
 	public String toString() {
 		return "DisPubMetaData [pubNumber=" + pubNumber + ", itemId=" + itemId
@@ -460,6 +482,18 @@ public class DisPubMetaData {
 		}
     }
     
+    public static class FormatRestriction {
+    	private String code;
+
+		public String getCode() {
+			return code;
+		}
+
+		public void setCode(String value) {
+			this.code = value;
+		}
+    }
+    
     public static class Batch {
         private String dbTypeCode;
         private String dbTypeDesc;
@@ -629,5 +663,26 @@ public class DisPubMetaData {
         public void setSchoolState(String value) {
             this.schoolState = value;
         }
+    }
+    
+    public static class PdfStatus {
+        private boolean pdfAvailableStatus;
+        private String pdfAvailableDate;
+        
+		public String getPdfAvailableDate() {
+			return pdfAvailableDate;
+		}
+
+		public void setPdfAvailableDate(String value) {
+			this.pdfAvailableDate = value;
+		}
+
+		public boolean isPdfAvailable() {
+			return pdfAvailableStatus;
+		}
+
+		public void setPdfAvailableStatus(boolean value) {
+			this.pdfAvailableStatus = value;
+		}
     }
 }

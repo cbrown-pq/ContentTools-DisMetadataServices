@@ -127,4 +127,11 @@ public class PubMetaDataProvider_Tests {
 		assertThat(metaDataResult, dissertationEqualTo(MakeExodusMetadataForTesting.makeExpectedMetaData12()));
 	}
 	
+	@Test
+	public void pubWithMultipleFormatRestriction_test() throws Exception {
+		DisPubMetaData metaDataResult;
+		metaDataResult = target.getPubMetaDataFor(MakeExodusMetadataForTesting.pubId13);
+		assertThat(metaDataResult, dissertationEqualTo(MakeExodusMetadataForTesting.makeExpectedMetaData13()));
+	}
+	
 }
