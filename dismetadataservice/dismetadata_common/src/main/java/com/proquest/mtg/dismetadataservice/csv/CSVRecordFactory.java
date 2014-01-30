@@ -7,6 +7,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfStatus;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
@@ -70,16 +71,17 @@ public class CSVRecordFactory {
 	}
 
 	private void handlePubNumber() {
-		String pub = curMetaData.getPubNumber();
+		String pub = "";
+		if (null != curMetaData.getPubNumber()
+				&& curMetaData.getPubNumber().isEmpty())
+			pub = curMetaData.getPubNumber();
 		addField(pub);
 	}
 
 	private void handleVolumneIssue() {
-		String dissVolume = "";
-		if (curMetaData.getBatch().getVolumeIssue() != null
-				&& !curMetaData.getBatch().getVolumeIssue().isEmpty()) {
-			dissVolume = curMetaData.getBatch().getVolumeIssue();
-		}
+		String dissVolume = curMetaData.getBatch() != null ? curMetaData
+				.getBatch().getVolumeIssue() : "";
+
 		addField(dissVolume);
 	}
 
@@ -185,25 +187,22 @@ public class CSVRecordFactory {
 	}
 
 	private void handleSchools() {
-		String schoolName = "";
-		String schoolCode = "";
-		String schoolCountry = "";
-		String schoolState = "";
-		if (null != curMetaData.getSchool().getSchoolName()
-				&& !curMetaData.getSchool().getSchoolName().isEmpty())
+		String schoolName = curMetaData.getSchool() != null ? curMetaData
+				.getSchool().getSchoolName() : "";
+		String schoolCode = curMetaData.getSchool() != null ? curMetaData
+				.getSchool().getSchoolCode() : "";
+		String schoolCountry = curMetaData.getSchool() != null ? curMetaData
+				.getSchool().getSchoolCountry() : "";
+		String schoolState = curMetaData.getSchool() != null ? curMetaData
+				.getSchool().getSchoolState() : "";
+		if (null != schoolName && !schoolName.isEmpty())
 			schoolName = curMetaData.getSchool().getSchoolName();
-		if (null != curMetaData.getSchool().getSchoolName()
-				&& !curMetaData.getSchool().getSchoolName().isEmpty())
-			schoolName = curMetaData.getSchool().getSchoolName();
-		if (null != curMetaData.getSchool().getSchoolCode()
-				&& !curMetaData.getSchool().getSchoolCode().isEmpty())
-			schoolCode = curMetaData.getSchool().getSchoolCode();
-		if (null != curMetaData.getSchool().getSchoolName()
-				&& !curMetaData.getSchool().getSchoolCode().isEmpty())
-			schoolName = curMetaData.getSchool().getSchoolName();
-		if (null != curMetaData.getSchool().getSchoolState()
-				&& !curMetaData.getSchool().getSchoolState().isEmpty())
-			schoolState = curMetaData.getSchool().getSchoolState();
+		if (null != schoolCode && !schoolCode.isEmpty())
+			schoolName = curMetaData.getSchool().getSchoolCode();
+		if (null != schoolCountry && !schoolCountry.isEmpty())
+			schoolCode = curMetaData.getSchool().getSchoolCountry();
+		if (null != schoolState && !schoolState.isEmpty())
+			schoolName = curMetaData.getSchool().getSchoolState();
 
 		addField(schoolName);
 		addField(schoolCode);
@@ -243,7 +242,7 @@ public class CSVRecordFactory {
 
 	private void handleTitle() {
 		String title = getTitleToInclude();
-		if (null != title) {
+		if (null != title && !title.isEmpty()) {
 			title = endsWithPunctuationMark(title);
 			title = SGMLEntitySubstitution.applyAllTo(title);
 		}
@@ -251,13 +250,13 @@ public class CSVRecordFactory {
 	}
 
 	private String getTitleToInclude() {
-		String title = null;
+		String title = "";
 		String englishOverwriteTitle = (curMetaData.getTitle() == null) ? null
 				: curMetaData.getTitle().getEnglishOverwriteTitle();
-		if (null != englishOverwriteTitle) {
+		if (null != englishOverwriteTitle && !englishOverwriteTitle.isEmpty()) {
 			String cleanedFTitle = verifyTitle(curMetaData.getTitle()
 					.getForeignTitle());
-			if (null != cleanedFTitle) {
+			if (null != cleanedFTitle && !cleanedFTitle.isEmpty()) {
 				title = cleanedFTitle;
 			} else {
 				String masterTitle = verifyTitle(curMetaData.getTitle()
@@ -267,10 +266,11 @@ public class CSVRecordFactory {
 		} else {
 			String cleanedElectronicTitle = curMetaData.getTitle() == null ? null
 					: verifyTitle(curMetaData.getTitle().getElectronicTitle());
-			if (null != cleanedElectronicTitle) {
+			if (null != cleanedElectronicTitle
+					&& !cleanedElectronicTitle.isEmpty()) {
 				title = cleanedElectronicTitle;
 			} else {
-				String masterTitle = curMetaData.getTitle() == null ? null
+				String masterTitle = curMetaData.getTitle() == null ? ""
 						: verifyTitle(curMetaData.getTitle().getMasterTitle());
 				title = masterTitle;
 			}
@@ -280,7 +280,7 @@ public class CSVRecordFactory {
 
 	private String verifyTitle(String title) {
 
-		String outTitle = null;
+		String outTitle = "";
 		if (null != title) {
 			outTitle = title.trim();
 			if (outTitle.endsWith(".")) {
@@ -294,7 +294,7 @@ public class CSVRecordFactory {
 		List<Author> authors = curMetaData.getAuthors();
 		String authorNames = "";
 
-		if (!authors.isEmpty() && authors != null) {
+		if (null != authors && !authors.isEmpty()) {
 			for (Author curAuthor : authors) {
 				if (null != curAuthor.getAuthorFullName()
 						&& !curAuthor.getAuthorFullName().isEmpty())
@@ -377,7 +377,8 @@ public class CSVRecordFactory {
 	private void hasSupplementalFiles() {
 		String hasSuppFiles = "N";
 
-		if (curMetaData.getSuppFiles().size() > 0) {
+		if (null != curMetaData.getSuppFiles()
+				&& !curMetaData.getSuppFiles().isEmpty()) {
 			hasSuppFiles = "Y";
 		}
 
@@ -423,8 +424,7 @@ public class CSVRecordFactory {
 				}
 			}
 			if (deptName.endsWith(DELIMITER))
-				deptName = deptName.substring(0,
-						deptName.length() - 1);
+				deptName = deptName.substring(0, deptName.length() - 1);
 		}
 		addField(deptName);
 	}
@@ -499,39 +499,36 @@ public class CSVRecordFactory {
 	}
 
 	private void handleDissertationTypeCode() {
-		String dissTypeCode = "";
-		if (curMetaData.getBatch().getDBTypeCode() != null
-				&& !curMetaData.getBatch().getDBTypeCode().isEmpty()) {
-			dissTypeCode = curMetaData.getBatch().getDBTypeCode();
-		}
+		String dissTypeCode = curMetaData.getBatch() != null ? curMetaData
+				.getBatch().getDBTypeCode() : "";
+
 		addField(dissTypeCode);
 	}
 
 	private void handleDissertationCode() {
-		String dissTypeDesc = "";
-		if (curMetaData.getBatch().getDBTypeDesc() != null
-				&& !curMetaData.getBatch().getDBTypeDesc().isEmpty()) {
-			dissTypeDesc = curMetaData.getBatch().getDBTypeDesc();
-		}
+		String dissTypeDesc = curMetaData.getBatch() != null ? curMetaData
+				.getBatch().getDBTypeDesc() : "";
 		addField(dissTypeDesc);
 	}
 
 	private void handleDAISectionCode() {
-		String daiSectionCode = "";
-		if (curMetaData.getBatch().getDAISectionCode() != null
-				&& !curMetaData.getBatch().getDAISectionCode().isEmpty()) {
-			daiSectionCode = curMetaData.getBatch().getDAISectionCode();
-		}
+		String daiSectionCode = curMetaData.getBatch() != null ? curMetaData
+				.getBatch().getDAISectionCode() : "";
 		addField(daiSectionCode);
 	}
 
 	private void handlePDF() {
+		PdfStatus pdfStatus = curMetaData.getPdfStatus() != null ? curMetaData
+				.getPdfStatus() : null;
 		String hasPDF = "N";
 		String pdfAvailableDate = "";
 
-		if (curMetaData.getPdfStatus().isPdfAvailable()) {
-			hasPDF = "Y";
-			pdfAvailableDate = curMetaData.getPdfStatus().getPdfAvailableDate();
+		if (null != pdfStatus) {
+			if (pdfStatus.isPdfAvailable()) {
+				hasPDF = "Y";
+				pdfAvailableDate = curMetaData.getPdfStatus()
+						.getPdfAvailableDate();
+			}
 		}
 		addField(hasPDF);
 		addField(pdfAvailableDate);
