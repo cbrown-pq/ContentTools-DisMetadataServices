@@ -1,12 +1,13 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
 import com.google.inject.Inject;
+import com.proquest.mtg.dismetadataservice.csv.CSVRecordFactory;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecordFactory;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.metadata.PlainTextNormalizer;
 
-public class ExodusDataProvider implements IMarcProvider {
+public class ExodusDataProvider implements IMarcProvider,ICSVProvider {
 	
 	private final IPubMetaDataProvider pubMetaDataProvider;
 	private final DisGenMappingProvider disGenMappingProvider;
@@ -45,5 +46,14 @@ public class ExodusDataProvider implements IMarcProvider {
 
 	private void applyPlainTextNormalizerTo(MarcRecord marcRecord) {
 		marcRecord.apply(getPlainTextNormalizer());
+	}
+
+
+	@Override
+	public String getCSVResultFor(String pubNum) throws Exception {
+		CSVRecordFactory csvFactory = new CSVRecordFactory();
+		String csvRecord = csvFactory.makeFrom(
+				getPubMetaDataProvider().getPubMetaDataFor(pubNum));
+		return csvRecord;
 	}
 }
