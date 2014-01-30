@@ -9,9 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.proquest.mtg.dismetadataservice.exodus.ExodusDataProvider;
+import com.proquest.mtg.dismetadataservice.exodus.ICSVProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IMarcProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IPubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataProvider;
+import com.proquest.mtg.dismetadataservice.format.CSVFormat;
 import com.proquest.mtg.dismetadataservice.format.FakeFormat;
 import com.proquest.mtg.dismetadataservice.format.MetaDataFormatFactory;
 import com.proquest.mtg.dismetadataservice.format.USMarcFormat;
@@ -70,15 +72,17 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 	
 	@Provides @Singleton
 	protected MetaDataFormatFactory formatTaskFactories(DisMetadataProperties props,
-						FakeFormat fakeFormat, USMarcFormat usMarcFormat) {
+						FakeFormat fakeFormat, USMarcFormat usMarcFormat,CSVFormat csvFromat) {
 		MetaDataFormatFactory result = new MetaDataFormatFactory();
 		if (props.fakeExodusFlag()) {
 			result.add(WellKnownFormatTypes.FAKE_MARC_TESTING, fakeFormat);
 			result.add(WellKnownFormatTypes.USMARC, usMarcFormat);
+			result.add(WellKnownFormatTypes.CSV, csvFromat);
 		}
 		else {
 			result.add(WellKnownFormatTypes.FAKE_MARC_TESTING, fakeFormat);
 			result.add(WellKnownFormatTypes.USMARC, usMarcFormat);
+			result.add(WellKnownFormatTypes.CSV, csvFromat);
 		}
 		return result;
 	}
@@ -89,6 +93,7 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		bind(DisMetadataProperties.class).asEagerSingleton();
 		bind(DisGenMappingProvider.class).asEagerSingleton();
 		bind(IMarcProvider.class).to(ExodusDataProvider.class);
+		bind(ICSVProvider.class).to(ExodusDataProvider.class);
 		bind(IPubMetaDataProvider.class).to(PubMetaDataProvider.class);
 		bind(IWriter.class).to(StringWriter.class);
 	}
