@@ -140,7 +140,8 @@ public class CSVRecordFactory {
 		String locationOfCopy = "";
 		if (null != curMetaData.getReferenceLocation()
 				&& !curMetaData.getReferenceLocation().isEmpty()) {
-			locationOfCopy = SGMLEntitySubstitution.applyAllTo(curMetaData.getReferenceLocation());
+			locationOfCopy = SGMLEntitySubstitution.applyAllTo(curMetaData
+					.getReferenceLocation());
 		}
 		addField(locationOfCopy);
 	}
@@ -300,7 +301,9 @@ public class CSVRecordFactory {
 						&& !curAuthor.getAuthorFullName().isEmpty())
 					authorNames += endWithPipes(curAuthor.getAuthorFullName());
 			}
-			authorNames = authorNames.substring(0, authorNames.length() - 1);
+			if (null != authorNames && !authorNames.isEmpty())
+				authorNames = authorNames
+						.substring(0, authorNames.length() - 1);
 		}
 		addField(authorNames);
 	}
@@ -327,8 +330,8 @@ public class CSVRecordFactory {
 			if (degreeYear.endsWith(DELIMITER))
 				degreeYear = degreeYear.substring(0, degreeYear.length() - 1);
 		}
-		addField(degreeDesc);
 		addField(degreeCode);
+		addField(degreeDesc);
 		addField(degreeYear);
 	}
 

@@ -25,9 +25,9 @@ public class CSVHeaders {
 	public static final String kEnglishTranslationOfTitle = "ENGLISH TITLE";
 	public static final String kVariantTitle = "VARIANT TITLE";
 	public static final String kAuthors = "AUTHORS";
-	public static final String kDegreeDesc = "DEGREE";
-	public static final String kDegreeYear = "DEGREE YEAR";
 	public static final String kDegreeCode = "DEGREE CODE";
+	public static final String kDegreeDesc = "DEGREE DESC";
+	public static final String kDegreeYear = "DEGREE YEAR";
 	public static final String kAbstract = "ABSTRACT";
 	public static final String kSubjectDesc = "SUBJ DESC";
 	public static final String kSubjectCode = "SUBJ CODE";
@@ -55,8 +55,8 @@ public class CSVHeaders {
 			kPublisher, kReferenceLocation, kBritishLibraryNumber,
 			kExternalUrl, kDissLangDesc, kDissLangCode, kSchoolCode,
 			kSchoolName, kSchoolCountry, kSchoolState, kTitle,
-			kEnglishTranslationOfTitle, kVariantTitle, kAuthors, kDegreeDesc,
-			kDegreeYear, kDegreeCode, kAbstract, kSubjectDesc, kSubjectCode,
+			kEnglishTranslationOfTitle, kVariantTitle, kAuthors, kDegreeCode,
+			kDegreeDesc, kDegreeYear, kAbstract, kSubjectDesc, kSubjectCode,
 			kSubjectGroupDesc, kHasSupplementalFiles, kSuppFileNames,
 			kSuppFileDescription, kSuppFileCategory, kDepartmentName, kKeyword,
 			kKeywordSource, kSalesRestrictionCode, kSalesRestrictionDesc,
