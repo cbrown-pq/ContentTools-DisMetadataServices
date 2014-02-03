@@ -73,7 +73,7 @@ public class CSVRecordFactory {
 	private void handlePubNumber() {
 		String pub = "";
 		if (null != curMetaData.getPubNumber()
-				&& curMetaData.getPubNumber().isEmpty())
+				&& !curMetaData.getPubNumber().isEmpty())
 			pub = curMetaData.getPubNumber();
 		addField(pub);
 	}
@@ -104,7 +104,7 @@ public class CSVRecordFactory {
 
 	private void handleISBN() {
 		String isbn = "";
-		if (null != isbn && !isbn.isEmpty()) {
+		if (null != curMetaData.getISBN() && !curMetaData.getISBN().isEmpty()) {
 			isbn = curMetaData.getISBN();
 		}
 		addField(isbn);
@@ -140,7 +140,7 @@ public class CSVRecordFactory {
 		String locationOfCopy = "";
 		if (null != curMetaData.getReferenceLocation()
 				&& !curMetaData.getReferenceLocation().isEmpty()) {
-			locationOfCopy = SGMLEntitySubstitution.applyAllTo(locationOfCopy);
+			locationOfCopy = SGMLEntitySubstitution.applyAllTo(curMetaData.getReferenceLocation());
 		}
 		addField(locationOfCopy);
 	}
@@ -501,6 +501,8 @@ public class CSVRecordFactory {
 	private void handleDissertationTypeCode() {
 		String dissTypeCode = curMetaData.getBatch() != null ? curMetaData
 				.getBatch().getDBTypeCode() : "";
+		if (null == dissTypeCode)
+			dissTypeCode = "";
 
 		addField(dissTypeCode);
 	}
@@ -508,12 +510,17 @@ public class CSVRecordFactory {
 	private void handleDissertationCode() {
 		String dissTypeDesc = curMetaData.getBatch() != null ? curMetaData
 				.getBatch().getDBTypeDesc() : "";
+
+		if (null == dissTypeDesc)
+			dissTypeDesc = "";
 		addField(dissTypeDesc);
 	}
 
 	private void handleDAISectionCode() {
 		String daiSectionCode = curMetaData.getBatch() != null ? curMetaData
 				.getBatch().getDAISectionCode() : "";
+		if (null == daiSectionCode)
+			daiSectionCode = "";
 		addField(daiSectionCode);
 	}
 
