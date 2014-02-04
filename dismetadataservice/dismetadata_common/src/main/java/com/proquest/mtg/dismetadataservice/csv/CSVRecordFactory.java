@@ -440,8 +440,8 @@ public class CSVRecordFactory {
 				&& !curMetaData.getKeywords().isEmpty()) {
 			List<Keyword> keywords = curMetaData.getKeywords();
 			for (Keyword curKeyword : keywords) {
-				keyword = endWithPipes(curKeyword.getValue());
-				keywordSource = endWithPipes(curKeyword.getSource());
+				keyword = keyword + endWithPipes(curKeyword.getValue());
+				keywordSource = keywordSource + endWithPipes(curKeyword.getSource());
 			}
 			if (keyword.endsWith(DELIMITER))
 				keyword = keyword.substring(0, keyword.length() - 1);
