@@ -14,6 +14,8 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Title;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
@@ -252,6 +254,52 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		metadata.setAbstract(abstractText);
 		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,"
 				+ "\"" + abstractText + "\"" + ",,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+		String csvData = factory.makeFrom(metadata);
+		assertThat(csvData, is(expectedCSVData));
+	}
+	
+	
+	@Test
+	public void withOnlySubjects() throws Exception {
+		DisPubMetaData metadata = new DisPubMetaData();
+		List<Subject> subjects = new ArrayList<Subject>();
+		Subject subject = new Subject();
+		String subjDesc = "Language, Literature and Linguistics";
+		String subjCode = "0297";
+		String subjGroupDesc = "Literature, Medieval";
+		subject.setSubjectDesc(subjDesc);
+		subject.setSubjectCode(subjCode);
+		subject.setSubjectGroupDesc(subjGroupDesc);
+		subjects.add(subject);
+		metadata.setSubjects(subjects );
+		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,"
+				 + "\"" + subjDesc + "\""
+				 + ",\"" + subjCode + "\""
+				 + ",\"" + subjGroupDesc + "\""
+				 + ",\"N\",,,,,,,,,,,,,,\"N\",,,";
+		String csvData = factory.makeFrom(metadata);
+		assertThat(csvData, is(expectedCSVData));
+	}
+	
+	@Test 
+	public void withOnlySupplementalFiles() throws Exception {
+		DisPubMetaData metadata = new DisPubMetaData();
+		SuppFile suppFile = new SuppFile();
+		String suppFileName = "Yodel2ArchitecturalAnalysis.pdf";
+		String suppFileDesc = "Architecture Analysis";
+		String suppFileCategory = "pdf";
+		suppFile.setSuppFilename(suppFileName);
+		suppFile.setSuppFileDesc(suppFileDesc);
+		suppFile.setSuppFileCategory(suppFileCategory);
+		List<SuppFile> suppFiles = new ArrayList<SuppFile>();
+		suppFiles.add(suppFile);
+		metadata.setSuppFiles(suppFiles);
+		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+				 + ",\"Y\""
+				 + ",\"" + suppFileName + "\""
+				 + ",\"" + suppFileDesc + "\""
+				 + ",\"" + suppFileCategory + "\""
+				 + ",,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
