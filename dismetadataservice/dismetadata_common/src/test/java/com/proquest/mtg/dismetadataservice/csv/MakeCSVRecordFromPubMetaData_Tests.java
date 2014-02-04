@@ -15,6 +15,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
@@ -343,6 +344,68 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 				+ ",\"" +  "By Author|For Datrix"  + "\""
 				+ ",\"" +  "low temperature adsorption drying|	  免疫"  + "\""
 				+ ",,,,,,,,\"N\",,,";
+		String csvData = factory.makeFrom(metadata);
+		assertThat(csvData, is(expectedCSVData));
+	}
+	
+	@Test
+	public void withOnlySalesRestrictions() throws Exception {
+		DisPubMetaData metadata = new DisPubMetaData();
+		SalesRestriction salesRestriction1 = new SalesRestriction();
+		salesRestriction1.setCode("1");
+		salesRestriction1.setDescription("Not Available For Sale");
+		SalesRestriction salesRestriction2 = new SalesRestriction();
+		salesRestriction2.setCode("2");
+		salesRestriction2.setDescription("Available");
+		List<SalesRestriction> salesRestrictions = Lists.newArrayList(salesRestriction1,salesRestriction2);
+		metadata.setSalesRestrictions(salesRestrictions);
+		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+				+ ",\"N\"" + ",,,,,," 
+				+ ",\"" + "1|2" + "\""
+				+ ",\"" + "Not Available For Sale|Available" + "\""
+				+ ",,,,,,\"N\",,,";
+		String csvData = factory.makeFrom(metadata);
+		assertThat(csvData, is(expectedCSVData));
+	}
+	
+	@Test
+	public void withOnlyDissertationTypeCode() throws Exception {
+		DisPubMetaData metadata = new DisPubMetaData();
+		Batch batch = new Batch();
+		batch.setDBTypeCode("DAC");
+		metadata.setBatch(batch);
+		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+				+ ",\"N\"" + ",,,,,,,,,," 
+				+ ",\"" + "DAC"   + "\""
+				+ ",,,\"N\",,,";
+		String csvData = factory.makeFrom(metadata);
+		assertThat(csvData, is(expectedCSVData));
+	}
+	
+	@Test
+	public void withOnlyDissertationCode() throws Exception {
+		DisPubMetaData metadata = new DisPubMetaData();
+		Batch batch = new Batch();
+		batch.setDBTypeDesc("Dissertation Abstracts International");
+		metadata.setBatch(batch);
+		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+				+ ",\"N\"" + ",,,,,,,,,,," 
+				+ ",\"" + "Dissertation Abstracts International"   + "\""
+				+ ",,\"N\",,,";
+		String csvData = factory.makeFrom(metadata);
+		assertThat(csvData, is(expectedCSVData));
+	}
+	
+	@Test
+	public void withOnlyDissertationDAICode() throws Exception {
+		DisPubMetaData metadata = new DisPubMetaData();
+		Batch batch = new Batch();
+		batch.setDAISectionCode("B");
+		metadata.setBatch(batch);
+		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+				+ ",\"N\"" + ",,,,,,,,,,,," 
+				+ ",\"" + "B"   + "\""
+				+ ",\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

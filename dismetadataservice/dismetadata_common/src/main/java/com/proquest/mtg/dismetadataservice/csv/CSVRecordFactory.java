@@ -81,7 +81,8 @@ public class CSVRecordFactory {
 	private void handleVolumneIssue() {
 		String dissVolume = curMetaData.getBatch() != null ? curMetaData
 				.getBatch().getVolumeIssue() : "";
-
+		if ( null == dissVolume)
+			dissVolume = "";
 		addField(dissVolume);
 	}
 
@@ -465,21 +466,21 @@ public class CSVRecordFactory {
 			for (SalesRestriction currSalesRestriction : salesRestrictions) {
 				if (null != currSalesRestriction.getCode()
 						&& !currSalesRestriction.getCode().isEmpty())
-					salesRestrictionCode = endWithPipes(currSalesRestriction
+					salesRestrictionCode = salesRestrictionCode + endWithPipes(currSalesRestriction
 							.getCode());
 				if (null != currSalesRestriction.getDescription()
 						&& !currSalesRestriction.getDescription().isEmpty())
-					salesRestrictionDesc = endWithPipes(currSalesRestriction
+					salesRestrictionDesc = salesRestrictionDesc + endWithPipes(currSalesRestriction
 							.getDescription());
 				if (null != currSalesRestriction.getRestrictionStartDate()
 						&& !currSalesRestriction.getRestrictionStartDate()
 								.isEmpty())
-					salesRestrictionStartDate = endWithPipes(currSalesRestriction
+					salesRestrictionStartDate = salesRestrictionStartDate + endWithPipes(currSalesRestriction
 							.getRestrictionStartDate());
 				if (null != currSalesRestriction.getRestrictionEndDate()
 						&& !currSalesRestriction.getRestrictionEndDate()
 								.isEmpty())
-					salesRestrictionEndDate = endWithPipes(currSalesRestriction
+					salesRestrictionEndDate = salesRestrictionEndDate + endWithPipes(currSalesRestriction
 							.getRestrictionEndDate());
 			}
 			if (salesRestrictionCode.endsWith(DELIMITER))
@@ -489,7 +490,7 @@ public class CSVRecordFactory {
 				salesRestrictionDesc = salesRestrictionDesc.substring(0,
 						salesRestrictionDesc.length() - 1);
 			if (salesRestrictionStartDate.endsWith(DELIMITER))
-				salesRestrictionStartDate = salesRestrictionStartDate
+				salesRestrictionStartDate = salesRestrictionStartDate 
 						.substring(0, salesRestrictionStartDate.length() - 1);
 			if (salesRestrictionEndDate.endsWith(DELIMITER))
 				salesRestrictionEndDate = salesRestrictionEndDate.substring(0,
@@ -506,7 +507,6 @@ public class CSVRecordFactory {
 				.getBatch().getDBTypeCode() : "";
 		if (null == dissTypeCode)
 			dissTypeCode = "";
-
 		addField(dissTypeCode);
 	}
 
