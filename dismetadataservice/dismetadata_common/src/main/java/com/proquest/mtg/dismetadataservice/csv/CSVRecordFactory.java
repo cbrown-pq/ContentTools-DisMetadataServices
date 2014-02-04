@@ -554,7 +554,7 @@ public class CSVRecordFactory {
 			for (FormatRestriction curFormatRestriction : formatRestrictions) {
 				if (null != curFormatRestriction.getCode()
 						&& !curFormatRestriction.getCode().isEmpty())
-					formatRestrictionCode = curFormatRestriction.getCode();
+					formatRestrictionCode = formatRestrictionCode + endWithPipes(curFormatRestriction.getCode());
 			}
 
 			if (formatRestrictionCode.endsWith(DELIMITER))

@@ -14,7 +14,9 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfStatus;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
@@ -409,4 +411,45 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
+	
+	
+	@Test
+	public void withOnlyPdf() throws Exception {
+		DisPubMetaData metadata = new DisPubMetaData();
+		PdfStatus pdfStatus = new PdfStatus();
+		pdfStatus.setPdfAvailableDate("23-APR-2012");
+		pdfStatus.setPdfAvailableStatus(true);
+		metadata.setPdfStatus(pdfStatus);
+		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+				+ ",\"N\"" + ",,,,,,,,,,,,," 
+				+ ",\"Y\""
+				+ ",\"23-APR-2012\""
+				+ ",,";
+		String csvData = factory.makeFrom(metadata);
+		assertThat(csvData, is(expectedCSVData));
+	}
+	
+	@Test
+	public void withOnlyFormatRestrictionCode() throws Exception {
+		DisPubMetaData metadata = new DisPubMetaData();
+		PdfStatus pdfStatus = new PdfStatus();
+		pdfStatus.setPdfAvailableDate("23-APR-2012");
+		pdfStatus.setPdfAvailableStatus(true);
+		List<FormatRestriction> formatRestrictions = new ArrayList<FormatRestriction>();
+		FormatRestriction formatRestriction1 = new FormatRestriction();
+		formatRestriction1.setCode("C");
+		FormatRestriction formatRestriction2 = new FormatRestriction();
+		formatRestriction2.setCode("CE");
+		formatRestrictions.add(formatRestriction1);
+		formatRestrictions.add(formatRestriction2);
+		metadata.setFormatRestrictions(formatRestrictions );
+		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+				+ ",\"N\"" + ",,,,,,,,,,,,," 
+				+ ",\"N\""
+				+ ",,\"C|CE\",";
+		String csvData = factory.makeFrom(metadata);
+		assertThat(csvData, is(expectedCSVData));
+	}
+	
+	
 }
