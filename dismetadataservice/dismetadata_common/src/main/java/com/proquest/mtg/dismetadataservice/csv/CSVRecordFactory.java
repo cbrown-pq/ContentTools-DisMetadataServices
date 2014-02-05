@@ -2,13 +2,10 @@ package com.proquest.mtg.dismetadataservice.csv;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
@@ -33,7 +30,10 @@ public class CSVRecordFactory {
 	
 	private final LinkedHashMap<String, Method> kAllHeaders = new LinkedHashMap<String, Method>(); 
 
-	private void initList() throws NoSuchMethodException, SecurityException, ClassNotFoundException {
+	public CSVRecordFactory() throws NoSuchMethodException, SecurityException, ClassNotFoundException {
+		initTagMapping();
+	}
+	private void initTagMapping() throws NoSuchMethodException, SecurityException, ClassNotFoundException {
 		kAllHeaders.put(CSVHeaders.kPubNumber, 
 				CSVRecordFactory.class.getDeclaredMethod("handlePubNumber"));
 		kAllHeaders.put(CSVHeaders.kVolumeIssue, 
@@ -124,15 +124,20 @@ public class CSVRecordFactory {
 				CSVRecordFactory.class.getDeclaredMethod("handleFormatRestrictionCode"));
 	}
 	
+	public LinkedHashMap<String, Method> getTagMappings() {
+		return kAllHeaders;
+	}
+	public ImmutableList<String> getHeaders() {
+		return ImmutableList.copyOf(kAllHeaders.keySet());
+	}
 	public String makeFrom(DisPubMetaData metaData)	throws IllegalAccessException, 
-			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
+			IllegalArgumentException, InvocationTargetException   {
 		if (null == metaData) {
 			throw new IllegalArgumentException("metaData is null");
 		}
-		initList();
 		createHeader();
 		curMetaData = metaData;
-		for (String key : kAllHeaders.keySet()) {
+		for (String key : getHeaders()) {
 			kAllHeaders.get(key).invoke(this);
 		}
 		return curRecord;
@@ -157,7 +162,8 @@ public class CSVRecordFactory {
 	private void handleVolumneIssue() {
 		String dissVolume = curMetaData.getBatch() != null ? curMetaData
 				.getBatch().getVolumeIssue() : "";
-
+		if ( null == dissVolume)
+			dissVolume = "";
 		addField(dissVolume);
 	}
 
@@ -606,7 +612,7 @@ public class CSVRecordFactory {
 
 		if (null != keywords && ! keywords.isEmpty()) {			
 			for (Keyword curKeyword : keywords) {
-				keyword = endWithPipes(curKeyword.getValue());
+				keyword += endWithPipes(curKeyword.getValue());
 			}
 			if (keyword.endsWith(DELIMITER)) {
 				keyword = keyword.substring(0, keyword.length() - 1);
@@ -620,7 +626,7 @@ public class CSVRecordFactory {
 		String keywordSource = "";
 		if (null != keywords && ! keywords.isEmpty()) {
 			for (Keyword curKeyword : keywords) {
-				keywordSource = endWithPipes(curKeyword.getSource());
+				keywordSource += endWithPipes(curKeyword.getSource());
 			}
 			if (keywordSource.endsWith(DELIMITER)) {
 				keywordSource = keywordSource.substring(0, keywordSource.length() - 1);
@@ -637,7 +643,7 @@ public class CSVRecordFactory {
 			for (SalesRestriction currSalesRestriction : salesRestrictions) {
 				if (null != currSalesRestriction.getCode()
 						&& !currSalesRestriction.getCode().isEmpty()) {
-					salesRestrictionCode = endWithPipes(
+					salesRestrictionCode += endWithPipes(
 							currSalesRestriction.getCode());
 				}
 			}
@@ -656,7 +662,7 @@ public class CSVRecordFactory {
 			for (SalesRestriction currSalesRestriction : salesRestrictions) {
 				if (null != currSalesRestriction.getDescription()
 						&& !currSalesRestriction.getDescription().isEmpty()) {
-					salesRestrictionDesc = endWithPipes(
+					salesRestrictionDesc += endWithPipes(
 							currSalesRestriction.getDescription());
 				}
 			}
@@ -676,7 +682,7 @@ public class CSVRecordFactory {
 			for (SalesRestriction currSalesRestriction : salesRestrictions) {
 				if (null != currSalesRestriction.getRestrictionStartDate()
 						&& !currSalesRestriction.getRestrictionStartDate().isEmpty()) {
-					salesRestrictionStartDate = endWithPipes(
+					salesRestrictionStartDate += endWithPipes(
 							currSalesRestriction.getRestrictionStartDate());
 				}
 			}
@@ -696,7 +702,7 @@ public class CSVRecordFactory {
 			for (SalesRestriction currSalesRestriction : salesRestrictions) {
 				if (null != currSalesRestriction.getRestrictionEndDate()
 						&& !currSalesRestriction.getRestrictionEndDate().isEmpty()) {
-					salesRestrictionEndDate = endWithPipes(
+					salesRestrictionEndDate += endWithPipes(
 							currSalesRestriction.getRestrictionEndDate());
 				}
 			}
@@ -713,7 +719,6 @@ public class CSVRecordFactory {
 				.getBatch().getDBTypeCode() : "";
 		if (null == dissTypeCode)
 			dissTypeCode = "";
-
 		addField(dissTypeCode);
 	}
 
@@ -765,7 +770,7 @@ public class CSVRecordFactory {
 			for (FormatRestriction curFormatRestriction : formatRestrictions) {
 				if (null != curFormatRestriction.getCode()
 						&& !curFormatRestriction.getCode().isEmpty())
-					formatRestrictionCode = curFormatRestriction.getCode();
+					formatRestrictionCode = formatRestrictionCode + endWithPipes(curFormatRestriction.getCode());
 			}
 
 			if (formatRestrictionCode.endsWith(DELIMITER))
