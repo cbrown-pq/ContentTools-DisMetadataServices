@@ -173,7 +173,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		school.setSchoolCountry("UNITED STATES");
 		school.setSchoolState("Massachusetts");
 		metadata.setSchool(school);
-		String expectedCSVData = header + "\n,,,,,,,,,,,,\"Massachusetts Institute of Technology\",\"0753\",\"UNITED STATES\",\"Massachusetts\",,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";	
+		String expectedCSVData = header + "\n,,,,,,,,,,,,\"0753\",\"Massachusetts Institute of Technology\",\"UNITED STATES\",\"Massachusetts\",,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";	
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

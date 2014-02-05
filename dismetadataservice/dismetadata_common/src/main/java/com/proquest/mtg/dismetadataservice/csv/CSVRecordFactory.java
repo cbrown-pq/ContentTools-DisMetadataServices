@@ -1,7 +1,14 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
@@ -9,6 +16,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestricti
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfStatus;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
@@ -22,50 +30,117 @@ public class CSVRecordFactory {
 	private DisPubMetaData curMetaData = null;
 	private String curRecord = "";
 	private final TextNormalizer abstractNormalizer = new TextNormalizer();
+	
+	private final LinkedHashMap<String, Method> kAllHeaders = new LinkedHashMap<String, Method>(); 
 
-	public String makeFrom(DisPubMetaData metaData) {
+	private void initList() throws NoSuchMethodException, SecurityException, ClassNotFoundException {
+		kAllHeaders.put(CSVHeaders.kPubNumber, 
+				CSVRecordFactory.class.getDeclaredMethod("handlePubNumber"));
+		kAllHeaders.put(CSVHeaders.kVolumeIssue, 
+				CSVRecordFactory.class.getDeclaredMethod("handleVolumneIssue"));
+		kAllHeaders.put(CSVHeaders.kAdvisors, 
+				CSVRecordFactory.class.getDeclaredMethod("handleAdvisors"));
+		kAllHeaders.put(CSVHeaders.kIsbn, 
+				CSVRecordFactory.class.getDeclaredMethod("handleISBN"));
+		kAllHeaders.put(CSVHeaders.kPageNumber, 
+				CSVRecordFactory.class.getDeclaredMethod("handlePageNumber"));
+		kAllHeaders.put(CSVHeaders.kPageCount, 
+				CSVRecordFactory.class.getDeclaredMethod("handlePageCount"));
+		kAllHeaders.put(CSVHeaders.kPublisher, 
+				CSVRecordFactory.class.getDeclaredMethod("handlePublisher"));
+		kAllHeaders.put(CSVHeaders.kReferenceLocation,
+				CSVRecordFactory.class.getDeclaredMethod("handleReferenceLocation"));
+		kAllHeaders.put(CSVHeaders.kBritishLibraryNumber,
+				CSVRecordFactory.class.getDeclaredMethod("handleBritishLibrary"));
+		kAllHeaders.put(CSVHeaders.kExternalUrl, 
+				CSVRecordFactory.class.getDeclaredMethod("handleExternalUrl"));
+		kAllHeaders.put(CSVHeaders.kDissLangDesc, 
+				CSVRecordFactory.class.getDeclaredMethod("handleDissLanguageDesc"));
+		kAllHeaders.put(CSVHeaders.kDissLangCode,
+				CSVRecordFactory.class.getDeclaredMethod("handleDissLanguageCode"));	
+		kAllHeaders.put(CSVHeaders.kSchoolCode, 
+				CSVRecordFactory.class.getDeclaredMethod("handleSchoolCode"));
+		kAllHeaders.put(CSVHeaders.kSchoolName, 
+				CSVRecordFactory.class.getDeclaredMethod("handleSchoolName"));
+		kAllHeaders.put(CSVHeaders.kSchoolCountry, 
+				CSVRecordFactory.class.getDeclaredMethod("handleSchoolCountry"));
+		kAllHeaders.put(CSVHeaders.kSchoolState, 
+				CSVRecordFactory.class.getDeclaredMethod("handleSchoolState"));
+		kAllHeaders.put(CSVHeaders.kTitle, 
+				CSVRecordFactory.class.getDeclaredMethod("handleTitle"));
+		kAllHeaders.put(CSVHeaders.kEnglishTranslationOfTitle, 
+				CSVRecordFactory.class.getDeclaredMethod("handleEnglishTranslationOfTitle"));
+		kAllHeaders.put(CSVHeaders.kVariantTitle, 
+				CSVRecordFactory.class.getDeclaredMethod("handleVariantTitle"));
+		kAllHeaders.put(CSVHeaders.kAuthors, 
+				CSVRecordFactory.class.getDeclaredMethod("handleMultipleAuthors"));
+		kAllHeaders.put(CSVHeaders.kDegreeCode, 
+				CSVRecordFactory.class.getDeclaredMethod("handleDegreeCodeForFirstAuthor"));
+		kAllHeaders.put(CSVHeaders.kDegreeDesc, 
+				CSVRecordFactory.class.getDeclaredMethod("handleDegreeDescForFirstAuthor"));
+		kAllHeaders.put(CSVHeaders.kDegreeYear, 
+				CSVRecordFactory.class.getDeclaredMethod("handleDegreeYearForFirstAuthor"));
+		kAllHeaders.put(CSVHeaders.kAbstract, 
+				CSVRecordFactory.class.getDeclaredMethod("handleAbstract"));
+		kAllHeaders.put(CSVHeaders.kSubjectDesc, 
+				CSVRecordFactory.class.getDeclaredMethod("handleSubjectDesc"));
+		kAllHeaders.put(CSVHeaders.kSubjectCode, 
+				CSVRecordFactory.class.getDeclaredMethod("handleSubjectCode"));
+		kAllHeaders.put(CSVHeaders.kSubjectGroupDesc, 
+				CSVRecordFactory.class.getDeclaredMethod("handleSubjectGroupDesc"));
+		kAllHeaders.put(CSVHeaders.kHasSupplementalFiles, 
+				CSVRecordFactory.class.getDeclaredMethod("hasSupplementalFiles"));		
+		kAllHeaders.put(CSVHeaders.kSuppFileNames, 
+				CSVRecordFactory.class.getDeclaredMethod("handleSupplemetalFileName"));
+		kAllHeaders.put(CSVHeaders.kSuppFileDescription, 
+				CSVRecordFactory.class.getDeclaredMethod("handleSupplemetalFileDesc"));
+		kAllHeaders.put(CSVHeaders.kSuppFileCategory, 
+				CSVRecordFactory.class.getDeclaredMethod("handleSupplemetalFilesCategory"));
+		kAllHeaders.put(CSVHeaders.kDepartmentName, 
+				CSVRecordFactory.class.getDeclaredMethod("handleDepartmentName"));
+		kAllHeaders.put(CSVHeaders.kKeyword, 
+				CSVRecordFactory.class.getDeclaredMethod("handleKeyWords"));
+		kAllHeaders.put(CSVHeaders.kKeywordSource, 
+				CSVRecordFactory.class.getDeclaredMethod("handleKeyWordSource"));
+		kAllHeaders.put(CSVHeaders.kSalesRestrictionCode, 
+				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionCode"));
+		kAllHeaders.put(CSVHeaders.kSalesRestrictionDesc, 
+				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionDesc"));
+		kAllHeaders.put(CSVHeaders.kSalesRestrictionStartDate, 
+				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionStartDate"));
+		kAllHeaders.put(CSVHeaders.kSalesRestrictionEndDate, 
+				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionEndDate"));
+		kAllHeaders.put(CSVHeaders.kDissertationTypeCode, 
+				CSVRecordFactory.class.getDeclaredMethod("handleDissertationTypeCode"));
+		kAllHeaders.put(CSVHeaders.kDissertationCode, 
+				CSVRecordFactory.class.getDeclaredMethod("handleDissertationCode"));
+		kAllHeaders.put(CSVHeaders.kDAISectionCode, 
+				CSVRecordFactory.class.getDeclaredMethod("handleDAISectionCode"));
+		kAllHeaders.put(CSVHeaders.kHasPDF, 
+				CSVRecordFactory.class.getDeclaredMethod("hasPDF"));
+		kAllHeaders.put(CSVHeaders.kPDFAvailableDate, 
+				CSVRecordFactory.class.getDeclaredMethod("handlePDFAvailableDate"));
+		kAllHeaders.put(CSVHeaders.kFormatRestrictionCode, 
+				CSVRecordFactory.class.getDeclaredMethod("handleFormatRestrictionCode"));
+	}
+	
+	public String makeFrom(DisPubMetaData metaData)	throws IllegalAccessException, 
+			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
 		if (null == metaData) {
 			throw new IllegalArgumentException("metaData is null");
 		}
+		initList();
 		createHeader();
-
 		curMetaData = metaData;
-		handlePubNumber();
-		handleVolumneIssue();
-		handleAdvisors();
-		handleISBN();
-		handlePages();
-		handlePublisher();
-		handleReferenceLocation();
-		handleBritishLibrary();
-		handleExternalUrl();
-		handleDissLanguages();
-		handleSchools();
-		handleTitle();
-		handleEnglishTranslationOfTitle();
-		handleVariantTitle();
-		handleMultipleAuthors();
-		handleDegrees();
-		handleAbstract();
-		handleSubjects();
-		hasSupplementalFiles();
-		handleSupplemetalFiles();
-		handleDepartmentName();
-		handleKeyWords();
-		handleSalesRestrictions();
-		handleDissertationTypeCode();
-		handleDissertationCode();
-		handleDAISectionCode();
-		handlePDF();
-		handleFormatRestrictionCode();
-
+		for (String key : kAllHeaders.keySet()) {
+			kAllHeaders.get(key).invoke(this);
+		}
 		return curRecord;
 	}
 
 	private void createHeader() {
-
-		for (String header : CSVHeaders.kAllHeaders) {
-			curRecord += header + ",";
+		for (String key : kAllHeaders.keySet()) {
+			curRecord += key + ",";
 		}
 		curRecord += "\n";
 	}
@@ -73,8 +148,9 @@ public class CSVRecordFactory {
 	private void handlePubNumber() {
 		String pub = "";
 		if (null != curMetaData.getPubNumber()
-				&& !curMetaData.getPubNumber().isEmpty())
+				&& !curMetaData.getPubNumber().isEmpty()) {
 			pub = curMetaData.getPubNumber();
+		}
 		addField(pub);
 	}
 
@@ -95,9 +171,10 @@ public class CSVRecordFactory {
 						.applyAllTo(curAdvisor.getAdvisorFullName().trim());
 				adviserName += endWithPipes(formattedAdviserName);
 			}
-			if (adviserName.endsWith(DELIMITER))
+			if (adviserName.endsWith(DELIMITER)) {
 				adviserName = adviserName
 						.substring(0, adviserName.length() - 1);
+			}
 		}
 		addField(adviserName);
 	}
@@ -110,20 +187,22 @@ public class CSVRecordFactory {
 		addField(isbn);
 	}
 
-	private void handlePages() {
+	private void handlePageNumber() {
 		String pageNumber = "";
-		String pageCount = "";
 		if (null != curMetaData.getPubPageNum()
 				&& !curMetaData.getPubPageNum().isEmpty()) {
 			pageNumber = curMetaData.getPubPageNum();
 		}
 		addField(pageNumber);
+	}
+	
+	private void handlePageCount() {
+		String pageCount = "";
 		if (null != curMetaData.getPageCount()
 				&& !curMetaData.getPageCount().isEmpty()) {
 			pageCount = curMetaData.getPageCount();
 		}
 		addField(pageCount);
-
 	}
 
 	private void handlePublisher() {
@@ -165,49 +244,72 @@ public class CSVRecordFactory {
 		addField(source);
 	}
 
-	private void handleDissLanguages() {
+	private void handleDissLanguageDesc() {
 		List<DissLanguage> dissLanguages = curMetaData.getDissLanguages();
 		String dissLanguageDesc = "";
-		String dissLanguageCode = "";
 		if (dissLanguages != null && !dissLanguages.isEmpty()) {
 			for (DissLanguage curDissLanguage : dissLanguages) {
 				dissLanguageDesc += endWithPipes(curDissLanguage
 						.getLanguageDescription());
+			}
+			if (dissLanguageDesc.endsWith(DELIMITER)) {
+				dissLanguageDesc = dissLanguageDesc.substring(0,
+						dissLanguageDesc.length() - 1);
+			}
+		}
+		addField(dissLanguageDesc);
+	}
+	
+	private void handleDissLanguageCode() {
+		List<DissLanguage> dissLanguages = curMetaData.getDissLanguages();
+		String dissLanguageCode = "";
+		if (dissLanguages != null && !dissLanguages.isEmpty()) {
+			for (DissLanguage curDissLanguage : dissLanguages) {
 				dissLanguageCode += endWithPipes(curDissLanguage
 						.getLanguageCode());
 			}
-			if (dissLanguageDesc.endsWith(DELIMITER))
-				dissLanguageDesc = dissLanguageDesc.substring(0,
-						dissLanguageDesc.length() - 1);
-			if (dissLanguageCode.endsWith(DELIMITER))
+			
+			if (dissLanguageCode.endsWith(DELIMITER)) {
 				dissLanguageCode = dissLanguageCode.substring(0,
 						dissLanguageCode.length() - 1);
+			}
 		}
-		addField(dissLanguageDesc);
 		addField(dissLanguageCode);
 	}
 
-	private void handleSchools() {
-		String schoolName = curMetaData.getSchool() != null ? curMetaData
-				.getSchool().getSchoolName() : "";
-		String schoolCode = curMetaData.getSchool() != null ? curMetaData
-				.getSchool().getSchoolCode() : "";
-		String schoolCountry = curMetaData.getSchool() != null ? curMetaData
-				.getSchool().getSchoolCountry() : "";
-		String schoolState = curMetaData.getSchool() != null ? curMetaData
-				.getSchool().getSchoolState() : "";
-		if (null != schoolName && !schoolName.isEmpty())
-			schoolName = curMetaData.getSchool().getSchoolName();
-		if (null != schoolCode && !schoolCode.isEmpty())
-			schoolCode = curMetaData.getSchool().getSchoolCode();
-		if (null != schoolCountry && !schoolCountry.isEmpty())
-			schoolCountry = curMetaData.getSchool().getSchoolCountry();
-		if (null != schoolState && !schoolState.isEmpty())
-			schoolState = curMetaData.getSchool().getSchoolState();
-
+	private void handleSchoolName() {
+		School school = curMetaData.getSchool();
+		String schoolName = "";
+		if (null != school) {
+			schoolName = school.getSchoolName();
+		}
 		addField(schoolName);
+	}
+	
+	private void handleSchoolCode() {
+		School school = curMetaData.getSchool();
+		String schoolCode = "";
+		if (null != school) {
+			schoolCode = school.getSchoolCode();
+		}
 		addField(schoolCode);
+	}
+	
+	private void handleSchoolCountry() {
+		School school = curMetaData.getSchool();
+		String schoolCountry = "";
+		if (null != school) {
+			schoolCountry = school.getSchoolCountry();
+		}
 		addField(schoolCountry);
+	}
+	
+	private void handleSchoolState() {
+		School school = curMetaData.getSchool();
+		String schoolState = "";
+		if (null != school) {
+			schoolState = school.getSchoolState();
+		}
 		addField(schoolState);
 	}
 
@@ -298,122 +400,188 @@ public class CSVRecordFactory {
 		if (null != authors && !authors.isEmpty()) {
 			for (Author curAuthor : authors) {
 				if (null != curAuthor.getAuthorFullName()
-						&& !curAuthor.getAuthorFullName().isEmpty())
+						&& !curAuthor.getAuthorFullName().isEmpty()) {
 					authorNames += endWithPipes(curAuthor.getAuthorFullName());
+				}
 			}
-			if (null != authorNames && !authorNames.isEmpty())
-				authorNames = authorNames
-						.substring(0, authorNames.length() - 1);
+			if (null != authorNames && !authorNames.isEmpty()) {
+				authorNames = authorNames.substring(0, authorNames.length() - 1);
+			}
 		}
 		addField(authorNames);
 	}
 
-	private void handleDegrees() {
-		List<Degree> degrees = curMetaData.getAuthors() != null
-				&& !curMetaData.getAuthors().isEmpty() ? curMetaData
-				.getAuthors().get(0).getDegrees() : null;
-		String degreeDesc = "";
+	private void handleDegreeCodeForFirstAuthor() {
+		List<Author> authors = curMetaData.getAuthors();
+		List<Degree> degrees = null;
 		String degreeCode = "";
-		String degreeYear = "";
-		if (degrees != null && !degrees.isEmpty()) {
-			for (Degree curDegree : degrees) {
-				if (null != curDegree.getDegreeDescription()
-						&& !curDegree.getDegreeDescription().isEmpty())
-					degreeDesc += endWithPipes(curDegree.getDegreeDescription());
-				degreeCode += endWithPipes(curDegree.getDegreeCode());
-				degreeYear += endWithPipes(curDegree.getDegreeYear());
+		
+		if(null != authors && ! authors.isEmpty()) {
+			degrees = authors.get(0).getDegrees(); 
+			if (degrees != null && !degrees.isEmpty()) {
+				for (Degree curDegree : degrees) {
+					degreeCode += endWithPipes(curDegree.getDegreeCode());
+				}
+				if (degreeCode.endsWith(DELIMITER)) {
+					degreeCode = degreeCode.substring(0, degreeCode.length() - 1); 
+				}
 			}
-			if (degreeDesc.endsWith(DELIMITER))
-				degreeDesc = degreeDesc.substring(0, degreeDesc.length() - 1);
-			if (degreeCode.endsWith(DELIMITER))
-				degreeCode = degreeCode.substring(0, degreeCode.length() - 1);
-			if (degreeYear.endsWith(DELIMITER))
-				degreeYear = degreeYear.substring(0, degreeYear.length() - 1);
 		}
 		addField(degreeCode);
+	}
+	
+	private void handleDegreeDescForFirstAuthor() {
+		List<Author> authors = curMetaData.getAuthors();
+		List<Degree> degrees = null;
+		String degreeDesc = "";
+		
+		if(null != authors && ! authors.isEmpty()) {
+			degrees = authors.get(0).getDegrees(); 
+			if (degrees != null && !degrees.isEmpty()) {
+				for (Degree curDegree : degrees) {
+					if (null != curDegree.getDegreeDescription())
+					degreeDesc += endWithPipes(curDegree.getDegreeDescription());
+				}
+				if (degreeDesc.endsWith(DELIMITER)) {
+					degreeDesc = degreeDesc.substring(0, degreeDesc.length() - 1); 
+				}
+			}
+		}
 		addField(degreeDesc);
-		addField(degreeYear);
+	}
+	
+	private void handleDegreeYearForFirstAuthor() {
+		List<Author> authors = curMetaData.getAuthors();
+		List<Degree> degrees = null;
+		String degreeYear = "";
+		
+		if(null != authors && ! authors.isEmpty()) {
+			degrees = authors.get(0).getDegrees(); 
+			if (degrees != null && !degrees.isEmpty()) {
+				for (Degree curDegree : degrees) {
+					if (null != curDegree.getDegreeYear())
+						degreeYear += endWithPipes(curDegree.getDegreeYear());
+				}
+				if (degreeYear.endsWith(DELIMITER)) {
+					degreeYear = degreeYear.substring(0, degreeYear.length() - 1); 
+				}
+			}
+		}
+		addField(degreeYear);		
 	}
 
 	private void handleAbstract() {
 		String abstractText = "";
 		if (null != curMetaData.getAbstract()
 				&& !curMetaData.getAbstract().isEmpty()) {
-			abstractText = abstractNormalizer
-					.applyTo(curMetaData.getAbstract());
+			abstractText = abstractNormalizer.applyTo(curMetaData.getAbstract());
 		}
 		addField(abstractText);
 	}
 
-	private void handleSubjects() {
+	private void handleSubjectDesc() {
 		List<Subject> subjects = curMetaData.getSubjects();
 		String subjDesc = "";
-		String subjCode = "";
-		String subjGroupDesc = "";
+
 		if (subjects != null && !subjects.isEmpty()) {
 			for (Subject curSubject : subjects) {
 				if (null != curSubject.getSubjectDesc()
-						&& !curSubject.getSubjectDesc().isEmpty())
+						&& !curSubject.getSubjectDesc().isEmpty()) {
 					subjDesc += endWithPipes(curSubject.getSubjectDesc());
-
-				if (null != curSubject.getSubjectCode()
-						&& !curSubject.getSubjectCode().isEmpty())
-					subjCode += endWithPipes(curSubject.getSubjectCode());
-				if (null != curSubject.getSubjectGroupDesc()
-						&& !curSubject.getSubjectGroupDesc().isEmpty())
-					subjGroupDesc += endWithPipes(curSubject
-							.getSubjectGroupDesc());
+				}
 			}
-			if (subjDesc.endsWith(DELIMITER))
+			if (subjDesc.endsWith(DELIMITER)) {
 				subjDesc = subjDesc.substring(0, subjDesc.length() - 1);
-			if (subjCode.endsWith(DELIMITER))
-				subjCode = subjCode.substring(0, subjCode.length() - 1);
-			if (subjGroupDesc.endsWith(DELIMITER))
-				subjGroupDesc = subjGroupDesc.substring(0,
-						subjGroupDesc.length() - 1);
+			}
 		}
 		addField(subjDesc);
+	}
+
+	private void handleSubjectCode() {
+		List<Subject> subjects = curMetaData.getSubjects();
+		String subjCode = "";
+		if (subjects != null && !subjects.isEmpty()) {
+			for (Subject curSubject : subjects) {
+				if (null != curSubject.getSubjectCode()
+						&& !curSubject.getSubjectCode().isEmpty()) {
+					subjCode += endWithPipes(curSubject.getSubjectCode());
+				}
+			}
+			if (subjCode.endsWith(DELIMITER)) {
+				subjCode = subjCode.substring(0, subjCode.length() - 1);
+			}
+		}
 		addField(subjCode);
+	}
+
+	private void handleSubjectGroupDesc() {
+		List<Subject> subjects = curMetaData.getSubjects();
+		String subjGroupDesc = "";
+		if (subjects != null && !subjects.isEmpty()) {
+			for (Subject curSubject : subjects) {
+				if (null != curSubject.getSubjectGroupDesc()
+						&& !curSubject.getSubjectGroupDesc().isEmpty()) {
+					subjGroupDesc += endWithPipes(curSubject.getSubjectGroupDesc());
+				}
+			}
+			if (subjGroupDesc.endsWith(DELIMITER)) {
+				subjGroupDesc = subjGroupDesc.substring(0, subjGroupDesc.length() - 1);
+			}
+		}
 		addField(subjGroupDesc);
 	}
 
 	private void hasSupplementalFiles() {
 		String hasSuppFiles = "N";
-
 		if (null != curMetaData.getSuppFiles()
 				&& !curMetaData.getSuppFiles().isEmpty()) {
 			hasSuppFiles = "Y";
 		}
-
 		addField(hasSuppFiles);
 	}
 
-	private void handleSupplemetalFiles() {
+	private void handleSupplemetalFileName() {
+		List<SuppFile> suppFiles = curMetaData.getSuppFiles();
 		String suppFileName = "";
-		String suppFileDescription = "";
-		String suppFileCategory = "";
-		if (null != curMetaData.getSuppFiles()
-				&& !curMetaData.getSuppFiles().isEmpty()) {
-			List<SuppFile> suppFiles = curMetaData.getSuppFiles();
+	
+		if (null != suppFiles && ! suppFiles.isEmpty()) {
 			for (SuppFile curSuppFile : suppFiles) {
 				suppFileName += endWithPipes(curSuppFile.getSuppFilename());
-				suppFileDescription += endWithPipes(curSuppFile
-						.getSuppFileDesc());
-				suppFileCategory += endWithPipes(curSuppFile
-						.getSuppFileCategory());
 			}
-			if (suppFileName.endsWith(DELIMITER))
+			if (suppFileName.endsWith(DELIMITER)) {
 				suppFileName = suppFileName.substring(0,
 						suppFileName.length() - 1);
-			if (suppFileDescription.endsWith(DELIMITER))
-				suppFileDescription = suppFileDescription.substring(0,
-						suppFileDescription.length() - 1);
-			if (suppFileCategory.endsWith(DELIMITER))
-				suppFileCategory = suppFileCategory.substring(0,
-						suppFileCategory.length() - 1);
+			}
 		}
 		addField(suppFileName);
+	}
+	
+	private void handleSupplemetalFileDesc() {
+		List<SuppFile> suppFiles = curMetaData.getSuppFiles();
+		String suppFileDescription = "";
+		if (null != suppFiles && ! suppFiles.isEmpty()) {
+			for (SuppFile curSuppFile : suppFiles) {
+				suppFileDescription += endWithPipes(curSuppFile.getSuppFileDesc());
+			}
+			if (suppFileDescription.endsWith(DELIMITER)) {
+				suppFileDescription = suppFileDescription.substring(0,
+						suppFileDescription.length() - 1);
+			}
+		}
 		addField(suppFileDescription);
+	}
+	private void handleSupplemetalFilesCategory() {
+		List<SuppFile> suppFiles = curMetaData.getSuppFiles();
+		String suppFileCategory = "";
+		if (null != suppFiles && !curMetaData.getSuppFiles().isEmpty()) {
+			for (SuppFile curSuppFile : suppFiles) {
+				suppFileCategory += endWithPipes(curSuppFile.getSuppFileCategory());
+			}
+			if (suppFileCategory.endsWith(DELIMITER)) {
+				suppFileCategory = suppFileCategory.substring(0, 
+						suppFileCategory.length() - 1);
+			}
+		}
 		addField(suppFileCategory);
 	}
 
@@ -433,71 +601,110 @@ public class CSVRecordFactory {
 	}
 
 	private void handleKeyWords() {
+		List<Keyword> keywords = curMetaData.getKeywords();
 		String keyword = "";
-		String keywordSource = "";
 
-		if (null != curMetaData.getKeywords()
-				&& !curMetaData.getKeywords().isEmpty()) {
-			List<Keyword> keywords = curMetaData.getKeywords();
+		if (null != keywords && ! keywords.isEmpty()) {			
 			for (Keyword curKeyword : keywords) {
 				keyword = endWithPipes(curKeyword.getValue());
-				keywordSource = endWithPipes(curKeyword.getSource());
 			}
-			if (keyword.endsWith(DELIMITER))
+			if (keyword.endsWith(DELIMITER)) {
 				keyword = keyword.substring(0, keyword.length() - 1);
-			if (keywordSource.endsWith(DELIMITER))
-				keywordSource = keywordSource.substring(0,
-						keywordSource.length() - 1);
+			}
 		}
 		addField(keyword);
+	}
+	
+	private void handleKeyWordSource() {
+		List<Keyword> keywords= curMetaData.getKeywords();
+		String keywordSource = "";
+		if (null != keywords && ! keywords.isEmpty()) {
+			for (Keyword curKeyword : keywords) {
+				keywordSource = endWithPipes(curKeyword.getSource());
+			}
+			if (keywordSource.endsWith(DELIMITER)) {
+				keywordSource = keywordSource.substring(0, keywordSource.length() - 1);
+			}
+		}
 		addField(keywordSource);
 	}
 
-	private void handleSalesRestrictions() {
+	private void handleSalesRestrictionCode() {
+		List<SalesRestriction> salesRestrictions = curMetaData.getSalesRestrictions();
 		String salesRestrictionCode = "";
+		
+		if (null != salesRestrictions && ! salesRestrictions.isEmpty()) {
+			for (SalesRestriction currSalesRestriction : salesRestrictions) {
+				if (null != currSalesRestriction.getCode()
+						&& !currSalesRestriction.getCode().isEmpty()) {
+					salesRestrictionCode = endWithPipes(
+							currSalesRestriction.getCode());
+				}
+			}
+			if (salesRestrictionCode.endsWith(DELIMITER)) {
+				salesRestrictionCode = salesRestrictionCode.substring(
+						0, salesRestrictionCode.length() - 1);
+			}
+		}
+		addField(salesRestrictionCode);
+	}
+	
+	private void handleSalesRestrictionDesc() {
+		List<SalesRestriction> salesRestrictions = curMetaData.getSalesRestrictions();
 		String salesRestrictionDesc = "";
+		if (null != salesRestrictions && !salesRestrictions.isEmpty()) {
+			for (SalesRestriction currSalesRestriction : salesRestrictions) {
+				if (null != currSalesRestriction.getDescription()
+						&& !currSalesRestriction.getDescription().isEmpty()) {
+					salesRestrictionDesc = endWithPipes(
+							currSalesRestriction.getDescription());
+				}
+			}
+			if (salesRestrictionDesc.endsWith(DELIMITER)) {
+				salesRestrictionDesc = salesRestrictionDesc.substring(
+						0, salesRestrictionDesc.length() - 1);
+			}
+		}
+		addField(salesRestrictionDesc);
+	}
+	
+	private void handleSalesRestrictionStartDate() {
+		List<SalesRestriction> salesRestrictions = curMetaData.getSalesRestrictions();
 		String salesRestrictionStartDate = "";
+		if (null != salesRestrictions
+				&& ! salesRestrictions.isEmpty()) {
+			for (SalesRestriction currSalesRestriction : salesRestrictions) {
+				if (null != currSalesRestriction.getRestrictionStartDate()
+						&& !currSalesRestriction.getRestrictionStartDate().isEmpty()) {
+					salesRestrictionStartDate = endWithPipes(
+							currSalesRestriction.getRestrictionStartDate());
+				}
+			}
+			if (salesRestrictionStartDate.endsWith(DELIMITER)) {
+				salesRestrictionStartDate = salesRestrictionStartDate
+						.substring(0, salesRestrictionStartDate.length() - 1);
+			}
+		}
+		addField(salesRestrictionStartDate);
+	}
+	
+	private void handleSalesRestrictionEndDate() {
+		List<SalesRestriction> salesRestrictions = curMetaData.getSalesRestrictions();
 		String salesRestrictionEndDate = "";
 		if (null != curMetaData.getSalesRestrictions()
 				&& !curMetaData.getSalesRestrictions().isEmpty()) {
-			List<SalesRestriction> salesRestrictions = curMetaData
-					.getSalesRestrictions();
 			for (SalesRestriction currSalesRestriction : salesRestrictions) {
-				if (null != currSalesRestriction.getCode()
-						&& !currSalesRestriction.getCode().isEmpty())
-					salesRestrictionCode = endWithPipes(currSalesRestriction
-							.getCode());
-				if (null != currSalesRestriction.getDescription()
-						&& !currSalesRestriction.getDescription().isEmpty())
-					salesRestrictionDesc = endWithPipes(currSalesRestriction
-							.getDescription());
-				if (null != currSalesRestriction.getRestrictionStartDate()
-						&& !currSalesRestriction.getRestrictionStartDate()
-								.isEmpty())
-					salesRestrictionStartDate = endWithPipes(currSalesRestriction
-							.getRestrictionStartDate());
 				if (null != currSalesRestriction.getRestrictionEndDate()
-						&& !currSalesRestriction.getRestrictionEndDate()
-								.isEmpty())
-					salesRestrictionEndDate = endWithPipes(currSalesRestriction
-							.getRestrictionEndDate());
+						&& !currSalesRestriction.getRestrictionEndDate().isEmpty()) {
+					salesRestrictionEndDate = endWithPipes(
+							currSalesRestriction.getRestrictionEndDate());
+				}
 			}
-			if (salesRestrictionCode.endsWith(DELIMITER))
-				salesRestrictionCode = salesRestrictionCode.substring(0,
-						salesRestrictionCode.length() - 1);
-			if (salesRestrictionDesc.endsWith(DELIMITER))
-				salesRestrictionDesc = salesRestrictionDesc.substring(0,
-						salesRestrictionDesc.length() - 1);
-			if (salesRestrictionStartDate.endsWith(DELIMITER))
-				salesRestrictionStartDate = salesRestrictionStartDate
-						.substring(0, salesRestrictionStartDate.length() - 1);
-			if (salesRestrictionEndDate.endsWith(DELIMITER))
-				salesRestrictionEndDate = salesRestrictionEndDate.substring(0,
-						salesRestrictionEndDate.length() - 1);
+			if (salesRestrictionEndDate.endsWith(DELIMITER)) {
+				salesRestrictionEndDate = salesRestrictionEndDate.substring(
+						0, salesRestrictionEndDate.length() - 1);
+			}
 		}
-		addField(salesRestrictionCode);
-		addField(salesRestrictionDesc);
-		addField(salesRestrictionStartDate);
 		addField(salesRestrictionEndDate);
 	}
 
@@ -526,21 +733,25 @@ public class CSVRecordFactory {
 			daiSectionCode = "";
 		addField(daiSectionCode);
 	}
-
-	private void handlePDF() {
-		PdfStatus pdfStatus = curMetaData.getPdfStatus() != null ? curMetaData
-				.getPdfStatus() : null;
+	
+	private void hasPDF() {
+		PdfStatus pdfStatus = curMetaData.getPdfStatus();
 		String hasPDF = "N";
-		String pdfAvailableDate = "";
-
 		if (null != pdfStatus) {
 			if (pdfStatus.isPdfAvailable()) {
 				hasPDF = "Y";
-				pdfAvailableDate = curMetaData.getPdfStatus()
-						.getPdfAvailableDate();
 			}
 		}
 		addField(hasPDF);
+	}
+	private void handlePDFAvailableDate() {
+		PdfStatus pdfStatus = curMetaData.getPdfStatus();
+		String pdfAvailableDate = "";
+		if (null != pdfStatus) {
+			if (pdfStatus.isPdfAvailable()) {
+				pdfAvailableDate = curMetaData.getPdfStatus().getPdfAvailableDate();
+			}
+		}
 		addField(pdfAvailableDate);
 	}
 
