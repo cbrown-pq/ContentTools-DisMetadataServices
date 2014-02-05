@@ -50,20 +50,4 @@ public class CSVHeaders {
 	public static final String kPDFAvailableDate = "PDF AVAILABLE DATE";
 	public static final String kFormatRestrictionCode = "FORMAT RESTRICTION CODE";
 
-	/*public static final Set<String> kAllHeaders = ImmutableSet.of(kPubNumber,
-			kVolumeIssue, kAdvisors, kIsbn, kPageNumber, kPageCount,
-			kPublisher, kReferenceLocation, kBritishLibraryNumber,
-			kExternalUrl, kDissLangDesc, kDissLangCode, kSchoolCode,
-			kSchoolName, kSchoolCountry, kSchoolState, kTitle,
-			kEnglishTranslationOfTitle, kVariantTitle, kAuthors, kDegreeCode,
-			kDegreeDesc, kDegreeYear, kAbstract, kSubjectDesc, kSubjectCode,
-			kSubjectGroupDesc, kHasSupplementalFiles, kSuppFileNames,
-			kSuppFileDescription, kSuppFileCategory, kDepartmentName, kKeyword,
-			kKeywordSource, kSalesRestrictionCode, kSalesRestrictionDesc,
-			kSalesRestrictionStartDate, kSalesRestrictionEndDate,
-			kDissertationTypeCode, kDissertationCode, kDAISectionCode, kHasPDF,
-			kPDFAvailableDate, kFormatRestrictionCode);
-			
-			*/
-
 }
