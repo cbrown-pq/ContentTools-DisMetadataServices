@@ -144,10 +144,11 @@ public class CSVRecordFactory {
 	}
 
 	private void createHeader() {
+		String newLine = System.getProperty("line.separator");
 		for (String key : kAllHeaders.keySet()) {
 			curRecord += key + ",";
 		}
-		curRecord += "\n";
+		curRecord += newLine;
 	}
 
 	private void handlePubNumber() {

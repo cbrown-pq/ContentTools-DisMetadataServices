@@ -53,7 +53,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 	public void with_Emtpy() throws Exception {
 		DisPubMetaData empty = new DisPubMetaData();
 		String expectedCSVData = header
-				+ "\n,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(empty);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -63,7 +63,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setPubNumber("3569004");
 		String expectedCSVData = header
-				+ "\n\"3569004\",,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n\"3569004\",,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -75,7 +75,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		batch.setVolumeIssue("74-08(E)");
 		metadata.setBatch(batch);
 		String expectedCSVData = header
-				+ "\n,\"74-08(E)\",,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,\"74-08(E)\",,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -94,7 +94,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		advisors.setAdvisor(advisorList);
 		metadata.setAdvisors(advisors);
 		String expectedCSVData = header
-				+ "\n,,\"Moriarty, Matthew D.|Kinstlinger, Gary\",,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,\"Moriarty, Matthew D.|Kinstlinger, Gary\",,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
@@ -105,7 +105,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setISBN("978-1-303-03106-9");
 		String expectedCSVData = header
-				+ "\n,,,\"978-1-303-03106-9\",,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,\"978-1-303-03106-9\",,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -115,7 +115,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setPubPageNum("152");
 		String expectedCSVData = header
-				+ "\n,,,,\"152\",,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,\"152\",,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -125,7 +125,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setPageCount("128");
 		String expectedCSVData = header
-				+ "\n,,,,,\"128\",,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,\"128\",,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -135,7 +135,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setPublisher("Kuopion Yliopiston Painatuskeskus, Kuopio, Finland");
 		String expectedCSVData = header
-				+ "\n,,,,,,\"Kuopion Yliopiston Painatuskeskus, Kuopio, Finland\",,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,\"Kuopion Yliopiston Painatuskeskus, Kuopio, Finland\",,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -145,7 +145,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setReferenceLocation("DEPT. OF PHARMACOLOGY, KAROLINSKA INSTITUTE, BOX 60400, S-104 01         STOCKHOLM, SWEDEN");
 		String expectedCSVData = header
-				+ "\n,,,,,,,\"DEPT. OF PHARMACOLOGY, KAROLINSKA INSTITUTE, BOX 60400, S-104 01         STOCKHOLM, SWEDEN\",,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,\"DEPT. OF PHARMACOLOGY, KAROLINSKA INSTITUTE, BOX 60400, S-104 01         STOCKHOLM, SWEDEN\",,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -155,7 +155,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setBLNumber("546782");
 		String expectedCSVData = header
-				+ "\n,,,,,,,,\"546782\",,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,\"546782\",,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -165,7 +165,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setExternalURL("http://www.theses.com/idx/registered_users/etd/8f.asp");
 		String expectedCSVData = header
-				+ "\n,,,,,,,,,\"http://www.theses.com/idx/registered_users/etd/8f.asp\",,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,\"http://www.theses.com/idx/registered_users/etd/8f.asp\",,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -180,7 +180,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		languages.add(lang2);
 		metadata.setDissLanguages(languages);
 		String expectedCSVData = header
-				+ "\n,,,,,,,,,,\"English|French\",\"EN|FR\",,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,,\"English|French\",\"EN|FR\",,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -194,7 +194,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		school.setSchoolCountry("UNITED STATES");
 		school.setSchoolState("Massachusetts");
 		metadata.setSchool(school);
-		String expectedCSVData = header + "\n,,,,,,,,,,,,\"0753\",\"Massachusetts Institute of Technology\",\"UNITED STATES\",\"Massachusetts\",,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";	
+		String expectedCSVData = header + "\r\n,,,,,,,,,,,,\"0753\",\"Massachusetts Institute of Technology\",\"UNITED STATES\",\"Massachusetts\",,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";	
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -209,7 +209,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		title.setForeignTitle("NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text)");
 		metadata.setTitle(title);
 		String expectedCSVData = header
-				+ "\n"
+				+ "\r\n"
 				+ ",,,,,,,,,,,,,,,,"
 				+ "\"NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text).\""
 				+ ","
@@ -232,7 +232,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		authors.add(author1);
 		authors.add(author2);
 		metadata.setAuthors(authors);
-		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,"
 				+ "\"Yamamoto, Masahiro|Fernandez-Rivera, Salvador\""
 				+ ",,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -253,7 +253,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		author.setDegrees(degrees);
 		authors.add(author);
 		metadata.setAuthors(authors);
-		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,"
 				+ "\"D.N.Sc.\"" + ",\"Doctor of Nursing Science\""
 				+ ",\"1987\"" + ",,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -267,7 +267,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		TextNormalizer abstractNormalizer = new TextNormalizer();
 		abstractText = abstractNormalizer.applyTo(abstractText);
 		metadata.setAbstract(abstractText);
-		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,"
 				+ "\"" + abstractText + "\""
 				+ ",,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -287,7 +287,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		subject.setSubjectGroupDesc(subjGroupDesc);
 		subjects.add(subject);
 		metadata.setSubjects(subjects);
-		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,"
 				+ "\"" + subjDesc + "\"" + ",\"" + subjCode + "\"" + ",\""
 				+ subjGroupDesc + "\"" + ",\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -307,7 +307,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		List<SuppFile> suppFiles = new ArrayList<SuppFile>();
 		suppFiles.add(suppFile);
 		metadata.setSuppFiles(suppFiles);
-		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"Y\"" + ",\"" + suppFileName + "\"" + ",\"" + suppFileDesc
 				+ "\"" + ",\"" + suppFileCategory + "\""
 				+ ",,,,,,,,,,,\"N\",,,";
@@ -321,7 +321,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		List<String> deparments = Lists.newArrayList(
 				"Applied Behavioral Science", "Communication Studies");
 		metadata.setDepartments(deparments);
-		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,," 
 				+ ",\""	+ "Applied Behavioral Science|Communication Studies" + "\""
 				+ ",,,,,,,,,,\"N\",,,";
@@ -340,7 +340,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		keyword2.setSource("	  免疫");
 		List<Keyword> keywords = Lists.newArrayList(keyword1,keyword2);
 		metadata.setKeywords(keywords );
-		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,," 
 				+ ",\"" +  "By Author|For Datrix"  + "\""
 				+ ",\"" +  "low temperature adsorption drying|	  免疫"  + "\""
@@ -360,7 +360,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		salesRestriction2.setDescription("Available");
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(salesRestriction1,salesRestriction2);
 		metadata.setSalesRestrictions(salesRestrictions);
-		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,," 
 				+ ",\"" + "1|2" + "\""
 				+ ",\"" + "Not Available For Sale|Available" + "\""
@@ -375,7 +375,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAC");
 		metadata.setBatch(batch);
-		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,,,,,," 
 				+ ",\"" + "DAC"   + "\""
 				+ ",,,\"N\",,,";
@@ -389,7 +389,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		Batch batch = new Batch();
 		batch.setDBTypeDesc("Dissertation Abstracts International");
 		metadata.setBatch(batch);
-		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,,,,,,," 
 				+ ",\"" + "Dissertation Abstracts International"   + "\""
 				+ ",,\"N\",,,";
@@ -403,7 +403,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		Batch batch = new Batch();
 		batch.setDAISectionCode("B");
 		metadata.setBatch(batch);
-		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,,,,,,,," 
 				+ ",\"" + "B"   + "\""
 				+ ",\"N\",,,";
@@ -419,7 +419,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		pdfStatus.setPdfAvailableDate("23-APR-2012");
 		pdfStatus.setPdfAvailableStatus(true);
 		metadata.setPdfStatus(pdfStatus);
-		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,,,,,,,,," 
 				+ ",\"Y\""
 				+ ",\"23-APR-2012\""
@@ -442,7 +442,7 @@ public class MakeCSVRecordFromPubMetaData_Tests {
 		formatRestrictions.add(formatRestriction1);
 		formatRestrictions.add(formatRestriction2);
 		metadata.setFormatRestrictions(formatRestrictions );
-		String expectedCSVData = header + "\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,,,,,,,,," 
 				+ ",\"N\""
 				+ ",,\"C|CE\",";
