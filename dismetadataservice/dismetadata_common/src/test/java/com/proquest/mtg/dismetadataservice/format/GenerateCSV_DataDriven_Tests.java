@@ -1,5 +1,7 @@
 package com.proquest.mtg.dismetadataservice.format;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.List;
@@ -8,7 +10,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertThat;
+
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.ExodusDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.ICSVProvider;
@@ -18,9 +20,6 @@ import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.metadata.HTMLTagRemover;
 import com.proquest.mtg.dismetadataservice.metadata.PlainTextNormalizer;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.hamcrest.CoreMatchers.is;
 
 public class GenerateCSV_DataDriven_Tests {
 	public static final String kTestDataDirPath = "src//test//resources//Csv_Regression_Test_Data//";
@@ -64,8 +63,8 @@ public class GenerateCSV_DataDriven_Tests {
 		for (PubAndCSVRecord expectedCsv : expectedCsvRecords) {
 			PubAndCSVRecord actualCsv = PubAndCSVRecord.makeFor(csvProvider,
 					expectedCsv.getPubId());
-			assertEquals(actualCsv.getPubId(),expectedCsv.getPubId());
-			assertEquals(actualCsv.getCSVRecord(),expectedCsv.getCSVRecord());
+			assertEquals(actualCsv.getPubId(), expectedCsv.getPubId());
+			assertEquals(actualCsv.getCSVRecord(), expectedCsv.getCSVRecord());
 		}
 	}
 

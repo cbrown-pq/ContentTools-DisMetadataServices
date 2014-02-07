@@ -3,7 +3,6 @@ package com.proquest.mtg.dismetadataservice.csv;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +22,7 @@ import com.proquest.mtg.dismetadataservice.metadata.TextNormalizer;
 public class MakeCSVRecordFactory_Tests {
 	CSVRecordFactory factory;
 	String header = "";
-	
+
 	@Before
 	public void setUp() throws Exception {
 		factory = new CSVRecordFactory();
@@ -48,7 +47,6 @@ public class MakeCSVRecordFactory_Tests {
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
-	
 
 	@Test
 	public void acceptance2() throws Exception {
@@ -64,7 +62,7 @@ public class MakeCSVRecordFactory_Tests {
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
-	
+
 	@Test
 	public void acceptance3() throws Exception {
 		DisPubMetaData metadata = new DisPubMetaData();
@@ -79,7 +77,7 @@ public class MakeCSVRecordFactory_Tests {
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
-	
+
 	@Test
 	public void acceptance4() throws Exception {
 		DisPubMetaData metadata = new DisPubMetaData();
@@ -90,6 +88,7 @@ public class MakeCSVRecordFactory_Tests {
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
+
 	@Test
 	public void acceptance5() throws Exception {
 		DisPubMetaData metadata = new DisPubMetaData();
@@ -129,7 +128,7 @@ public class MakeCSVRecordFactory_Tests {
 		title.setForeignTitle("NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text)");
 		return title;
 	}
-	
+
 	private List<Subject> makeSubjects() {
 		List<Subject> subjects = new ArrayList<Subject>();
 		Subject subject = new Subject();
