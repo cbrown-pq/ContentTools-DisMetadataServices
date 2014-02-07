@@ -144,7 +144,7 @@ public class CSVRecordFactory {
 	}
 
 	private void createHeader() {
-		String newLine = System.getProperty("line.separator");
+		String newLine = System.lineSeparator();
 		for (String key : kAllHeaders.keySet()) {
 			curRecord += key + ",";
 		}
