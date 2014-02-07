@@ -144,11 +144,10 @@ public class CSVRecordFactory {
 	}
 
 	private void createHeader() {
-		String newLine = System.lineSeparator();
 		for (String key : kAllHeaders.keySet()) {
 			curRecord += key + ",";
 		}
-		curRecord += newLine;
+		curRecord += "\r\n";
 	}
 
 	private void handlePubNumber() {
@@ -288,6 +287,7 @@ public class CSVRecordFactory {
 		School school = curMetaData.getSchool();
 		String schoolName = "";
 		if (null != school) {
+			if(null != school.getSchoolName() && !school.getSchoolName().isEmpty())
 			schoolName = school.getSchoolName();
 		}
 		addField(schoolName);
@@ -297,6 +297,7 @@ public class CSVRecordFactory {
 		School school = curMetaData.getSchool();
 		String schoolCode = "";
 		if (null != school) {
+			if(null != school.getSchoolCode() && !school.getSchoolCode().isEmpty())
 			schoolCode = school.getSchoolCode();
 		}
 		addField(schoolCode);
@@ -306,6 +307,7 @@ public class CSVRecordFactory {
 		School school = curMetaData.getSchool();
 		String schoolCountry = "";
 		if (null != school) {
+			if(null != school.getSchoolCountry() && !school.getSchoolCountry().isEmpty())
 			schoolCountry = school.getSchoolCountry();
 		}
 		addField(schoolCountry);
@@ -315,7 +317,8 @@ public class CSVRecordFactory {
 		School school = curMetaData.getSchool();
 		String schoolState = "";
 		if (null != school) {
-			schoolState = school.getSchoolState();
+			if(null != school.getSchoolState() && !school.getSchoolState().isEmpty())
+				schoolState = school.getSchoolState();
 		}
 		addField(schoolState);
 	}
