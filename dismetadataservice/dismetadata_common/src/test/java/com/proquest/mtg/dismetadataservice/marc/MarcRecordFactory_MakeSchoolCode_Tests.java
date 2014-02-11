@@ -13,7 +13,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
 
 public class MarcRecordFactory_MakeSchoolCode_Tests extends
 		MarcRecordFactoryBase_Tests {
-	String tag1 = MarcTags.kAdvisorname;
+	String tag1 = MarcTags.kLocalAddedEntry;
 	String tag2 = MarcTags.kLocalNoteSchoolCode;
 
 	String expectedMarcFieldData1, expectedMarcFieldData2;

@@ -115,17 +115,17 @@ public class GenerateMarc_DataDriven_Tests {
 	}
 	
 	private void verifyMarc(
-			String message, 
-			PubAndMarcRecord actualMarc, 
-			PubAndMarcRecord expectedMarc) { 
+		String message, 
+		PubAndMarcRecord actualMarc, 
+		PubAndMarcRecord expectedMarc) { 
 		verifyMarcRecordTags(message, actualMarc, expectedMarc);
 		verifyMarcFields(message, actualMarc, expectedMarc);
 	}
 
 	private void verifyMarcRecordTags(
-			String message, 
-			PubAndMarcRecord expectedMarc, 
-			PubAndMarcRecord actualMarc) {
+		String message, 
+		PubAndMarcRecord expectedMarc, 
+		PubAndMarcRecord actualMarc) {
 		assertThat(
 				message + " Verify Tags",
 				actualMarc.getMarcRecord().getAllTags(),
@@ -133,9 +133,9 @@ public class GenerateMarc_DataDriven_Tests {
 	}
 	
 	private void verifyMarcFields(
-			String message, 
-			PubAndMarcRecord expectedMarc, 
-			PubAndMarcRecord actualMarc) {
+		String message, 
+		PubAndMarcRecord expectedMarc, 
+		PubAndMarcRecord actualMarc) {
 		int fieldCount = expectedMarc.getMarcRecord().getFieldCount();
 		for (int i=0; i<fieldCount; ++i) {
 			MarcField expectedField = expectedMarc.getMarcRecord().getAllFields().get(i);
@@ -150,5 +150,4 @@ public class GenerateMarc_DataDriven_Tests {
 					is(expectedField.getData()));
 		}
 	}
-
 }

@@ -73,7 +73,6 @@ public class MarcRecordFactory {
 		handleCorporateEntry(); /*710*/
 		handleVariantTitle(); /*740*/
 		handleHostItemEntry(); /*773*/
-		handleAdvisors(); /*790*/
 		handleSchoolCode(); /*590 and 790*/
 		handleDegrees(); /*791 792*/
 		handleDisserationLanguage(); /*793*/
@@ -510,77 +509,14 @@ public class MarcRecordFactory {
 				addField(MarcTags.kHostItemEntry,
 						makeFieldDataFrom('0', ' ', 't', endWithPeriod(batchTypeDesc)));
 		}
-}
-	
-	private void handleAdvisors() {
-		List<Advisor> dissAdvisors = curMetaData.getAdvisors() != null ? curMetaData.getAdvisors().getAdvisor()	: null ;
-		if (dissAdvisors != null && !dissAdvisors.isEmpty()) {
-			for (Advisor curAdvisor : dissAdvisors) {
-				String advisorString = makeFieldDataFrom( 'e',"advisor");
-				String advisorFirstName = null, advisorLastName = null, advisorMiddleInitial = null,advisorGenerationSuffix = null;
-				String adviserFullName = null;
-				String[] adviserName = curAdvisor.getAdvisorFullName().trim().split(" ");
-				if(adviserName.length == 4)
-				{
-					advisorFirstName = adviserName[0];
-					advisorMiddleInitial = adviserName[1];
-					advisorLastName = adviserName[2];
-					advisorGenerationSuffix = adviserName[3];					
-					adviserFullName = endWithComma(advisorLastName) + " "
-							+ advisorFirstName + " " + advisorMiddleInitial + "," + advisorGenerationSuffix;
-				}
-				else if(adviserName.length == 3)
-				{
-					String pattern="^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$";
-					advisorFirstName = adviserName[0];
-					if(adviserName[1].length() == 2) {
-						advisorMiddleInitial = adviserName[1];
-						advisorLastName = adviserName[2];
-						adviserFullName = advisorLastName + "," + " "
-							+ advisorFirstName + " " + advisorMiddleInitial;	
-					}
-					else if(adviserName[2].endsWith(".")){
-						advisorLastName = adviserName[1];
-						advisorGenerationSuffix = adviserName[2];
-						adviserFullName = advisorLastName + "," + " "
-							+ advisorFirstName + "," + advisorGenerationSuffix;	
-					}
-					else if(adviserName[2].matches(pattern)) {
-						advisorLastName = adviserName[1];
-						advisorGenerationSuffix = adviserName[2];
-						adviserFullName = advisorLastName + "," + " "
-								+ advisorFirstName + "," + advisorGenerationSuffix;	
-					}
-					else {
-						adviserFullName = curAdvisor.getAdvisorFullName();
-					}
-				}
-				else if(adviserName.length == 2)
-				{
-					advisorFirstName = adviserName[0];
-					advisorLastName = adviserName[1];
-					adviserFullName = advisorLastName.replace("@", " ") + "," + " " + advisorFirstName;					
-				}
-				else
-				{
-					adviserFullName = curAdvisor.getAdvisorFullName();
-				}
-				adviserFullName = SGMLEntitySubstitution.applyAllTo(adviserFullName);
-				advisorString = SGMLEntitySubstitution.applyAllTo(advisorString);
-				addField(
-						MarcTags.kAdvisorname,
-						makeFieldDataFrom('1', '0', 'a', endWithComma(adviserFullName.trim()),
-								advisorString));
-			}
-		}
 	}
-
+	
 	private void handleSchoolCode() {
 		String dissSchoolCode = curMetaData.getSchool() != null 
 										? curMetaData.getSchool().getSchoolCode() 
 										: null;
 		if (null != dissSchoolCode && !dissSchoolCode.isEmpty()) {
-			addField(MarcTags.kAdvisorname,
+			addField(MarcTags.kLocalAddedEntry,
 					makeFieldDataFrom(' ', ' ', 'a', dissSchoolCode));
 			addField(MarcTags.kLocalNoteSchoolCode,
 					makeFieldDataFrom(' ', ' ', 'a', "School code: ",dissSchoolCode) + ".");
