@@ -30,7 +30,7 @@ public class MarcTags {
 	public static final String kCorporatename = "710";
 	public static final String kVariantTitle = "740";
 	public static final String kHostItemEntry = "773";
-	public static final String kAdvisorname = "790";
+	public static final String kLocalAddedEntry = "790";
 	public static final String kDegreeName = "791";
 	public static final String kDegreeDate = "792";
 	public static final String kDissertationLanguage = "793";
@@ -59,7 +59,7 @@ public class MarcTags {
 			kCorporatename,
 			kVariantTitle,
 			kHostItemEntry,
-			kAdvisorname,
+			kLocalAddedEntry,
 			kDegreeName,
 			kDegreeDate,
 			kDissertationLanguage,
