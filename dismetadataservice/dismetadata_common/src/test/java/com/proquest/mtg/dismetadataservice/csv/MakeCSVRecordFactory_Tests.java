@@ -31,6 +31,20 @@ public class MakeCSVRecordFactory_Tests {
 		}
 	}
 
+	@Test(expected = Exception.class)
+	public void with_Null_Throws() throws Exception {
+		factory.makeFrom(null);
+	}
+
+	@Test
+	public void with_Emtpy() throws Exception {
+		DisPubMetaData empty = new DisPubMetaData();
+		String expectedCSVData = header
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+		String csvData = factory.makeFrom(empty);
+		assertThat(csvData, is(expectedCSVData));
+	}
+
 	@Test
 	public void acceptance1() throws Exception {
 		DisPubMetaData metadata = new DisPubMetaData();
