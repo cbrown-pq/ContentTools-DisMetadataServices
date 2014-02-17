@@ -110,5 +110,34 @@ public class MakeCSVRecordFactory_Titles_Tests {
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
+	
+	
+	@Test
+	public void makeTitleWithQuotesInTitle() throws Exception {
+		String masterTilte = " Master title with \"quotes\"";
+		title.setMasterTitle(masterTilte);
+		
+		DisPubMetaData metadata = new DisPubMetaData();
+		metadata.setTitle(title);
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,"
+				+ "\"Master title with \"\"quotes\"\".\",,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+		String csvData = factory.makeFrom(metadata);
+		assertThat(csvData, is(expectedCSVData));
+	}
+	
+	@Test
+	public void makeTitleWithSGMLInTitle() throws Exception {
+		String masterTilte = "Master title with &laquo; and &Lambda; and &ldquo;";
+		title.setMasterTitle(masterTilte);
+		
+		DisPubMetaData metadata = new DisPubMetaData();
+		metadata.setTitle(title);
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,"
+				+ "\"Master title with \"\" and Lambda and \"\".\",,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+		String csvData = factory.makeFrom(metadata);
+		System.out.println("csvData =" + csvData);
+		System.out.println("expectedCSVData =" + expectedCSVData);
+		assertThat(csvData, is(expectedCSVData));
+	}
 
 }

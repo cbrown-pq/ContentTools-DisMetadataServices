@@ -383,8 +383,9 @@ public class CSVRecordFactory {
 	private void handleTitle() {
 		String title = getTitleToInclude();
 		if (null != title && !title.isEmpty()) {
-			title = endsWithPunctuationMark(title);
 			title = SGMLEntitySubstitution.applyAllTo(title);
+			title = title.replaceAll("\"", "\"\"");
+			title = endsWithPunctuationMark(title);
 		}
 		addField(title);
 	}
@@ -463,8 +464,7 @@ public class CSVRecordFactory {
 						degreeCode += endWithPipes(curDegree.getDegreeCode());
 				}
 				if (degreeCode.endsWith(DELIMITER)) {
-					degreeCode = degreeCode.substring(0,
-							degreeCode.length() - 1);
+					degreeCode = degreeCode.substring(0, degreeCode.length() - 1);
 				}
 			}
 		}
@@ -481,9 +481,9 @@ public class CSVRecordFactory {
 			if (degrees != null && !degrees.isEmpty()) {
 				for (Degree curDegree : degrees) {
 					if (null != curDegree.getDegreeDescription()
-							&& !curDegree.getDegreeDescription().isEmpty())
-						degreeDesc += endWithPipes(curDegree
-								.getDegreeDescription());
+							&& !curDegree.getDegreeDescription().isEmpty()) {
+						degreeDesc += endWithPipes(curDegree.getDegreeDescription());
+					}
 				}
 				if (degreeDesc.endsWith(DELIMITER)) {
 					degreeDesc = degreeDesc.substring(0,
@@ -521,6 +521,7 @@ public class CSVRecordFactory {
 				&& !curMetaData.getAbstract().isEmpty()) {
 			abstractText = abstractNormalizer
 					.applyTo(curMetaData.getAbstract());
+			abstractText = abstractText.replaceAll("\"", "\"\"");
 		}
 		addField(abstractText);
 	}
@@ -567,8 +568,7 @@ public class CSVRecordFactory {
 			for (Subject curSubject : subjects) {
 				if (null != curSubject.getSubjectGroupDesc()
 						&& !curSubject.getSubjectGroupDesc().isEmpty()) {
-					subjGroupDesc += endWithPipes(curSubject
-							.getSubjectGroupDesc());
+					subjGroupDesc += endWithPipes(curSubject.getSubjectGroupDesc());
 				}
 			}
 			if (subjGroupDesc.endsWith(DELIMITER)) {
@@ -595,8 +595,9 @@ public class CSVRecordFactory {
 		if (null != suppFiles && !suppFiles.isEmpty()) {
 			for (SuppFile curSuppFile : suppFiles) {
 				if (null != curSuppFile.getSuppFilename()
-						&& !curSuppFile.getSuppFilename().isEmpty())
+						&& !curSuppFile.getSuppFilename().isEmpty()) {
 					suppFileName += endWithPipes(curSuppFile.getSuppFilename());
+				}
 			}
 			if (suppFileName.endsWith(DELIMITER)) {
 				suppFileName = suppFileName.substring(0,
@@ -612,9 +613,10 @@ public class CSVRecordFactory {
 		if (null != suppFiles && !suppFiles.isEmpty()) {
 			for (SuppFile curSuppFile : suppFiles) {
 				if (null != curSuppFile.getSuppFileDesc()
-						&& !curSuppFile.getSuppFileDesc().isEmpty())
+						&& !curSuppFile.getSuppFileDesc().isEmpty()) {
 					suppFileDescription += endWithPipes(curSuppFile
 							.getSuppFileDesc());
+				}
 			}
 			if (suppFileDescription.endsWith(DELIMITER)) {
 				suppFileDescription = suppFileDescription.substring(0,
@@ -630,9 +632,10 @@ public class CSVRecordFactory {
 		if (null != suppFiles && !curMetaData.getSuppFiles().isEmpty()) {
 			for (SuppFile curSuppFile : suppFiles) {
 				if (null != curSuppFile.getSuppFileCategory()
-						&& !curSuppFile.getSuppFileCategory().isEmpty())
+						&& !curSuppFile.getSuppFileCategory().isEmpty()) {
 					suppFileCategory += endWithPipes(curSuppFile
 							.getSuppFileCategory());
+				}
 			}
 			if (suppFileCategory.endsWith(DELIMITER)) {
 				suppFileCategory = suppFileCategory.substring(0,
@@ -651,8 +654,9 @@ public class CSVRecordFactory {
 					deptName = deptName + endWithPipes(curDeptName.trim());
 				}
 			}
-			if (deptName.endsWith(DELIMITER))
+			if (deptName.endsWith(DELIMITER)) {
 				deptName = deptName.substring(0, deptName.length() - 1);
+			}
 		}
 		addField(deptName);
 	}
@@ -778,8 +782,9 @@ public class CSVRecordFactory {
 	private void handleDissertationTypeCode() {
 		String dissTypeCode = curMetaData.getBatch() != null ? curMetaData
 				.getBatch().getDBTypeCode() : "";
-		if (null == dissTypeCode)
+		if (null == dissTypeCode) {
 			dissTypeCode = "";
+		}
 		addField(dissTypeCode);
 	}
 
@@ -787,16 +792,18 @@ public class CSVRecordFactory {
 		String dissTypeDesc = curMetaData.getBatch() != null ? curMetaData
 				.getBatch().getDBTypeDesc() : "";
 
-		if (null == dissTypeDesc)
+		if (null == dissTypeDesc) {
 			dissTypeDesc = "";
+		}
 		addField(dissTypeDesc);
 	}
 
 	private void handleDAISectionCode() {
 		String daiSectionCode = curMetaData.getBatch() != null ? curMetaData
 				.getBatch().getDAISectionCode() : "";
-		if (null == daiSectionCode)
+		if (null == daiSectionCode) {
 			daiSectionCode = "";
+		}
 		addField(daiSectionCode);
 	}
 
@@ -817,8 +824,9 @@ public class CSVRecordFactory {
 		if (null != pdfStatus) {
 			if (pdfStatus.isPdfAvailable()) {
 				if (null != pdfStatus.getPdfAvailableDate()
-						&& !pdfStatus.getPdfAvailableDate().isEmpty())
+						&& !pdfStatus.getPdfAvailableDate().isEmpty()) {
 					pdfAvailableDate = pdfStatus.getPdfAvailableDate();
+				}
 			}
 		}
 		addField(pdfAvailableDate);
@@ -833,14 +841,16 @@ public class CSVRecordFactory {
 					.getFormatRestrictions();
 			for (FormatRestriction curFormatRestriction : formatRestrictions) {
 				if (null != curFormatRestriction.getCode()
-						&& !curFormatRestriction.getCode().isEmpty())
+						&& !curFormatRestriction.getCode().isEmpty()) {
 					formatRestrictionCode = formatRestrictionCode
 							+ endWithPipes(curFormatRestriction.getCode());
+				}
 			}
 
-			if (formatRestrictionCode.endsWith(DELIMITER))
+			if (formatRestrictionCode.endsWith(DELIMITER)) {
 				formatRestrictionCode = formatRestrictionCode.substring(0,
 						formatRestrictionCode.length() - 1);
+			}
 		}
 		addField(formatRestrictionCode);
 	}
