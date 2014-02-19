@@ -16,6 +16,7 @@ import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
+import com.proquest.mtg.dismetadataservice.metadata.SGMLEntitySubstitution;
 
 public class MarcRecordFactory_Author_Tests {
 	
@@ -70,13 +71,15 @@ static int kDataIndependentFieldCount = 3;
 	@Test
 	public void authorWithSGMLChar() {
 		author = new Author();
-		author.setAuthorFullName("&prime;John C &AElig; Mark@?");
+		String authorFullName = "&prime;John C &AElig; Mark@?";
+		authorFullName = SGMLEntitySubstitution.applyAllTo(authorFullName);
+		author.setAuthorFullName(authorFullName);
 		authors = Lists.newArrayList(author);
 		String tag = MarcTags.kAuthor;
 		DisPubMetaData metaData = new DisPubMetaData();
 		metaData.setAuthors(authors);
 		MarcRecord marc = factory.makeFrom(metaData);
-		String expectedData = "1 " + MarcCharSet.kSubFieldIndicator + "a" + "''John C AE Mark" + ".";
+		String expectedData = "1 " + MarcCharSet.kSubFieldIndicator + "a" + authorFullName + ".";
 		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
 		assertThat(fieldsMatchingTag.size(), is(1));
 		assertThat(fieldsMatchingTag.get(0).getData(), is(expectedData));
