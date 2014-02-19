@@ -135,8 +135,6 @@ public class MakeCSVRecordFactory_Titles_Tests {
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,"
 				+ "\"Master title with \"\" and Lambda and \"\".\",,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
-		System.out.println("csvData =" + csvData);
-		System.out.println("expectedCSVData =" + expectedCSVData);
 		assertThat(csvData, is(expectedCSVData));
 	}
 

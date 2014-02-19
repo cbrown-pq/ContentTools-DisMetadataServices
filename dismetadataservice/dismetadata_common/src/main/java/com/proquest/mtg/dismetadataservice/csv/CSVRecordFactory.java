@@ -521,6 +521,7 @@ public class CSVRecordFactory {
 				&& !curMetaData.getAbstract().isEmpty()) {
 			abstractText = abstractNormalizer
 					.applyTo(curMetaData.getAbstract());
+			abstractText = SGMLEntitySubstitution.applyAllTo(abstractText);
 			abstractText = abstractText.replaceAll("\"", "\"\"");
 		}
 		addField(abstractText);
