@@ -145,6 +145,45 @@ public class MarcRecordFactory_Title_Tests {
 		assertThat(fieldsMatchingTag.get(0).getData(), is(expectedData));
 	}
 	
+	@Test
+	public void withShortTitle() {
+		title.setMasterTitle("M4M");		
+		String tag = MarcTags.kTitle;
+		DisPubMetaData metaData = new DisPubMetaData();
+		metaData.setTitle(title);
+		String expectedData = "10" + MarcCharSet.kSubFieldIndicator + "a" 
+					+ "M4M.";
+		MarcRecord marc = factory.makeFrom(metaData);
+		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
+		assertThat(fieldsMatchingTag.size(), is(1));
+		assertThat(fieldsMatchingTag.get(0).getData(), is(expectedData));
+	}
 	
-
+	@Test
+	public void shortTitleWithDegree2Value() {
+		title.setMasterTitle("L'");		
+		String tag = MarcTags.kTitle;
+		DisPubMetaData metaData = new DisPubMetaData();
+		metaData.setTitle(title);
+		String expectedData = "12" + MarcCharSet.kSubFieldIndicator + "a" 
+					+ "L'.";
+		MarcRecord marc = factory.makeFrom(metaData);
+		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
+		assertThat(fieldsMatchingTag.size(), is(1));
+		assertThat(fieldsMatchingTag.get(0).getData(), is(expectedData));
+	}
+	
+	@Test
+	public void shortTitleWithSpecialChar() {
+		title.setMasterTitle("@#");		
+		String tag = MarcTags.kTitle;
+		DisPubMetaData metaData = new DisPubMetaData();
+		metaData.setTitle(title);
+		String expectedData = "10" + MarcCharSet.kSubFieldIndicator + "a" 
+					+ " #.";
+		MarcRecord marc = factory.makeFrom(metaData);
+		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
+		assertThat(fieldsMatchingTag.size(), is(1));
+		assertThat(fieldsMatchingTag.get(0).getData(), is(expectedData));
+	}
 }

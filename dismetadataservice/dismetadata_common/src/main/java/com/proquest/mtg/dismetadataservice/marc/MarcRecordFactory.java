@@ -701,9 +701,12 @@ public class MarcRecordFactory {
 		List<DisGeneralMapping> marcMappings = disGenMappingProvider
 				.getDisMapping().get(kMarcMapping);
 		for (DisGeneralMapping mapping : marcMappings) {
-			if (title.substring(0, Integer.parseInt(mapping.getDegreeValue2()))
-					.contentEquals(mapping.getDegreevalue1())) {
-				degreeValue2 = mapping.getDegreeValue2();
+			int degree2Val = Integer.parseInt(mapping.getDegreeValue2());
+			if (title.length() >= degree2Val ) {
+				if (title.substring(0, degree2Val).contentEquals(
+						mapping.getDegreevalue1())) {
+					degreeValue2 = mapping.getDegreeValue2();
+				}
 			}
 		}
 		char secondIndicator = (degreeValue2 == null) ? '0' : degreeValue2.charAt(0);
