@@ -7,20 +7,28 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
+import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
 
 public class PubMetaDataProvider implements IPubMetaDataProvider {
 	private IJdbcConnectionPool connectionPool;
-	
+	private String pqOpenUrlBase;
 	
 	@Inject
 	public PubMetaDataProvider(
 			@Named(IJdbcConnectionPool.kExodusConnectionPool) 
-			IJdbcConnectionPool connectionPool) throws SQLException {
+			IJdbcConnectionPool connectionPool,
+			@Named(DisMetadataProperties.PQ_OPEN_URL_BASE) 
+			String pqOpenUrlBase) throws SQLException {
 		this.connectionPool = connectionPool;
+		this.pqOpenUrlBase = pqOpenUrlBase.trim();
 	}
 
 	public IJdbcConnectionPool getConnectionPool() {
 		return connectionPool;
+	}
+		
+	public String getPqOpenUrlBase() {
+		return pqOpenUrlBase;
 	}
 
 	@Override
@@ -30,7 +38,7 @@ public class PubMetaDataProvider implements IPubMetaDataProvider {
 		PubMetaDataQuery query = null;
 		try {
 			connection = getConnectionPool().getConnection();
-			query = new PubMetaDataQuery(connection);
+			query = new PubMetaDataQuery(connection, getPqOpenUrlBase());
 			result = query.getFor(pubId);
 		}
 		finally {

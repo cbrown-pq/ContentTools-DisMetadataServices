@@ -24,6 +24,7 @@ import com.proquest.mtg.dismetadataservice.metadata.SplitAuthorNames;
 
 public class MakeExodusMetadataForTesting {
 	
+	public static final String pqOpenUrlBase = "http://gateway.proquest.com/openurl?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/fmt:kev:mtx:dissertation&res_dat=xri:pqm&rft_dat=xri:pqdiss:";
 	static final String noVolumeIssuePub1 = "0564394";
 	static final String fakePub1 = "fakePub1";
 		
@@ -145,6 +146,10 @@ public class MakeExodusMetadataForTesting {
 		return result;
 	}
 	
+	public static String makePqOpenUrlFor(String pubId) {
+		return pqOpenUrlBase + pubId.trim();
+	}
+	
 	// Pub C660938
 	public static final DisPubMetaData makeExpectedMetaData0() throws ParseException {
 		DisPubMetaData x = new DisPubMetaData();
@@ -155,6 +160,7 @@ public class MakeExodusMetadataForTesting {
 		x.setPubPageNum("997");
 		x.setPageCount("268");
 		x.setAdvisors(null);
+		x.setPqOpenURL(makePqOpenUrlFor(pubId0));
 
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAC");
@@ -231,6 +237,7 @@ public class MakeExodusMetadataForTesting {
 		
 		x.setISBN("978-1-267-73400-6");
 		x.setPageCount("51");
+		x.setPqOpenURL(makePqOpenUrlFor(pubId1));
 		
 		School school = new School();
 		school.setSchoolCode("0962");
@@ -313,6 +320,7 @@ public class MakeExodusMetadataForTesting {
 		x.setPubPageNum("61");
 		x.setPageCount("16");
 		x.setAdvisors(null);
+		x.setPqOpenURL(makePqOpenUrlFor(pubId2));
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("ADD");
@@ -382,6 +390,7 @@ public class MakeExodusMetadataForTesting {
 		x.setExternalURL("http://eprints.soton.ac.uk/15468");
 		x.setBLNumber("DXN074035");
 		x.setAdvisors(null);
+		x.setPqOpenURL(makePqOpenUrlFor(pubId3));
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAC");
@@ -439,6 +448,7 @@ public class MakeExodusMetadataForTesting {
 	public static final DisPubMetaData makeExpectedMetaData4() {
 		DisPubMetaData x = new DisPubMetaData();
 		x.setPubNumber(pubId4);
+		x.setPqOpenURL(makePqOpenUrlFor(pubId4));
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAC");
@@ -515,6 +525,7 @@ public class MakeExodusMetadataForTesting {
 		x.setPubNumber(pubId5);
 		x.setISBN("978-0-494-93884-3");
 		x.setPageCount("186");
+		x.setPqOpenURL(makePqOpenUrlFor(pubId5));
 
 		School school = new School();
 		school.setSchoolCode("0862");
@@ -604,6 +615,7 @@ public class MakeExodusMetadataForTesting {
 		x.setPubNumber(pubId6);
 		x.setISBN("978-1-303-02410-8");
 		x.setPageCount("9");
+		x.setPqOpenURL(makePqOpenUrlFor(pubId6));
 
 		School school = new School();
 		school.setSchoolCode("0033");
@@ -691,6 +703,7 @@ public class MakeExodusMetadataForTesting {
 		x.setISBN("978-1-124-78544-8");
 		x.setPageCount("442");
 		x.setPubPageNum("342");
+		x.setPqOpenURL(makePqOpenUrlFor(pubId7));
 
 		School school = new School();
 		school.setSchoolCode("0792");
@@ -791,6 +804,7 @@ public class MakeExodusMetadataForTesting {
 		x.setPubPageNum(null);
 		DissLanguage language = new DissLanguage("English", "EN");
 		x.setDissLanguages(Lists.newArrayList(language));
+		x.setPqOpenURL(makePqOpenUrlFor(pubId8));
 		
 		Title title = new Title();
 		title.setMasterTitle("A problem-based learning project focused on the Missouri teacher quality standards");
@@ -886,6 +900,7 @@ public class MakeExodusMetadataForTesting {
 		x.setPubPageNum("2616");
 		DissLanguage language = new DissLanguage("English", "EN");
 		x.setDissLanguages(Lists.newArrayList(language));
+		x.setPqOpenURL(makePqOpenUrlFor(pubId9));
 		
 		Title title = new Title();
 		title.setMasterTitle("&Eacute;tude des frottements internes dans le tellurure de\nbismuth pr&eacute;par&eacute; par extrusion");
@@ -964,6 +979,7 @@ public class MakeExodusMetadataForTesting {
 		x.setDissLanguages(Lists.newArrayList(language));
 		x.setAdvisors(null);
 		x.setPublisher("Aivar Kriiska, Side 10A2, Parnu 80017, Estonia");
+		x.setPqOpenURL(makePqOpenUrlFor(pubId10));
 		
 		Title title = new Title();
 		title.setMasterTitle("Stone Age settlement and economic processes in the Estonian coastal area and islands");
@@ -1041,6 +1057,7 @@ public class MakeExodusMetadataForTesting {
 		x.setPubPageNum(null);
 		DissLanguage language = new DissLanguage("English", "EN");
 		x.setDissLanguages(Lists.newArrayList(language));
+		x.setPqOpenURL(makePqOpenUrlFor(pubId11));
 		
 		Title title = new Title();
 		title.setMasterTitle("Spectral Approaches to Learning Predictive Representations");
@@ -1128,6 +1145,7 @@ public class MakeExodusMetadataForTesting {
 		x.setPubPageNum(null);
 		DissLanguage language = new DissLanguage("English", "EN");
 		x.setDissLanguages(Lists.newArrayList(language));
+		x.setPqOpenURL(makePqOpenUrlFor(pubId12));
 		
 		Title title = new Title();
 		title.setMasterTitle("Development and Characterization of Carbon Nanotubes (CNTs) and Silicon Carbide (SiC) Reinforced Al-based Nanocomposites");
@@ -1212,6 +1230,7 @@ public class MakeExodusMetadataForTesting {
 		school.setSchoolCountry("CANADA");
 		school.setSchoolState(null);
 		x.setSchool(school);
+		x.setPqOpenURL(makePqOpenUrlFor(pubId13));
 		
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAI");

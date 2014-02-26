@@ -16,6 +16,7 @@ import org.junit.Test;
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.ExodusDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IMarcProvider;
+import com.proquest.mtg.dismetadataservice.exodus.MakeExodusMetadataForTesting;
 import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
@@ -84,7 +85,8 @@ public class GenerateMarc_DataDriven_Tests {
 	
 	private void initMarcProvider() throws Exception {
 		JdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
-		PubMetaDataProvider pubMetaDataProvider = new PubMetaDataProvider(connectionPool);
+		PubMetaDataProvider pubMetaDataProvider = new PubMetaDataProvider(connectionPool, 
+				MakeExodusMetadataForTesting.pqOpenUrlBase);
 		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(connectionPool);
 		PlainTextNormalizer plainTextNormalizer = new PlainTextNormalizer(new HTMLTagRemover());
 		marcProvider = new ExodusDataProvider(pubMetaDataProvider, disGenMappingProvider, plainTextNormalizer);

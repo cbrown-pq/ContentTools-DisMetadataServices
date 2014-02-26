@@ -366,7 +366,12 @@ public class PubMetaDataQuery {
 	private PreparedStatement schoolStatement;
 	private PreparedStatement pdfStatusStatement;
 	
-	public PubMetaDataQuery(Connection connection) throws SQLException {
+	private final String pqOpenUrlBase;
+	
+	public PubMetaDataQuery(Connection connection, 
+			String pqOpenUrlBase) throws SQLException {
+		this.pqOpenUrlBase = pqOpenUrlBase;
+		
 		this.authorsStatement = connection.prepareStatement(kSelectAuthors);
 		this.mainPubDataStatement = connection.prepareStatement(kSelectMainPubData);
 		this.languageStatement = connection.prepareStatement(kSelectLanguage);
@@ -384,6 +389,14 @@ public class PubMetaDataQuery {
 		this.alternateAdvisorsStatement = connection.prepareStatement(kSelectAlternateAdvisors);
 		this.schoolStatement = connection.prepareStatement(kSelectSchool);
 		this.pdfStatusStatement = connection.prepareStatement(kSelectPdfStatus);
+	}
+	
+	public String getPqOpenUrlBase() {
+		return pqOpenUrlBase;
+	}
+	
+	public String makePqOpenUrlFor(String pubId) {
+		return getPqOpenUrlBase() + pubId.trim();
 	}
 	
 	public DisPubMetaData getFor(String pubId) throws SQLException {
@@ -442,7 +455,7 @@ public class PubMetaDataQuery {
 		}
 		result.setDateOfExtraction(getExtractionDateAsInt());
 		result.setSchool(getSchoolFor(cursor.getString(kColumnSchoolId)));
-//		result.setPQOpenURL(makePqOpenUrlFor(pubId));
+		result.setPqOpenURL(makePqOpenUrlFor(pubId));
 		return result;
 	}
 	

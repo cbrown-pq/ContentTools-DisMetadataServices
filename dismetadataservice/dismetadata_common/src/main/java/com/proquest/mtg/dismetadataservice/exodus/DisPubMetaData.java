@@ -33,6 +33,7 @@ public class DisPubMetaData {
 	private Title title;
 	private School school;
 	private PdfStatus pdfStatus;
+	private String pqOpenURL;
 
 	public BigInteger getDateOfExtraction() {
 		return dateOfExtraction;
@@ -276,6 +277,14 @@ public class DisPubMetaData {
 	
 	public String getPublisher() {
 		return publisher;
+	}
+	
+	public void setPqOpenURL(String pqOpenURL) {
+		this.pqOpenURL = pqOpenURL;
+	}
+	
+	public String getPqOpenURL() {
+		return pqOpenURL;
 	}
 	
 	@Override

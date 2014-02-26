@@ -14,6 +14,7 @@ import org.junit.Test;
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.ExodusDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.ICSVProvider;
+import com.proquest.mtg.dismetadataservice.exodus.MakeExodusMetadataForTesting;
 import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
@@ -72,7 +73,7 @@ public class GenerateCSV_DataDriven_Tests {
 		JdbcConnectionPool connectionPool = JdbcHelper
 				.makePoolForExodusUnitTest();
 		PubMetaDataProvider pubMetaDataProvider = new PubMetaDataProvider(
-				connectionPool);
+				connectionPool, MakeExodusMetadataForTesting.pqOpenUrlBase);
 		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(
 				connectionPool);
 		PlainTextNormalizer plainTextNormalizer = new PlainTextNormalizer(

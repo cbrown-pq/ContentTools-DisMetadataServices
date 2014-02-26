@@ -44,6 +44,7 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		verify("Publisher", expected.getPublisher(), actual.getPublisher());
 		verify("ReferenceLocation", expected.getReferenceLocation(), actual.getReferenceLocation());
 		verify("ExternalURL", expected.getExternalURL(), actual.getExternalURL());
+		verify("PqOpenUrl", expected.getPqOpenURL(), actual.getPqOpenURL());
 		verifyTitle(actual);
 		verifyAbstract(actual);
 		verifyBatch(actual);

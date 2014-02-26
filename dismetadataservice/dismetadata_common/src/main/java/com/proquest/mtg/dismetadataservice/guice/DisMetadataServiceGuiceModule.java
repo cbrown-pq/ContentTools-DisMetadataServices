@@ -59,6 +59,11 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		}
 	}
 	
+	@Provides @Named(DisMetadataProperties.PQ_OPEN_URL_BASE)
+	protected String pqOpenUrlBase(DisMetadataProperties props) {
+		return props.getPqOpenUrlBase();
+	}
+	
 	@Provides @Singleton @Named(IJdbcConnectionPool.kExodusConnectionPool)
 	protected IJdbcConnectionPool exodusConnectionPool(DisMetadataProperties props) {
 		IJdbcConnectionPool result = null;

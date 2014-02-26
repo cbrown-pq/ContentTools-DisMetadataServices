@@ -18,7 +18,8 @@ public class PubMetaDataProvider_Tests {
 	@BeforeClass
 	public static void setUp() throws Exception {		
 		IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
-		target = new PubMetaDataProvider(connectionPool);
+		target = new PubMetaDataProvider(connectionPool, 
+				MakeExodusMetadataForTesting.pqOpenUrlBase);
 	}
 	
 	@Test
