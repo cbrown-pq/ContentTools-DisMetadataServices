@@ -4,6 +4,8 @@ import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import com.proquest.mtg.dismetadataservice.helper.MyAsserts;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcConfig;
@@ -15,6 +17,7 @@ public class DisMetadataProperties_Tests {
 	static final String kExodusUserPassword = "FakeUserPassword";
 	static final String kExodusPoolSize = "5";
 	static final String kExodusDbClassType = "FakeDbClassType";
+	static final String kPQOpenUrlBase = "www.proquest.com/base/url:fake";
 	
 	public static Properties makePropertyMapForTesting() {
 		Properties props = new Properties();
@@ -23,6 +26,7 @@ public class DisMetadataProperties_Tests {
 		props.setProperty(DisMetadataProperties.EXODUS_PASSWORD, kExodusUserPassword);
 		props.setProperty(DisMetadataProperties.EXODUS_POOL_SIZE, kExodusPoolSize);
 		props.setProperty(DisMetadataProperties.EXODUS_DB_CLASSTYPE, kExodusDbClassType);
+		props.setProperty(DisMetadataProperties.PQ_OPEN_URL_BASE, kPQOpenUrlBase);
 		
 		return props;
 	}
@@ -43,8 +47,9 @@ public class DisMetadataProperties_Tests {
 		
 		MyAsserts.assertEqual(target.getExodusJdbcConfig(), expectedConnectionConfig);
 	}
-
-
 	
-	
+	@Test
+	public void hasCorrect_PqOpenUrlBase() throws Exception{
+		assertThat(target.getPqOpenUrlBase(), is(kPQOpenUrlBase));
+	}
 }

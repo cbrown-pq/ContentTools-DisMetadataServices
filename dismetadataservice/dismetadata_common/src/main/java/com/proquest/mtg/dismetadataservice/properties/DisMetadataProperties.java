@@ -14,6 +14,7 @@ public class DisMetadataProperties {
 	public final static String EXODUS_PASSWORD = "exodus.db.password";
 	public final static String EXODUS_POOL_SIZE = "exodus.db.poolsize";
 	public final static String EXODUS_DB_CLASSTYPE = "exodus.db.classtype";
+	public final static String PQ_OPEN_URL_BASE = "pq.open.url.base";
 
 	public final static ArrayList<String> kRequiredProps = Lists
 			.newArrayList(
@@ -21,10 +22,12 @@ public class DisMetadataProperties {
 					EXODUS_USER_NAME, 
 					EXODUS_PASSWORD, 
 					EXODUS_POOL_SIZE,
-					EXODUS_DB_CLASSTYPE);
+					EXODUS_DB_CLASSTYPE,
+					PQ_OPEN_URL_BASE);
 	
 	
 	private final JdbcConfig exodusConfig;
+	private final String pqOpenUrlBase;
 
 	@Inject
 	public DisMetadataProperties(IAppConfigReader appConfigReader) throws Exception {
@@ -40,10 +43,16 @@ public class DisMetadataProperties {
 				props.getProperty(EXODUS_PASSWORD),
 				props.getProperty(EXODUS_DB_CLASSTYPE),
 				getIntValueFrom(props, EXODUS_POOL_SIZE));
+		
+		this.pqOpenUrlBase = props.getProperty(PQ_OPEN_URL_BASE);
 	}
 
 	public JdbcConfig getExodusJdbcConfig() {
 		return exodusConfig;
+	}
+	
+	public String getPqOpenUrlBase() {
+		return pqOpenUrlBase;
 	}
 	
 	private void validate(Properties props) throws IllegalArgumentException {
