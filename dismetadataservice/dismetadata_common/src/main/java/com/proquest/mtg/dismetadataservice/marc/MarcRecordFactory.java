@@ -76,7 +76,7 @@ public class MarcRecordFactory {
 		handleSchoolCode(); /*590 and 790*/
 		handleDegrees(); /*791 792*/
 		handleDisserationLanguage(); /*793*/
-		handleUrl(); /*856*/
+		handlePqOpenUrl(); /*856*/
 		return curRecord;
 	}
 	
@@ -558,12 +558,11 @@ public class MarcRecordFactory {
 		}
 	}
 
-	private void handleUrl() {
-		String url = curMetaData.getExternalURL();
-		String pubId = curMetaData.getPubNumber();
+	private void handlePqOpenUrl() {
+		String url = curMetaData.getPqOpenURL();
 		if (null != url && !url.isEmpty()) {
 			addField(MarcTags.kUrl,
-					makeFieldDataFrom(' ', ' ', 'u', url, pubId.trim()));
+					makeFieldDataFrom(' ', ' ', 'u', url));
 		}
 
 	}
