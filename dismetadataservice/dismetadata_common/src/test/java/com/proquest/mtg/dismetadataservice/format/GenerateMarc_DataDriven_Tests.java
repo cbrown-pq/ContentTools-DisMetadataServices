@@ -92,8 +92,6 @@ public class GenerateMarc_DataDriven_Tests {
 		marcProvider = new ExodusDataProvider(pubMetaDataProvider, disGenMappingProvider, plainTextNormalizer);
 	}
 	
-	
-	
 	private void initExpectedMarcRecords() throws IOException,
 			MarcParserException {
 		expectedMarcRecords = Lists.newArrayList();
@@ -103,7 +101,6 @@ public class GenerateMarc_DataDriven_Tests {
 			String pubName = FilenameUtils.getBaseName(marcFile.getName());
 			MarcRecord marcRecord = parser.read(marcFile);
 			expectedMarcRecords.add(new PubAndMarcRecord(pubName, marcRecord)); 
-			
 		}
 	}
 	
