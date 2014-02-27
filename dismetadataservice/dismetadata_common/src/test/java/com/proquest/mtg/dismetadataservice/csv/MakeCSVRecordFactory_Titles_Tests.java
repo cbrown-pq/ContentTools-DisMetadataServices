@@ -30,7 +30,7 @@ public class MakeCSVRecordFactory_Titles_Tests {
 	public void makeTitleWithEmpty() throws Exception {
 		metadata.setTitle(title);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -42,7 +42,7 @@ public class MakeCSVRecordFactory_Titles_Tests {
 		title.setForeignTitle("ForeignTitle");
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
 				+ "\"ForeignTitle.\"" + "," + "\"ElectronicTitle.\"" + ","
 				+ "\"OverwriteTitle\"" + ",,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -56,7 +56,7 @@ public class MakeCSVRecordFactory_Titles_Tests {
 		title.setForeignTitle("ForeignTitle");
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
 				+ "\"ForeignTitle.\"" + ",," + "\"OverwriteTitle\""
 				+ ",,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -70,7 +70,7 @@ public class MakeCSVRecordFactory_Titles_Tests {
 		title.setForeignTitle("ForeignTitle");
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
 				+ "\"ElectronicTitle.\""
 				+ ",,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -84,7 +84,7 @@ public class MakeCSVRecordFactory_Titles_Tests {
 		title.setElectronicTitle("ElectronicTitle");
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
 				+ "\"MasterTitle.\",\"ElectronicTitle.\",\"OverwriteTitle\""
 				+ ",,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -100,7 +100,7 @@ public class MakeCSVRecordFactory_Titles_Tests {
 		metadata.setTitle(title);
 		String expectedCSVData = header
 				+ "\r\n"
-				+ ",,,,,,,,,,,,,,,,"
+				+ ",,,,,,,,,,,,,,,,,"
 				+ "\"NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text).\""
 				+ ","
 				+ "\"Utilization of an articulation index procedure in the evaluation of hearing-aid efficiency.\""
@@ -119,7 +119,7 @@ public class MakeCSVRecordFactory_Titles_Tests {
 		
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
 				+ "\"Master title with \"\"quotes\"\".\",,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
@@ -132,7 +132,7 @@ public class MakeCSVRecordFactory_Titles_Tests {
 		
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
 				+ "\"Master title with \"\" and Lambda and \"\".\",,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));

@@ -36,7 +36,7 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests {
 		metadata = new DisPubMetaData();
 		metadata.setSuppFiles(suppFiles);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -49,7 +49,7 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests {
 		suppFile.setSuppFileCategory(suppFileCategory);
 		suppFiles.add(suppFile);
 		metadata.setSuppFiles(suppFiles);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"Y\"" + ",,\"" + suppFileDesc + "\"" + ",\""
 				+ suppFileCategory + "\"" + ",,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -64,7 +64,7 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests {
 		suppFile.setSuppFileCategory(suppFileCategory);
 		suppFiles.add(suppFile);
 		metadata.setSuppFiles(suppFiles);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"Y\"" + ",\"" + suppFileName + "\"" + ",,\""
 				+ suppFileCategory + "\"" + ",,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -79,7 +79,7 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests {
 		suppFile.setSuppFilename(suppFileName);
 		suppFiles.add(suppFile);
 		metadata.setSuppFiles(suppFiles);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"Y\"" + ",\"" + suppFileName + "\"" + ",\"" + suppFileDesc
 				+ "\"" + "," + ",,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -98,7 +98,7 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests {
 		List<SuppFile> suppFiles = new ArrayList<SuppFile>();
 		suppFiles.add(suppFile);
 		metadata.setSuppFiles(suppFiles);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"Y\"" + ",\"" + suppFileName + "\"" + ",\"" + suppFileDesc
 				+ "\"" + ",\"" + suppFileCategory + "\""
 				+ ",,,,,,,,,,,\"N\",,,";

@@ -32,7 +32,7 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests {
 		salesRestrictions = Lists.newArrayList();
 		metadata.setSalesRestrictions(salesRestrictions);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -45,7 +45,7 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests {
 		salesRestriction.setCode("SalesRestrictionCode");
 		salesRestrictions.add(salesRestriction);
 		metadata.setSalesRestrictions(salesRestrictions);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,," + ",\"" + "SalesRestrictionCode" + "\""
 				+ ",,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -60,7 +60,7 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests {
 		salesRestriction.setDescription("SalesRestrictionDescription");
 		salesRestrictions.add(salesRestriction);
 		metadata.setSalesRestrictions(salesRestrictions);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,," + ",,\"" + "SalesRestrictionDescription"
 				+ "\"" + ",,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -79,7 +79,7 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests {
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
 				salesRestriction1, salesRestriction2);
 		metadata.setSalesRestrictions(salesRestrictions);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,," + ",\"" + "1|2" + "\"" + ",\""
 				+ "Not Available For Sale|Available" + "\"" + ",,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);

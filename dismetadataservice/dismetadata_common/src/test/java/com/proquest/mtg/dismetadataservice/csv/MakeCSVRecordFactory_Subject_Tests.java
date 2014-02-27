@@ -34,7 +34,7 @@ public class MakeCSVRecordFactory_Subject_Tests {
 	public void makeWithEmptySubjects() throws Exception {
 		metadata.setSubjects(subjects);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -47,7 +47,7 @@ public class MakeCSVRecordFactory_Subject_Tests {
 		subject.setSubjectGroupDesc(subjGroupDesc);
 		subjects.add(subject);
 		metadata.setSubjects(subjects);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ "\"" + subjCode + "\"" + ",\"" + subjGroupDesc + "\""
 				+ ",\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -62,7 +62,7 @@ public class MakeCSVRecordFactory_Subject_Tests {
 		subject.setSubjectGroupDesc(subjGroupDesc);
 		subjects.add(subject);
 		metadata.setSubjects(subjects);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ "\"" + subjDesc + "\"" + ",,\"" + subjGroupDesc + "\""
 				+ ",\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -77,7 +77,7 @@ public class MakeCSVRecordFactory_Subject_Tests {
 		subject.setSubjectDesc(subjDesc);
 		subjects.add(subject);
 		metadata.setSubjects(subjects);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ "\"" + subjDesc + "\"" + ",\"" + subjCode + "\""
 				+ ",,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -94,7 +94,7 @@ public class MakeCSVRecordFactory_Subject_Tests {
 		subject.setSubjectGroupDesc(subjGroupDesc);
 		subjects.add(subject);
 		metadata.setSubjects(subjects);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ "\"" + subjDesc + "\"" + ",\"" + subjCode + "\"" + ",\""
 				+ subjGroupDesc + "\"" + ",\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);

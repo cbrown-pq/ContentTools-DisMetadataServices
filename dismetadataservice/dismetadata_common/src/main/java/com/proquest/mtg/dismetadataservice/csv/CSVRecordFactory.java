@@ -56,6 +56,8 @@ public class CSVRecordFactory {
 		kAllHeaders.put(CSVHeaders.kBritishLibraryNumber,
 				CSVRecordFactory.class
 						.getDeclaredMethod("handleBritishLibrary"));
+		kAllHeaders.put(CSVHeaders.kPqOpenUrl,
+				CSVRecordFactory.class.getDeclaredMethod("handlePqOpenUrl"));
 		kAllHeaders.put(CSVHeaders.kExternalUrl,
 				CSVRecordFactory.class.getDeclaredMethod("handleExternalUrl"));
 		kAllHeaders.put(CSVHeaders.kDissLangDesc, CSVRecordFactory.class
@@ -261,7 +263,16 @@ public class CSVRecordFactory {
 		addField(blNumber);
 
 	}
-
+	
+	private void handlePqOpenUrl() {
+		String source = "";
+		if (null != curMetaData.getPqOpenURL()
+				&& !curMetaData.getPqOpenURL().isEmpty()) {
+			source = curMetaData.getPqOpenURL();
+		}
+		addField(source);
+	}
+	
 	private void handleExternalUrl() {
 		String source = "";
 		if (null != curMetaData.getExternalURL()

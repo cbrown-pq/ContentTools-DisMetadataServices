@@ -27,7 +27,7 @@ public class MakeCSVRecordFactory_ISBN_Tests {
 		String isbn = null;
 		metadata.setISBN(isbn);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -36,7 +36,7 @@ public class MakeCSVRecordFactory_ISBN_Tests {
 	public void withOnlyISBN() throws Exception {
 		metadata.setISBN("978-1-303-03106-9");
 		String expectedCSVData = header
-				+ "\r\n,,,\"978-1-303-03106-9\",,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,\"978-1-303-03106-9\",,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

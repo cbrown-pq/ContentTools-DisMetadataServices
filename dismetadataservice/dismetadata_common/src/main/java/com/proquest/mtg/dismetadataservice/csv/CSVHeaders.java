@@ -14,6 +14,7 @@ public class CSVHeaders {
 	public static final String kPublisher = "PUBLISHER";
 	public static final String kReferenceLocation = "REFERENCE";
 	public static final String kBritishLibraryNumber = "BL NUMBER";
+	public static final String kPqOpenUrl = "PQ OPEN URL";
 	public static final String kExternalUrl = "EXTERNAL URL";
 	public static final String kDissLangDesc = "DISS LANGUAGE DESCRIPTION";
 	public static final String kDissLangCode = "DISS LANGUAGE CODE";

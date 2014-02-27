@@ -34,7 +34,7 @@ public class MakeCSVRecordFactory_Author_Tests {
 	public void makeWithEmptyAuthors() throws Exception {
 		metadata.setAuthors(authors);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -47,7 +47,7 @@ public class MakeCSVRecordFactory_Author_Tests {
 		authors.add(author);
 		metadata.setAuthors(authors);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -62,7 +62,7 @@ public class MakeCSVRecordFactory_Author_Tests {
 		authors.add(author1);
 		authors.add(author2);
 		metadata.setAuthors(authors);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,"
 				+ "\"Yamamoto, Masahiro|Fernandez-Rivera, Salvador\""
 				+ ",,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);

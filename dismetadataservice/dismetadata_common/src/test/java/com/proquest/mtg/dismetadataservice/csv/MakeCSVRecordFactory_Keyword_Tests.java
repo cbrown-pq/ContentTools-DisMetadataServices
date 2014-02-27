@@ -32,7 +32,7 @@ public class MakeCSVRecordFactory_Keyword_Tests {
 		keywords = Lists.newArrayList();
 		metadata.setKeywords(keywords);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -45,7 +45,7 @@ public class MakeCSVRecordFactory_Keyword_Tests {
 		keyword.setSource("KeywordSource");
 		keywords.add(keyword);
 		metadata.setKeywords(keywords);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,," + ",,\"" + "KeywordSource" + "\""
 				+ ",,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -60,7 +60,7 @@ public class MakeCSVRecordFactory_Keyword_Tests {
 		keyword.setValue("KeywordValue");
 		keywords.add(keyword);
 		metadata.setKeywords(keywords);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,," + ",\"" + "KeywordValue" + "\""
 				+ ",,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
@@ -78,7 +78,7 @@ public class MakeCSVRecordFactory_Keyword_Tests {
 		keyword2.setSource("	  免疫");
 		List<Keyword> keywords = Lists.newArrayList(keyword1, keyword2);
 		metadata.setKeywords(keywords);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,," + ",\"" + "By Author|For Datrix" + "\""
 				+ ",\"" + "low temperature adsorption drying|	  免疫" + "\""
 				+ ",,,,,,,,\"N\",,,";

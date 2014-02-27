@@ -31,7 +31,7 @@ public class MakeCSVRecordFactory_Department_Tests {
 		deparments = Lists.newArrayList();
 		metadata.setDepartments(deparments);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -42,7 +42,7 @@ public class MakeCSVRecordFactory_Department_Tests {
 		List<String> deparments = Lists.newArrayList(
 				"Applied Behavioral Science", "Communication Studies");
 		metadata.setDepartments(deparments);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,"
+		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,," + ",\""
 				+ "Applied Behavioral Science|Communication Studies" + "\""
 				+ ",,,,,,,,,,\"N\",,,";
