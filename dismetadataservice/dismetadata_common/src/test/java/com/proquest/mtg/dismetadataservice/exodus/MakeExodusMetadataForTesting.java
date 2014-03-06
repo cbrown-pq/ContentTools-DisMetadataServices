@@ -437,7 +437,16 @@ public class MakeExodusMetadataForTesting {
 		x.setAuthors(authors);
 		x.setAdvisors(null);
 		x.setDepartments(null);
-		x.setKeywords(null);
+		x.setKeywords(Lists.newArrayList(
+				makeKeywordFrom("ADVANCED", "For Datrix"),
+				makeKeywordFrom("APPLICATION", "For Datrix"),
+				makeKeywordFrom("BRAGG", "For Datrix"),
+				makeKeywordFrom("DESIGN", "For Datrix"),
+				makeKeywordFrom("FUNDAMENTAL", "For Datrix"),
+				makeKeywordFrom("GRATINGS", "For Datrix"),
+				makeKeywordFrom("PROPERTIES", "For Datrix"),
+				makeKeywordFrom("STRUCTURES", "For Datrix")
+				));
 		
 		x.setPdfStatus(makePdfStatusFrom(null));
 		
