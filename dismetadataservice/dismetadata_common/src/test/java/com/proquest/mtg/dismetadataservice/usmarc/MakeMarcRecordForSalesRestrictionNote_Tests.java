@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.marc;
+package com.proquest.mtg.dismetadataservice.usmarc;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -11,8 +11,12 @@ import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
+import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
+import com.proquest.mtg.dismetadataservice.marc.MarcField;
+import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
+import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 
-public class MakeMarcRecordForSalesRestrictionNote_Tests extends MarcRecordFactoryBase_Tests {
+public class MakeMarcRecordForSalesRestrictionNote_Tests extends UsMarcRecordFactoryBase_Test_Helper {
 	
 	@Test
 	public void withPubHavingNoMatchingStartDigit() throws Exception {

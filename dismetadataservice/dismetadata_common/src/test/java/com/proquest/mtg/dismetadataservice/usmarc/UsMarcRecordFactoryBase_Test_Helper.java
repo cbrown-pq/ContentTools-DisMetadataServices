@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.marc;
+package com.proquest.mtg.dismetadataservice.usmarc;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -10,21 +10,24 @@ import org.junit.Before;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
+import com.proquest.mtg.dismetadataservice.marc.MarcField;
+import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
+import com.proquest.mtg.dismetadataservice.usmarc.USMarcRecordFactory;
 
-public class MarcRecordFactoryBase_Tests {
+public class UsMarcRecordFactoryBase_Test_Helper {
 	
 	static int kDataIndependentFieldCount = 3;
 	IJdbcConnectionPool connectionPool;
 	DisGenMappingProvider disGenMappingProvider;
 	
-	MarcRecordFactory factory;
+	USMarcRecordFactory factory;
 	
 	@Before
 	public void setUp() throws Exception {
 		IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
 		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(connectionPool);
-		factory = new MarcRecordFactory(disGenMappingProvider);
+		factory = new USMarcRecordFactory(disGenMappingProvider);
 	}
 	
 	public void verifyMarcRecordHasCorrectField(DisPubMetaData metaData, String tag, String expectedMarcFieldData, int dataSpecificFieldCount) {

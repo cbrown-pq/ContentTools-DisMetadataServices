@@ -6,4 +6,6 @@ public interface IMarcProvider {
 	
 	MarcRecord getMarcResultFor(String pubNum) throws Exception;
 
+	MarcRecord getMarc21RDAResultFor(String pubNum) throws Exception;
+
 }

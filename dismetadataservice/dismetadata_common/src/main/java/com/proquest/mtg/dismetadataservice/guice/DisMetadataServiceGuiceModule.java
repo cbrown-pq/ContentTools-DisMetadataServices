@@ -15,6 +15,7 @@ import com.proquest.mtg.dismetadataservice.exodus.IPubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.format.CSVFormat;
 import com.proquest.mtg.dismetadataservice.format.FakeFormat;
+import com.proquest.mtg.dismetadataservice.format.Marc21RdaFormat;
 import com.proquest.mtg.dismetadataservice.format.MetaDataFormatFactory;
 import com.proquest.mtg.dismetadataservice.format.USMarcFormat;
 import com.proquest.mtg.dismetadataservice.helper.WellKnownFormatTypes;
@@ -77,17 +78,19 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 	
 	@Provides @Singleton
 	protected MetaDataFormatFactory formatTaskFactories(DisMetadataProperties props,
-						FakeFormat fakeFormat, USMarcFormat usMarcFormat,CSVFormat csvFromat) {
+						FakeFormat fakeFormat, USMarcFormat usMarcFormat,CSVFormat csvFromat,Marc21RdaFormat marc21RdaFormat) {
 		MetaDataFormatFactory result = new MetaDataFormatFactory();
 		if (props.fakeExodusFlag()) {
 			result.add(WellKnownFormatTypes.FAKE_MARC_TESTING, fakeFormat);
 			result.add(WellKnownFormatTypes.USMARC, usMarcFormat);
 			result.add(WellKnownFormatTypes.CSV, csvFromat);
+			result.add(WellKnownFormatTypes.MARC21RDA, marc21RdaFormat);
 		}
 		else {
 			result.add(WellKnownFormatTypes.FAKE_MARC_TESTING, fakeFormat);
 			result.add(WellKnownFormatTypes.USMARC, usMarcFormat);
 			result.add(WellKnownFormatTypes.CSV, csvFromat);
+			result.add(WellKnownFormatTypes.MARC21RDA, marc21RdaFormat);
 		}
 		return result;
 	}

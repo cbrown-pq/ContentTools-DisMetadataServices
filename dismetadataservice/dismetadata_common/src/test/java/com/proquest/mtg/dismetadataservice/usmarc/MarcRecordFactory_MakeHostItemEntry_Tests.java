@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.marc;
+package com.proquest.mtg.dismetadataservice.usmarc;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -10,9 +10,13 @@ import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
+import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
+import com.proquest.mtg.dismetadataservice.marc.MarcField;
+import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
+import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 
 public class MarcRecordFactory_MakeHostItemEntry_Tests extends
-MarcRecordFactoryBase_Tests{
+UsMarcRecordFactoryBase_Test_Helper{
 
 	Batch batch;
 	DisPubMetaData metaData;

@@ -19,6 +19,7 @@ public class MarcRecord_Tests {
 	char status;           
 	char type;             
 	char level;
+	char characterEncoding;
 	MarcField fieldId;
 	MarcField fieldAuthor;
 	MarcField fieldTitle;
@@ -34,6 +35,7 @@ public class MarcRecord_Tests {
 		status = 'n';
 		type = 'a';
 		level = 'm';
+		characterEncoding = 'a';
 		
 		fieldId = new MarcField(MarcTags.kRecId, "AAIU441720");
 		fieldAuthor = new MarcField(MarcTags.kAuthor, "Wilcox, B.H.");
@@ -52,7 +54,7 @@ public class MarcRecord_Tests {
 				fieldAbstract3,
 				fieldUrl);
 		
-		target = new MarcRecord(status, type, level, fields);
+		target = new MarcRecord(status, type, level, characterEncoding, fields);
 	}
 	
 	@Test

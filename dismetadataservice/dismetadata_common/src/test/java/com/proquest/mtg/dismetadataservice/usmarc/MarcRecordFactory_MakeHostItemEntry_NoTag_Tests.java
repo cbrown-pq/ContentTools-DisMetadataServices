@@ -1,13 +1,14 @@
-package com.proquest.mtg.dismetadataservice.marc;
+package com.proquest.mtg.dismetadataservice.usmarc;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
+import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 
 public class MarcRecordFactory_MakeHostItemEntry_NoTag_Tests extends
-		MarcRecordFactoryBase_Tests {
+		UsMarcRecordFactoryBase_Test_Helper {
 
 	String tag = MarcTags.kHostItemEntry;
 	String expectedMarcFieldData1;

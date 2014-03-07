@@ -1,8 +1,5 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
-import java.util.Set;
-
-import com.google.common.collect.ImmutableSet;
 
 public class CSVHeaders {
 	public static final String kPubNumber = "PUB NUMBER";

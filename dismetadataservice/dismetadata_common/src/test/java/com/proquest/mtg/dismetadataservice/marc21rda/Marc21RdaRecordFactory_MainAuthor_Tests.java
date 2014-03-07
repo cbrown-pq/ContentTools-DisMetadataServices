@@ -1,7 +1,4 @@
-package com.proquest.mtg.dismetadataservice.marc;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+package com.proquest.mtg.dismetadataservice.marc21rda;
 
 import java.util.List;
 
@@ -11,66 +8,68 @@ import org.junit.Test;
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
-import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
-import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
+import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
+import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.metadata.SGMLEntitySubstitution;
 
-public class MarcRecordFactory_Author_Tests {
-	
-static int kDataIndependentFieldCount = 3;
-	
+public class Marc21RdaRecordFactory_MainAuthor_Tests extends
+		Marc21RdaRecordFactory_Test_Helper {
+
 	DisGenMappingProvider disGenMappingProvider;
 	Author author;
 	List<Author> authors;
 	Degree degree;
 	List<Degree> degrees;
-	
+
 	DissLanguage language;
 	List<DissLanguage> languages;
-	
-	MarcRecordFactory factory;
-	
+	String tag;
+
 	@Before
 	public void setUp() throws Exception {
-		IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
-		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(connectionPool);
-		factory = new MarcRecordFactory(disGenMappingProvider);
+		super.setUp();
+		tag = MarcTags.kAuthor;
+		author = new Author();
 	}
-	
-	
+
 	@Test
 	public void withNullAuthorName_ShouldNotGenerateTag() {
-		author = new Author();
+		author.setAuthorFullName(null);
 		authors = Lists.newArrayList(author);
 		String tag = MarcTags.kAuthor;
 		DisPubMetaData metaData = new DisPubMetaData();
 		metaData.setAuthors(authors);
-		MarcRecord marc = factory.makeFrom(metaData);
-		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
-		assertThat(fieldsMatchingTag.size(), is(0));
+		verifyMarcRecordHasEmptyField(metaData, tag);
 	}
-	
+
+	@Test
+	public void withEmptyAuthorName_ShouldNotGenerateTag() {
+		author.setAuthorFullName("");
+		authors = Lists.newArrayList(author);
+		String tag = MarcTags.kAuthor;
+		DisPubMetaData metaData = new DisPubMetaData();
+		metaData.setAuthors(authors);
+		verifyMarcRecordHasEmptyField(metaData, tag);
+	}
+
 	@Test
 	public void authorWithoutSGMLChar() {
-		author = new Author();
 		author.setAuthorFullName("John C Mark");
 		authors = Lists.newArrayList(author);
 		String tag = MarcTags.kAuthor;
 		DisPubMetaData metaData = new DisPubMetaData();
 		metaData.setAuthors(authors);
-		MarcRecord marc = factory.makeFrom(metaData);
-		String expectedData = "1 " + MarcCharSet.kSubFieldIndicator + "a" + "John C Mark" + ".";
-		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
-		assertThat(fieldsMatchingTag.size(), is(1));
-		assertThat(fieldsMatchingTag.get(0).getData(), is(expectedData));
+		String expectedData = "1 " + MarcCharSet.kSubFieldIndicator + "a"
+				+ "John C Mark" + ".";
+		verifyMarcRecordHasCorrectCount(metaData, tag, expectedData, 1);
+		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
-	
+
 	@Test
 	public void authorWithSGMLChar() {
-		author = new Author();
 		String authorFullName = "&prime;John C &AElig; Mark@?";
 		authorFullName = SGMLEntitySubstitution.applyAllTo(authorFullName);
 		author.setAuthorFullName(authorFullName);
@@ -78,11 +77,10 @@ static int kDataIndependentFieldCount = 3;
 		String tag = MarcTags.kAuthor;
 		DisPubMetaData metaData = new DisPubMetaData();
 		metaData.setAuthors(authors);
-		MarcRecord marc = factory.makeFrom(metaData);
-		String expectedData = "1 " + MarcCharSet.kSubFieldIndicator + "a" + authorFullName + ".";
-		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
-		assertThat(fieldsMatchingTag.size(), is(1));
-		assertThat(fieldsMatchingTag.get(0).getData(), is(expectedData));
+		String expectedData = "1 " + MarcCharSet.kSubFieldIndicator + "a"
+				+ authorFullName + ".";
+		verifyMarcRecordHasCorrectCount(metaData, tag, expectedData, 1);
+		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
 
 }

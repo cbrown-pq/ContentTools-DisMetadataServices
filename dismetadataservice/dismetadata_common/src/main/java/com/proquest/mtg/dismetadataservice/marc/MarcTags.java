@@ -17,6 +17,7 @@ public class MarcTags {
 	public static final String kAuthor = "100";
 	public static final String kEnglishTranslationOfTitle = "242";
 	public static final String kTitle = "245";
+	public static final String kPublication = "264";
 	public static final String kPageCount = "300";
 	public static final String kGeneralNote = "500";
 	public static final String kDissertationNote = "502";
@@ -46,6 +47,7 @@ public class MarcTags {
 			kAuthor,
 			kEnglishTranslationOfTitle,
 			kTitle,
+			kPublication,
 			kPageCount,
 			kGeneralNote,
 			kDissertationNote,

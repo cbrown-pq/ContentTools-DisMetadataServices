@@ -14,54 +14,58 @@ import org.apache.commons.io.IOUtils;
 import com.google.common.collect.Lists;
 
 public class MarcParser {
-	
+
 	public static final String kFieldDataEnCoding = "UTF-8";
-	public static final char kMarcRecordDelimChar = (char)0x19;
-	
+	public static final char kMarcRecordDelimChar = (char) 0x19;
+
 	public static final int kLeaderByteCount = 24;
 	public static final int kTerminatorByteCount = 1;
 	public static final int kDirectoryEntryByteCount = 12;
-	
+
 	public static final int kRecordLengthByteOffset = 0;
 	public static final int kRecordLengthByteCount = 5;
-	
+
 	public static final int kStatusByteOffset = 5;
 	public static final int kTypeByteOffset = 6;
 	public static final int kLevelByteOffset = 7;
-	
+	public static final int kCharacterEncodingOffset = 9;
+
 	public static final int kBaseAddressOfFieldDataOffset = 12;
 	public static final int kBaseAddressOfFieldDataByteCount = 5;
-	
+
 	public static final int kDirectoryEntryTagByteCount = 3;
 	public static final int kDirectoryEntryFieldLengthByteCount = 4;
 	public static final int kDirectoryEntryFieldAddressByteCount = 5;
-	
-	public static final DecimalFormat k4DigitFormatter = new DecimalFormat("0000");
-	public static final DecimalFormat k5DigitFormatter = new DecimalFormat("00000");
-	
+
+	public static final DecimalFormat k4DigitFormatter = new DecimalFormat(
+			"0000");
+	public static final DecimalFormat k5DigitFormatter = new DecimalFormat(
+			"00000");
+
 	public static final char kLeaderNotUsedFlag = ' ';
 	public static final char kLeaderIndicatorCount = '2';
 	public static final char kLeaderDelimiterCount = '2';
 	public static final char kEncodingLevel = ' ';
 	public static final char kDescriptiveCataloging = ' ';
 	public static final String kEntryMap = "4500";
-	
-	public MarcRecord read(File marcFile) throws IOException, MarcParserException {
+
+	public MarcRecord read(File marcFile) throws IOException,
+			MarcParserException {
 		StringWriter dest = new StringWriter();
-	    IOUtils.copy(new FileInputStream(marcFile), dest);
-	    return this.read(dest.toString());
+		IOUtils.copy(new FileInputStream(marcFile), dest);
+		return this.read(dest.toString());
 	}
-	
-	public MarcRecord read(String marcString) throws MarcParserException, UnsupportedEncodingException {
+
+	public MarcRecord read(String marcString) throws MarcParserException,
+			UnsupportedEncodingException {
 		verifyLength(marcString);
-		return new MarcRecord(
-				getStatusFrom(marcString),
-				getTypeFrom(marcString),
-				getLevelFrom(marcString),
-				getFieldsFrom(marcString));
+		return new MarcRecord(getStatusFrom(marcString),
+				getTypeFrom(marcString), getLevelFrom(marcString),
+				getCharacterEncodingFrom(marcString), getFieldsFrom(marcString));
 	}
-	
-	public String write(MarcRecord marcRecord) throws UnsupportedEncodingException {
+
+	public String write(MarcRecord marcRecord)
+			throws UnsupportedEncodingException {
 		StringBuilder result = new StringBuilder();
 		writeLeader(result, marcRecord);
 		writeDirectory(result, marcRecord);
@@ -71,8 +75,9 @@ public class MarcParser {
 		result.append(kMarcRecordDelimChar);
 		return result.toString();
 	}
-	
-	private void verifyLength(String marcString) throws MarcParserException, UnsupportedEncodingException {
+
+	private void verifyLength(String marcString) throws MarcParserException,
+			UnsupportedEncodingException {
 		int lengthInByte = marcString.getBytes(kFieldDataEnCoding).length;
 		if (null == marcString || lengthInByte < kLeaderByteCount) {
 			throw new IllegalArgumentException("Invalid marc data");
@@ -80,17 +85,16 @@ public class MarcParser {
 		String lengthStr = marcString.substring(0, kRecordLengthByteCount);
 		int recordLength = Integer.parseInt(lengthStr);
 		if (lengthInByte < recordLength) {
-			throw new MarcParserException(
-					"Invalid marc data.  " +
-							"Expected length = " + recordLength + ", " +
-							"Actual Byte length = " + lengthInByte);
+			throw new MarcParserException("Invalid marc data.  "
+					+ "Expected length = " + recordLength + ", "
+					+ "Actual Byte length = " + lengthInByte);
 		}
 	}
-	
+
 	private char getStatusFrom(String marcString) {
 		return marcString.charAt(kStatusByteOffset);
 	}
-	
+
 	private char getTypeFrom(String marcString) {
 		return marcString.charAt(kTypeByteOffset);
 	}
@@ -98,50 +102,62 @@ public class MarcParser {
 	private char getLevelFrom(String marcString) {
 		return marcString.charAt(kLevelByteOffset);
 	}
-	
-	private List<MarcField> getFieldsFrom(String marcString) throws NumberFormatException, UnsupportedEncodingException {
+
+	private char getCharacterEncodingFrom(String marcString) {
+		return marcString.charAt(kCharacterEncodingOffset);
+	}
+
+	private List<MarcField> getFieldsFrom(String marcString)
+			throws NumberFormatException, UnsupportedEncodingException {
 		List<MarcField> result = Lists.newArrayList();
 		int baseAddressOfFieldData = getBaseAddressOfFieldDataFrom(marcString);
 		int curByteOffset = kLeaderByteCount;
-		while (
-			marcString.length() >= (curByteOffset + kDirectoryEntryByteCount) &&  
-				MarcCharSet.kFieldTerminator != marcString.charAt(curByteOffset)) 
-		{
-			
+		while (marcString.length() >= (curByteOffset + kDirectoryEntryByteCount)
+				&& MarcCharSet.kFieldTerminator != marcString
+						.charAt(curByteOffset)) {
+
 			int startIndex = curByteOffset;
-			String tag = getSubstring(marcString, startIndex, kDirectoryEntryTagByteCount);
-			
+			String tag = getSubstring(marcString, startIndex,
+					kDirectoryEntryTagByteCount);
+
 			startIndex += kDirectoryEntryTagByteCount;
-			int fieldLength = Integer.parseInt(getSubstring(marcString, startIndex, kDirectoryEntryFieldLengthByteCount));
-			
+			int fieldLength = Integer.parseInt(getSubstring(marcString,
+					startIndex, kDirectoryEntryFieldLengthByteCount));
+
 			startIndex += kDirectoryEntryFieldLengthByteCount;
-			int fieldByteOffset =
-					baseAddressOfFieldData + 
-					Integer.parseInt(getSubstring(marcString, startIndex, kDirectoryEntryFieldAddressByteCount));
-			String fieldData = getByteSubstring(marcString, fieldByteOffset, fieldLength);
+			int fieldByteOffset = baseAddressOfFieldData
+					+ Integer.parseInt(getSubstring(marcString, startIndex,
+							kDirectoryEntryFieldAddressByteCount));
+			String fieldData = getByteSubstring(marcString, fieldByteOffset,
+					fieldLength);
 			result.add(new MarcField(tag, fieldData));
-			
+
 			curByteOffset += kDirectoryEntryByteCount;
 		}
 		return result;
 	}
-	
+
 	private int getBaseAddressOfFieldDataFrom(String marcString) {
-		return Integer.parseInt(getSubstring(marcString, kBaseAddressOfFieldDataOffset, kBaseAddressOfFieldDataByteCount));
+		return Integer
+				.parseInt(getSubstring(marcString,
+						kBaseAddressOfFieldDataOffset,
+						kBaseAddressOfFieldDataByteCount));
 	}
-	
-	private void writeLeader(StringBuilder result, MarcRecord record) throws UnsupportedEncodingException {
+
+	private void writeLeader(StringBuilder result, MarcRecord record)
+			throws UnsupportedEncodingException {
 		int directoryByteCount = calculateDirectoryByteCount(record);
 		int baseAddressOfData = kLeaderByteCount + directoryByteCount;
 		int fieldByteCount = calculateFieldByteCountFrom(record);
-		int totalByteCount = kLeaderByteCount + directoryByteCount + fieldByteCount + kTerminatorByteCount;
-		
+		int totalByteCount = kLeaderByteCount + directoryByteCount
+				+ fieldByteCount + kTerminatorByteCount;
+
 		result.append(k5DigitFormatter.format(totalByteCount)); // 0 - 4
 		result.append(record.getStatus()); // 5
 		result.append(record.getType()); // 6
 		result.append(record.getLevel()); // 6
 		result.append(kLeaderNotUsedFlag); // 8
-		result.append(kLeaderNotUsedFlag); // 9
+		result.append(record.getCharacterEncoding()); // 9
 		result.append(kLeaderIndicatorCount); // 10
 		result.append(kLeaderDelimiterCount); // 11
 		result.append(k5DigitFormatter.format(baseAddressOfData)); // 12 - 16
@@ -155,44 +171,49 @@ public class MarcParser {
 		return kDirectoryEntryByteCount * record.getAllFields().size() + 1;
 	}
 
-	private int calculateFieldByteCountFrom(MarcRecord record) throws UnsupportedEncodingException {
+	private int calculateFieldByteCountFrom(MarcRecord record)
+			throws UnsupportedEncodingException {
 		int result = 0;
 		for (MarcField curField : record.getAllFields()) {
-			result += curField.getDataWithTerminator().getBytes(kFieldDataEnCoding).length;
+			result += curField.getDataWithTerminator().getBytes(
+					kFieldDataEnCoding).length;
 		}
 		return result;
 	}
-	
-	private void writeDirectory(StringBuilder result, MarcRecord record) throws UnsupportedEncodingException {
+
+	private void writeDirectory(StringBuilder result, MarcRecord record)
+			throws UnsupportedEncodingException {
 		int curByteOffset = 0;
 		for (MarcField curField : record.getAllFields()) {
 			result.append(curField.getTag());
-			int curFieldByteLength = getByteLengthFor(curField.getDataWithTerminator());
+			int curFieldByteLength = getByteLengthFor(curField
+					.getDataWithTerminator());
 			result.append(k4DigitFormatter.format(curFieldByteLength));
 			result.append(k5DigitFormatter.format(curByteOffset));
 			curByteOffset += curFieldByteLength;
 		}
 	}
-	
-	
+
 	private void writeFields(StringBuilder result, MarcRecord record) {
 		for (MarcField curField : record.getAllFields()) {
 			result.append(curField.getDataWithTerminator());
 		}
 	}
-	
+
 	private static String getSubstring(String source, int startIndex, int length) {
 		int endIndex = startIndex + length;
-		if(endIndex >= source.length()) {
+		if (endIndex >= source.length()) {
 			endIndex = source.length() - 1;
 		}
 		return source.substring(startIndex, endIndex);
 	}
-	
-	private static String getByteSubstring(String source, int startIndex, int length) throws UnsupportedEncodingException {
+
+	private static String getByteSubstring(String source, int startIndex,
+			int length) throws UnsupportedEncodingException {
 		int endIndex = startIndex + length;
 		byte[] bytes = source.getBytes(kFieldDataEnCoding);
-		String result = new String(Arrays.copyOfRange(bytes,startIndex , endIndex), kFieldDataEnCoding);
+		String result = new String(Arrays.copyOfRange(bytes, startIndex,
+				endIndex), kFieldDataEnCoding);
 		return result;
 	}
 

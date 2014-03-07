@@ -10,25 +10,28 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.proquest.mtg.dismetadataservice.metadata.PlainTextNormalizer;
+import com.proquest.mtg.dismetadataservice.usmarc.USMarcRecordFactory;
 
 public class MarcRecord {
 	private final char status;
 	private final char type;
 	private final char level;
+	private final char characterEncoding;
 	private final TreeMap<String, List<MarcField>> fields;
 		
 	public MarcRecord() {
-		this('n', 'a', 'm', new ArrayList<MarcField>());
+		this('n', 'a', 'm', 'a', new ArrayList<MarcField>());
 	}
 	
 	public MarcRecord(Iterable<MarcField> fields) {
-		this('n', 'a', 'm', fields);
+		this('n', 'a', 'm', 'a', fields);
 	}
 	
-	public MarcRecord(char status, char type, char level, Iterable<MarcField> fields) {
+	public MarcRecord(char status, char type, char level, char characterEncoding, Iterable<MarcField> fields) {
 		this.status = status;
 		this.type = type;
 		this.level = level;
+		this.characterEncoding = characterEncoding;
 		this.fields = Maps.newTreeMap();
 		addFields(fields);
 	}
@@ -43,6 +46,10 @@ public class MarcRecord {
 	
 	public char getLevel() {
 		return level;
+	}
+	
+	public Object getCharacterEncoding() {
+		return characterEncoding;
 	}
 	
 	public int getFieldCount() {
@@ -112,8 +119,8 @@ public class MarcRecord {
 		MarcField marcField = getFirstFieldMatchingTag(MarcTags.kRecId);
 		if (null != marcField) {
 			pubId = marcField.getData().trim();
-			if (pubId.startsWith(MarcRecordFactory.kRecordIdPrefix)) {
-				pubId = pubId.substring(MarcRecordFactory.kRecordIdPrefix.length());
+			if (pubId.startsWith(USMarcRecordFactory.kRecordIdPrefix)) {
+				pubId = pubId.substring(USMarcRecordFactory.kRecordIdPrefix.length());
 			}
 		}
 		return pubId;
@@ -147,5 +154,6 @@ public class MarcRecord {
 	public static MarcRecord makeFrom(String marcString) throws MarcParserException, UnsupportedEncodingException {
 		return new MarcParser().read(marcString);
 	}
+
 
 }

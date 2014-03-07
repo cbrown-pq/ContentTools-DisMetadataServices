@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.marc;
+package com.proquest.mtg.dismetadataservice.usmarc;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -10,11 +10,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
+import com.proquest.mtg.dismetadataservice.marc.MarcField;
+import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
+import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 
 public class MarcRecordFactory_MakeDegrees_Tests extends
-MarcRecordFactoryBase_Tests {
+UsMarcRecordFactoryBase_Test_Helper {
 	String tag1 = MarcTags.kDegreeName;
 	String tag2 = MarcTags.kDegreeDate;
 	String expectedMarcFieldData1,expectedMarcFieldData2;
