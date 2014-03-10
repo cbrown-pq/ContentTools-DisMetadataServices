@@ -20,11 +20,19 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 	Author author;
 	List<Author> authors;
 	Title title;
+	String authorFullName1 = "Okafor, Napoleon A.";
+	String authorFullName2 = "Stephen, Joseph Buchanan";
+	String authorFullName3 = "Coady-Leeper, Marylee T.";
+	String authorFullName4 = "White, Kenneth M.";
 
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		title = new Title();
+		makeAuthors();
+	}
+	
+	public List<Author> makeAuthors(){
 		String authorFullName1 = "Okafor, Napoleon A.";
 		String authorFullName2 = "Stephen, Joseph Buchanan";
 		String authorFullName3 = "Coady-Leeper, Marylee T.";
@@ -46,6 +54,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 		authors.add(author2);
 		authors.add(author3);
 		authors.add(author4);
+		return authors;
 	}
 
 	@Test
@@ -72,6 +81,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
 				+ "Foreign Title."
+				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
 				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
@@ -92,6 +102,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
 				+ "Master Title."
+				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
 				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
@@ -112,6 +123,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
 				+ "Electronic Title."
+				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
 				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
@@ -131,6 +143,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
 				+ "Master Title."
+				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
 				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
@@ -152,6 +165,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
 				+ "A Foreign Title."
+				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
 				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
@@ -173,6 +187,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
 				+ "\"Le Foreign Title."
+				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
 				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
@@ -194,6 +209,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ "a"
 				+ masterTitle
 				+ "."
+				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
 				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
@@ -215,6 +231,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ "a"
 				+ masterTitle
 				+ "."
+				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
 				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
@@ -236,9 +253,31 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ "a"
 				+ masterTitle
 				+ "."
+				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
 				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
+		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
+	}
+	
+	@Test
+	public void withTitleAndNoAdditionalAuthors() {
+		String masterTitle = "A problem-based learning project focused on the Missouri teacher quality standards";
+		title.setMasterTitle(masterTitle);
+		title.setForeignTitle("Foreign Title");
+
+		String tag = MarcTags.kTitle;
+		DisPubMetaData metaData = new DisPubMetaData();
+		metaData.setTitle(title);
+		Author author = new Author();
+		author.setAuthorFullName("Okafor, Napoleon A.");
+		authors = Lists.newArrayList(author);
+		metaData.setAuthors(authors);
+		String expectedData = "12"
+				+ MarcCharSet.kSubFieldIndicator
+				+ "a"
+				+ masterTitle
+				+ ".";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
 
@@ -253,6 +292,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
 				+ "M4M."
+				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
 				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
@@ -270,6 +310,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
 				+ "L'."
+				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
 				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
@@ -287,6 +328,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
 				+ " #."
+				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
 				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";

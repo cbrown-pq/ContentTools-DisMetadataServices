@@ -60,23 +60,23 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		handleTitle(); /* 245 */
 		handlePublication(); /* 264 */
 		handlePageCount(); /* 300 */
-		handleGeneralNoteForSource(); /* 500 */
-		handleGeneralNoteForPublisher(); /* 500 */
-		handleGeneralNoteForSuppFiles(); /* 500 */
+		handleGeneralNoteForSource(); /*500 */
+		handleGeneralNoteForPublisher(); /*500 */
+		handleGeneralNoteForSuppFiles(); /*500 */
 		handleGeneralNoteForAdvisor(); /* 500 */
-		handleDissertationNote(); /* 502 */
-		handleAccessRestrictionNote(); /* 506 */
-		handleAbstract(); /* 520 */
-		handleLocationOfCopy(); /* 535 */
-		handleSubjects(); /* 650 and 690 */
-		handleMultipleAuthors(); /* 700 */
-		handleCorporateEntry(); /* 710 */
-		handleVariantTitle(); /* 740 */
-		handleHostItemEntry(); /* 773 */
-		handleSchoolCode(); /* 590 and 790 */
-		handleDegrees(); /* 791 792 */
-		handleDisserationLanguage(); /* 793 */
-		handlePqOpenUrl(); /* 856 */
+		handleDissertationNote(); /*502*/
+		handleAccessRestrictionNote(); /*506*/
+		handleAbstract(); /*520*/
+		handleLocationOfCopy(); /*535*/
+		handleSubjects(); /*650 and 690*/
+		handleMultipleAuthors(); /*700*/
+		handleCorporateEntry(); /*710*/
+		handleVariantTitle(); /*740*/
+		handleHostItemEntry(); /*773*/
+		handleSchoolCode(); /*590 and 790*/
+		handleDegrees(); /*791 792*/
+		handleDisserationLanguage(); /*793*/
+		handlePqOpenUrl(); /*856*/
 		return curRecord;
 	}
 
@@ -480,8 +480,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 										+ endWithPeriod(makeFieldDataFrom('b',
 												"ProQuest Dissertations & Theses"))));
 			}
-		}
-		else {
+		} else {
 			addField(
 					MarcTags.kPublication,
 					makeFieldDataFrom(
@@ -665,7 +664,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	private void handleTitle() {
 		String title = getTitleToInclude(curMetaData);
 		String additionalAuthors = "";
-		if (null != title) {
+		if (null != title && !title.isEmpty()) {
 			title = endsWithPunctuationMark(title);
 			title = SGMLEntitySubstitution.applyAllTo(title);
 			char secondFieldIndicator = getSecondFieldIndicator(
@@ -676,18 +675,17 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 				if (null != authors && !authors.isEmpty()) {
 					for (Author curAuthor : authors) {
 						if (curAuthor.getSequenceNumber() > 1) {
-							additionalAuthors = additionalAuthors
-									+ endWithPeriod(curAuthor
-											.getAuthorFullName()) + " ; ";
+							additionalAuthors = additionalAuthors + endWithPeriod(curAuthor.getAuthorFullName()) + " ; ";
 						}
 					}
 				}
+				if (null != additionalAuthors && !additionalAuthors.isEmpty()) {
+					additionalAuthors = additionalAuthors.substring(0,additionalAuthors.length() - 3);
+					title = title + " /" + makeFieldDataFrom('c', additionalAuthors);
+				}
 			}
-			additionalAuthors = additionalAuthors.substring(0,
-					additionalAuthors.length() - 3);
 			addField(MarcTags.kTitle,
-					makeFieldDataFrom('1', secondFieldIndicator, 'a', title)
-							+ makeFieldDataFrom('c', additionalAuthors));
+					makeFieldDataFrom('1', secondFieldIndicator, 'a', title));
 		}
 	}
 
