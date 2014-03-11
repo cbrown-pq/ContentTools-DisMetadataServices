@@ -122,7 +122,11 @@ public class DisPubMetaData {
 	}
 
 	public void setDissLanguages(Iterable<DissLanguage> value) {
-		this.dissLanguages = Lists.newArrayList(value);
+		if (null == value) {
+			this.dissLanguages = Lists.newArrayList();
+		} else {
+			this.dissLanguages = Lists.newArrayList(value);
+		}
 	}
 
 	public String getAbstract() {

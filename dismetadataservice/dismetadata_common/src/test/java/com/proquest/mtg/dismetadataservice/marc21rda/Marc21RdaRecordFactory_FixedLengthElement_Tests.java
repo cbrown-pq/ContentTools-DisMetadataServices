@@ -72,8 +72,7 @@ public class Marc21RdaRecordFactory_FixedLengthElement_Tests extends
 		DissLanguage language = new DissLanguage("English", "EN");
 		metaData.setDissLanguages(Lists.newArrayList(language));
 		String expectedData = curTime + "n" + fixedElementString + "eng" + " d";
-		verifyMarcRecordHasCorrectCount(metaData, tag, expectedData, 1);
-		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
+		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 2);
 	}
 
 	@Test
@@ -99,8 +98,7 @@ public class Marc21RdaRecordFactory_FixedLengthElement_Tests extends
 		DissLanguage language = new DissLanguage("EnglishTest", "ENTEST");
 		metaData.setDissLanguages(Lists.newArrayList(language));
 		String expectedData = curTime + "n" + fixedElementString + "|||" + " d";
-		verifyMarcRecordHasCorrectCount(metaData, tag, expectedData, 1);
-		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
+		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 2);
 	}
 
 }

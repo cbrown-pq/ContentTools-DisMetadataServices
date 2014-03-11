@@ -18,7 +18,7 @@ import com.proquest.mtg.dismetadataservice.marc21rda.Marc21RdaRecordFactory;
 public class Marc21RdaRecordFactory_Test_Helper {
 
 	
-	static int kDataIndependentFieldCount = 4;
+	static int kDataIndependentFieldCount = 7;
 	IJdbcConnectionPool connectionPool;
 	DisGenMappingProvider disGenMappingProvider;
 	

@@ -19,11 +19,15 @@ public class MarcTags {
 	public static final String kTitle = "245";
 	public static final String kPublication = "264";
 	public static final String kPageCount = "300";
+	public static final String kContentType = "336";
+	public static final String kMediaType = "337";
+	public static final String kCarrierType = "338";
 	public static final String kGeneralNote = "500";
 	public static final String kDissertationNote = "502";
 	public static final String kAccessRestrictionNote = "506";
 	public static final String kAbstract = "520";
 	public static final String kLocationOfCopy = "535";
+	public static final String kLanguageNote = "546";
 	public static final String kLocalNoteSchoolCode = "590";
 	public static final String kSubjectTerm = "650";
 	public static final String kSubjectCode = "690";
@@ -49,11 +53,13 @@ public class MarcTags {
 			kTitle,
 			kPublication,
 			kPageCount,
+			kContentType,
 			kGeneralNote,
 			kDissertationNote,
 			kAccessRestrictionNote,
 			kAbstract,
 			kLocationOfCopy,
+			kLanguageNote,
 			kLocalNoteSchoolCode,
 			kSubjectTerm,
 			kSubjectCode,

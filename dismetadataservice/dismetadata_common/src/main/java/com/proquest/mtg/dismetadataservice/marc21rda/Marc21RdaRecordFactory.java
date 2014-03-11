@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
@@ -60,23 +61,27 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		handleTitle(); /* 245 */
 		handlePublication(); /* 264 */
 		handlePageCount(); /* 300 */
-		handleGeneralNoteForSource(); /*500 */
-		handleGeneralNoteForPublisher(); /*500 */
-		handleGeneralNoteForSuppFiles(); /*500 */
+		handleContentType(); /* 336 */
+		handleMediaType(); /* 337 */
+		handleCarrierType(); /* 338 */
+		handleGeneralNoteForSource(); /* 500 */
+		handleGeneralNoteForPublisher(); /* 500 */
+		handleGeneralNoteForSuppFiles(); /* 500 */
 		handleGeneralNoteForAdvisor(); /* 500 */
-		handleDissertationNote(); /*502*/
-		handleAccessRestrictionNote(); /*506*/
-		handleAbstract(); /*520*/
-		handleLocationOfCopy(); /*535*/
-		handleSubjects(); /*650 and 690*/
-		handleMultipleAuthors(); /*700*/
-		handleCorporateEntry(); /*710*/
-		handleVariantTitle(); /*740*/
-		handleHostItemEntry(); /*773*/
-		handleSchoolCode(); /*590 and 790*/
-		handleDegrees(); /*791 792*/
-		handleDisserationLanguage(); /*793*/
-		handlePqOpenUrl(); /*856*/
+		handleDissertationNote(); /* 502 */
+		handleAccessRestrictionNote(); /* 506 */
+		handleAbstract(); /* 520 */
+		handleLocationOfCopy(); /* 535 */
+		handleLanguageNote(); /* 546 */
+		handleSubjects(); /* 650 and 690 */
+		handleMultipleAuthors(); /* 700 */
+		handleCorporateEntry(); /* 710 */
+		handleVariantTitle(); /* 740 */
+		handleHostItemEntry(); /* 773 */
+		handleSchoolCode(); /* 590 and 790 */
+		handleDegrees(); /* 791 792 */
+		handleDisserationLanguage(); /* 793 */
+		handlePqOpenUrl(); /* 856 */
 		return curRecord;
 	}
 
@@ -107,37 +112,37 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	}
 
 	private void handleAccessRestrictionNote() {
-		Batch batch = curMetaData.getBatch();
-		if (null != batch) {
-			if (null != batch.getDBTypeCode()
-					&& batch.getDBTypeCode().equals("DAC")) {
-				if (curMetaData.getPubNumber().substring(0, 1)
-						.matches("[01-8]")) {
-					addField(MarcTags.kAccessRestrictionNote,
-							getSalesRestrictionMarcTag());
-				}
-			}
+		if(null != curMetaData.getPubNumber()) {
+			addSalesRestrictionMarcTag();
 		}
-
+			
 	}
 
-	private String getSalesRestrictionMarcTag() {
+	private void addSalesRestrictionMarcTag() {
 		String accessrestrictionNote = "";
-		List<SalesRestriction> saleRestrictions = curMetaData
-				.getSalesRestrictions();
-		if (null == saleRestrictions || saleRestrictions.isEmpty()) {
-			accessrestrictionNote = makeFieldDataFrom(' ', ' ', 'a',
-					"This item is not available from University Microfilms International.");
+		String restrictionMessageForPQ = "This item is not available from ProQuest Dissertations & Theses";
+		String restriction3rdPartyVendors = "This item must not be sold to any third party vendors";
+		String restriction3rdPartyIndexing = "This item must not be added to any third party search indexes";
+		List<SalesRestriction> saleRestrictions = curMetaData.getSalesRestrictions(); 
+		if(null == saleRestrictions || saleRestrictions.isEmpty()) {
+			
 		} else {
 			for (SalesRestriction salesRrestriction : saleRestrictions) {
-				String restrictionDesc = salesRrestriction.getDescription()
-						.trim();
-				if (null != restrictionDesc && !restrictionDesc.isEmpty())
-					accessrestrictionNote += makeFieldDataFrom(' ', ' ', 'a',
-							restrictionDesc);
+				String restrictionCode = salesRrestriction.getCode();
+				if (null != restrictionCode && !restrictionCode.isEmpty())
+					if (restrictionCode.equals("5"))
+						accessrestrictionNote = makeFieldDataFrom(' ', ' ',
+								'a', restriction3rdPartyVendors);
+					else if (restrictionCode.equals("8"))
+						accessrestrictionNote = makeFieldDataFrom(' ', ' ',
+								'a', restriction3rdPartyIndexing);
+					else
+						accessrestrictionNote = makeFieldDataFrom(' ', ' ',
+								'a', restrictionMessageForPQ);
+				accessrestrictionNote = endWithPeriod(accessrestrictionNote);
+				addField(MarcTags.kAccessRestrictionNote, accessrestrictionNote);
 			}
 		}
-		return accessrestrictionNote;
 	}
 
 	private void handleDissertationNote() {
@@ -152,22 +157,20 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 				degreeYear = degrees.get(0).getDegreeYear();
 			}
 		}
-		if (null != dadCode) {
-			disNote = "(" + dadCode + ")";
+		if (null != dadCode && !dadCode.isEmpty()) {
+			disNote = dadCode;
 		}
 		String schoolName = curMetaData.getSchool() == null ? null
 				: curMetaData.getSchool().getSchoolName();
-		if (null != schoolName) {
-			disNote += "--" + schoolName;
+		if (null != schoolName && !schoolName.isEmpty()) {
+			disNote += makeFieldDataFrom('c', schoolName);
 		}
-		if (null != degreeYear) {
-			disNote += ", " + degreeYear;
+		if (null != degreeYear && !degreeYear.isEmpty()) {
+			disNote += makeFieldDataFrom('d', degreeYear);
 		}
-		if (null != disNote) {
-			addField(
-					MarcTags.kDissertationNote,
-					makeFieldDataFrom(' ', ' ', 'a', "Thesis "
-							+ endWithPeriod(disNote)));
+		if (null != disNote && !disNote.isEmpty()) {
+			addField(MarcTags.kDissertationNote,
+					makeFieldDataFrom(' ', ' ', 'b', endWithPeriod(disNote)));
 		}
 	}
 
@@ -216,6 +219,16 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 			locationOfCopy = endWithPeriod(locationOfCopy.trim());
 			addField(MarcTags.kLocationOfCopy,
 					makeFieldDataFrom('2', ' ', 'a', locationOfCopy));
+		}
+	}
+	
+	private void handleLanguageNote() {
+		List<DissLanguage> languages = curMetaData.getDissLanguages();
+		if (languages != null && !languages.isEmpty()) {
+			for (DissLanguage curLanguage : languages) {
+				if(null != curLanguage.getLanguageDescription() && !curLanguage.getLanguageDescription().isEmpty())
+					addField(MarcTags.kLanguageNote,makeFieldDataFrom(' ', ' ', 'a', curLanguage.getLanguageDescription()));
+			}
 		}
 	}
 
@@ -410,18 +423,50 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 
 	private void handleGeneralNoteForAdvisor() {
 		Advisors advisors = curMetaData.getAdvisors();
+		String adviserCmteMembers = null;
 		if (null != advisors) {
 			String advisor = advisors.getAdvisorsExodusStr();
 			if (null != advisor && !advisor.isEmpty()) {
 				advisor = SGMLEntitySubstitution.applyAllTo(advisor);
 				advisor.replaceAll("\\s+$", "");
-				if (!advisor.endsWith(".")) {
-					advisor = advisor + ".";
-				}
+				adviserCmteMembers = advisor;
+
 			}
-			addField(MarcTags.kGeneralNote,
-					makeFieldDataFrom(' ', ' ', 'a', advisor));
 		}
+		List<CmteMember> cmteMembers = curMetaData.getCmteMembers();
+		if (null != cmteMembers && !cmteMembers.isEmpty()) {
+			String cmteMemberString = "";
+			for (CmteMember curCmteMember : cmteMembers) {
+				if (null != curCmteMember.getFirstName()
+						&& !curCmteMember.getFirstName().isEmpty())
+					cmteMemberString = cmteMemberString
+							+ curCmteMember.getFirstName();
+				if (null != curCmteMember.getMiddleName()
+						&& !curCmteMember.getMiddleName().isEmpty())
+					cmteMemberString = cmteMemberString + " "
+							+ curCmteMember.getMiddleName();
+				if (null != curCmteMember.getLastName()
+						&& !curCmteMember.getLastName().isEmpty())
+					cmteMemberString = cmteMemberString + " "
+							+ curCmteMember.getLastName();
+				if (null != curCmteMember.getSuffix()
+						&& !curCmteMember.getSuffix().isEmpty())
+					cmteMemberString = cmteMemberString + "," + " "
+							+ curCmteMember.getSuffix() + ";";
+			}
+			if (null != cmteMemberString && !cmteMemberString.isEmpty()) {
+				cmteMemberString = cmteMemberString.substring(0,
+						cmteMemberString.length() - 1);
+				cmteMemberString = " Committee members: " + cmteMemberString;
+			}
+			adviserCmteMembers = adviserCmteMembers + cmteMemberString;
+		}
+		if (null != adviserCmteMembers && !adviserCmteMembers.isEmpty())
+
+			addField(
+					MarcTags.kGeneralNote,
+					makeFieldDataFrom(' ', ' ', 'a',
+							endWithPeriod(adviserCmteMembers)));
 	}
 
 	private void handlePageCount() {
@@ -435,6 +480,60 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		}
 	}
 
+	private void handleContentType() {
+		boolean pdfAvailable = curMetaData.getPdfStatus() != null ? curMetaData
+				.getPdfStatus().isPdfAvailable() : false;
+
+		if (pdfAvailable) {
+			addField(
+					MarcTags.kContentType,
+					makeFieldDataFrom(' ', ' ', 'a', "text"
+							+ makeFieldDataFrom('b', "txt")
+							+ makeFieldDataFrom('2', "rdacontent")));
+		} else {
+			addField(
+					MarcTags.kContentType,
+					makeFieldDataFrom(' ', ' ', 'a', "unspecified"
+							+ makeFieldDataFrom('b', "zzz")
+							+ makeFieldDataFrom('2', "rdacontent")));
+		}
+
+	}
+
+	private void handleMediaType() {
+		if (null != curMetaData.getSuppFiles()
+				&& !curMetaData.getSuppFiles().isEmpty()) {
+			addField(
+					MarcTags.kMediaType,
+					makeFieldDataFrom(' ', ' ', 'a',
+							"computer" + makeFieldDataFrom('b', "c")
+									+ makeFieldDataFrom('2', "rdamedia")));
+		} else {
+			addField(
+					MarcTags.kMediaType,
+					makeFieldDataFrom(' ', ' ', 'a',
+							"unspecified" + makeFieldDataFrom('b', "z")
+									+ makeFieldDataFrom('2', "rdamedia")));
+		}
+	}
+
+	private void handleCarrierType() {
+		if (null != curMetaData.getSuppFiles()
+				&& !curMetaData.getSuppFiles().isEmpty()) {
+			addField(
+					MarcTags.kCarrierType,
+					makeFieldDataFrom(' ', ' ', 'a',
+							"online resource" + makeFieldDataFrom('b', "cr")
+									+ makeFieldDataFrom('2', "rdacarrier")));
+		} else {
+			addField(
+					MarcTags.kCarrierType,
+					makeFieldDataFrom(' ', ' ', 'a',
+							"unspecified" + makeFieldDataFrom('b', "zu")
+									+ makeFieldDataFrom('2', "rdacarrier")));
+		}
+	}
+
 	private void handleMultipleAuthors() {
 		List<Author> authors = curMetaData.getAuthors();
 		if (null != authors && !authors.isEmpty()) {
@@ -443,9 +542,9 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 				if (authorSequence > 1) {
 					addField(
 							MarcTags.kMulitpleAuthor,
-							makeFieldDataFrom('1', '0', 'a',
+							makeFieldDataFrom('1', ' ', 'a',
 									curAuthor.getAuthorFullName())
-									+ makeFieldDataFrom('e', "joint author"));
+									+ makeFieldDataFrom('e', "author"));
 				}
 			}
 		}
@@ -637,14 +736,10 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		String languageDescription = "";
 		if (dissLanguages != null && !dissLanguages.isEmpty()) {
 			for (DissLanguage curDissLanguage : dissLanguages) {
-				if (curDissLanguage.getLanguageDescription() != null
-						&& !curDissLanguage.getLanguageDescription().isEmpty())
-					languageDescription = languageDescription
-							+ curDissLanguage.getLanguageDescription() + ";";
-				addField(
-						MarcTags.kDissertationLanguage,
-						makeFieldDataFrom(' ', ' ', 'a', languageDescription
-								.substring(0, languageDescription.length() - 1)));
+				if (curDissLanguage.getLanguageDescription() != null && !curDissLanguage.getLanguageDescription().isEmpty()) {
+					languageDescription = curDissLanguage.getLanguageDescription();
+					addField(MarcTags.kDissertationLanguage, makeFieldDataFrom(' ', ' ', 'a', languageDescription));
+				}
 			}
 		}
 	}
@@ -675,13 +770,17 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 				if (null != authors && !authors.isEmpty()) {
 					for (Author curAuthor : authors) {
 						if (curAuthor.getSequenceNumber() > 1) {
-							additionalAuthors = additionalAuthors + endWithPeriod(curAuthor.getAuthorFullName()) + " ; ";
+							additionalAuthors = additionalAuthors
+									+ endWithPeriod(curAuthor
+											.getAuthorFullName()) + " ; ";
 						}
 					}
 				}
 				if (null != additionalAuthors && !additionalAuthors.isEmpty()) {
-					additionalAuthors = additionalAuthors.substring(0,additionalAuthors.length() - 3);
-					title = title + " /" + makeFieldDataFrom('c', additionalAuthors);
+					additionalAuthors = additionalAuthors.substring(0,
+							additionalAuthors.length() - 3);
+					title = title + " /"
+							+ makeFieldDataFrom('c', additionalAuthors);
 				}
 			}
 			addField(MarcTags.kTitle,
