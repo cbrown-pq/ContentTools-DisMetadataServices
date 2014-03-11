@@ -22,7 +22,6 @@ public class MakeCSVRecordFactory_Schools_Tests {
 		for (String curheader : factory.getHeaders()) {
 			header += curheader + ",";
 		}
-		System.out.println("Testing Jenkins autobuild");
 		school = new School();
 	}
 
