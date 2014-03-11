@@ -33,6 +33,7 @@ public class MarcTags {
 	public static final String kSubjectCode = "690";
 	public static final String kMulitpleAuthor = "700";
 	public static final String kCorporatename = "710";
+	public static final String kUncontrolledName = "720";
 	public static final String kVariantTitle = "740";
 	public static final String kHostItemEntry = "773";
 	public static final String kLocalAddedEntry = "790";
@@ -65,6 +66,7 @@ public class MarcTags {
 			kSubjectCode,
 			kMulitpleAuthor,
 			kCorporatename,
+			kUncontrolledName,
 			kVariantTitle,
 			kHostItemEntry,
 			kLocalAddedEntry,

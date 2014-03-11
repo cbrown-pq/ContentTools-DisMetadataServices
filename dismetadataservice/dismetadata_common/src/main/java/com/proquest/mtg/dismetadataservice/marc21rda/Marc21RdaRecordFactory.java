@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.SplitAdvisors;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
@@ -76,6 +77,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		handleSubjects(); /* 650 and 690 */
 		handleMultipleAuthors(); /* 700 */
 		handleCorporateEntry(); /* 710 */
+		handleUncontrolledName(); /* 720 */
 		handleVariantTitle(); /* 740 */
 		handleHostItemEntry(); /* 773 */
 		handleSchoolCode(); /* 590 and 790 */
@@ -609,13 +611,36 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 			if (null != deptName && !deptName.isEmpty())
 				addField(
 						MarcTags.kCorporatename,
-						makeFieldDataFrom('2', '0', 'a', schoolName + "."
-								+ makeFieldDataFrom('b', deptName)));
+						endWithPeriod(makeFieldDataFrom('2', ' ', 'a', schoolName))
+						+ endWithPeriod(makeFieldDataFrom('b', deptName))
+						+ endWithPeriod(makeFieldDataFrom('e', "degree granting institution")));
 			else
 				addField(MarcTags.kCorporatename,
-						makeFieldDataFrom('2', '0', 'a', schoolName + "."));
+						endWithPeriod(makeFieldDataFrom('2', ' ', 'a', schoolName))
+						+ endWithPeriod(makeFieldDataFrom('e', "degree granting institution")));
 		}
 
+	}
+	
+	public void handleUncontrolledName() {
+
+		Advisors advisors = curMetaData.getAdvisors();
+		if (null != advisors) {
+			String advisor = advisors.getAdvisorsExodusStr();
+			if (null != advisor && !advisor.isEmpty()) {
+				advisor = SGMLEntitySubstitution.applyAllTo(advisor);
+				advisor.replaceAll("\\s+$", "");
+				List<String> advisorNames = SplitAdvisors.split(advisor); 
+				for (String curAdvisor : advisorNames) {
+					addField(MarcTags.kUncontrolledName,
+							makeFieldDataFrom(' ', ' ', 'a',
+							curAdvisor
+							+ makeFieldDataFrom('e',"degree supervisor.")));
+				}
+
+			}
+		}
+	
 	}
 
 	private void handleVariantTitle() {
@@ -658,6 +683,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 				addField(
 						MarcTags.kHostItemEntry,
 						makeFieldDataFrom('0', ' ', 't',
+								
 								endWithPeriod(batchTypeDesc)));
 		} else if (null != batchTypeCode
 				&& batchTypeCode.equalsIgnoreCase(kMastersPrefix)) {
