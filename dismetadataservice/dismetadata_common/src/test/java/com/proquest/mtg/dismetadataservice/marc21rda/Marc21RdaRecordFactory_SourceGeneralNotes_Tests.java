@@ -133,7 +133,7 @@ public class Marc21RdaRecordFactory_SourceGeneralNotes_Tests {
 		MarcRecord marc = factory.makeFrom(metaData);
 		String expectedData = "  " + MarcCharSet.kSubFieldIndicator + "a"
 				+ "Source: Masters Abstracts International" 
-				+ ", Volume: 51-01" 
+				+ ", Volume: 51-01(E)" 
 				+ ", page: 1473"
 				+ ".";
 		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag);
@@ -155,7 +155,7 @@ public class Marc21RdaRecordFactory_SourceGeneralNotes_Tests {
 		MarcRecord marc = factory.makeFrom(metaData);
 		String expectedData = "  " + MarcCharSet.kSubFieldIndicator + "a"
 				+ "Source: Masters Abstracts International" 
-				+ ", Volume: 51-01" 
+				+ ", Volume: 51-01(E)" 
 				+ ".";
 		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag);
 		assertThat(fieldsMatchingTag.size(), is(1));

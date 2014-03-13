@@ -59,6 +59,16 @@ public class MarcRecordFactoryBase {
 		return builder.toString();
 	}
 	
+	protected String makeFieldDataFrom(char dataFieldIndicator1,
+			char dataFieldIndicator2, String fieldData) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(dataFieldIndicator1);
+		builder.append(dataFieldIndicator2);
+		builder.append(fieldData);
+		return builder.toString();
+	}
+	
+	
 	protected char getSecondFieldIndicator(DisGenMappingProvider disGenMappingProvider,String title,String marcMapping) {
 		String degreeValue2 = null;
 		List<DisGeneralMapping> marcMappings = disGenMappingProvider

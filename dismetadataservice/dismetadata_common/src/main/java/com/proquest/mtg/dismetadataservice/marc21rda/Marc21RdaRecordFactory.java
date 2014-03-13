@@ -58,6 +58,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		handleISBN(); /* 020 */
 		handleSystemControlNumber(); /* 035 */
 		handleCatalogingSource(); /* 040 */
+		handleLanguageCode(); /* 041 */
 		handleAuthor(); /* 100 */
 		handleTitle(); /* 245 */
 		handlePublication(); /* 264 */
@@ -97,6 +98,30 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 						+ makeFieldDataFrom('e', kSystemRdaString));
 	}
 
+	private void handleLanguageCode() {
+		List<DissLanguage> languages = curMetaData.getDissLanguages();
+		if (languages != null && !languages.isEmpty()) {
+
+			for (DissLanguage curLanguage : languages) {
+				String threeLetterLangCode = "";
+				if (null != curLanguage.getLanguageCode()
+						&& !curLanguage.getLanguageCode().isEmpty()) {
+					List<String> threeLetterLangCodes = SplitLanguageCodes
+							.split(LanguageCodeToPartialLanguageName.getLanguageFor(curLanguage.getLanguageCode()));
+					for (int i = 0; i < threeLetterLangCodes.size(); ++i) {
+						{
+							threeLetterLangCode = threeLetterLangCode
+									+ makeFieldDataFrom('a',threeLetterLangCodes.get(i));
+						}
+					}
+					addField(
+							MarcTags.kLanguageCode,
+							makeFieldDataFrom('0', ' ', threeLetterLangCode));
+				}
+			}
+		}
+	}
+
 	private void handleAuthor() {
 		String authorFullname = null;
 		List<Author> authors = curMetaData.getAuthors();
@@ -114,10 +139,10 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	}
 
 	private void handleAccessRestrictionNote() {
-		if(null != curMetaData.getPubNumber()) {
+		if (null != curMetaData.getPubNumber()) {
 			addSalesRestrictionMarcTag();
 		}
-			
+
 	}
 
 	private void addSalesRestrictionMarcTag() {
@@ -125,9 +150,10 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		String restrictionMessageForPQ = "This item is not available from ProQuest Dissertations & Theses";
 		String restriction3rdPartyVendors = "This item must not be sold to any third party vendors";
 		String restriction3rdPartyIndexing = "This item must not be added to any third party search indexes";
-		List<SalesRestriction> saleRestrictions = curMetaData.getSalesRestrictions(); 
-		if(null == saleRestrictions || saleRestrictions.isEmpty()) {
-			
+		List<SalesRestriction> saleRestrictions = curMetaData
+				.getSalesRestrictions();
+		if (null == saleRestrictions || saleRestrictions.isEmpty()) {
+
 		} else {
 			for (SalesRestriction salesRrestriction : saleRestrictions) {
 				String restrictionCode = salesRrestriction.getCode();
@@ -223,13 +249,17 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 					makeFieldDataFrom('2', ' ', 'a', locationOfCopy));
 		}
 	}
-	
+
 	private void handleLanguageNote() {
 		List<DissLanguage> languages = curMetaData.getDissLanguages();
 		if (languages != null && !languages.isEmpty()) {
 			for (DissLanguage curLanguage : languages) {
-				if(null != curLanguage.getLanguageDescription() && !curLanguage.getLanguageDescription().isEmpty())
-					addField(MarcTags.kLanguageNote,makeFieldDataFrom(' ', ' ', 'a', curLanguage.getLanguageDescription()));
+				if (null != curLanguage.getLanguageDescription()
+						&& !curLanguage.getLanguageDescription().isEmpty())
+					addField(
+							MarcTags.kLanguageNote,
+							makeFieldDataFrom(' ', ' ', 'a',
+									curLanguage.getLanguageDescription()));
 			}
 		}
 	}
@@ -366,8 +396,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 				&& dbTypeCode.equals("MAI")) {
 			String resultVolumeIssueStr;
 			if (null != volumeIssue && !volumeIssue.isEmpty()) {
-				resultVolumeIssueStr = ", Volume: "
-						+ volumeIssue.substring(0, 5);
+				resultVolumeIssueStr = ", Volume: " + volumeIssue;
 			} else {
 				resultVolumeIssueStr = "";
 			}
@@ -611,17 +640,22 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 			if (null != deptName && !deptName.isEmpty())
 				addField(
 						MarcTags.kCorporatename,
-						endWithPeriod(makeFieldDataFrom('2', ' ', 'a', schoolName))
-						+ endWithPeriod(makeFieldDataFrom('b', deptName))
-						+ endWithPeriod(makeFieldDataFrom('e', "degree granting institution")));
+						endWithPeriod(makeFieldDataFrom('2', ' ', 'a',
+								schoolName))
+								+ endWithPeriod(makeFieldDataFrom('b', deptName))
+								+ endWithPeriod(makeFieldDataFrom('e',
+										"degree granting institution")));
 			else
-				addField(MarcTags.kCorporatename,
-						endWithPeriod(makeFieldDataFrom('2', ' ', 'a', schoolName))
-						+ endWithPeriod(makeFieldDataFrom('e', "degree granting institution")));
+				addField(
+						MarcTags.kCorporatename,
+						endWithPeriod(makeFieldDataFrom('2', ' ', 'a',
+								schoolName))
+								+ endWithPeriod(makeFieldDataFrom('e',
+										"degree granting institution")));
 		}
 
 	}
-	
+
 	public void handleUncontrolledName() {
 
 		Advisors advisors = curMetaData.getAdvisors();
@@ -630,17 +664,22 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 			if (null != advisor && !advisor.isEmpty()) {
 				advisor = SGMLEntitySubstitution.applyAllTo(advisor);
 				advisor.replaceAll("\\s+$", "");
-				List<String> advisorNames = SplitAdvisors.split(advisor); 
+				List<String> advisorNames = SplitAdvisors.split(advisor);
 				for (String curAdvisor : advisorNames) {
-					addField(MarcTags.kUncontrolledName,
-							makeFieldDataFrom(' ', ' ', 'a',
-							curAdvisor
-							+ makeFieldDataFrom('e',"degree supervisor.")));
+					addField(
+							MarcTags.kUncontrolledName,
+							makeFieldDataFrom(
+									' ',
+									' ',
+									'a',
+									curAdvisor
+											+ makeFieldDataFrom('e',
+													"degree supervisor.")));
 				}
 
 			}
 		}
-	
+
 	}
 
 	private void handleVariantTitle() {
@@ -680,11 +719,10 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 						makeHostItemEntryFieldDataFrom('0', ' ', 't',
 								batchTypeDesc, 'g', fieldData));
 			} else
-				addField(
-						MarcTags.kHostItemEntry,
+				addField(MarcTags.kHostItemEntry,
 						makeFieldDataFrom('0', ' ', 't',
-								
-								endWithPeriod(batchTypeDesc)));
+
+						endWithPeriod(batchTypeDesc)));
 		} else if (null != batchTypeCode
 				&& batchTypeCode.equalsIgnoreCase(kMastersPrefix)) {
 			if (batchVolumeIssue.length() == 6
@@ -762,9 +800,14 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		String languageDescription = "";
 		if (dissLanguages != null && !dissLanguages.isEmpty()) {
 			for (DissLanguage curDissLanguage : dissLanguages) {
-				if (curDissLanguage.getLanguageDescription() != null && !curDissLanguage.getLanguageDescription().isEmpty()) {
-					languageDescription = curDissLanguage.getLanguageDescription();
-					addField(MarcTags.kDissertationLanguage, makeFieldDataFrom(' ', ' ', 'a', languageDescription));
+				if (curDissLanguage.getLanguageDescription() != null
+						&& !curDissLanguage.getLanguageDescription().isEmpty()) {
+					languageDescription = curDissLanguage
+							.getLanguageDescription();
+					addField(
+							MarcTags.kDissertationLanguage,
+							makeFieldDataFrom(' ', ' ', 'a',
+									languageDescription));
 				}
 			}
 		}

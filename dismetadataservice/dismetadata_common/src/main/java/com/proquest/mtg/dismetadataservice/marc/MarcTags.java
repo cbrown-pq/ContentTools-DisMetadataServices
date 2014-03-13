@@ -14,6 +14,7 @@ public class MarcTags {
 	public static final String kIsbn = "020";
 	public static final String kSystemControlNumber = "035";
 	public static final String kCatalogingSource = "040";
+	public static final String kLanguageCode = "041";
 	public static final String kAuthor = "100";
 	public static final String kEnglishTranslationOfTitle = "242";
 	public static final String kTitle = "245";
@@ -49,6 +50,7 @@ public class MarcTags {
 			kIsbn,
 			kSystemControlNumber,
 			kCatalogingSource,
+			kLanguageCode,
 			kAuthor,
 			kEnglishTranslationOfTitle,
 			kTitle,
