@@ -133,7 +133,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 				addField(
 						MarcTags.kAuthor,
 						makeFieldDataFrom('1', ' ', 'a',
-								endWithPeriod(authorFullname)));
+								endWithPeriod(authorFullname + "," + makeFieldDataFrom('e',"author"))));
 			}
 		}
 	}

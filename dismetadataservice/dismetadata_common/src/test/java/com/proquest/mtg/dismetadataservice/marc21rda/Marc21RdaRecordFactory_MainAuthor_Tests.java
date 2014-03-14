@@ -63,7 +63,11 @@ public class Marc21RdaRecordFactory_MainAuthor_Tests extends
 		DisPubMetaData metaData = new DisPubMetaData();
 		metaData.setAuthors(authors);
 		String expectedData = "1 " + MarcCharSet.kSubFieldIndicator + "a"
-				+ "John C Mark" + ".";
+				+ "John C Mark" + "," 
+				+  MarcCharSet.kSubFieldIndicator 
+				+ "e"
+				+ "author"
+				+ ".";
 		verifyMarcRecordHasCorrectCount(metaData, tag, expectedData, 1);
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
@@ -78,7 +82,11 @@ public class Marc21RdaRecordFactory_MainAuthor_Tests extends
 		DisPubMetaData metaData = new DisPubMetaData();
 		metaData.setAuthors(authors);
 		String expectedData = "1 " + MarcCharSet.kSubFieldIndicator + "a"
-				+ authorFullName + ".";
+				+ authorFullName + "," 
+				+  MarcCharSet.kSubFieldIndicator 
+				+ "e"
+				+ "author"
+				+ ".";
 		verifyMarcRecordHasCorrectCount(metaData, tag, expectedData, 1);
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
