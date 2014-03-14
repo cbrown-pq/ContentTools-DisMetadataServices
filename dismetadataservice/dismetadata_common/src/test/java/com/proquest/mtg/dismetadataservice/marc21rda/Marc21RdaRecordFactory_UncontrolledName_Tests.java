@@ -41,7 +41,7 @@ public class Marc21RdaRecordFactory_UncontrolledName_Tests extends
 		String advisorString = "Advisers: Ou Li";
 		advisors.setAdvisorsExodusStr(advisorString);
 		metaData.setAdvisors(advisors);
-		String expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator
+		String expectedMarcFieldData = "1 " + MarcCharSet.kSubFieldIndicator
 				+ "a" + "Ou Li" 
 				+ MarcCharSet.kSubFieldIndicator 
 				+ "edegree supervisor" 
@@ -59,13 +59,13 @@ public class Marc21RdaRecordFactory_UncontrolledName_Tests extends
 		String advisorString = "Advisers: JoAnn Jodi Crandall; Beverly Bickel";
 		advisors.setAdvisorsExodusStr(advisorString);
 		metaData.setAdvisors(advisors);
-		String expectedMarcFieldData1 = "  " + MarcCharSet.kSubFieldIndicator
+		String expectedMarcFieldData1 = "1 " + MarcCharSet.kSubFieldIndicator
 				+ "a" 
 				+ "JoAnn Jodi Crandall" 
 				+ MarcCharSet.kSubFieldIndicator 
 				+ "edegree supervisor" 
 				+ ".";
-		String expectedMarcFieldData2 = "  " + MarcCharSet.kSubFieldIndicator
+		String expectedMarcFieldData2 = "1 " + MarcCharSet.kSubFieldIndicator
 				+ "a" + "Beverly Bickel" 
 				+ MarcCharSet.kSubFieldIndicator 
 				+ "edegree supervisor" 

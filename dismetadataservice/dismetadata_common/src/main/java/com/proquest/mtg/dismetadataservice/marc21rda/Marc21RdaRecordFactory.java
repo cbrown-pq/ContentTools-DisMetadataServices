@@ -669,7 +669,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 					addField(
 							MarcTags.kUncontrolledName,
 							makeFieldDataFrom(
-									' ',
+									'1',
 									' ',
 									'a',
 									curAdvisor
