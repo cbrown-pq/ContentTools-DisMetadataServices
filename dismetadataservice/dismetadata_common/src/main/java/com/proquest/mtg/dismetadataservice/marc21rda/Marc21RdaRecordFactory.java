@@ -797,7 +797,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	private void handlePqOpenUrl() {
 		String url = curMetaData.getPqOpenURL();
 		if (null != url && !url.isEmpty()) {
-			addField(MarcTags.kUrl, makeFieldDataFrom(' ', ' ', 'u', url));
+			addField(MarcTags.kUrl, makeFieldDataFrom('4', '0', 'u', url));
 		}
 
 	}

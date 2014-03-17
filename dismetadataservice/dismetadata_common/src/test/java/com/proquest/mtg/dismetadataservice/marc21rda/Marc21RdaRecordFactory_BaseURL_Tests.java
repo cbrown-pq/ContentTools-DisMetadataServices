@@ -36,7 +36,7 @@ public class Marc21RdaRecordFactory_BaseURL_Tests extends
 		DisPubMetaData metaData = new DisPubMetaData();
 		metaData.setPqOpenURL("http://mystuff.com/host?id:441720");
 		metaData.setPubNumber("441720");
-		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "u"
+		expectedMarcFieldData = "40" + MarcCharSet.kSubFieldIndicator + "u"
 				+ "http://mystuff.com/host?id:" + "441720";
 		MarcRecord marc = factory.makeFrom(metaData);
 		assertThat(marc.getFieldCount(), is(3 + kDataIndependentFieldCount));
