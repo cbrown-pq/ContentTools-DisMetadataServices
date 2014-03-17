@@ -83,7 +83,6 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		handleHostItemEntry(); /* 773 */
 		handleSchoolCode(); /* 590 and 790 */
 		handleDegrees(); /* 791 792 */
-		handleDisserationLanguage(); /* 793 */
 		handlePqOpenUrl(); /* 856 */
 		return curRecord;
 	}
@@ -793,24 +792,6 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 			}
 		}
 
-	}
-
-	private void handleDisserationLanguage() {
-		List<DissLanguage> dissLanguages = curMetaData.getDissLanguages();
-		String languageDescription = "";
-		if (dissLanguages != null && !dissLanguages.isEmpty()) {
-			for (DissLanguage curDissLanguage : dissLanguages) {
-				if (curDissLanguage.getLanguageDescription() != null
-						&& !curDissLanguage.getLanguageDescription().isEmpty()) {
-					languageDescription = curDissLanguage
-							.getLanguageDescription();
-					addField(
-							MarcTags.kDissertationLanguage,
-							makeFieldDataFrom(' ', ' ', 'a',
-									languageDescription));
-				}
-			}
-		}
 	}
 
 	private void handlePqOpenUrl() {
