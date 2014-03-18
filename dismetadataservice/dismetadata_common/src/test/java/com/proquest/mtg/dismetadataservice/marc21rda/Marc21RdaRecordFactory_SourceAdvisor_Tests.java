@@ -68,5 +68,28 @@ public class Marc21RdaRecordFactory_SourceAdvisor_Tests extends
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
 
 	}
+	
+	@Test
+	public void withAdvisorsAndMultipleCmteMembers() {
+		String advisorString = "Advisers: JoAnn Jodi Crandall; Beverly Bickel";
+		advisors.setAdvisorsExodusStr(advisorString);
+		metaData.setAdvisors(advisors);
+		cmteMember.setFirstName("William");
+		cmteMember.setLastName("Dalton");
+		cmteMember.setMiddleName("T.");
+		cmteMember.setSuffix("III");
+		CmteMember cmteMember2 = new CmteMember();
+		cmteMember2.setFirstName("Rodney");
+		cmteMember2.setLastName("Beaulieu");
+		cmteMember2.setMiddleName("J.");
+		cmteMembers.add(cmteMember);
+		cmteMembers.add(cmteMember2);
+		metaData.setCmteMembers(cmteMembers);
+		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a"
+				+ advisorString + " Committee members: "
+				+ "William T. Dalton, III; Rodney J. Beaulieu" + ".";
+		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
+
+	}
 
 }

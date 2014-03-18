@@ -61,6 +61,21 @@ public class Marc21RdaRecordFactory_FixedLengthElement_Tests extends
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 
 	}
+	
+	@Test
+	public void withDegreeAndMultipleLanguagesInfo() {
+		Date now = new Date();
+		String curTime = new SimpleDateFormat("YYMMdd").format(now);
+
+		degree.setDegreeYear("2012");
+		metaData.setAuthors(authors);
+		DissLanguage language = new DissLanguage("Estonian, Russian, and English", "EZ");
+		metaData.setDissLanguages(Lists.newArrayList(language));
+		String expectedData = curTime + "s" + "2012" + fixedElementString
+				+ "est" + " d";
+		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
+
+	}
 
 	@Test
 	public void withNullDegreeYearAndLanguageInfo() {

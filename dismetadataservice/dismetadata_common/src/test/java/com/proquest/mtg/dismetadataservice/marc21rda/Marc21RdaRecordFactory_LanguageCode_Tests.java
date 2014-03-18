@@ -47,9 +47,9 @@ public class Marc21RdaRecordFactory_LanguageCode_Tests extends
 		DissLanguage language = new DissLanguage("English", "EN");
 		metaData = new DisPubMetaData();
 		metaData.setDissLanguages(Lists.newArrayList(language));
-		String expectedMarcFieldData = "0 " + MarcCharSet.kSubFieldIndicator
-				+ "a" + "eng";
-		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
+		MarcRecord marc = factory.makeFrom(metaData);
+		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
+		assertThat(fieldsMatchingTag.size(), is(0));
 	}
 
 	@Test
@@ -61,26 +61,20 @@ public class Marc21RdaRecordFactory_LanguageCode_Tests extends
 		metaData = new DisPubMetaData();
 		metaData.setDissLanguages(Lists.newArrayList(language1, language2,
 				language3));
-		String expectedMarcFieldData1 = "0 " + MarcCharSet.kSubFieldIndicator
-				+ "a" + "eng";
-		String expectedMarcFieldData2 = "0 " + MarcCharSet.kSubFieldIndicator
-				+ "a" + "gre" 
+		String expectedMarcFieldData2 = "0 " 
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a" + "eng";
-		String expectedMarcFieldData3 = "0 " + MarcCharSet.kSubFieldIndicator
-				+ "a" + "est"
+		String expectedMarcFieldData3 = "0 " 
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a" + "rus"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a" + "eng";
 		MarcRecord marc = factory.makeFrom(metaData);
 		List<MarcField> languageCodeFields = marc.getFieldsMatchingTag(tag);
-		assertThat(languageCodeFields.size(), is(3));
+		assertThat(languageCodeFields.size(), is(2));
 		assertThat(languageCodeFields.get(0).getData(),
-				is(expectedMarcFieldData1));
-		assertThat(languageCodeFields.get(1).getData(),
 				is(expectedMarcFieldData2));
-		assertThat(languageCodeFields.get(2).getData(),
+		assertThat(languageCodeFields.get(1).getData(),
 				is(expectedMarcFieldData3));
 	}
 }

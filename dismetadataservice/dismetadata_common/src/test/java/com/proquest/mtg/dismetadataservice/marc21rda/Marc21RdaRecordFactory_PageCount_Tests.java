@@ -35,7 +35,7 @@ public class Marc21RdaRecordFactory_PageCount_Tests extends
 	public void withPageCount() {
 		String pageCount = "978";
 		metaData.setPageCount(pageCount);
-		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a 1electronic resource "
+		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a1 electronic resource "
 				+ "("+ pageCount+" pages)";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
 

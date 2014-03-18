@@ -109,13 +109,14 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 							.split(LanguageCodeToPartialLanguageName.getLanguageFor(curLanguage.getLanguageCode()));
 					for (int i = 0; i < threeLetterLangCodes.size(); ++i) {
 						{
-							threeLetterLangCode = threeLetterLangCode
+							if(i > 0)
+								threeLetterLangCode = threeLetterLangCode
 									+ makeFieldDataFrom('a',threeLetterLangCodes.get(i));
 						}
 					}
-					addField(
-							MarcTags.kLanguageCode,
-							makeFieldDataFrom('0', ' ', threeLetterLangCode));
+					if(null != threeLetterLangCode && !threeLetterLangCode.isEmpty()) {
+						addField(MarcTags.kLanguageCode,makeFieldDataFrom('0', ' ', threeLetterLangCode));
+					}
 				}
 			}
 		}
@@ -310,7 +311,6 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 
 		fixedLengthElement += "    miu||||||m   |||||||";
 		String LanguageCode = null;
-
 		DissLanguage dissLanguage = curMetaData.getDissLanguages() != null ? curMetaData
 				.getDissLanguages().get(0) : null;
 		if (null != dissLanguage) {
@@ -319,8 +319,9 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 					&& !dissLanguage.getLanguageCode().isEmpty()) {
 				LanguageCode = curMetaData.getDissLanguages().get(0)
 						.getLanguageCode();
-				fixedLengthElement += LanguageCodeToPartialLanguageName
-						.getLanguageFor(LanguageCode) + " d";
+				List<String> threeLetterLangCodes = SplitLanguageCodes
+						.split(LanguageCodeToPartialLanguageName.getLanguageFor(LanguageCode));
+				fixedLengthElement += threeLetterLangCodes.get(0) + " d";
 			}
 
 		}
@@ -482,11 +483,15 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 				if (null != curCmteMember.getSuffix()
 						&& !curCmteMember.getSuffix().isEmpty())
 					cmteMemberString = cmteMemberString + "," + " "
-							+ curCmteMember.getSuffix() + ";";
+							+ curCmteMember.getSuffix() + "; ";
 			}
 			if (null != cmteMemberString && !cmteMemberString.isEmpty()) {
-				cmteMemberString = cmteMemberString.substring(0,
-						cmteMemberString.length() - 1);
+				if(cmteMembers.size() > 1) {
+						cmteMemberString = cmteMemberString.substring(0,cmteMemberString.length());
+				}
+				else {
+					cmteMemberString = cmteMemberString.substring(0,cmteMemberString.length()-2);
+				}
 				cmteMemberString = " Committee members: " + cmteMemberString;
 			}
 			adviserCmteMembers = adviserCmteMembers + cmteMemberString;
@@ -502,7 +507,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	private void handlePageCount() {
 		if (null != curMetaData.getPageCount()
 				&& !curMetaData.getPageCount().isEmpty()) {
-			String pageCountString = " 1electronic resource";
+			String pageCountString = "1 electronic resource";
 			addField(
 					MarcTags.kPageCount,
 					makeFieldDataFrom(' ', ' ', 'a', pageCountString + " ("
@@ -573,7 +578,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 					addField(
 							MarcTags.kMulitpleAuthor,
 							makeFieldDataFrom('1', ' ', 'a',
-									curAuthor.getAuthorFullName())
+									endWithComma(curAuthor.getAuthorFullName()))
 									+ makeFieldDataFrom('e', "author"));
 				}
 			}
@@ -819,11 +824,9 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 				List<Author> authors = curMetaData.getAuthors();
 				if (null != authors && !authors.isEmpty()) {
 					for (Author curAuthor : authors) {
-						if (curAuthor.getSequenceNumber() > 1) {
 							additionalAuthors = additionalAuthors
 									+ endWithPeriod(curAuthor
 											.getAuthorFullName()) + " ; ";
-						}
 					}
 				}
 				if (null != additionalAuthors && !additionalAuthors.isEmpty()) {

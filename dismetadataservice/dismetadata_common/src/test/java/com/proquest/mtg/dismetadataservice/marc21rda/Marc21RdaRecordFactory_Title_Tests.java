@@ -84,7 +84,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
-				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
+				+ "Okafor, Napoleon A. ; Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
 
@@ -105,7 +105,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
-				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
+				+ "Okafor, Napoleon A. ; Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
 
@@ -126,7 +126,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
-				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
+				+ "Okafor, Napoleon A. ; Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
 
@@ -146,7 +146,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
-				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
+				+ "Okafor, Napoleon A. ; Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
 
@@ -168,7 +168,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
-				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
+				+ "Okafor, Napoleon A. ; Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
 
@@ -190,7 +190,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
-				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
+				+ "Okafor, Napoleon A. ; Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
 
@@ -212,7 +212,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
-				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
+				+ "Okafor, Napoleon A. ; Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
 
@@ -234,7 +234,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
-				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
+				+ "Okafor, Napoleon A. ; Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
 
@@ -256,12 +256,12 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
-				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
+				+ "Okafor, Napoleon A. ; Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
 	
 	@Test
-	public void withTitleAndNoAdditionalAuthors() {
+	public void withTitleAndOneAuthor() {
 		String masterTitle = "A problem-based learning project focused on the Missouri teacher quality standards";
 		title.setMasterTitle(masterTitle);
 		title.setForeignTitle("Foreign Title");
@@ -277,7 +277,11 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
 				+ masterTitle
-				+ ".";
+				+ "."
+				+ " /"
+				+ MarcCharSet.kSubFieldIndicator
+				+ "c"
+				+ "Okafor, Napoleon A.";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
 
@@ -295,7 +299,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
-				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
+				+ "Okafor, Napoleon A. ; Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
 
@@ -313,7 +317,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
-				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
+				+ "Okafor, Napoleon A. ; Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
 
@@ -331,7 +335,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
-				+ "Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
+				+ "Okafor, Napoleon A. ; Stephen, Joseph Buchanan. ; Coady-Leeper, Marylee T. ; White, Kenneth M.";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedData, 1);
 	}
 }
