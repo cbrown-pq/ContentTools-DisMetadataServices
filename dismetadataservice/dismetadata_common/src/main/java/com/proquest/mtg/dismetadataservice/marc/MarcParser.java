@@ -113,7 +113,7 @@ public class MarcParser {
 	}
 	
 	private char getDescriptiveCataloging(String marcString) {
-		return marcString.charAt(kCharacterEncodingOffset);
+		return marcString.charAt(kDescriptiveCataloging);
 	}
 	
 	private List<MarcField> getFieldsFrom(String marcString)
