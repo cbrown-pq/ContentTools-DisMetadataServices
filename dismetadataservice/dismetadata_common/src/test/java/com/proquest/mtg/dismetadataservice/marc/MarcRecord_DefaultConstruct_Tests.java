@@ -13,7 +13,9 @@ MarcRecord target;
 	@Before
 	public void setUp() throws Exception {
 		char type = 'a';
-		target = new MarcRecord(type);
+		char encodingLevel = '3';
+		char descriptiveCataloging ='i';
+		target = new MarcRecord(type,encodingLevel,descriptiveCataloging);
 	}
 	
 	@Test

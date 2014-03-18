@@ -37,7 +37,9 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 	private MarcRecord curRecord = null;
 	private final DisGenMappingProvider disGenMappingProvider;
 	private final char kEncoding = 'a';
-
+	public  final char kEncodingLevel = ' ';
+	public  final char kDescriptiveCataloging = ' ';
+	
 	public USMarcRecordFactory(DisGenMappingProvider disGenMappingProvider) {
 		this.disGenMappingProvider = disGenMappingProvider;
 	}
@@ -47,8 +49,8 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 		if (null == metaData) {
 			throw new IllegalArgumentException("metaData is null");
 		}
-		curMetaData = metaData;
-		curRecord = new MarcRecord(kEncoding);
+		curMetaData = metaData; 
+		curRecord = new MarcRecord(kEncoding, kEncodingLevel, kDescriptiveCataloging);
 
 		handleRecordId(); /*001*/
 		handleTimeStamp(); /*005*/

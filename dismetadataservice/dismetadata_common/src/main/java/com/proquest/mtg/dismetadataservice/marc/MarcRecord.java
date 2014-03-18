@@ -18,20 +18,27 @@ public class MarcRecord {
 	private final char level;
 	private final char characterEncoding;
 	private final TreeMap<String, List<MarcField>> fields;
-		
-	public MarcRecord(char type) {
-		this('n', type, 'm', 'a', new ArrayList<MarcField>());
+	private final char encodingLevel;
+	private final char descriptiveCataloging;
+
+	public MarcRecord(char type, char encodingLevel, char descriptiveCataloging) {
+		this('n', type, 'm', 'a', encodingLevel, descriptiveCataloging,
+				new ArrayList<MarcField>());
 	}
-	
+
 	public MarcRecord(Iterable<MarcField> fields) {
-		this('n', 'a', 'm', 'a', fields);
+		this('n', 'a', 'm', 'a', '3', 'i', fields);
 	}
-	
-	public MarcRecord(char status, char type, char level, char characterEncoding, Iterable<MarcField> fields) {
+
+	public MarcRecord(char status, char type, char level,
+			char characterEncoding, char encodingLevel,
+			char descriptiveCataloging, Iterable<MarcField> fields) {
 		this.status = status;
 		this.type = type;
 		this.level = level;
 		this.characterEncoding = characterEncoding;
+		this.encodingLevel = encodingLevel;
+		this.descriptiveCataloging = descriptiveCataloging;
 		this.fields = Maps.newTreeMap();
 		addFields(fields);
 	}
@@ -39,23 +46,31 @@ public class MarcRecord {
 	public char getStatus() {
 		return status;
 	}
-	
+
 	public char getType() {
 		return type;
 	}
-	
+
 	public char getLevel() {
 		return level;
 	}
-	
+
 	public Object getCharacterEncoding() {
 		return characterEncoding;
 	}
-	
+
+	public Object getEncodingLevel() {
+		return encodingLevel;
+	}
+
+	public char getDescriptiveCataloging() {
+		return descriptiveCataloging;
+	}
+
 	public int getFieldCount() {
 		return getAllFields().size();
 	}
-	
+
 	public List<MarcField> getAllFields() {
 		List<MarcField> result = Lists.newArrayList();
 		for (List<MarcField> curFieldsForTag : fields.values()) {
@@ -63,14 +78,16 @@ public class MarcRecord {
 		}
 		return result;
 	}
-	
+
 	public List<String> getAllTags() {
-		return Lists.transform(
-				getAllFields(), new Function<MarcField, String>() {
-					public String apply(MarcField x) { return x.getTag(); }
+		return Lists.transform(getAllFields(),
+				new Function<MarcField, String>() {
+					public String apply(MarcField x) {
+						return x.getTag();
+					}
 				});
 	}
-	
+
 	public List<MarcField> getFieldsMatchingTag(final String tag) {
 		List<MarcField> result = fields.get(tag);
 		if (null == result) {
@@ -78,12 +95,12 @@ public class MarcRecord {
 		}
 		return result;
 	}
-	
+
 	public MarcField getFirstFieldMatchingTag(final String tag) {
 		List<MarcField> matchingFields = getFieldsMatchingTag(tag);
 		return matchingFields.isEmpty() ? null : matchingFields.get(0);
 	}
-	
+
 	public void addField(MarcField fieldToAdd) {
 		String tag = fieldToAdd.getTag();
 		List<MarcField> fieldsForTag = fields.get(tag);
@@ -93,46 +110,47 @@ public class MarcRecord {
 		}
 		fieldsForTag.add(fieldToAdd);
 	}
-	
+
 	public void addFields(Iterable<MarcField> fieldsToAdd) {
 		for (MarcField fieldToAdd : fieldsToAdd) {
 			addField(fieldToAdd);
 		}
 	}
-	
+
 	public void removeFieldsWithTag(String tag) {
 		fields.remove(tag);
 	}
-	
+
 	public void removeFieldsWithTags(Iterable<String> tags) {
 		for (String tag : tags) {
 			removeFieldsWithTag(tag);
 		}
 	}
-	
+
 	public String toMarcString() throws UnsupportedEncodingException {
-		return new MarcParser().write(this); 
+		return new MarcParser().write(this);
 	}
-	
+
 	public String getPubId() {
 		String pubId = null;
 		MarcField marcField = getFirstFieldMatchingTag(MarcTags.kRecId);
 		if (null != marcField) {
 			pubId = marcField.getData().trim();
 			if (pubId.startsWith(USMarcRecordFactory.kRecordIdPrefix)) {
-				pubId = pubId.substring(USMarcRecordFactory.kRecordIdPrefix.length());
+				pubId = pubId.substring(USMarcRecordFactory.kRecordIdPrefix
+						.length());
 			}
 		}
 		return pubId;
 	}
-	
+
 	public void overrideWith(MarcRecord other) {
 		for (String curOtherTag : other.getAllTags()) {
 			this.removeFieldsWithTag(curOtherTag);
 			this.addFields(other.getFieldsMatchingTag(curOtherTag));
 		}
 	}
-	
+
 	public List<MarcField> getFieldsWithIllegalChars(CharMatcher charMatcher) {
 		List<MarcField> result = Lists.newArrayList();
 		for (MarcField curField : getAllFields()) {
@@ -142,18 +160,18 @@ public class MarcRecord {
 		}
 		return result;
 	}
-	
+
 	public void apply(PlainTextNormalizer plainTextNormalizer) {
 		for (MarcField curField : getAllFields()) {
 			curField.setData(plainTextNormalizer.applyTo(curField.getData()));
 		}
 	}
-	
-	///////////////////////////////////////////////////////
-	
-	public static MarcRecord makeFrom(String marcString) throws MarcParserException, UnsupportedEncodingException {
+
+	// /////////////////////////////////////////////////////
+
+	public static MarcRecord makeFrom(String marcString)
+			throws MarcParserException, UnsupportedEncodingException {
 		return new MarcParser().read(marcString);
 	}
-
 
 }

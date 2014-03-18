@@ -32,7 +32,9 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	public static final String kSystemPQPrefix = "MiAaPQD";
 	public static final String kSystemRdaString = "rda";
 	public static final String kSystemCatalogingSourceLanguage = "eng";
-
+	public static final char kEncodingLevel = '3';
+	public static final char kDescriptiveCataloging = 'i';
+	
 	private final TextNormalizer abstractNormalizer = new TextNormalizer();
 
 	private DisPubMetaData curMetaData = null;
@@ -54,9 +56,9 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		pdfAvailable = curMetaData.getPdfStatus() != null ? curMetaData
 				.getPdfStatus().isPdfAvailable() : false;
 		if (pdfAvailable)
-			curRecord = new MarcRecord('a');
+			curRecord = new MarcRecord('a',kEncodingLevel,kDescriptiveCataloging);
 		else
-			curRecord = new MarcRecord(' ');
+			curRecord = new MarcRecord(' ',kEncodingLevel,kDescriptiveCataloging);
 		handleRecordId(); /* 001 */
 		handleTimeStamp(); /* 005 */
 		handleFixedLengthElements(); /* 008 */

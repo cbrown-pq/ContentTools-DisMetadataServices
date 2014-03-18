@@ -45,8 +45,8 @@ public class MarcParser {
 	public static final char kLeaderNotUsedFlag = ' ';
 	public static final char kLeaderIndicatorCount = '2';
 	public static final char kLeaderDelimiterCount = '2';
-	public static final char kEncodingLevel = '3';
-	public static final char kDescriptiveCataloging = 'i';
+	public static final int kEncodingLevel = 17;
+	public static final int kDescriptiveCataloging = 18;
 	public static final String kEntryMap = "4500";
 
 	public MarcRecord read(File marcFile) throws IOException,
@@ -61,9 +61,10 @@ public class MarcParser {
 		verifyLength(marcString);
 		return new MarcRecord(getStatusFrom(marcString),
 				getTypeFrom(marcString), getLevelFrom(marcString),
-				getCharacterEncodingFrom(marcString), getFieldsFrom(marcString));
+				getCharacterEncodingFrom(marcString),getEncodingLevel(marcString),getDescriptiveCataloging(marcString), getFieldsFrom(marcString));
 	}
 
+	
 	public String write(MarcRecord marcRecord)
 			throws UnsupportedEncodingException {
 		StringBuilder result = new StringBuilder();
@@ -107,6 +108,14 @@ public class MarcParser {
 		return marcString.charAt(kCharacterEncodingOffset);
 	}
 
+	private char getEncodingLevel(String marcString) {
+		return marcString.charAt(kEncodingLevel);
+	}
+	
+	private char getDescriptiveCataloging(String marcString) {
+		return marcString.charAt(kCharacterEncodingOffset);
+	}
+	
 	private List<MarcField> getFieldsFrom(String marcString)
 			throws NumberFormatException, UnsupportedEncodingException {
 		List<MarcField> result = Lists.newArrayList();
@@ -161,8 +170,8 @@ public class MarcParser {
 		result.append(kLeaderIndicatorCount); // 10
 		result.append(kLeaderDelimiterCount); // 11
 		result.append(k5DigitFormatter.format(baseAddressOfData)); // 12 - 16
-		result.append(kEncodingLevel); // 17
-		result.append(kDescriptiveCataloging); // 18
+		result.append(record.getEncodingLevel()); // 17
+		result.append(record.getDescriptiveCataloging()); // 18
 		result.append(kLeaderNotUsedFlag); // 19
 		result.append(kEntryMap); // 20 - 23
 	}
