@@ -24,7 +24,7 @@ public class MarcRecord {
 	}
 	
 	public MarcRecord(Iterable<MarcField> fields) {
-		this('n', 'a', 'm', 'a', fields);
+		this('n', 'a', 'm', ' ', fields);
 	}
 	
 	public MarcRecord(char status, char type, char level, char characterEncoding, Iterable<MarcField> fields) {
