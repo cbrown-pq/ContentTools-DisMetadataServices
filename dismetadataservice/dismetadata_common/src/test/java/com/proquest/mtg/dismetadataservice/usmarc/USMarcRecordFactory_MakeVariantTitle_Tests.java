@@ -9,43 +9,55 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Title;
 import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 
-public class MarcRecordFactory_MakeLocationOfCopy_Tests extends
-		UsMarcRecordFactoryBase_Test_Helper {
-	String tag = MarcTags.kLocationOfCopy;
+public class USMarcRecordFactory_MakeVariantTitle_Tests extends
+		USMarcRecordFactoryBase_Test_Helper {
+
+	String tag = MarcTags.kVariantTitle;
 
 	String expectedMarcFieldData;
 	DisPubMetaData metaData;
-	String LocationOfCopy;
+	Title title;
 
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
+		title = new Title();
 		metaData = new DisPubMetaData();
 	}
 
 	@Test
-	public void withNullLocationOfCopy() {
-		metaData.setReferenceLocation(null);
+	public void withNullVariantTitle() {
+		title.setEnglishOverwriteTitle(null);
+		metaData.setTitle(title);
 		verifyMarcRecordHasEmptyField(metaData, tag);
 	}
 
 	@Test
-	public void withEmptyLocationOfCopy() {
-		metaData.setReferenceLocation("");
+	public void withEmptyVariantTitle() {
+		title.setEnglishOverwriteTitle("");
+		metaData.setTitle(title);
 		verifyMarcRecordHasEmptyField(metaData, tag);
 	}
 
 	@Test
-	public void withLocationOfCopy() {
-		String locationOfCopy = "Location";
-		metaData.setReferenceLocation(locationOfCopy);
-		expectedMarcFieldData = "2 " + MarcCharSet.kSubFieldIndicator + "a"
-				+ locationOfCopy + ".";
+	public void withNoTitle() {
+		metaData.setTitle(title);
+		verifyMarcRecordHasEmptyField(metaData, tag);
+	}
+
+	@Test
+	public void withVariantTitle() {
+		String variantTitle = "EnglishOverwriteTitle";
+		title.setEnglishOverwriteTitle(variantTitle);
+		metaData.setTitle(title);
+		expectedMarcFieldData = "00" + MarcCharSet.kSubFieldIndicator + "a"
+				+ variantTitle + ".";
 		MarcRecord marc = factory.makeFrom(metaData);
 		List<MarcField> fieldsMatchingTag1 = marc.getFieldsMatchingTag(tag);
 		assertThat(fieldsMatchingTag1.size(), is(1));

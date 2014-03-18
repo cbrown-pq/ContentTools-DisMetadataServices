@@ -19,7 +19,7 @@ import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.usmarc.USMarcRecordFactory;
 
-public class MarcRecordFactory_Title_Tests {
+public class USMarcRecordFactory_Title_Tests {
 	
 	DisGenMappingProvider disGenMappingProvider;
 	

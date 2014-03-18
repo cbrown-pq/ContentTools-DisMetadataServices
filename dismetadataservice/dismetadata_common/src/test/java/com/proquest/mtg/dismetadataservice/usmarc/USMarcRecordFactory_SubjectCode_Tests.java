@@ -20,7 +20,7 @@ import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.usmarc.USMarcRecordFactory;
 
-public class MarcRecordFactory_SubjectCode_Tests {
+public class USMarcRecordFactory_SubjectCode_Tests {
 	String tag;
 	USMarcRecordFactory factory ;
 	

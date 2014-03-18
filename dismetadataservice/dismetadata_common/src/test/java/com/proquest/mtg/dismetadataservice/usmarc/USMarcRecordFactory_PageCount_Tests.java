@@ -7,8 +7,8 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 
-public class UsMarcRecordFactory_PageCount_Tests extends
-		UsMarcRecordFactoryBase_Test_Helper {
+public class USMarcRecordFactory_PageCount_Tests extends
+		USMarcRecordFactoryBase_Test_Helper {
 
 	String tag = MarcTags.kPageCount;
 	String expectedMarcFieldData;

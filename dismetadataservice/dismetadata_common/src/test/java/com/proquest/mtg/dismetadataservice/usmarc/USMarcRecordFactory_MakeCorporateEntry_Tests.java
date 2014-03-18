@@ -16,8 +16,8 @@ import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 
-public class MarcRecordFactory_MakeCorporateEntry_Tests extends
-		UsMarcRecordFactoryBase_Test_Helper {
+public class USMarcRecordFactory_MakeCorporateEntry_Tests extends
+		USMarcRecordFactoryBase_Test_Helper {
 
 	String tag = MarcTags.kCorporatename;
 

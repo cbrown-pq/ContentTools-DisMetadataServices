@@ -17,8 +17,8 @@ import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 
-public class MarcRecordFactory_MakeDegrees_Tests extends
-UsMarcRecordFactoryBase_Test_Helper {
+public class USMarcRecordFactory_MakeDegrees_Tests extends
+USMarcRecordFactoryBase_Test_Helper {
 	String tag1 = MarcTags.kDegreeName;
 	String tag2 = MarcTags.kDegreeDate;
 	String expectedMarcFieldData1,expectedMarcFieldData2;

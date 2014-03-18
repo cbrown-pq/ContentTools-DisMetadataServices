@@ -16,8 +16,8 @@ import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 
-public class MarcRecordFactory_MakeMultipleAuthors_Tests extends
-		UsMarcRecordFactoryBase_Test_Helper {
+public class USMarcRecordFactory_MakeMultipleAuthors_Tests extends
+		USMarcRecordFactoryBase_Test_Helper {
 	String tag = MarcTags.kMulitpleAuthor;
 
 	DisPubMetaData metaData;

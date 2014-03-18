@@ -13,7 +13,7 @@ import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 
-public class MarcRecordFactory_MakeAbstract_Tests extends UsMarcRecordFactoryBase_Test_Helper {
+public class USMarcRecordFactory_MakeAbstract_Tests extends USMarcRecordFactoryBase_Test_Helper {
 	
 	@Test
 	public void withOnly_Abstract_WithPlainText() throws Exception {

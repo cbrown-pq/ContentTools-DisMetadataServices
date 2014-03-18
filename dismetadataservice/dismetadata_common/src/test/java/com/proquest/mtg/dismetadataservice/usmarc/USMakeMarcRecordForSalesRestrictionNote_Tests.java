@@ -16,7 +16,7 @@ import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 
-public class MakeMarcRecordForSalesRestrictionNote_Tests extends UsMarcRecordFactoryBase_Test_Helper {
+public class USMakeMarcRecordForSalesRestrictionNote_Tests extends USMarcRecordFactoryBase_Test_Helper {
 	
 	@Test
 	public void withPubHavingNoMatchingStartDigit() throws Exception {

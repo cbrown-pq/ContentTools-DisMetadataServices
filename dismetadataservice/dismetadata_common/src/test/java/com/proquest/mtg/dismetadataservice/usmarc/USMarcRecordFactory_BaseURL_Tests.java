@@ -10,8 +10,8 @@ import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 
-public class MarcRecordFactory_BaseURL_Tests extends
-		UsMarcRecordFactoryBase_Test_Helper {
+public class USMarcRecordFactory_BaseURL_Tests extends
+		USMarcRecordFactoryBase_Test_Helper {
 
 	DisPubMetaData disPubMetaData;
 	String tag = MarcTags.kUrl;

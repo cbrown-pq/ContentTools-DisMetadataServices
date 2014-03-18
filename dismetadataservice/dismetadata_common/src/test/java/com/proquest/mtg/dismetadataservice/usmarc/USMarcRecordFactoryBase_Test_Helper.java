@@ -15,7 +15,7 @@ import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.usmarc.USMarcRecordFactory;
 
-public class UsMarcRecordFactoryBase_Test_Helper {
+public class USMarcRecordFactoryBase_Test_Helper {
 	
 	static int kDataIndependentFieldCount = 3;
 	IJdbcConnectionPool connectionPool;

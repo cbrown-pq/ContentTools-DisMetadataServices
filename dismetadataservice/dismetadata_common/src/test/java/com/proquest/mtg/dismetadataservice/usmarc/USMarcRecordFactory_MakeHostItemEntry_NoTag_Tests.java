@@ -7,8 +7,8 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 
-public class MarcRecordFactory_MakeHostItemEntry_NoTag_Tests extends
-		UsMarcRecordFactoryBase_Test_Helper {
+public class USMarcRecordFactory_MakeHostItemEntry_NoTag_Tests extends
+		USMarcRecordFactoryBase_Test_Helper {
 
 	String tag = MarcTags.kHostItemEntry;
 	String expectedMarcFieldData1;

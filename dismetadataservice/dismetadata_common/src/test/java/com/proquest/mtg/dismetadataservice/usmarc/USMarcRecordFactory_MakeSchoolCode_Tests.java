@@ -15,8 +15,8 @@ import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 
-public class MarcRecordFactory_MakeSchoolCode_Tests extends
-		UsMarcRecordFactoryBase_Test_Helper {
+public class USMarcRecordFactory_MakeSchoolCode_Tests extends
+		USMarcRecordFactoryBase_Test_Helper {
 	String tag1 = MarcTags.kLocalAddedEntry;
 	String tag2 = MarcTags.kLocalNoteSchoolCode;
 
