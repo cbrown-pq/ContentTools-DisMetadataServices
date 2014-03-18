@@ -12,7 +12,8 @@ MarcRecord target;
 	
 	@Before
 	public void setUp() throws Exception {
-		target = new MarcRecord();
+		char textEncoding = ' ';
+		target = new MarcRecord(textEncoding);
 	}
 	
 	@Test

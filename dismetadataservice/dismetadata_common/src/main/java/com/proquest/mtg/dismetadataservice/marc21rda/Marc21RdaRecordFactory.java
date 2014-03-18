@@ -38,7 +38,8 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	private DisPubMetaData curMetaData = null;
 	private MarcRecord curRecord = null;
 	private final DisGenMappingProvider disGenMappingProvider;
-
+	private boolean pdfAvailable;
+	
 	public Marc21RdaRecordFactory(DisGenMappingProvider disGenMappingProvider) {
 		this.disGenMappingProvider = disGenMappingProvider;
 	}
@@ -50,8 +51,11 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		}
 
 		curMetaData = metaData;
-		curRecord = new MarcRecord();
-
+		pdfAvailable = curMetaData.getPdfStatus() != null ? curMetaData.getPdfStatus().isPdfAvailable() : false;
+		if(pdfAvailable)
+			curRecord = new MarcRecord('a');
+		else
+			curRecord = new MarcRecord(' ');
 		handleRecordId(); /* 001 */
 		handleTimeStamp(); /* 005 */
 		handleFixedLengthElements(); /* 008 */
@@ -501,7 +505,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 			if (null != cmteMemberString && !cmteMemberString.isEmpty()) {
 					cmteMemberString = cmteMemberString.substring(0,
 							cmteMemberString.length() - 2);
-				cmteMemberString = " Committee members: " + cmteMemberString;
+				cmteMemberString = "  Committee members: " + cmteMemberString;
 			}
 			adviserCmteMembers = adviserCmteMembers + cmteMemberString;
 		}
@@ -525,9 +529,6 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	}
 
 	private void handleContentType() {
-		boolean pdfAvailable = curMetaData.getPdfStatus() != null ? curMetaData
-				.getPdfStatus().isPdfAvailable() : false;
-
 		if (pdfAvailable) {
 			addField(
 					MarcTags.kContentType,

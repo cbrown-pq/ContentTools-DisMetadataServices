@@ -19,8 +19,8 @@ public class MarcRecord {
 	private final char characterEncoding;
 	private final TreeMap<String, List<MarcField>> fields;
 		
-	public MarcRecord() {
-		this('n', 'a', 'm', 'a', new ArrayList<MarcField>());
+	public MarcRecord(char encoding) {
+		this('n', 'a', 'm', encoding, new ArrayList<MarcField>());
 	}
 	
 	public MarcRecord(Iterable<MarcField> fields) {

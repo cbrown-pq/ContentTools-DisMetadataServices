@@ -233,7 +233,7 @@ public class MarcRecord_Tests {
 	
 	@Test
 	public void getPubId_WhenDoesntExist_ReturnsNull() throws Exception {
-		MarcRecord target = new MarcRecord();
+		MarcRecord target = new MarcRecord(' ');
 		assertThat(target.getPubId(), nullValue());
 	}
 	

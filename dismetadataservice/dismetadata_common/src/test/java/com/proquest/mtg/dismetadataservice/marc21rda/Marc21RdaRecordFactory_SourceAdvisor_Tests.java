@@ -63,7 +63,7 @@ public class Marc21RdaRecordFactory_SourceAdvisor_Tests extends
 		cmteMembers.add(cmteMember);
 		metaData.setCmteMembers(cmteMembers);
 		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a"
-				+ advisorString + " Committee members: "
+				+ advisorString + "  Committee members: "
 				+ "William T. Dalton, III" + ".";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
 
@@ -86,7 +86,7 @@ public class Marc21RdaRecordFactory_SourceAdvisor_Tests extends
 		cmteMembers.add(cmteMember2);
 		metaData.setCmteMembers(cmteMembers);
 		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a"
-				+ advisorString + " Committee members: "
+				+ advisorString + "  Committee members: "
 				+ "William T. Dalton, III; Rodney J. Beaulieu" + ".";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
 
