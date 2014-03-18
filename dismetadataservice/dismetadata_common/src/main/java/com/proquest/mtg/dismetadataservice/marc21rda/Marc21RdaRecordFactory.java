@@ -39,7 +39,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	private MarcRecord curRecord = null;
 	private final DisGenMappingProvider disGenMappingProvider;
 	private boolean pdfAvailable;
-	
+
 	public Marc21RdaRecordFactory(DisGenMappingProvider disGenMappingProvider) {
 		this.disGenMappingProvider = disGenMappingProvider;
 	}
@@ -51,8 +51,9 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		}
 
 		curMetaData = metaData;
-		pdfAvailable = curMetaData.getPdfStatus() != null ? curMetaData.getPdfStatus().isPdfAvailable() : false;
-		if(pdfAvailable)
+		pdfAvailable = curMetaData.getPdfStatus() != null ? curMetaData
+				.getPdfStatus().isPdfAvailable() : false;
+		if (pdfAvailable)
 			curRecord = new MarcRecord('a');
 		else
 			curRecord = new MarcRecord(' ');
@@ -466,14 +467,17 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 
 	private void handleGeneralNoteForAdvisor() {
 		Advisors advisors = curMetaData.getAdvisors();
-		String adviserCmteMembers = null;
+		String adviserCmteMembers = "";
 		if (null != advisors) {
 			String advisor = advisors.getAdvisorsExodusStr();
 			if (null != advisor && !advisor.isEmpty()) {
-				advisor = SGMLEntitySubstitution.applyAllTo(advisor);
-				advisor.replaceAll("\\s+$", "");
-				adviserCmteMembers = advisor;
-
+				List<String> advisorNames = SplitAdvisors.split(advisor);
+				for (String curAdvisor : advisorNames) {
+					advisor = SGMLEntitySubstitution.applyAllTo(curAdvisor);
+					advisor.replaceAll("\\s+$", "");
+					adviserCmteMembers += advisor + "; ";
+				}
+					adviserCmteMembers = "Advisors: " + adviserCmteMembers.substring(0, adviserCmteMembers.length() - 2);
 			}
 		}
 		List<CmteMember> cmteMembers = curMetaData.getCmteMembers();
@@ -503,8 +507,8 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 				cmteMemberString = cmteMemberString + "; ";
 			}
 			if (null != cmteMemberString && !cmteMemberString.isEmpty()) {
-					cmteMemberString = cmteMemberString.substring(0,
-							cmteMemberString.length() - 2);
+				cmteMemberString = cmteMemberString.substring(0,
+						cmteMemberString.length() - 2);
 				cmteMemberString = "  Committee members: " + cmteMemberString;
 			}
 			adviserCmteMembers = adviserCmteMembers + cmteMemberString;

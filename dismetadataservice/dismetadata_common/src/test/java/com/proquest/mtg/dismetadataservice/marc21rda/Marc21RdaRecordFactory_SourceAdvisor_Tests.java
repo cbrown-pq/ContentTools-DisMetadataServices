@@ -41,19 +41,19 @@ public class Marc21RdaRecordFactory_SourceAdvisor_Tests extends
 
 	@Test
 	public void withAdvisors_NullCmteMembers() {
-		String advisorString = "Advisers: JoAnn Jodi Crandall; Beverly Bickel";
+		String advisorString = "Advisors: JoAnn Jodi Crandall;Beverly Bickel";
 		advisors.setAdvisorsExodusStr(advisorString);
 		metaData.setAdvisors(advisors);
 		metaData.setCmteMembers(cmteMembers);
 		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a"
-				+ advisorString + ".";
+				+ "Advisors: JoAnn Jodi Crandall; Beverly Bickel" + ".";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
 
 	}
 
 	@Test
 	public void withAdvisorsAndCmteMembers() {
-		String advisorString = "Advisers: JoAnn Jodi Crandall; Beverly Bickel";
+		String advisorString = "Advisors: JoAnn Jodi Crandall; Beverly Bickel";
 		advisors.setAdvisorsExodusStr(advisorString);
 		metaData.setAdvisors(advisors);
 		cmteMember.setFirstName("William");
@@ -71,7 +71,7 @@ public class Marc21RdaRecordFactory_SourceAdvisor_Tests extends
 	
 	@Test
 	public void withAdvisorsAndMultipleCmteMembers() {
-		String advisorString = "Advisers: JoAnn Jodi Crandall; Beverly Bickel";
+		String advisorString = "Advisors: JoAnn Jodi Crandall;Beverly Bickel";
 		advisors.setAdvisorsExodusStr(advisorString);
 		metaData.setAdvisors(advisors);
 		cmteMember.setFirstName("William");
@@ -86,7 +86,7 @@ public class Marc21RdaRecordFactory_SourceAdvisor_Tests extends
 		cmteMembers.add(cmteMember2);
 		metaData.setCmteMembers(cmteMembers);
 		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a"
-				+ advisorString + "  Committee members: "
+				+ "Advisors: JoAnn Jodi Crandall; Beverly Bickel" + "  Committee members: "
 				+ "William T. Dalton, III; Rodney J. Beaulieu" + ".";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
 
