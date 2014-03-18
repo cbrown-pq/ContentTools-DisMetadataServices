@@ -45,8 +45,8 @@ public class MarcParser {
 	public static final char kLeaderNotUsedFlag = ' ';
 	public static final char kLeaderIndicatorCount = '2';
 	public static final char kLeaderDelimiterCount = '2';
-	public static final char kEncodingLevel = ' ';
-	public static final char kDescriptiveCataloging = ' ';
+	public static final char kEncodingLevel = '3';
+	public static final char kDescriptiveCataloging = 'i';
 	public static final String kEntryMap = "4500";
 
 	public MarcRecord read(File marcFile) throws IOException,
