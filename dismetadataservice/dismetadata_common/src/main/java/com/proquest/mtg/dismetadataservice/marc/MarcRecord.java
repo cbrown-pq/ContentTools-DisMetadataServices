@@ -55,11 +55,11 @@ public class MarcRecord {
 		return level;
 	}
 
-	public Object getCharacterEncoding() {
+	public char getCharacterEncoding() {
 		return characterEncoding;
 	}
 
-	public Object getEncodingLevel() {
+	public char getEncodingLevel() {
 		return encodingLevel;
 	}
 
