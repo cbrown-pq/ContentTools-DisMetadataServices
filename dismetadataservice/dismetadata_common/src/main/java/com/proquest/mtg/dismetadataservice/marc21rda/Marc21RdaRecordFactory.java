@@ -34,7 +34,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	public static final String kSystemCatalogingSourceLanguage = "eng";
 	public static final char kEncodingLevel = '3';
 	public static final char kDescriptiveCataloging = 'i';
-	
+
 	private final TextNormalizer abstractNormalizer = new TextNormalizer();
 
 	private DisPubMetaData curMetaData = null;
@@ -56,9 +56,11 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		pdfAvailable = curMetaData.getPdfStatus() != null ? curMetaData
 				.getPdfStatus().isPdfAvailable() : false;
 		if (pdfAvailable)
-			curRecord = new MarcRecord('a',kEncodingLevel,kDescriptiveCataloging);
+			curRecord = new MarcRecord('a', kEncodingLevel,
+					kDescriptiveCataloging);
 		else
-			curRecord = new MarcRecord(' ',kEncodingLevel,kDescriptiveCataloging);
+			curRecord = new MarcRecord(' ', kEncodingLevel,
+					kDescriptiveCataloging);
 		handleRecordId(); /* 001 */
 		handleTimeStamp(); /* 005 */
 		handleFixedLengthElements(); /* 008 */
@@ -116,19 +118,21 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 							.split(LanguageCodeToPartialLanguageName
 									.getLanguageFor(curLanguage
 											.getLanguageCode()));
-					for (int i = 0; i < threeLetterLangCodes.size(); ++i) {
-						{
-							if (i > 0)
+					if (threeLetterLangCodes.size() > 1) {
+						for (int i = 0; i < threeLetterLangCodes.size(); ++i) {
+							{
 								threeLetterLangCode = threeLetterLangCode
 										+ makeFieldDataFrom('a',
 												threeLetterLangCodes.get(i));
+							}
 						}
-					}
-					if (null != threeLetterLangCode
-							&& !threeLetterLangCode.isEmpty()) {
-						addField(
-								MarcTags.kLanguageCode,
-								makeFieldDataFrom('0', ' ', threeLetterLangCode));
+						if (null != threeLetterLangCode
+								&& !threeLetterLangCode.isEmpty()) {
+							addField(
+									MarcTags.kLanguageCode,
+									makeFieldDataFrom('0', ' ',
+											threeLetterLangCode));
+						}
 					}
 				}
 			}
@@ -479,7 +483,9 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 					advisor.replaceAll("\\s+$", "");
 					adviserCmteMembers += advisor + "; ";
 				}
-					adviserCmteMembers = "Advisors: " + adviserCmteMembers.substring(0, adviserCmteMembers.length() - 2);
+				adviserCmteMembers = "Advisors: "
+						+ adviserCmteMembers.substring(0,
+								adviserCmteMembers.length() - 2);
 			}
 		}
 		List<CmteMember> cmteMembers = curMetaData.getCmteMembers();
@@ -527,10 +533,16 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		if (null != curMetaData.getPageCount()
 				&& !curMetaData.getPageCount().isEmpty()) {
 			String pageCountString = "1 electronic resource";
+			String pagesString;
+			if (Integer.valueOf(curMetaData.getPageCount()) > 1)
+				pagesString = "pages";
+			else
+				pagesString = "page";
 			addField(
 					MarcTags.kPageCount,
 					makeFieldDataFrom(' ', ' ', 'a', pageCountString + " ("
-							+ curMetaData.getPageCount() + " pages)"));
+							+ curMetaData.getPageCount() + " " + pagesString
+							+ ")"));
 		}
 	}
 
@@ -595,7 +607,8 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 							MarcTags.kMulitpleAuthor,
 							makeFieldDataFrom('1', ' ', 'a',
 									endWithComma(curAuthor.getAuthorFullName()))
-									+ makeFieldDataFrom('e', "author"));
+									+ endWithPeriod(makeFieldDataFrom('e',
+											"author.")));
 				}
 			}
 		}
@@ -650,28 +663,31 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		if (deptNames != null && !deptNames.isEmpty()) {
 			for (String curDeptName : deptNames) {
 				if (null != curDeptName && !curDeptName.isEmpty()) {
-					deptName = deptName + curDeptName.trim() + ".";
+					deptName = curDeptName.trim() + ".";
+					String schoolName = curMetaData.getSchool() != null ? curMetaData
+							.getSchool().getSchoolName() : null;
+					if (null != schoolName && !schoolName.isEmpty()) {
+						if (null != deptName && !deptName.isEmpty())
+							addField(
+									MarcTags.kCorporatename,
+									endWithPeriod(makeFieldDataFrom('2', ' ',
+											'a', schoolName))
+											+ endWithPeriod(makeFieldDataFrom(
+													'b', deptName))
+											+ endWithPeriod(makeFieldDataFrom(
+													'e',
+													"degree granting institution")));
+						else
+							addField(
+									MarcTags.kCorporatename,
+									endWithPeriod(makeFieldDataFrom('2', ' ',
+											'a', schoolName))
+											+ endWithPeriod(makeFieldDataFrom(
+													'e',
+													"degree granting institution")));
+					}
 				}
 			}
-		}
-		String schoolName = curMetaData.getSchool() != null ? curMetaData
-				.getSchool().getSchoolName() : null;
-		if (null != schoolName && !schoolName.isEmpty()) {
-			if (null != deptName && !deptName.isEmpty())
-				addField(
-						MarcTags.kCorporatename,
-						endWithPeriod(makeFieldDataFrom('2', ' ', 'a',
-								schoolName))
-								+ endWithPeriod(makeFieldDataFrom('b', deptName))
-								+ endWithPeriod(makeFieldDataFrom('e',
-										"degree granting institution")));
-			else
-				addField(
-						MarcTags.kCorporatename,
-						endWithPeriod(makeFieldDataFrom('2', ' ', 'a',
-								schoolName))
-								+ endWithPeriod(makeFieldDataFrom('e',
-										"degree granting institution")));
 		}
 
 	}
@@ -785,7 +801,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 			addField(
 					MarcTags.kLocalNoteSchoolCode,
 					makeFieldDataFrom(' ', ' ', 'a', "School code: ",
-							dissSchoolCode) + ".");
+							dissSchoolCode));
 		}
 	}
 
@@ -831,7 +847,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		String title = getTitleToInclude(curMetaData);
 		String additionalAuthors = "";
 		if (null != title && !title.isEmpty()) {
-			title = endsWithPunctuationMark(title);
+			// title = endsWithPunctuationMark(title);
 			title = SGMLEntitySubstitution.applyAllTo(title);
 			char secondFieldIndicator = getSecondFieldIndicator(
 					disGenMappingProvider, title, kMarcMapping);

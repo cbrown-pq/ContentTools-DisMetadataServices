@@ -80,7 +80,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 		String expectedData = "10"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
-				+ "Foreign Title."
+				+ "Foreign Title"
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
@@ -101,7 +101,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 		String expectedData = "10"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
-				+ "Master Title."
+				+ "Master Title"
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
@@ -122,7 +122,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 		String expectedData = "10"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
-				+ "Electronic Title."
+				+ "Electronic Title"
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
@@ -142,7 +142,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 		String expectedData = "10"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
-				+ "Master Title."
+				+ "Master Title"
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
@@ -164,7 +164,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 		String expectedData = "12"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
-				+ "A Foreign Title."
+				+ "A Foreign Title"
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
@@ -186,7 +186,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 		String expectedData = "14"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
-				+ "\"Le Foreign Title."
+				+ "\"Le Foreign Title"
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
@@ -208,7 +208,6 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
 				+ masterTitle
-				+ "."
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
@@ -230,7 +229,6 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
 				+ masterTitle
-				+ "."
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
@@ -252,7 +250,6 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
 				+ masterTitle
-				+ "."
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
@@ -277,7 +274,6 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
 				+ masterTitle
-				+ "."
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
@@ -295,7 +291,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 		String expectedData = "10"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
-				+ "M4M."
+				+ "M4M"
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
@@ -313,7 +309,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 		String expectedData = "12"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
-				+ "L'."
+				+ "L'"
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"
@@ -331,7 +327,7 @@ public class Marc21RdaRecordFactory_Title_Tests extends
 		String expectedData = "10"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a"
-				+ " #."
+				+ " #"
 				+ " /"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "c"

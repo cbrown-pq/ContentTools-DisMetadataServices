@@ -63,8 +63,12 @@ public class Marc21RdaRecordFactory_LanguageCode_Tests extends
 				language3));
 		String expectedMarcFieldData2 = "0 " 
 				+ MarcCharSet.kSubFieldIndicator
+				+ "a" + "gre"
+				+ MarcCharSet.kSubFieldIndicator
 				+ "a" + "eng";
-		String expectedMarcFieldData3 = "0 " 
+		String expectedMarcFieldData3 = "0 "
+				+ MarcCharSet.kSubFieldIndicator
+				+ "a" + "est"
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a" + "rus"
 				+ MarcCharSet.kSubFieldIndicator

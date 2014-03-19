@@ -83,7 +83,7 @@ public class Marc21RdaRecordFactory_MakeMultipleAuthors_Tests extends
 		authors.add(author);
 		metaData.setAuthors(authors);
 		expectedMarcFieldData1 = "1 " + MarcCharSet.kSubFieldIndicator + "a"
-				+ authorName + "," + MarcCharSet.kSubFieldIndicator + "eauthor";
+				+ authorName + "," + MarcCharSet.kSubFieldIndicator + "eauthor.";
 		MarcRecord marc = factory.makeFrom(metaData);
 		List<MarcField> fieldsMatchingTag1 = marc.getFieldsMatchingTag(tag);
 		assertThat(fieldsMatchingTag1.size(), is(1));
@@ -105,10 +105,10 @@ public class Marc21RdaRecordFactory_MakeMultipleAuthors_Tests extends
 		metaData.setAuthors(authors);
 		expectedMarcFieldData1 = "1 " + MarcCharSet.kSubFieldIndicator + "a"
 				+ authorName1 + "," + MarcCharSet.kSubFieldIndicator
-				+ "eauthor";
+				+ "eauthor.";
 		expectedMarcFieldData2 = "1 " + MarcCharSet.kSubFieldIndicator + "a"
 				+ authorName2 + "," + MarcCharSet.kSubFieldIndicator
-				+ "eauthor";
+				+ "eauthor.";
 		MarcRecord marc = factory.makeFrom(metaData);
 		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag);
 		assertThat(fieldsMatchingTag.size(), is(2));

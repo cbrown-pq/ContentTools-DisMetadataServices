@@ -40,5 +40,15 @@ public class Marc21RdaRecordFactory_PageCount_Tests extends
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
 
 	}
+	
+	@Test
+	public void withPageCountAsOne() {
+		String pageCount = "1";
+		metaData.setPageCount(pageCount);
+		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a1 electronic resource "
+				+ "("+ pageCount+" page)";
+		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
+
+	}
 
 }

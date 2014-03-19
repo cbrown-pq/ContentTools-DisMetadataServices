@@ -104,14 +104,19 @@ public class Marc21RdaRecordFactory_MakeCorporateEntry_Tests extends
 		school.setSchoolName(schoolName);
 		metaData.setDepartments(departments);
 		metaData.setSchool(school);
-		expectedMarcFieldData = "2 " + MarcCharSet.kSubFieldIndicator + "a"
+		String expectedMarcFieldData1 = "2 " + MarcCharSet.kSubFieldIndicator + "a"
 				+ schoolName + "." + MarcCharSet.kSubFieldIndicator + "b"
-				+ "CorporateName1" + "." + "CorporateName2" + "." + MarcCharSet.kSubFieldIndicator + "edegree granting institution" + ".";
+				+ "CorporateName1" + "." + MarcCharSet.kSubFieldIndicator + "edegree granting institution" + ".";
+		String expectedMarcFieldData2 = "2 " + MarcCharSet.kSubFieldIndicator + "a"
+				+ schoolName + "." + MarcCharSet.kSubFieldIndicator + "b"
+				+ "CorporateName2" + "." + MarcCharSet.kSubFieldIndicator + "edegree granting institution" + ".";
 		MarcRecord marc = factory.makeFrom(metaData);
 		List<MarcField> fieldsMatchingTag1 = marc.getFieldsMatchingTag(tag);
-		assertThat(fieldsMatchingTag1.size(), is(1));
+		assertThat(fieldsMatchingTag1.size(), is(2));
 		assertThat(fieldsMatchingTag1.get(0).getData(),
-				is(expectedMarcFieldData));
+				is(expectedMarcFieldData1));
+		assertThat(fieldsMatchingTag1.get(1).getData(),
+				is(expectedMarcFieldData2));
 	}
 
 	@Test
@@ -127,16 +132,12 @@ public class Marc21RdaRecordFactory_MakeCorporateEntry_Tests extends
 	}
 
 	@Test
-	public void withNoCorporateNameAndWithSchool() {
+	public void withNoCorporateNameAndWithSchool_ResultsInNoTag() {
 		schoolName = "SchoolName.";
 		school.setSchoolName(schoolName);
 		metaData.setSchool(school);
-		expectedMarcFieldData = "2 " + MarcCharSet.kSubFieldIndicator + "a"
-				+ schoolName + MarcCharSet.kSubFieldIndicator + "edegree granting institution" + ".";
 		MarcRecord marc = factory.makeFrom(metaData);
 		List<MarcField> fieldsMatchingTag1 = marc.getFieldsMatchingTag(tag);
-		assertThat(fieldsMatchingTag1.size(), is(1));
-		assertThat(fieldsMatchingTag1.get(0).getData(),
-				is(expectedMarcFieldData));
+		assertThat(fieldsMatchingTag1.size(), is(0));
 	}
 }

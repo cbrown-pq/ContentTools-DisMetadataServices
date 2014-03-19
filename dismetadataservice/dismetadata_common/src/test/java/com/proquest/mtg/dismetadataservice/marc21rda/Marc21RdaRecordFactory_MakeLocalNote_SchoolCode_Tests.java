@@ -61,7 +61,7 @@ public class Marc21RdaRecordFactory_MakeLocalNote_SchoolCode_Tests extends
 		expectedMarcFieldData1 = "  " + MarcCharSet.kSubFieldIndicator + "a"
 				+ "schoolcode";
 		expectedMarcFieldData2 = "  " + MarcCharSet.kSubFieldIndicator + "a"
-				+ "School code: " + "schoolcode.";
+				+ "School code: " + "schoolcode";
 		MarcRecord marc = factory.makeFrom(metaData);
 		List<MarcField> fieldsMatchingTag1 = marc.getFieldsMatchingTag(tag1);
 		assertThat(fieldsMatchingTag1.size(), is(1));
