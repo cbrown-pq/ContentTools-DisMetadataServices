@@ -120,24 +120,63 @@ public class Marc21RdaRecordFactory_MakeCorporateEntry_Tests extends
 	}
 
 	@Test
-	public void withCorporateNameAndNoSchoolHasNoTag() {
-		corpName = "CorporateName.";
+	public void withCorporateNameAndNoSchool() {
+		corpName = "CorporateName";
 		departments.add(corpName);
 		metaData.setDepartments(departments);
-		expectedMarcFieldData = "2 " + MarcCharSet.kSubFieldIndicator + "a"
-				+ schoolName
+		expectedMarcFieldData = "2 " + MarcCharSet.kSubFieldIndicator + "b"
+				+ corpName + "."
+				+ MarcCharSet.kSubFieldIndicator 
 				+ "edegree granting institution"
 				+ ".";
-		verifyMarcRecordHasEmptyField(metaData, tag);
+		MarcRecord marc = factory.makeFrom(metaData);
+		List<MarcField> fieldsMatchingTag1 = marc.getFieldsMatchingTag(tag);
+		assertThat(fieldsMatchingTag1.size(), is(1));
+		assertThat(fieldsMatchingTag1.get(0).getData(),
+				is(expectedMarcFieldData));
+	}
+	
+	@Test
+	public void withCorporateNamesAndNoSchool() {
+		String corpName1 = "CorporateName1";
+		String corpName2 = "CorporateName2";
+		departments.add(corpName1);
+		departments.add(corpName2);
+		metaData.setDepartments(departments);
+		String expectedMarcFieldData1 = "2 " + MarcCharSet.kSubFieldIndicator + "b"
+				+ corpName1 + "."
+				+ MarcCharSet.kSubFieldIndicator 
+				+ "edegree granting institution"
+				+ ".";
+		String expectedMarcFieldData2 = "2 " + MarcCharSet.kSubFieldIndicator + "b"
+				+ corpName2 + "."
+				+ MarcCharSet.kSubFieldIndicator 
+				+ "edegree granting institution"
+				+ ".";
+		MarcRecord marc = factory.makeFrom(metaData);
+		List<MarcField> fieldsMatchingTag1 = marc.getFieldsMatchingTag(tag);
+		assertThat(fieldsMatchingTag1.size(), is(2));
+		assertThat(fieldsMatchingTag1.get(0).getData(),
+				is(expectedMarcFieldData1));
+		assertThat(fieldsMatchingTag1.get(1).getData(),
+				is(expectedMarcFieldData2));
 	}
 
 	@Test
-	public void withNoCorporateNameAndWithSchool_ResultsInNoTag() {
-		schoolName = "SchoolName.";
+	public void withNoCorporateNameAndWithSchool_Results() {
+		schoolName = "SchoolName";
 		school.setSchoolName(schoolName);
 		metaData.setSchool(school);
+		String expectedMarcFieldData = "2 " + MarcCharSet.kSubFieldIndicator 
+										+ "a" + schoolName 
+										+ "." + MarcCharSet.kSubFieldIndicator 
+										+ "edegree granting institution" + ".";		
 		MarcRecord marc = factory.makeFrom(metaData);
-		List<MarcField> fieldsMatchingTag1 = marc.getFieldsMatchingTag(tag);
-		assertThat(fieldsMatchingTag1.size(), is(0));
+		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag);
+		assertThat(fieldsMatchingTag.size(), is(1));
+		assertThat(fieldsMatchingTag.get(0).getData(),
+				is(expectedMarcFieldData));
 	}
+	
+
 }

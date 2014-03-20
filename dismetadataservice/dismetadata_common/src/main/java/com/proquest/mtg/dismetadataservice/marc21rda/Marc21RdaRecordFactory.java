@@ -659,34 +659,36 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 
 	private void handleCorporateEntry() {
 		List<String> deptNames = curMetaData.getDepartments();
-		String deptName = "";
+		String schoolName = curMetaData.getSchool() != null ? curMetaData.getSchool().getSchoolName() : null;
 		if (deptNames != null && !deptNames.isEmpty()) {
 			for (String curDeptName : deptNames) {
 				if (null != curDeptName && !curDeptName.isEmpty()) {
-					deptName = curDeptName.trim() + ".";
-					String schoolName = curMetaData.getSchool() != null ? curMetaData
-							.getSchool().getSchoolName() : null;
+					String deptName = curDeptName.trim() + ".";
 					if (null != schoolName && !schoolName.isEmpty()) {
-						if (null != deptName && !deptName.isEmpty())
+						if (null != deptName && !deptName.isEmpty()) {
 							addField(
-									MarcTags.kCorporatename,
-									endWithPeriod(makeFieldDataFrom('2', ' ',
-											'a', schoolName))
-											+ endWithPeriod(makeFieldDataFrom(
-													'b', deptName))
-											+ endWithPeriod(makeFieldDataFrom(
-													'e',
-													"degree granting institution")));
-						else
+									MarcTags.kCorporatename,endWithPeriod(makeFieldDataFrom('2', ' ','a', schoolName))
+									+ endWithPeriod(makeFieldDataFrom('b', deptName))
+									+ endWithPeriod(makeFieldDataFrom('e',"degree granting institution")));
+						}
+						else {
 							addField(
-									MarcTags.kCorporatename,
-									endWithPeriod(makeFieldDataFrom('2', ' ',
-											'a', schoolName))
-											+ endWithPeriod(makeFieldDataFrom(
-													'e',
-													"degree granting institution")));
+									MarcTags.kCorporatename,endWithPeriod(makeFieldDataFrom('2', ' ','a', schoolName))
+									+ endWithPeriod(makeFieldDataFrom('e',"degree granting institution")));
+						}
+					} else {
+						addField(
+								MarcTags.kCorporatename,endWithPeriod(makeFieldDataFrom('2', ' ',makeFieldDataFrom('b', deptName))
+								+ endWithPeriod(makeFieldDataFrom('e',"degree granting institution"))));
 					}
 				}
+			}
+		}
+		else {
+			if (null != schoolName && !schoolName.isEmpty()) {
+				addField(
+						MarcTags.kCorporatename, endWithPeriod(makeFieldDataFrom('2', ' ','a', schoolName))								
+						+ endWithPeriod(makeFieldDataFrom('e',"degree granting institution")));
 			}
 		}
 
