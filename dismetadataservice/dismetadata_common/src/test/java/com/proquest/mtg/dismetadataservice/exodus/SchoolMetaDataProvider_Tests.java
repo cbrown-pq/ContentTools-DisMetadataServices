@@ -1,11 +1,8 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
 import static com.proquest.mtg.dismetadataservice.metadata.SchoolMetadataMatcher.schoolEqualTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
-
-import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
