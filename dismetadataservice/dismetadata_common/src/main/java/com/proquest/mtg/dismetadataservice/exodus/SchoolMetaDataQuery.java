@@ -4,14 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.proquest.mtg.dismetadataservice.metadata.Address;
-import com.proquest.mtg.dismetadataservice.metadata.NameType;
-import com.proquest.mtg.dismetadataservice.metadata.SchoolPersonType;
+import com.proquest.mtg.dismetadataservice.metadata.school.Address;
+import com.proquest.mtg.dismetadataservice.metadata.school.AddressUse;
+import com.proquest.mtg.dismetadataservice.metadata.school.NameType;
+import com.proquest.mtg.dismetadataservice.metadata.school.PersonType;
+import com.proquest.mtg.dismetadataservice.metadata.school.School;
+import com.proquest.mtg.dismetadataservice.metadata.school.SchoolContact;
 
 public class SchoolMetaDataQuery {
 
@@ -52,7 +54,7 @@ public class SchoolMetaDataQuery {
 	public static final String kStatusDate = "StatusDate";
 
 	public static final String kAddressUseType = "AddressUseType";
-	public static final String kEbsAccount = "AddressUseType";
+	public static final String kEbsAccount = "EbsAccount";
 	public static final String kDeliveryDate = "DeliveryDate";
 	public static final String kDateCreated = "DateCreated";
 	public static final String kDateModified = "DateModified";
@@ -66,13 +68,13 @@ public class SchoolMetaDataQuery {
 	public static final String kContactDateCreated = "ContactDateCreated";
 	public static final String kContactDateModified = "ContactDateModified";
 
-	private static final SimpleDateFormat kDateFormat = new SimpleDateFormat(
-			"yyyyMMddHHmmss");
 	private PreparedStatement schoolsStatement;
 	private PreparedStatement mainSchoolMetaDataStatement;
 	private PreparedStatement mainSchoolAddressesStatement;
 	private PreparedStatement mainSchoolPersonTypesStatement;
 	private PreparedStatement mainSchoolNameTypesStatement;
+	private PreparedStatement mainSchoolAddressUsesStatement;
+	private PreparedStatement mainSchoolContactTypesStatement;
 
 	private static final String kSelectSchoolCodes = "select dish_id "
 			+ kSchoolId + " from dis_schools";
@@ -123,35 +125,32 @@ public class SchoolMetaDataQuery {
 			+ "to_char(dpl_date_modified,'dd-mon-yyyy') " + kSchoolPersonEndDate + " "
 			+ "from dis_people " + "where dpl_id = ?";
 
-	private static final String kSelectAddressUseTypes = "select dat.dat_description "
-			+ kAddressUseType	+ ", "
+	private static final String kSelectAddressUses = "select dat.dat_description "	+ kAddressUseType	+ ", "
 			+ "dau.dau_external_sys_key "	+ kEbsAccount + ", "
 			+ "to_char(dau.dau_date_of_delivery,'dd-mon-yyyy') "	+ kDeliveryDate	+ ", "
 			+ "to_char(dau.dau_date_created,'dd-mon-yyyy') " + kDateCreated + ", "
 			+ "to_char(dau.dau_date_modified,'dd-mon-yyyy') "	+ kDateModified	+ ", "
 			+ "dau.dau_id "	+ kAddressUseId	+ " "
 			+ "from  DIS_ADDRESS_USES dau, "
-			+ "DIS_ADDRESS_TYPES dat " + "where dau.daad_id = ?";
+			+ "DIS_ADDRESS_TYPES dat " + "where dau.dat_type = dat.dat_type and dau.daad_id = ?";
 
-	private static final String kSelectContactTypes = "select dcon_type "
-			+ kContactType + ", " + "dcon_sequence_number "
-			+ kContactSequenceNumber + ", " + "dcon_name " + kContactName
-			+ ", " + "dcon_notes " + kContactNotes + ", "
-			+ "to_char(dcon_effective_date,'dd-mon-yyyy') " + kContactEffectiveDate + ", "
-			+ "to_char(dcon_date_created,'dd-mon-yyyy') " + kContactDateCreated + ", "
-			+ "to_char(dcon_date_modified,'dd-mon-yyyy') " + kContactDateModified + " "
-			+ "from  dis_school_contacts " + "where dau_id = ?";
+	private static final String kSelectContactTypes = "select dcon_type " + kContactType + ", " 
+															+ "dcon_sequence_number " + kContactSequenceNumber + ", " 
+															+ "dcon_name " + kContactName
+															+ ", " + "dcon_notes " + kContactNotes + ", "
+															+ "to_char(dcon_effective_date,'dd-mon-yyyy') " + kContactEffectiveDate + ", "
+															+ "to_char(dcon_date_created,'dd-mon-yyyy') " + kContactDateCreated + ", "
+															+ "to_char(dcon_date_modified,'dd-mon-yyyy') " + kContactDateModified + " "
+															+ "from  dis_school_contacts " + "where dau_id = ?";
 
 	public SchoolMetaDataQuery(Connection connection) throws SQLException {
 		this.schoolsStatement = connection.prepareStatement(kSelectSchoolCodes);
-		this.mainSchoolMetaDataStatement = connection
-				.prepareStatement(kSelectMainSchoolMetadata);
-		this.mainSchoolAddressesStatement = connection
-				.prepareStatement(kSelectAddresses);
-		this.mainSchoolPersonTypesStatement = connection
-				.prepareStatement(kSelectSchoolPersonTypes);
-		this.mainSchoolNameTypesStatement = connection
-				.prepareStatement(kSelectNameTypes);
+		this.mainSchoolMetaDataStatement = connection.prepareStatement(kSelectMainSchoolMetadata);
+		this.mainSchoolAddressesStatement = connection.prepareStatement(kSelectAddresses);
+		this.mainSchoolPersonTypesStatement = connection.prepareStatement(kSelectSchoolPersonTypes);
+		this.mainSchoolNameTypesStatement = connection.prepareStatement(kSelectNameTypes);
+		this.mainSchoolAddressUsesStatement = connection.prepareStatement(kSelectAddressUses);		
+		this.mainSchoolContactTypesStatement = connection.prepareStatement(kSelectContactTypes);
 	}
 
 	public List<String> getAllSchoolCodes() throws SQLException {
@@ -171,9 +170,9 @@ public class SchoolMetaDataQuery {
 		return result;
 	}
 
-	public DisSchoolMetaData getSchoolMetadataForSchoolCode(String schoolCode)
+	public School getSchoolMetadataForSchoolCode(String schoolCode)
 			throws SQLException {
-		DisSchoolMetaData result = null;
+		School result = null;
 		ResultSet cursor = null;
 		try {
 			mainSchoolMetaDataStatement.setString(1, schoolCode);
@@ -189,19 +188,19 @@ public class SchoolMetaDataQuery {
 		return result;
 	}
 
-	private DisSchoolMetaData makeSchoolMetaDataFrom(ResultSet cursor)
+	private School makeSchoolMetaDataFrom(ResultSet cursor)
 			throws SQLException {
-		DisSchoolMetaData result = new DisSchoolMetaData();
+		School result = new School();
 		String schoolId = cursor.getString(kSchoolId);
 		String schoolCode = cursor.getString(kSchoolCode);
 		String schoolName = cursor.getString(kSchoolName);
 		String schoolCountry = cursor.getString(kSchoolCountry);
 		String schoolState = cursor.getString(kSchoolState);
-		result.setSchoolId(schoolId);
-		result.setSchoolCode(schoolCode);
-		result.setSchoolName(schoolName);
-		result.setSchoolCountry(schoolCountry);
-		result.setSchoolState(schoolState);
+		result.setId(schoolId);
+		result.setCode(schoolCode);
+		result.setName(schoolName);
+		result.setCountry(schoolCountry);
+		result.setState(schoolState);
 		if (null != schoolId) {
 			result.setAddresses(getAddressesFor(schoolId));
 		}
@@ -245,6 +244,7 @@ public class SchoolMetaDataQuery {
 				address.setCountry(addressCountryCode);
 				address.setEffectiveDate(addressEffectiveDate);
 				address.setActiveFlag(addressEffectiveFlag);
+				address.setAddressUses(getAddressUses(addressId));
 				result.add(address);
 			}
 		} finally {
@@ -255,9 +255,66 @@ public class SchoolMetaDataQuery {
 		return result;
 	}
 
-	private List<SchoolPersonType> getSchoolPersonTypesFor(String schoolId)
+	private List<AddressUse> getAddressUses(String addressId) throws SQLException {
+		List<AddressUse> result = Lists.newArrayList();
+		ResultSet cursor = null;
+		try {
+			mainSchoolAddressUsesStatement.setString(1, addressId);
+			cursor = mainSchoolAddressUsesStatement.executeQuery();
+			while (cursor.next()) {
+				String addressUseId = cursor.getString(kAddressUseId);
+				String addressUseType = cursor.getString(kAddressUseType);
+				String ebsAccount = cursor.getString(kEbsAccount);
+				String deliveryDate = cursor.getString(kDeliveryDate);
+				String dateCreated = cursor.getString(kDateCreated);
+				String dateModified = cursor.getString(kDateModified);
+				AddressUse addressUse = new AddressUse();
+				addressUse.setType(addressUseType);
+				addressUse.seteBSAccount(ebsAccount);
+				addressUse.setDeliveryDate(deliveryDate);
+				addressUse.setDateCreated(dateCreated);
+				addressUse.setDateModified(dateModified);
+				addressUse.setSchoolContacts(getSchoolContactFor(addressUseId));
+			}
+		} finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+		}
+		return result;
+	}
+
+	private List<SchoolContact> getSchoolContactFor(String addressUseId) throws SQLException {
+		List<SchoolContact> result = Lists.newArrayList();
+		ResultSet cursor = null;
+		try {
+			mainSchoolContactTypesStatement.setString(1, addressUseId);
+			cursor = mainSchoolContactTypesStatement.executeQuery();
+			while (cursor.next()) {
+				String  type = cursor.getString(kContactType);
+				String contactName  = cursor.getString(kContactName );
+				String contactEffectiveDate  = cursor.getString(kContactEffectiveDate );
+				String contactDateCreated  = cursor.getString(kContactDateCreated );
+				String contactDateModified   = cursor.getString(kContactDateModified  );
+				SchoolContact schoolContact = new SchoolContact();
+				schoolContact.setType(type);
+				schoolContact.setName(contactName);
+				schoolContact.setEffectiveDate(contactEffectiveDate);
+				schoolContact.setDateCreated(contactDateCreated);
+				schoolContact.setDateModified(contactDateModified);
+				result.add(schoolContact);
+			}
+		} finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+		}
+		return result;
+	}
+
+	private List<PersonType> getSchoolPersonTypesFor(String schoolId)
 			throws SQLException {
-		List<SchoolPersonType> result = Lists.newArrayList();
+		List<PersonType> result = Lists.newArrayList();
 		ResultSet cursor = null;
 		try {
 			mainSchoolPersonTypesStatement.setString(1, schoolId);
@@ -277,17 +334,17 @@ public class SchoolMetaDataQuery {
 						.getString(kSchoolPersonEndDate);
 				String schoolPeopleNameId = cursor
 						.getString(kSchoolPeopleNameId);
-				SchoolPersonType schoolPersonType = new SchoolPersonType();
-				schoolPersonType.setTitle(schoolPersonTitle);
-				schoolPersonType.setCategory(schoolPersonTitleCategory);
-				schoolPersonType.setDepartment(schoolPersonDepartment);
-				schoolPersonType.setStatus(schoolPersonStatus);
-				schoolPersonType.setEmail(schoolPersonEmail);
-				schoolPersonType.setStartDate(schoolPersonStartDate);
-				schoolPersonType.setEndDate(schoolPersonEndDate);
-				schoolPersonType.setNameId(schoolPeopleNameId);
-				schoolPersonType.setNameType(getNameTypeFor(schoolPeopleNameId));
-				result.add(schoolPersonType);
+				PersonType personType = new PersonType();
+				personType.setTitle(schoolPersonTitle);
+				personType.setCategory(schoolPersonTitleCategory);
+				personType.setDepartment(schoolPersonDepartment);
+				personType.setStatus(schoolPersonStatus);
+				personType.setEmail(schoolPersonEmail);
+				personType.setStartDate(schoolPersonStartDate);
+				personType.setEndDate(schoolPersonEndDate);
+				personType.setNameId(schoolPeopleNameId);
+				personType.setNameType(getNameTypeFor(schoolPeopleNameId));
+				result.add(personType);
 			}
 		} finally {
 			if (null != cursor) {
@@ -330,8 +387,8 @@ public class SchoolMetaDataQuery {
 		return result;
 	}
 
-	public List<DisSchoolMetaData> getAllSchoolMetadata() {
-		List<DisSchoolMetaData> result = null;
+	public List<School> getAllSchoolMetadata() {
+		List<School> result = null;
 		return result;
 	}
 

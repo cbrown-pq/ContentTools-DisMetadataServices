@@ -12,18 +12,20 @@ import org.hamcrest.Factory;
 import org.hamcrest.TypeSafeMatcher;
 
 import com.google.common.collect.Lists;
-import com.proquest.mtg.dismetadataservice.exodus.DisSchoolMetaData;
+import com.proquest.mtg.dismetadataservice.metadata.school.Address;
+import com.proquest.mtg.dismetadataservice.metadata.school.School;
+import com.proquest.mtg.dismetadataservice.metadata.school.PersonType;
 
-public class SchoolMetadataMatcher extends TypeSafeMatcher<DisSchoolMetaData> {
-	private final DisSchoolMetaData expected;
+public class SchoolMetadataMatcher extends TypeSafeMatcher<School> {
+	private final School expected;
 	private List<String> errorDescriptions;
 	
-	public SchoolMetadataMatcher(DisSchoolMetaData expected) {
+	public SchoolMetadataMatcher(School expected) {
 		this.expected = expected;
 	}
 	
 	@Override
-	protected boolean matchesSafely(DisSchoolMetaData actual) {
+	protected boolean matchesSafely(School actual) {
 		resetErrors();
 		verifyAddresses(actual);
 		verifyPersonTypes(actual);
@@ -39,7 +41,7 @@ public class SchoolMetadataMatcher extends TypeSafeMatcher<DisSchoolMetaData> {
 		return errorDescriptions.isEmpty();
 	}
 
-	private void verifyAddresses(DisSchoolMetaData actual) {
+	private void verifyAddresses(School actual) {
 		if (null != expected.getAddresses() && !expected.getAddresses().isEmpty()) {
 			if (verifyNotNullValue("Addresses", actual.getAddresses())) {
 				int expectedCount = expected.getAddresses().size();
@@ -71,15 +73,15 @@ public class SchoolMetadataMatcher extends TypeSafeMatcher<DisSchoolMetaData> {
 		}
 	}
 
-	private void verifyPersonTypes(DisSchoolMetaData actual) {
+	private void verifyPersonTypes(School actual) {
 		if (null != expected.getSchoolPersonTypes() && !expected.getSchoolPersonTypes().isEmpty()) {
 			int expectedCount = expected.getSchoolPersonTypes().size();
 			int actualCount = actual.getSchoolPersonTypes().size();
 			verify("Authors Count", expectedCount, actualCount);
 			if (expectedCount == actualCount) {
 				for (int i=0; i<expectedCount; ++i) {
-						SchoolPersonType expectedItem = expected.getSchoolPersonTypes().get(i);
-						SchoolPersonType actualItem = actual.getSchoolPersonTypes().get(i);
+						PersonType expectedItem = expected.getSchoolPersonTypes().get(i);
+						PersonType actualItem = actual.getSchoolPersonTypes().get(i);
 						verify("Category " + i, expectedItem.getCategory(), actualItem.getCategory());
 						verify("Department " + i, expectedItem.getDepartment(), actualItem.getDepartment());
 						verify("Email " + i, expectedItem.getEmail(), actualItem.getEmail());
@@ -143,14 +145,14 @@ public class SchoolMetadataMatcher extends TypeSafeMatcher<DisSchoolMetaData> {
 	public void describeTo(Description description) {
 	}
 	
-	protected void describeMismatchSafely(DisSchoolMetaData item, Description mismatchDescription) {
+	protected void describeMismatchSafely(School item, Description mismatchDescription) {
 		for (String e : errorDescriptions) {
 			mismatchDescription.appendText("\n\n" + e);
 		}
 	}
 
 	@Factory
-    public static SchoolMetadataMatcher schoolEqualTo(DisSchoolMetaData expected) {
+    public static SchoolMetadataMatcher schoolEqualTo(School expected) {
         return new SchoolMetadataMatcher(expected);
     }
 	

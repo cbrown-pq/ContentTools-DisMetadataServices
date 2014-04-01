@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.metadata;
+package com.proquest.mtg.dismetadataservice.metadata.school;
 
 public class NameType {
 	private String firstName;

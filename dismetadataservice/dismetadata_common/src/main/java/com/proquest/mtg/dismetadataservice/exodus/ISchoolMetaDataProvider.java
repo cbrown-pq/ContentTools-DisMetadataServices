@@ -2,10 +2,12 @@ package com.proquest.mtg.dismetadataservice.exodus;
 
 import java.util.List;
 
+import com.proquest.mtg.dismetadataservice.metadata.school.School;
+
 public interface ISchoolMetaDataProvider {
 	
 	List<String> getAllSchoolCodes() throws Exception;
 
-	DisSchoolMetaData getSchoolMetaDataFor(String schoolCode) throws Exception;
+	School getSchoolMetaDataFor(String schoolCode) throws Exception;
 
 }

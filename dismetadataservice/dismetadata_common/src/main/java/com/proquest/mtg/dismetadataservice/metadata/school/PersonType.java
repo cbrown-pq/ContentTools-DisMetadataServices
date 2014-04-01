@@ -1,8 +1,6 @@
-package com.proquest.mtg.dismetadataservice.metadata;
+package com.proquest.mtg.dismetadataservice.metadata.school;
 
-import java.util.List;
-
-public class SchoolPersonType {
+public class PersonType {
 	private String title;
 	private String category;
 	private String department;
@@ -13,8 +11,6 @@ public class SchoolPersonType {
 	private String nameId;
 	private String phoneNumber;
 	private NameType nameType;
-
-
 
 	public String getTitle() {
 		return title;

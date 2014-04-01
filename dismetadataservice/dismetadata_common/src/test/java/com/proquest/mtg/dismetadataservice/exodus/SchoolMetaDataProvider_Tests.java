@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
+import com.proquest.mtg.dismetadataservice.metadata.school.School;
 
 public class SchoolMetaDataProvider_Tests {
 	static SchoolMetaDataProvider target;
@@ -25,16 +26,30 @@ public class SchoolMetaDataProvider_Tests {
 	
 	@Test
 	public void missingSchoolCode_ReturnsNull() throws Exception {
-		DisSchoolMetaData metaDataResult;
+		School metaDataResult;
 		metaDataResult = target.getSchoolMetaDataFor(MakeExodusSchoolMetadataForTesting.fakeSchool);
 		assertThat( metaDataResult, nullValue());
 	}
 	
 	@Test
 	public void schoolAddresses_test() throws Exception {
-		DisSchoolMetaData metaDataResult;
+		School metaDataResult;
 		metaDataResult = target.getSchoolMetaDataFor(MakeExodusSchoolMetadataForTesting.school1);
 		assertThat(metaDataResult, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData1()));
 	}
+	
+	/*@Test
+	public void schoolPersonType_test() throws Exception {
+		School metaDataResult;
+		metaDataResult = target.getSchoolMetaDataFor(MakeExodusSchoolMetadataForTesting.school2);
+		assertThat(metaDataResult, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData2()));
+	}
+	
+	@Test
+	public void schoolNameType_test() throws Exception {
+		DisSchoolMetaData metaDataResult;
+		metaDataResult = target.getSchoolMetaDataFor(MakeExodusSchoolMetadataForTesting.school2);
+		assertThat(metaDataResult, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData3()));
+	}*/
 	
 }

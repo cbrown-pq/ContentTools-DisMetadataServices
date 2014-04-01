@@ -1,4 +1,6 @@
-package com.proquest.mtg.dismetadataservice.metadata;
+package com.proquest.mtg.dismetadataservice.metadata.school;
+
+import java.util.List;
 
 public class Address {
 	private String addressId;
@@ -14,7 +16,8 @@ public class Address {
 	private String country;
 	private String effectiveDate;
 	private String activeFlag;
-
+	private List<AddressUse> addressUses;
+	
 	public String getAddressId() {
 		return addressId;
 	}
@@ -119,5 +122,12 @@ public class Address {
 		this.activeFlag = activeFlag;
 	}
 
+	public List<AddressUse> getAddressUses() {
+		return addressUses;
+	}
+
+	public void setAddressUses(List<AddressUse> addressUses) {
+		this.addressUses = addressUses;
+	}
 
 }

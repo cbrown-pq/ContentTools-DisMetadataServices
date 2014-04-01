@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
+import com.proquest.mtg.dismetadataservice.metadata.school.School;
 
 public class SchoolMetaDataProvider implements ISchoolMetaDataProvider {
 
@@ -46,8 +47,8 @@ public class SchoolMetaDataProvider implements ISchoolMetaDataProvider {
 	}
 	
 	@Override
-	public DisSchoolMetaData getSchoolMetaDataFor(String schoolCode) throws Exception {
-		DisSchoolMetaData result = null;
+	public School getSchoolMetaDataFor(String schoolCode) throws Exception {
+		School result = null;
 		Connection connection = null;
 		SchoolMetaDataQuery query = null;
 		try {
