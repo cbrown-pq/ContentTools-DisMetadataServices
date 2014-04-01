@@ -1,5 +1,7 @@
 package com.proquest.mtg.dismetadataservice.metadata;
 
+import java.util.List;
+
 public class SchoolPersonType {
 	private String title;
 	private String category;
@@ -8,8 +10,11 @@ public class SchoolPersonType {
 	private String email;
 	private String startDate;
 	private String endDate;
-	private int nameId;
+	private String nameId;
 	private String phoneNumber;
+	private NameType nameType;
+
+
 
 	public String getTitle() {
 		return title;
@@ -66,21 +71,29 @@ public class SchoolPersonType {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-
-	public int getNameId() {
+	
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	
+	public String getNameId() {
 		return nameId;
 	}
-
-	public void setNameId(int nameId) {
+	
+	public void setNameId(String nameId) {
 		this.nameId = nameId;
 	}
 
-	public String getDescription() {
-		return phoneNumber;
+	public NameType getNameType() {
+		return nameType;
 	}
 
-	public void setDescription(String description) {
-		this.phoneNumber = description;
+	public void setNameType(NameType nameType) {
+		this.nameType = nameType;
 	}
-
+	
 }

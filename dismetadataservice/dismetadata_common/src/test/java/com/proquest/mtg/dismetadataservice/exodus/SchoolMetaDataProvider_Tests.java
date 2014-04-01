@@ -21,13 +21,7 @@ public class SchoolMetaDataProvider_Tests {
 		IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
 		target = new SchoolMetaDataProvider(connectionPool);
 	}
-	
-	@Test
-	public void pubWith_NoVolumeIssue_ReturnsNull() throws Exception {
-		List<String> metaDataResult;
-		metaDataResult = target.getAllSchoolCodes();
-		assertThat( metaDataResult, notNullValue());
-	}
+
 	
 	@Test
 	public void missingSchoolCode_ReturnsNull() throws Exception {
@@ -37,17 +31,10 @@ public class SchoolMetaDataProvider_Tests {
 	}
 	
 	@Test
-	public void schoolMultipleAddresses_test() throws Exception {
+	public void schoolAddresses_test() throws Exception {
 		DisSchoolMetaData metaDataResult;
 		metaDataResult = target.getSchoolMetaDataFor(MakeExodusSchoolMetadataForTesting.school1);
 		assertThat(metaDataResult, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData1()));
-	}
-	
-	@Test
-	public void schoolMultiplePersonType_test() throws Exception {
-		DisSchoolMetaData metaDataResult;
-		metaDataResult = target.getSchoolMetaDataFor(MakeExodusSchoolMetadataForTesting.school2);
-		assertThat(metaDataResult, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData2()));
 	}
 	
 }
