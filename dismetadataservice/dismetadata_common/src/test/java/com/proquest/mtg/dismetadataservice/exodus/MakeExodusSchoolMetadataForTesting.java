@@ -74,6 +74,8 @@ public class MakeExodusSchoolMetadataForTesting {
 		address2.setCountry("US");
 		address2.setEffectiveDate("23-dec-1999");
 		address2.setActiveFlag(null);
+		
+		
 		AddressUse addressUse3 = new AddressUse();
 		addressUse3.setType("Contacts");
 		addressUse3.seteBSAccount(null);
@@ -153,7 +155,7 @@ public class MakeExodusSchoolMetadataForTesting {
 		schoolContact9.setName("Cindy Stevens");
 		schoolContact9.setEffectiveDate("23-dec-1999");
 		schoolContact9.setDateCreated("26-oct-1991");
-		schoolContact9.setDateModified("21-JUN-2005");
+		schoolContact9.setDateModified("21-jun-2005");
 		schoolContacts.add(schoolContact9);
 		
 		SchoolContact schoolContact10 = new SchoolContact();
@@ -174,12 +176,13 @@ public class MakeExodusSchoolMetadataForTesting {
 		
 		
 		addressUse3.setSchoolContacts(schoolContacts);
-		addressUses.add(addressUse3);
-		
+		List<AddressUse> addressUses2 = new ArrayList<AddressUse>();
+		addressUses2.add(addressUse3);
+		address2.setAddressUses(addressUses2);
 		addresses.add(address2);
 		
-		
 		x.setAddresses(addresses);
+		
 		return x;
 	}
 
@@ -199,14 +202,16 @@ public class MakeExodusSchoolMetadataForTesting {
 		schoolPersonTypes1.setStartDate("03-aug-2011");
 		schoolPersonTypes1.setEndDate(null);
 		schoolPersonTypes1.setNameId("466");
+		
 		NameType nameType1 = new NameType();
-		nameType1.setFirstName("Gary");
-		nameType1.setLastName("Kuleck");
+		nameType1.setFirstName("Stephanie");
+		nameType1.setLastName("August");
 		nameType1.setMiddleName(null);
 		nameType1.setStatus("Y");
 		nameType1.setStatusDate("03-aug-2011");
 		nameType1.setDateCreated("03-aug-2011");
 		nameType1.setDateModified(null);
+	
 		schoolPersonTypes1.setNameType(nameType1);
 		
 		schoolPersonTypes.add(schoolPersonTypes1);
@@ -220,18 +225,21 @@ public class MakeExodusSchoolMetadataForTesting {
 		schoolPersonTypes2.setStartDate("03-aug-2011");
 		schoolPersonTypes2.setEndDate(null);
 		schoolPersonTypes2.setNameId("538");
+		
 		NameType nameType2 = new NameType();
-		nameType2.setFirstName("Stephanie");
-		nameType2.setLastName("August	");
+		
+		nameType2.setFirstName("Gary");
+		nameType2.setLastName("Kuleck");
 		nameType2.setMiddleName(null);
 		nameType2.setStatus("Y");
 		nameType2.setStatusDate("03-aug-2011");
 		nameType2.setDateCreated("03-aug-2011");
 		nameType2.setDateModified(null);
 		schoolPersonTypes2.setNameType(nameType2);
-		schoolPersonTypes.add(schoolPersonTypes2);
 		
-		x.setSchoolPersonTypes(schoolPersonTypes);
+		schoolPersonTypes.add(schoolPersonTypes2);	
+		
+		x.setPersonTypes(schoolPersonTypes);
 		
 		return x;
 	}
@@ -286,7 +294,7 @@ public class MakeExodusSchoolMetadataForTesting {
 		schoolPersonTypes2.setNameType(nameType2);
 		schoolPersonTypes.add(schoolPersonTypes2);
 		
-		x.setSchoolPersonTypes(schoolPersonTypes);
+		x.setPersonTypes(schoolPersonTypes);
 		
 		return x;
 	}

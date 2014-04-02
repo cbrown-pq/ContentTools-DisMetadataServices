@@ -205,7 +205,7 @@ public class SchoolMetaDataQuery {
 			result.setAddresses(getAddressesFor(schoolId));
 		}
 		if (null != schoolId) {
-			result.setSchoolPersonTypes(getSchoolPersonTypesFor(schoolId));
+			result.setPersonTypes(getSchoolPersonTypesFor(schoolId));
 		}
 		return result;
 	}
@@ -274,7 +274,9 @@ public class SchoolMetaDataQuery {
 				addressUse.setDeliveryDate(deliveryDate);
 				addressUse.setDateCreated(dateCreated);
 				addressUse.setDateModified(dateModified);
-				addressUse.setSchoolContacts(getSchoolContactFor(addressUseId));
+				if(null != getSchoolContactFor(addressUseId) && !getSchoolContactFor(addressUseId).isEmpty())
+					addressUse.setSchoolContacts(getSchoolContactFor(addressUseId));
+				result.add(addressUse);
 			}
 		} finally {
 			if (null != cursor) {

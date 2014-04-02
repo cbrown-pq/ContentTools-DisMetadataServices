@@ -23,30 +23,23 @@ public class SchoolMetaDataProvider_Tests {
 	
 	@Test
 	public void missingSchoolCode_ReturnsNull() throws Exception {
-		School metaDataResult;
-		metaDataResult = target.getSchoolMetaDataFor(MakeExodusSchoolMetadataForTesting.fakeSchool);
-		assertThat( metaDataResult, nullValue());
+		School school;
+		school = target.getSchoolMetaDataFor(MakeExodusSchoolMetadataForTesting.fakeSchool);
+		assertThat( school, nullValue());
 	}
 	
 	@Test
 	public void schoolAddresses_test() throws Exception {
-		School metaDataResult;
-		metaDataResult = target.getSchoolMetaDataFor(MakeExodusSchoolMetadataForTesting.school1);
-		assertThat(metaDataResult, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData1()));
-	}
-	
-	/*@Test
-	public void schoolPersonType_test() throws Exception {
-		School metaDataResult;
-		metaDataResult = target.getSchoolMetaDataFor(MakeExodusSchoolMetadataForTesting.school2);
-		assertThat(metaDataResult, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData2()));
+		School school;
+		school = target.getSchoolMetaDataFor(MakeExodusSchoolMetadataForTesting.school1);
+		assertThat(school, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData1()));
 	}
 	
 	@Test
-	public void schoolNameType_test() throws Exception {
-		DisSchoolMetaData metaDataResult;
-		metaDataResult = target.getSchoolMetaDataFor(MakeExodusSchoolMetadataForTesting.school2);
-		assertThat(metaDataResult, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData3()));
-	}*/
+	public void schoolPersonType_test() throws Exception {
+		School school;
+		school = target.getSchoolMetaDataFor(MakeExodusSchoolMetadataForTesting.school2);
+		assertThat(school, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData2()));
+	}
 	
 }

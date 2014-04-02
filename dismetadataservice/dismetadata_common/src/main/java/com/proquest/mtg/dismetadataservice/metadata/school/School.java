@@ -11,7 +11,7 @@ public class School {
 	private String carnegieCode;
 	private String dashboardEligibility;
 	private List<Address> addresses;
-	private List<PersonType> schoolPersonTypes;
+	private List<PersonType> personTypes;
 
 	
 	public String getId() {
@@ -78,12 +78,12 @@ public class School {
 		this.addresses = addresses;
 	}
 
-	public List<PersonType> getSchoolPersonTypes() {
-		return schoolPersonTypes;
+	public List<PersonType> getPersonTypes() {
+		return personTypes;
 	}
 
-	public void setSchoolPersonTypes(List<PersonType> schoolPersonTypes) {
-		this.schoolPersonTypes = schoolPersonTypes;
+	public void setPersonTypes(List<PersonType> personTypes) {
+		this.personTypes = personTypes;
 	}
 
 }
