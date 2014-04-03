@@ -102,23 +102,27 @@ public class SchoolMetaDataQuery {
 			+ "dish.dish_name "	+ kSchoolName	+ ", "
 			+ "dvc.dvc_description " + kSchoolCountry + ", "
 			+ "dist.dsta_name "	+ kSchoolState	+ " "
-			+ "from dis_schools dish, "	+ "dis_valid_countries dvc, "
+			+ "from dis_schools dish, "	
+			+ "dis_valid_countries dvc, "
 			+ "dis_states dist "
 			+ "where dish.dvc_code = dvc.dvc_code and "
 			+ "dish.dsta_code = dist.dsta_code and " + "dish.dish_code IN";
 
-	private static final String kSelectAddresses = "select daad_id "
-			+ kAddressId + ", " + "daad_name " + kAddressName + ", "
-			+ "daad_line_1 " + kAddressLine1 + ", " + "daad_line_2 "
-			+ kAddressLine2 + ", " + "daad_line_3 " + kAddressLine3 + ", "
-			+ "daad_city " + kAddressCity + ", " + "daad_zip4 "
-			+ kAddressFourDigitZip + ", " + "dzip_zip5 " + kAddressZip + ", "
-			+ "daad_postal_code " + kAddressPostalCode + ", "
-			+ "daad_province " + kAddressProvince + ", " 
-			+ "dvc_code "+ kAddressCountryCode + ", " 
-			+ "to_char(daad_effective_date ,'dd-mon-yyyy') " + kAddressEffectiveDate + ", "
-			+ "daad_active_flag " + kAddressEffectiveFlag + " " + "from dis_addresses "
-			+ "where dish_id = ?";
+	private static final String kSelectAddresses = "select daad_id " + kAddressId + ", " 
+														+ "daad_name " + kAddressName + ", "
+														+ "daad_line_1 " + kAddressLine1 + ", " 
+														+ "daad_line_2 " + kAddressLine2 + ", " 
+														+ "daad_line_3 " + kAddressLine3 + ", "
+														+ "daad_city " + kAddressCity + ", " 
+														+ "daad_zip4 " + kAddressFourDigitZip + ", " 
+														+ "dzip_zip5 " + kAddressZip + ", "
+														+ "daad_postal_code " + kAddressPostalCode + ", "
+														+ "daad_province " + kAddressProvince + ", " 
+														+ "dvc_code "+ kAddressCountryCode + ", " 
+														+ "to_char(daad_effective_date ,'dd-mon-yyyy') " + kAddressEffectiveDate + ", "
+														+ "daad_active_flag " + kAddressEffectiveFlag + " " 
+														+ "from dis_addresses "
+														+ "where dish_id = ?";
 
 	private static final String kSelectSchoolPersonTypes = "select dsp.dsp_title "	+ kSchoolPersonTitle + ", "
 			+ "dvtc.dvtc_name "	+ kSchoolPersonTitleCategory + ", "
@@ -172,17 +176,6 @@ public class SchoolMetaDataQuery {
 		this.connection = connection;
 	}
 
-/*	public SchoolMetaDataQuery(Connection connection,String queryInClause) throws SQLException {
-		this.schoolsStatement = connection.prepareStatement(kSelectSchoolCodes);
-		this.mainSchoolMetaDataStatement = connection.prepareStatement(kSelectMainSchoolMetadata);
-		this.mainSchoolAddressesStatement = connection.prepareStatement(kSelectAddresses);
-		this.mainSchoolPersonTypesStatement = connection.prepareStatement(kSelectSchoolPersonTypes);
-		this.mainSchoolNameTypesStatement = connection.prepareStatement(kSelectNameTypes);
-		this.mainSchoolAddressUsesStatement = connection.prepareStatement(kSelectAddressUses);		
-		this.mainSchoolContactTypesStatement = connection.prepareStatement(kSelectContactTypes);
-		this.mainSchoolMetaDataForSchoolCodesStatement = connection.prepareStatement(kSelectMainSchoolMetadataForSchoolCodes + queryInClause);
-	}*/
-	
 	public List<String> getAllSchoolCodes() throws SQLException {
 		List<String> result = new ArrayList<String>();
 		ResultSet cursor = null;
@@ -421,12 +414,11 @@ public class SchoolMetaDataQuery {
 
 	public List<School> getAllSchoolMetadata(List<String> schoolCodes, int batchSize) throws SQLException {
 		List<School> result = new ArrayList<School>();
-		Enumeration<List<String>> enm = PartitionList.createPartitionedEnum(schoolCodes, batchSize);
-        while(enm.hasMoreElements()){  
+		Enumeration<List<String>> schoolCodesEnum = PartitionListBasedOnBatchSize.createPartitionedEnum(schoolCodes, batchSize);
+        while(schoolCodesEnum.hasMoreElements()){  
         	ResultSet cursor = null;
-        	List<String> nextElement = enm.nextElement();
-			String query = createQuery(nextElement.size());
-			mainSchoolMetaDataForSchoolCodesStatement = connection.prepareStatement(query);
+        	List<String> nextElement = schoolCodesEnum.nextElement();
+			mainSchoolMetaDataForSchoolCodesStatement = connection.prepareStatement(createQuery(nextElement.size()));
     	    int index =1 ;
         	for(String number: nextElement){  
                 mainSchoolMetaDataForSchoolCodesStatement.setString(index, number);

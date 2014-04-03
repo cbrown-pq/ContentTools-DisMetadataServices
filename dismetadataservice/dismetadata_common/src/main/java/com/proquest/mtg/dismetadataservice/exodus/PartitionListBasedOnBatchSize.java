@@ -3,7 +3,7 @@ package com.proquest.mtg.dismetadataservice.exodus;
 import java.util.Enumeration;
 import java.util.List;
 
-public class PartitionList {
+public class PartitionListBasedOnBatchSize {
 	public static <T1> Enumeration<List<T1>> createPartitionedEnum(final List<T1> originalList, final int batchSize){
 		class PartitionedEnum implements Enumeration<List<T1>> {
 			
