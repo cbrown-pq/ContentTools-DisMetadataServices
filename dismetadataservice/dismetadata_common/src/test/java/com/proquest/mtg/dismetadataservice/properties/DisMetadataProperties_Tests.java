@@ -18,6 +18,7 @@ public class DisMetadataProperties_Tests {
 	static final String kExodusPoolSize = "5";
 	static final String kExodusDbClassType = "FakeDbClassType";
 	static final String kPQOpenUrlBase = "www.proquest.com/base/url:fake";
+	static final String kSchoolBatchSize = "5";
 	
 	public static Properties makePropertyMapForTesting() {
 		Properties props = new Properties();
@@ -27,7 +28,7 @@ public class DisMetadataProperties_Tests {
 		props.setProperty(DisMetadataProperties.EXODUS_POOL_SIZE, kExodusPoolSize);
 		props.setProperty(DisMetadataProperties.EXODUS_DB_CLASSTYPE, kExodusDbClassType);
 		props.setProperty(DisMetadataProperties.PQ_OPEN_URL_BASE, kPQOpenUrlBase);
-		
+		props.setProperty(DisMetadataProperties.SCHOOL_BATCH_SIZE, kSchoolBatchSize);
 		return props;
 	}
 	
@@ -51,5 +52,10 @@ public class DisMetadataProperties_Tests {
 	@Test
 	public void hasCorrect_PqOpenUrlBase() throws Exception{
 		assertThat(target.getPqOpenUrlBase(), is(kPQOpenUrlBase));
+	}
+	
+	@Test
+	public void hasCorrect_SchoolBatchSize() throws Exception{
+		assertThat(target.getSchoolBatchSize(), is(Integer.parseInt(kSchoolBatchSize)));
 	}
 }

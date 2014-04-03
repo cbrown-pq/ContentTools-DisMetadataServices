@@ -9,5 +9,7 @@ public interface ISchoolMetaDataProvider {
 	List<String> getAllSchoolCodes() throws Exception;
 
 	School getSchoolMetaDataFor(String schoolCode) throws Exception;
+	
+	List<School> getAllSchoolMetaData() throws Exception;
 
 }

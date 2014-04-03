@@ -13,8 +13,10 @@ import org.hamcrest.TypeSafeMatcher;
 
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.metadata.school.Address;
+import com.proquest.mtg.dismetadataservice.metadata.school.AddressUse;
 import com.proquest.mtg.dismetadataservice.metadata.school.PersonType;
 import com.proquest.mtg.dismetadataservice.metadata.school.School;
+import com.proquest.mtg.dismetadataservice.metadata.school.SchoolContact;
 
 public class SchoolMetadataMatcher extends TypeSafeMatcher<School> {
 	private final School expected;
@@ -64,22 +66,34 @@ public class SchoolMetadataMatcher extends TypeSafeMatcher<School> {
 						verify("Address PostalCode" + i, expectedItem.getPostalCode(), actualItem.getPostalCode());
 						verify("Address StateProvince" + i, expectedItem.getStateProvince(), actualItem.getStateProvince());
 						verify("Address Zip" + i, expectedItem.getZip(), actualItem.getZip());
-						for (int j=0; j<expectedItem.getAddressUses().size(); ++j) {
-							verify("Address Uses " + j, expectedItem.getAddressUses().get(j).getDateCreated(), actualItem.getAddressUses().get(j).getDateCreated());
-							verify("Address Uses " + j, expectedItem.getAddressUses().get(j).getDateModified(), actualItem.getAddressUses().get(j).getDateModified());
-							verify("Address Uses " + j, expectedItem.getAddressUses().get(j).getDeliveryDate(), actualItem.getAddressUses().get(j).getDeliveryDate());
-							verify("Address Uses " + j, expectedItem.getAddressUses().get(j).geteBSAccount(), actualItem.getAddressUses().get(j).geteBSAccount());
-							verify("Address Uses " + j, expectedItem.getAddressUses().get(j).getType(), actualItem.getAddressUses().get(j).getType());
+						int expectedAddressUseCount = expectedItem.getAddressUses().size();
+						int actualAddressUseCount = actualItem.getAddressUses().size();
+						if (expectedAddressUseCount == actualAddressUseCount) {
+						for (int j=0; j<expectedAddressUseCount; ++j) {
+							AddressUse expectAddressUseItem = expectedItem.getAddressUses().get(j);
+							AddressUse actualAddressUseItem = actualItem.getAddressUses().get(j);
+							verify("Address Uses " + j, expectAddressUseItem.getDateCreated(), actualAddressUseItem.getDateCreated());
+							verify("Address Uses " + j, expectAddressUseItem.getDateModified(), actualAddressUseItem.getDateModified());
+							verify("Address Uses " + j, expectAddressUseItem.getDeliveryDate(), actualAddressUseItem.getDeliveryDate());
+							verify("Address Uses " + j, expectAddressUseItem.geteBSAccount(), actualAddressUseItem.geteBSAccount());
+							verify("Address Uses " + j, expectAddressUseItem.getType(), actualAddressUseItem.getType());
 							if(null != expectedItem.getAddressUses().get(j).getSchoolContacts() && !expectedItem.getAddressUses().get(j).getSchoolContacts().isEmpty())
-							{
-							for (int k=0; k<expectedItem.getAddressUses().get(j).getSchoolContacts().size(); ++k) {
-								verify("School Contacts " + k, expectedItem.getAddressUses().get(j).getSchoolContacts().get(k).getDateCreated(), actualItem.getAddressUses().get(j).getSchoolContacts().get(k).getDateCreated());
-								verify("School Contacts " + k, expectedItem.getAddressUses().get(j).getSchoolContacts().get(k).getDateModified(), actualItem.getAddressUses().get(j).getSchoolContacts().get(k).getDateModified());
-								verify("School Contacts " + k, expectedItem.getAddressUses().get(j).getSchoolContacts().get(k).getEffectiveDate(), actualItem.getAddressUses().get(j).getSchoolContacts().get(k).getEffectiveDate());
-								verify("School Contacts " + k, expectedItem.getAddressUses().get(j).getSchoolContacts().get(k).getName(), actualItem.getAddressUses().get(j).getSchoolContacts().get(k).getName());
-								verify("School Contacts " + k, expectedItem.getAddressUses().get(j).getSchoolContacts().get(k).getType(), actualItem.getAddressUses().get(j).getSchoolContacts().get(k).getType());
+								{
+								int expectedSchoolContactsCount = expectAddressUseItem.getSchoolContacts().size();
+								int actualSchoolContactseCount = actualAddressUseItem.getSchoolContacts().size();
+								if (expectedSchoolContactsCount == actualSchoolContactseCount) {
+								for (int k=0; k<expectedSchoolContactsCount; ++k) {
+									SchoolContact expectedSchoolContact = expectAddressUseItem.getSchoolContacts().get(k);
+									SchoolContact actualSchoolContact = actualAddressUseItem.getSchoolContacts().get(k);
+									verify("School Contacts " + k, expectedSchoolContact.getDateCreated(), actualSchoolContact.getDateCreated());
+									verify("School Contacts " + k, expectedSchoolContact.getDateModified(), actualSchoolContact.getDateModified());
+									verify("School Contacts " + k, expectedSchoolContact.getEffectiveDate(), actualSchoolContact.getEffectiveDate());
+									verify("School Contacts " + k, expectedSchoolContact.getName(), actualSchoolContact.getName());
+									verify("School Contacts " + k, expectedSchoolContact.getType(), actualSchoolContact.getType());
+								}
+								}
 							}
-							}
+						}
 						}
 					}
 				}

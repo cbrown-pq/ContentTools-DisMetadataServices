@@ -2,6 +2,7 @@ package com.proquest.mtg.dismetadataservice.exodus;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,22 +10,30 @@ import javax.inject.Named;
 
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.metadata.school.School;
+import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
 
 public class SchoolMetaDataProvider implements ISchoolMetaDataProvider {
 
 	private IJdbcConnectionPool connectionPool;
+	private int schoolBatchSize;
 
 	@Inject
 	public SchoolMetaDataProvider(
 			@Named(IJdbcConnectionPool.kExodusConnectionPool) 
-			IJdbcConnectionPool connectionPool) throws SQLException {
+			IJdbcConnectionPool connectionPool,
+			@Named(DisMetadataProperties.SCHOOL_BATCH_SIZE) int batchSize) throws SQLException {
 		this.connectionPool = connectionPool;
+		this.schoolBatchSize = batchSize;
 	}
 	
 	public IJdbcConnectionPool getConnectionPool() {
 		return connectionPool;
 	}
 	
+	public int getSchoolBatchSize() {
+		return schoolBatchSize;
+	}
+
 	@Override
 	public List<String> getAllSchoolCodes() throws Exception {
 		List<String> result = null;
@@ -55,6 +64,28 @@ public class SchoolMetaDataProvider implements ISchoolMetaDataProvider {
 			connection = getConnectionPool().getConnection();
 			query = new SchoolMetaDataQuery(connection);
 			result = query.getSchoolMetadataForSchoolCode(schoolCode);
+		}
+		finally {
+			if (null != query) {
+				query.close();
+			}
+			if (null != connection) {
+				connection.close();
+			}
+		}
+		return result;
+	}
+	
+	@Override
+	public List<School> getAllSchoolMetaData() throws Exception {
+		List<School> result = new ArrayList<School>();
+		List<String> schoolCodes = getAllSchoolCodes();
+		Connection connection = null;
+		SchoolMetaDataQuery query = null;
+		try {
+			connection = getConnectionPool().getConnection();
+			query = new SchoolMetaDataQuery(connection);
+	    	result = query.getAllSchoolMetadata(schoolCodes, getSchoolBatchSize());
 		}
 		finally {
 			if (null != query) {

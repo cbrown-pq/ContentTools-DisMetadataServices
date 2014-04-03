@@ -15,6 +15,7 @@ public class DisMetadataProperties {
 	public final static String EXODUS_POOL_SIZE = "exodus.db.poolsize";
 	public final static String EXODUS_DB_CLASSTYPE = "exodus.db.classtype";
 	public final static String PQ_OPEN_URL_BASE = "pq.open.url.base";
+	public static final String SCHOOL_BATCH_SIZE = "school.batch.size";
 
 	public final static ArrayList<String> kRequiredProps = Lists
 			.newArrayList(
@@ -23,11 +24,13 @@ public class DisMetadataProperties {
 					EXODUS_PASSWORD, 
 					EXODUS_POOL_SIZE,
 					EXODUS_DB_CLASSTYPE,
-					PQ_OPEN_URL_BASE);
+					PQ_OPEN_URL_BASE,
+					SCHOOL_BATCH_SIZE);
 	
 	
 	private final JdbcConfig exodusConfig;
 	private final String pqOpenUrlBase;
+	private final int schoolBatchSize;
 
 	@Inject
 	public DisMetadataProperties(IAppConfigReader appConfigReader) throws Exception {
@@ -45,6 +48,7 @@ public class DisMetadataProperties {
 				getIntValueFrom(props, EXODUS_POOL_SIZE));
 		
 		this.pqOpenUrlBase = props.getProperty(PQ_OPEN_URL_BASE);
+		this.schoolBatchSize = getIntValueFrom(props, SCHOOL_BATCH_SIZE);
 	}
 
 	public JdbcConfig getExodusJdbcConfig() {
@@ -71,6 +75,10 @@ public class DisMetadataProperties {
 
 	public boolean fakeExodusFlag() {
 		return true;
+	}
+
+	public int getSchoolBatchSize() {
+		return schoolBatchSize;
 	}
 
 }

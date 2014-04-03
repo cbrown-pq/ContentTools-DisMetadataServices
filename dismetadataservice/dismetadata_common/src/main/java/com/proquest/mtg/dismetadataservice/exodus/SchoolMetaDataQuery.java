@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -16,6 +17,9 @@ import com.proquest.mtg.dismetadataservice.metadata.school.School;
 import com.proquest.mtg.dismetadataservice.metadata.school.SchoolContact;
 
 public class SchoolMetaDataQuery {
+	
+	public static final String kId = "Id";
+	public static final String kCode = "Code";
 
 	public static final String kEmptyValue = "";
 	public static final String kSchoolId = "SchoolId";
@@ -70,14 +74,18 @@ public class SchoolMetaDataQuery {
 
 	private PreparedStatement schoolsStatement;
 	private PreparedStatement mainSchoolMetaDataStatement;
+	private PreparedStatement mainSchoolMetaDataForSchoolCodesStatement;
 	private PreparedStatement mainSchoolAddressesStatement;
 	private PreparedStatement mainSchoolPersonTypesStatement;
 	private PreparedStatement mainSchoolNameTypesStatement;
 	private PreparedStatement mainSchoolAddressUsesStatement;
 	private PreparedStatement mainSchoolContactTypesStatement;
+	
+	private Connection connection;
 
-	private static final String kSelectSchoolCodes = "select dish_id "
-			+ kSchoolId + " from dis_schools";
+	private static final String kSelectSchoolCodes = "select dish_id " + kId	+ ", "
+			+ "dish_code "	+ kCode
+			+ " from dis_schools where rownum < 20";
 
 	private static final String kSelectMainSchoolMetadata = "select dish.dish_id " + kSchoolId	+ ", "
 			+ "dish.dish_code "	+ kSchoolCode	+ ", "
@@ -88,6 +96,16 @@ public class SchoolMetaDataQuery {
 			+ "dis_states dist "
 			+ "where dish.dvc_code = dvc.dvc_code and "
 			+ "dish.dsta_code = dist.dsta_code and " + "dish.dish_code = ?";
+	
+	private static final String kSelectMainSchoolMetadataForSchoolCodes = "select dish.dish_id " + kSchoolId	+ ", "
+			+ "dish.dish_code "	+ kSchoolCode	+ ", "
+			+ "dish.dish_name "	+ kSchoolName	+ ", "
+			+ "dvc.dvc_description " + kSchoolCountry + ", "
+			+ "dist.dsta_name "	+ kSchoolState	+ " "
+			+ "from dis_schools dish, "	+ "dis_valid_countries dvc, "
+			+ "dis_states dist "
+			+ "where dish.dvc_code = dvc.dvc_code and "
+			+ "dish.dsta_code = dist.dsta_code and " + "dish.dish_code IN";
 
 	private static final String kSelectAddresses = "select daad_id "
 			+ kAddressId + ", " + "daad_name " + kAddressName + ", "
@@ -151,15 +169,27 @@ public class SchoolMetaDataQuery {
 		this.mainSchoolNameTypesStatement = connection.prepareStatement(kSelectNameTypes);
 		this.mainSchoolAddressUsesStatement = connection.prepareStatement(kSelectAddressUses);		
 		this.mainSchoolContactTypesStatement = connection.prepareStatement(kSelectContactTypes);
+		this.connection = connection;
 	}
 
+/*	public SchoolMetaDataQuery(Connection connection,String queryInClause) throws SQLException {
+		this.schoolsStatement = connection.prepareStatement(kSelectSchoolCodes);
+		this.mainSchoolMetaDataStatement = connection.prepareStatement(kSelectMainSchoolMetadata);
+		this.mainSchoolAddressesStatement = connection.prepareStatement(kSelectAddresses);
+		this.mainSchoolPersonTypesStatement = connection.prepareStatement(kSelectSchoolPersonTypes);
+		this.mainSchoolNameTypesStatement = connection.prepareStatement(kSelectNameTypes);
+		this.mainSchoolAddressUsesStatement = connection.prepareStatement(kSelectAddressUses);		
+		this.mainSchoolContactTypesStatement = connection.prepareStatement(kSelectContactTypes);
+		this.mainSchoolMetaDataForSchoolCodesStatement = connection.prepareStatement(kSelectMainSchoolMetadataForSchoolCodes + queryInClause);
+	}*/
+	
 	public List<String> getAllSchoolCodes() throws SQLException {
 		List<String> result = new ArrayList<String>();
 		ResultSet cursor = null;
 		try {
 			cursor = schoolsStatement.executeQuery();
 			while (cursor.next()) {
-				String schoolCode = cursor.getString(kSchoolId);
+				String schoolCode = cursor.getString(kCode);
 				result.add(schoolCode);
 			}
 		} finally {
@@ -389,11 +419,39 @@ public class SchoolMetaDataQuery {
 		return result;
 	}
 
-	public List<School> getAllSchoolMetadata() {
-		List<School> result = null;
+	public List<School> getAllSchoolMetadata(List<String> schoolCodes, int batchSize) throws SQLException {
+		List<School> result = new ArrayList<School>();
+		Enumeration<List<String>> enm = PartitionList.createPartitionedEnum(schoolCodes, batchSize);
+        while(enm.hasMoreElements()){  
+        	ResultSet cursor = null;
+        	List<String> nextElement = enm.nextElement();
+			String query = createQuery(nextElement.size());
+			mainSchoolMetaDataForSchoolCodesStatement = connection.prepareStatement(query);
+    	    int index =1 ;
+        	for(String number: nextElement){  
+                mainSchoolMetaDataForSchoolCodesStatement.setString(index, number);
+                index++;
+            }  
+            cursor = mainSchoolMetaDataForSchoolCodesStatement.executeQuery();
+            while (cursor.next()) {
+				School school = makeSchoolMetaDataFrom(cursor);
+				result.add(school);
+			}
+        }
 		return result;
 	}
 
+	private String createQuery(int size) {
+		StringBuilder queryBuilder = new StringBuilder(kSelectMainSchoolMetadataForSchoolCodes + "(");
+		for (int i = 0; i < size; i++) {
+			queryBuilder.append(" ?");
+			if (i != size - 1)
+				queryBuilder.append(",");
+		}
+		queryBuilder.append(")");
+		return queryBuilder.toString();
+	}
+	
 	public void close() throws SQLException {
 		closeStatement(schoolsStatement);
 	}
