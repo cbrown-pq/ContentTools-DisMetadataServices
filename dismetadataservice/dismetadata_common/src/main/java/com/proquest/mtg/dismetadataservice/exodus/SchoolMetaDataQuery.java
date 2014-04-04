@@ -234,7 +234,7 @@ public class SchoolMetaDataQuery {
 	}
 
 	private List<Address> getAddressesFor(String schoolId) throws SQLException {
-		List<Address> result = Lists.newArrayList();
+		List<Address> result = new ArrayList<Address>();
 		ResultSet cursor = null;
 		try {
 			mainSchoolAddressesStatement.setString(1, schoolId);
@@ -310,7 +310,7 @@ public class SchoolMetaDataQuery {
 	}
 
 	private List<SchoolContact> getSchoolContactFor(String addressUseId) throws SQLException {
-		List<SchoolContact> result = Lists.newArrayList();
+		List<SchoolContact> result = new ArrayList<SchoolContact>();
 		ResultSet cursor = null;
 		try {
 			mainSchoolContactTypesStatement.setString(1, addressUseId);
@@ -339,7 +339,7 @@ public class SchoolMetaDataQuery {
 
 	private List<PersonType> getSchoolPersonTypesFor(String schoolId)
 			throws SQLException {
-		List<PersonType> result = Lists.newArrayList();
+		List<PersonType> result = new ArrayList<PersonType>();
 		ResultSet cursor = null;
 		try {
 			mainSchoolPersonTypesStatement.setString(1, schoolId);

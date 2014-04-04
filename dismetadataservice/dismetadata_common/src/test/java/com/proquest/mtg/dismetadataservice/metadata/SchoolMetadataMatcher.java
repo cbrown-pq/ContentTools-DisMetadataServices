@@ -29,6 +29,11 @@ public class SchoolMetadataMatcher extends TypeSafeMatcher<School> {
 	@Override
 	protected boolean matchesSafely(School actual) {
 		resetErrors();
+		verify("School Id",expected.getId(),actual.getId());
+		verify("School Name",expected.getName(),actual.getName());
+		verify("School State",expected.getState(),actual.getState());
+		verify("School Code",expected.getCode(),actual.getCode());
+		verify("School Country",expected.getCountry(),actual.getCountry());
 		verifyAddresses(actual);
 		verifyPersonTypes(actual);
 		return hasErrors();

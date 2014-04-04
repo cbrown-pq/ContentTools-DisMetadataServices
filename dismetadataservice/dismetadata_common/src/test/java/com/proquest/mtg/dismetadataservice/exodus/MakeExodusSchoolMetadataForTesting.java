@@ -13,14 +13,17 @@ import com.proquest.mtg.dismetadataservice.metadata.school.SchoolContact;
 public class MakeExodusSchoolMetadataForTesting {
 	static final String fakeSchool = "fakeSchool";
 	
-	public static String school1 = "0126"; // Multiple Addresses
-	
-	public static String school2 = "0502"; // Multiple Addresses
+	public static String school1 = "0126"; 
+	public static String school2 = "0127"; 
+	public static String school3 = "0502"; 
 
 	public static School makeExpectedMetaData1() {
 		School x = new School();
 		x.setId("123");
 		x.setName("Miami University");
+		x.setState("Ohio");
+		x.setCode("0126");
+		x.setCountry("UNITED STATES");
 		
 		List<Address> addresses = new ArrayList<Address>();
 		Address address1 = new Address();
@@ -186,11 +189,15 @@ public class MakeExodusSchoolMetadataForTesting {
 		return x;
 	}
 
-	public static School makeExpectedMetaData2() {
+	public static School makeExpectedMetaData3() {
 
 		School x = new School();
 		x.setId("1970");
 		x.setName("Loyola Marymount University");
+		x.setState("California");
+		x.setCode("0502");
+		x.setCountry("UNITED STATES");
+		
 		
 		List<PersonType> schoolPersonTypes = new ArrayList<PersonType>();
 		PersonType schoolPersonTypes1 = new PersonType();
@@ -244,30 +251,33 @@ public class MakeExodusSchoolMetadataForTesting {
 		return x;
 	}
 	
-	public static School makeExpectedMetaData3() {
+	public static School makeExpectedMetaData2() {
 
 		School x = new School();
-		x.setId("1970");
-		x.setName("Loyola Marymount University");
+		x.setId("124");
+		x.setName("University of Michigan");
+		x.setState("Michigan");
+		x.setCode("0127");
+		x.setCountry("UNITED STATES");
 		
 		List<PersonType> schoolPersonTypes = new ArrayList<PersonType>();
 		PersonType schoolPersonTypes1 = new PersonType();
-		schoolPersonTypes1.setTitle("Spec Ass to the Chief Acad Off");
+		schoolPersonTypes1.setTitle("VP and Dean");
 		schoolPersonTypes1.setCategory("DEAN");
 		schoolPersonTypes1.setDepartment(null);
 		schoolPersonTypes1.setStatus("Y");
-		schoolPersonTypes1.setEmail("saugust@lmu.edu");
-		schoolPersonTypes1.setStartDate("03-aug-2011");
+		schoolPersonTypes1.setEmail("janetw@umich.edu");
+		schoolPersonTypes1.setStartDate("04-aug-2011");
 		schoolPersonTypes1.setEndDate(null);
-		schoolPersonTypes1.setNameId("466");
+		schoolPersonTypes1.setNameId("620");
 		
 		NameType nameType1 = new NameType();
-		nameType1.setFirstName("Gary");
-		nameType1.setLastName("Kuleck");
-		nameType1.setMiddleName(null);
+		nameType1.setFirstName("Janet");
+		nameType1.setLastName("Weiss");
+		nameType1.setMiddleName("A.");
 		nameType1.setStatus("Y");
-		nameType1.setStatusDate("03-aug-2011");
-		nameType1.setDateCreated("03-aug-2011");
+		nameType1.setStatusDate("04-aug-2011");
+		nameType1.setDateCreated("04-aug-2011");
 		nameType1.setDateModified(null);
 		schoolPersonTypes1.setNameType(nameType1);
 		
@@ -278,21 +288,43 @@ public class MakeExodusSchoolMetadataForTesting {
 		schoolPersonTypes2.setCategory("DEAN");
 		schoolPersonTypes2.setDepartment(null);
 		schoolPersonTypes2.setStatus("Y");
-		schoolPersonTypes2.setEmail("gkuleck@lmu.edu");
-		schoolPersonTypes2.setStartDate("03-aug-2011");
+		schoolPersonTypes2.setEmail("tca@umich.edu");
+		schoolPersonTypes2.setStartDate("01-jun-2009");
 		schoolPersonTypes2.setEndDate(null);
-		schoolPersonTypes2.setNameId("538");
+		schoolPersonTypes2.setNameId("101");
 		
 		NameType nameType2 = new NameType();
-		nameType2.setFirstName("Stephanie");
-		nameType2.setLastName("August	");
+		nameType2.setFirstName("Antonucci");
+		nameType2.setLastName(" Toni");
 		nameType2.setMiddleName(null);
 		nameType2.setStatus("Y");
-		nameType2.setStatusDate("03-aug-2011");
-		nameType2.setDateCreated("03-aug-2011");
+		nameType2.setStatusDate("01-jun-2009");
+		nameType2.setDateCreated("01-jun-2009");
 		nameType2.setDateModified(null);
 		schoolPersonTypes2.setNameType(nameType2);
 		schoolPersonTypes.add(schoolPersonTypes2);
+		
+		
+		PersonType schoolPersonTypes3 = new PersonType();
+		schoolPersonTypes3.setTitle("Assistant Director Institutional Research");
+		schoolPersonTypes3.setCategory("OTHER");
+		schoolPersonTypes3.setDepartment(null);
+		schoolPersonTypes3.setStatus("Y");
+		schoolPersonTypes3.setEmail("mbergman@umich.edu");
+		schoolPersonTypes3.setStartDate("01-jun-2009");
+		schoolPersonTypes3.setEndDate(null);
+		schoolPersonTypes3.setNameId("125");
+		
+		NameType nameType3 = new NameType();
+		nameType3.setFirstName("Bergman");
+		nameType3.setLastName(" Maia");
+		nameType3.setMiddleName(null);
+		nameType3.setStatus("Y");
+		nameType3.setStatusDate("01-jun-2009");
+		nameType3.setDateCreated("01-jun-2009");
+		nameType3.setDateModified(null);
+		schoolPersonTypes3.setNameType(nameType3);
+		schoolPersonTypes.add(schoolPersonTypes3);
 		
 		x.setPersonTypes(schoolPersonTypes);
 		

@@ -80,6 +80,13 @@ public class SchoolMetaDataProvider implements ISchoolMetaDataProvider {
 	public List<School> getAllSchoolMetaData() throws Exception {
 		List<School> result = new ArrayList<School>();
 		List<String> schoolCodes = getAllSchoolCodes();
+		result = getAllSchoolsMetaDataFor(schoolCodes);
+		return result;
+	}
+	
+	@Override
+	public List<School> getAllSchoolsMetaDataFor(List<String> schoolCodes) throws Exception {
+		List<School> result = new ArrayList<School>();
 		Connection connection = null;
 		SchoolMetaDataQuery query = null;
 		try {
