@@ -9,6 +9,7 @@ import static org.junit.Assert.assertThat;
 import org.easymock.EasyMockSupport;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.format.IMetaDataFormats;
@@ -23,6 +24,7 @@ public class DisMetadataServiceProvider_Tests extends EasyMockSupport {
 
 	static String kBASE_URI = "http://localhost:9999/dismetadata_service/";
 	MetaDataFormatFactory metaDataFormatFactory;
+	SchoolMetadataServiceProvider schoolMetadata;
 	IMetaDataFormats metaDataFormats;
 	MockServiceTestHelper serviceTestHelper;
 	WebResource service;
@@ -35,8 +37,10 @@ public class DisMetadataServiceProvider_Tests extends EasyMockSupport {
 
 		metaDataFormatFactory = createMock(MetaDataFormatFactory.class);
 		metaDataFormats = createMock(IMetaDataFormats.class);
+		
+		schoolMetadata = createMock(SchoolMetadataServiceProvider.class);
 
-		serviceTestHelper = new MockServiceTestHelper(metaDataFormatFactory);
+		serviceTestHelper = new MockServiceTestHelper(metaDataFormatFactory, schoolMetadata);
 		serviceTestHelper.startHTTPServer();
 		Client client = Client.create(new DefaultClientConfig());
 		service = client.resource(kBASE_URI);
