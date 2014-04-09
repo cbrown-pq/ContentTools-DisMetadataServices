@@ -12,7 +12,9 @@ import com.proquest.mtg.dismetadataservice.exodus.ExodusDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.ICSVProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IMarcProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IPubMetaDataProvider;
+import com.proquest.mtg.dismetadataservice.exodus.ISchoolMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataProvider;
+import com.proquest.mtg.dismetadataservice.exodus.SchoolMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.format.CSVFormat;
 import com.proquest.mtg.dismetadataservice.format.FakeFormat;
 import com.proquest.mtg.dismetadataservice.format.Marc21RdaFormat;
@@ -65,6 +67,11 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		return props.getPqOpenUrlBase();
 	}
 	
+	@Provides @Named(DisMetadataProperties.SCHOOL_BATCH_SIZE)
+	protected int schoolbatchSize(DisMetadataProperties props) {
+		return props.getSchoolBatchSize();
+	}
+	
 	@Provides @Singleton @Named(IJdbcConnectionPool.kExodusConnectionPool)
 	protected IJdbcConnectionPool exodusConnectionPool(DisMetadataProperties props) {
 		IJdbcConnectionPool result = null;
@@ -103,6 +110,7 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		bind(IMarcProvider.class).to(ExodusDataProvider.class);
 		bind(ICSVProvider.class).to(ExodusDataProvider.class);
 		bind(IPubMetaDataProvider.class).to(PubMetaDataProvider.class);
+		bind(ISchoolMetaDataProvider.class).to(SchoolMetaDataProvider.class);
 		bind(IWriter.class).to(StringWriter.class);
 	}
 

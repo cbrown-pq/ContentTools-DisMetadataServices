@@ -14,9 +14,10 @@ import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
-import com.proquest.mtg.dismetadataservice.metadata.school.School;
+
 
 public class SchoolMetaDataProvider_Tests {
+	/*
 	static SchoolMetaDataProvider target;
 	static final int kSchoolBatchSize = 5;
 	
@@ -72,6 +73,6 @@ public class SchoolMetaDataProvider_Tests {
 		School school3 = schools.get(2);
 		assertThat(school3, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData3()));
 		}
-	
+	*/
 	
 }

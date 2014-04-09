@@ -2,7 +2,7 @@ package com.proquest.mtg.dismetadataservice.exodus;
 
 import java.util.List;
 
-import com.proquest.mtg.dismetadataservice.metadata.school.School;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools.School;
 
 public interface ISchoolMetaDataProvider {
 	

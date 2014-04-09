@@ -3,14 +3,17 @@ package com.proquest.mtg.dismetadataservice.exodus;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.proquest.mtg.dismetadataservice.metadata.school.Address;
-import com.proquest.mtg.dismetadataservice.metadata.school.AddressUse;
-import com.proquest.mtg.dismetadataservice.metadata.school.NameType;
-import com.proquest.mtg.dismetadataservice.metadata.school.School;
-import com.proquest.mtg.dismetadataservice.metadata.school.PersonType;
-import com.proquest.mtg.dismetadataservice.metadata.school.SchoolContact;
+import com.google.common.collect.Lists;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressType;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressUseType;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools.School;
+
+
 
 public class MakeExodusSchoolMetadataForTesting {
+	/*
+	static final String kEmptyField = ""; 
+	
 	static final String fakeSchool = "fakeSchool";
 	
 	public static String school1 = "0126"; 
@@ -19,52 +22,38 @@ public class MakeExodusSchoolMetadataForTesting {
 
 	public static School makeExpectedMetaData1() {
 		School x = new School();
-		x.setId("123");
 		x.setName("Miami University");
 		x.setState("Ohio");
 		x.setCode("0126");
 		x.setCountry("UNITED STATES");
 		
-		List<Address> addresses = new ArrayList<Address>();
-		Address address1 = new Address();
-		address1.setAddressId("171");
-		address1.setAddressName("MIAMI UNIVERSITY");
-		address1.setLine1("GRADUATE SCHOOL");
-		address1.setLine2("102 ROUDEBUSH HALL");
-		address1.setLine3(null);
-		address1.setCity("OXFORD");
-		address1.setFourdigitzip(null);
-		address1.setZip("45056");
-		address1.setPostalCode(null);
-		address1.setStateProvince(null);
-		address1.setCountry("US");
-		address1.setEffectiveDate(null);
-		address1.setActiveFlag(null);
+		List<AddressType> addresses = new ArrayList<AddressType>();
 		
-		List<AddressUse> addressUses = new ArrayList<AddressUse>();
-		AddressUse addressUse1 = new AddressUse();
-		addressUse1.setType("Bill to");
-		addressUse1.seteBSAccount("32139");
-		addressUse1.setDeliveryDate("23-mar-2005");
-		addressUse1.setDateCreated("26-dec-1999");
-		addressUse1.setDateModified("10-jan-2000");
-		addressUse1.setSchoolContacts(null);
-		addressUses.add(addressUse1);
+		AddressUseType addressUseType1 = SchoolMetadaHelper.MakeAddressUseTypeFrom("Bill to",
+				"32139", "23-mar-2005", "26-dec-1999", "10-jan-2000", null);
 		
-		AddressUse addressUse2 = new AddressUse();
-		addressUse2.setType("Ship to");
-		addressUse2.seteBSAccount("124137");
-		addressUse2.setDeliveryDate("23-mar-2005");
-		addressUse2.setDateCreated("26-dec-1999");
-		addressUse2.setDateModified("10-jan-2000");
-		addressUse2.setSchoolContacts(null);
-		addressUses.add(addressUse2);
+		AddressUseType addressUseType2 = SchoolMetadaHelper.MakeAddressUseTypeFrom("Ship to",
+				"124137", "23-mar-2005", "26-dec-1999", "10-jan-2000", null);
 		
-		address1.setAddressUses(addressUses );
+		List<AddressUseType> addressUses = Lists.newArrayList(addressUseType1, addressUseType2);
+		
+		AddressType address1 = SchoolMetadaHelper.MakeAddressTypeFrom("MIAMI UNIVERSITY",
+				"GRADUATE SCHOOL", "102 ROUDEBUSH HALL", "", "OXFORD", "45056", kEmptyField,
+				kEmptyField, "US", kEmptyField, kEmptyField, kEmptyField, kEmptyField, addressPersons, addressUses);
+		
+
+	
+		AddressType address2 = SchoolMetadaHelper.MakeAddressTypeFrom("MIAMI UNIVERSITY",
+				"GRADUATE SCHOOL", "102 ROUDEBUSH HALL", "", "OXFORD", "45056", kEmptyField,
+				kEmptyField, "US", kEmptyField, kEmptyField, kEmptyField, kEmptyField, addressPersons, addressUses);
+		
+		
+		
+		
 		addresses.add(address1);
 		
 		Address address2 = new Address();
-		address2.setAddressId("100755");
+		
 		address2.setAddressName("Cindy Stevens");
 		address2.setLine1("Miami University");
 		address2.setLine2("Graduate School");
@@ -330,5 +319,5 @@ public class MakeExodusSchoolMetadataForTesting {
 		
 		return x;
 	}
-	
+	*/
 }

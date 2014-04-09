@@ -9,8 +9,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
-import com.proquest.mtg.dismetadataservice.metadata.school.School;
 import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools.School;
 
 public class SchoolMetaDataProvider implements ISchoolMetaDataProvider {
 

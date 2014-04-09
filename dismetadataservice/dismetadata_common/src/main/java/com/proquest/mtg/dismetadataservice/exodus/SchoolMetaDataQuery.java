@@ -8,13 +8,17 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-import com.proquest.mtg.dismetadataservice.metadata.school.Address;
-import com.proquest.mtg.dismetadataservice.metadata.school.AddressUse;
-import com.proquest.mtg.dismetadataservice.metadata.school.NameType;
-import com.proquest.mtg.dismetadataservice.metadata.school.PersonType;
-import com.proquest.mtg.dismetadataservice.metadata.school.School;
-import com.proquest.mtg.dismetadataservice.metadata.school.SchoolContact;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressType;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressType.AddressUses;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressUseType;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressUseType.SchoolContacts;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.ContactType;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.NameType;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.PersonType;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools.School;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools.School.Addresses;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools.School.SchoolPersons;
+
 
 public class SchoolMetaDataQuery {
 	
@@ -219,56 +223,58 @@ public class SchoolMetaDataQuery {
 		String schoolName = cursor.getString(kSchoolName);
 		String schoolCountry = cursor.getString(kSchoolCountry);
 		String schoolState = cursor.getString(kSchoolState);
-		result.setId(schoolId);
 		result.setCode(schoolCode);
 		result.setName(schoolName);
 		result.setCountry(schoolCountry);
 		result.setState(schoolState);
-		if (null != schoolId) {
+		if (null != schoolId && !schoolId.isEmpty()) {
 			result.setAddresses(getAddressesFor(schoolId));
 		}
-		if (null != schoolId) {
-			result.setPersonTypes(getSchoolPersonTypesFor(schoolId));
+		if (null != schoolId && ! schoolId.isEmpty()) {
+			result.setSchoolPersons(getSchoolPersonTypesFor(schoolId));
 		}
 		return result;
 	}
 
-	private List<Address> getAddressesFor(String schoolId) throws SQLException {
-		List<Address> result = new ArrayList<Address>();
+	private Addresses getAddressesFor(String schoolId) throws SQLException {
+		Addresses result = new Addresses();
 		ResultSet cursor = null;
 		try {
 			mainSchoolAddressesStatement.setString(1, schoolId);
 			cursor = mainSchoolAddressesStatement.executeQuery();
 			while (cursor.next()) {
+				AddressType addressType = new AddressType();
+				addressType.setName(cursor.getString(kAddressName));
+				addressType.setLine1(cursor.getString(kAddressLine1));
+				addressType.setLine2(cursor.getString(kAddressLine2));
+				addressType.setLine3(cursor.getString(kAddressLine3));
+				addressType.setCity(cursor.getString(kAddressCity));
+				String fiveDigitZip = cursor.getString(kAddressZip);
+				String fourDigitZip = cursor.getString(kAddressFourDigitZip);
+				if (null != fiveDigitZip && ! fiveDigitZip.isEmpty()) {
+					String zipCode;
+					if (null != fourDigitZip && ! fourDigitZip.isEmpty()) {
+						zipCode = fiveDigitZip + "-" + fourDigitZip;
+					} else {
+						zipCode = fiveDigitZip;
+					}
+					addressType.setZip(zipCode);
+				}
+				addressType.setPostalCode(
+						cursor.getString(kAddressPostalCode));
+				addressType.setStateProvince(
+						cursor.getString(kAddressProvince));
+				addressType.setCountry(
+						cursor.getString(kAddressCountryCode));				
+				addressType.setEffectiveDate(
+						cursor.getString(kAddressEffectiveDate));
+				addressType.setActiveFlag(
+						cursor.getString(kAddressEffectiveFlag));
 				String addressId = cursor.getString(kAddressId);
-				String addressName = cursor.getString(kAddressName);
-				String addressLine1 = cursor.getString(kAddressLine1);
-				String addressLine2 = cursor.getString(kAddressLine2);
-				String addressLine3 = cursor.getString(kAddressLine3);
-				String addressCity = cursor.getString(kAddressCity);
-				String addressFourDigitZip = cursor.getString(kAddressFourDigitZip);
-				String addressZip = cursor.getString(kAddressZip);
-				String addressPostalCode = cursor.getString(kAddressPostalCode);
-				String addressProvince = cursor.getString(kAddressProvince);
-				String addressCountryCode = cursor.getString(kAddressCountryCode);
-				String addressEffectiveDate = cursor.getString(kAddressEffectiveDate);
-				String addressEffectiveFlag = cursor.getString(kAddressEffectiveFlag);
-				Address address = new Address();
-				address.setAddressId(addressId);
-				address.setAddressName(addressName);
-				address.setLine1(addressLine1);
-				address.setLine2(addressLine2);
-				address.setLine3(addressLine3);
-				address.setCity(addressCity);
-				address.setFourdigitzip(addressFourDigitZip);
-				address.setZip(addressZip);
-				address.setPostalCode(addressPostalCode);
-				address.setStateProvince(addressProvince);
-				address.setCountry(addressCountryCode);
-				address.setEffectiveDate(addressEffectiveDate);
-				address.setActiveFlag(addressEffectiveFlag);
-				address.setAddressUses(getAddressUses(addressId));
-				result.add(address);
+				if (null != addressId && ! addressId.isEmpty()) {
+					addressType.setAddressUses(getAddressUses(addressId));
+				}
+				result.getAddress().add(addressType);
 			}
 		} finally {
 			if (null != cursor) {
@@ -278,28 +284,25 @@ public class SchoolMetaDataQuery {
 		return result;
 	}
 
-	private List<AddressUse> getAddressUses(String addressId) throws SQLException {
-		List<AddressUse> result = Lists.newArrayList();
+	private AddressUses getAddressUses(String addressId) throws SQLException {
+		AddressUses result = new AddressUses();
 		ResultSet cursor = null;
 		try {
 			mainSchoolAddressUsesStatement.setString(1, addressId);
 			cursor = mainSchoolAddressUsesStatement.executeQuery();
 			while (cursor.next()) {
 				String addressUseId = cursor.getString(kAddressUseId);
-				String addressUseType = cursor.getString(kAddressUseType);
-				String ebsAccount = cursor.getString(kEbsAccount);
-				String deliveryDate = cursor.getString(kDeliveryDate);
-				String dateCreated = cursor.getString(kDateCreated);
-				String dateModified = cursor.getString(kDateModified);
-				AddressUse addressUse = new AddressUse();
-				addressUse.setType(addressUseType);
-				addressUse.seteBSAccount(ebsAccount);
-				addressUse.setDeliveryDate(deliveryDate);
-				addressUse.setDateCreated(dateCreated);
-				addressUse.setDateModified(dateModified);
-				if(null != getSchoolContactFor(addressUseId) && !getSchoolContactFor(addressUseId).isEmpty())
-					addressUse.setSchoolContacts(getSchoolContactFor(addressUseId));
-				result.add(addressUse);
+				
+				AddressUseType addressUseType = new AddressUseType();
+				addressUseType.setType(cursor.getString(kAddressUseType));
+				addressUseType.setEBSAccount(cursor.getString(kEbsAccount));
+				addressUseType.setDeliveryDate(cursor.getString(kDeliveryDate));
+				addressUseType.setDateCreated(cursor.getString(kDateCreated));
+				addressUseType.setDateModified(cursor.getString(kDateModified));
+				if (null != addressUseId && ! addressUseId.isEmpty()) {
+					addressUseType.setSchoolContacts(getSchoolContactFor(addressUseId));
+				}
+				result.getAddressUse().add(addressUseType);
 			}
 		} finally {
 			if (null != cursor) {
@@ -309,25 +312,20 @@ public class SchoolMetaDataQuery {
 		return result;
 	}
 
-	private List<SchoolContact> getSchoolContactFor(String addressUseId) throws SQLException {
-		List<SchoolContact> result = new ArrayList<SchoolContact>();
+	private SchoolContacts getSchoolContactFor(String addressUseId) throws SQLException {
+		SchoolContacts result = new SchoolContacts();
 		ResultSet cursor = null;
 		try {
 			mainSchoolContactTypesStatement.setString(1, addressUseId);
 			cursor = mainSchoolContactTypesStatement.executeQuery();
 			while (cursor.next()) {
-				String  type = cursor.getString(kContactType);
-				String contactName  = cursor.getString(kContactName );
-				String contactEffectiveDate  = cursor.getString(kContactEffectiveDate );
-				String contactDateCreated  = cursor.getString(kContactDateCreated );
-				String contactDateModified   = cursor.getString(kContactDateModified  );
-				SchoolContact schoolContact = new SchoolContact();
-				schoolContact.setType(type);
-				schoolContact.setName(contactName);
-				schoolContact.setEffectiveDate(contactEffectiveDate);
-				schoolContact.setDateCreated(contactDateCreated);
-				schoolContact.setDateModified(contactDateModified);
-				result.add(schoolContact);
+				ContactType contactType = new ContactType();
+				contactType.setType(cursor.getString(kContactType));
+				contactType.setName(cursor.getString(kContactName ));
+				contactType.setEffectiveDate((kContactEffectiveDate ));
+				contactType.setDateCreated(cursor.getString(kContactDateCreated));
+				contactType.setDateModified(cursor.getString(kContactDateModified));
+				result.getSchoolContact().add(contactType);
 			}
 		} finally {
 			if (null != cursor) {
@@ -337,39 +335,28 @@ public class SchoolMetaDataQuery {
 		return result;
 	}
 
-	private List<PersonType> getSchoolPersonTypesFor(String schoolId)
+	private SchoolPersons getSchoolPersonTypesFor(String schoolId)
 			throws SQLException {
-		List<PersonType> result = new ArrayList<PersonType>();
+		SchoolPersons result = new SchoolPersons();
 		ResultSet cursor = null;
 		try {
 			mainSchoolPersonTypesStatement.setString(1, schoolId);
 			cursor = mainSchoolPersonTypesStatement.executeQuery();
 			while (cursor.next()) {
-				String schoolPersonTitle = cursor.getString(kSchoolPersonTitle);
-				String schoolPersonTitleCategory = cursor
-						.getString(kSchoolPersonTitleCategory);
-				String schoolPersonDepartment = cursor
-						.getString(kSchoolPersonDepartment);
-				String schoolPersonStatus = cursor
-						.getString(kSchoolPersonStatus);
-				String schoolPersonEmail = cursor.getString(kSchoolPersonEmail);
-				String schoolPersonStartDate = cursor
-						.getString(kSchoolPersonStartDate);
-				String schoolPersonEndDate = cursor
-						.getString(kSchoolPersonEndDate);
-				String schoolPeopleNameId = cursor
-						.getString(kSchoolPeopleNameId);
 				PersonType personType = new PersonType();
-				personType.setTitle(schoolPersonTitle);
-				personType.setCategory(schoolPersonTitleCategory);
-				personType.setDepartment(schoolPersonDepartment);
-				personType.setStatus(schoolPersonStatus);
-				personType.setEmail(schoolPersonEmail);
-				personType.setStartDate(schoolPersonStartDate);
-				personType.setEndDate(schoolPersonEndDate);
-				personType.setNameId(schoolPeopleNameId);
-				personType.setNameType(getNameTypeFor(schoolPeopleNameId));
-				result.add(personType);
+				
+				personType.setTitle(cursor.getString(kSchoolPersonTitle));
+				personType.setTitleCategory(cursor.getString(kSchoolPersonTitleCategory));
+				personType.setDepartment(cursor.getString(kSchoolPersonDepartment));
+				personType.setStatus(cursor.getString(kSchoolPersonStatus));
+				personType.setEmailAddress(cursor.getString(kSchoolPersonEmail));
+				personType.setStartDate(cursor.getString(kSchoolPersonStartDate));
+				personType.setEndDate(cursor.getString(kSchoolPersonEndDate));
+				String schoolPeopleNameId = cursor.getString(kSchoolPeopleNameId);
+				if (null != schoolPeopleNameId && ! schoolPeopleNameId.isEmpty()) {
+					personType.setName(getNameTypeFor(schoolPeopleNameId));
+				}
+				result.getSchoolPerson().add(personType);
 			}
 		} finally {
 			if (null != cursor) {
