@@ -31,6 +31,10 @@ public class SchoolMetaDataQuery {
 	public static final String kSchoolName = "SchoolName";
 	public static final String kSchoolCountry = "SchoolCountry";
 	public static final String kSchoolState = "SchoolState";
+	public static final String kSchoolDashClassificationCode = "SchoolDashClassCode";
+    public static final String kSchoolDashClassificationSource = "SchoolDashClassSource";
+    public static final String kSchoolDashEligibilityCode = "SchoolDashEligibilityCode";
+    public static final String kSchoolDashEligibilityDesc = "SchoolDasEligibilityDesc";
 
 	public static final String kAddressId = "AddressId";
 	public static final String kAddressName = "AddressName";
@@ -89,28 +93,47 @@ public class SchoolMetaDataQuery {
 
 	private static final String kSelectSchoolCodes = "select dish_id " + kId	+ ", "
 			+ "dish_code "	+ kCode
-			+ " from dis_schools where rownum < 20";
+			+ " from dis_schools";
 
 	private static final String kSelectMainSchoolMetadata = "select dish.dish_id " + kSchoolId	+ ", "
 			+ "dish.dish_code "	+ kSchoolCode	+ ", "
 			+ "dish.dish_name "	+ kSchoolName	+ ", "
 			+ "dvc.dvc_description " + kSchoolCountry + ", "
-			+ "dist.dsta_name "	+ kSchoolState	+ " "
-			+ "from dis_schools dish, "	+ "dis_valid_countries dvc, "
-			+ "dis_states dist "
+			+ "dist.dsta_name "	+ kSchoolState	+ ", "
+			+ "dish_dash_class_code " + kSchoolDashClassificationCode + ", "
+            + "dvdsc.dvdsc_code " + kSchoolDashClassificationSource + ", "
+            + "dvdc.dvdc_code " + kSchoolDashEligibilityCode + ", "
+            + "dvdc.dvdc_description " + kSchoolDashEligibilityDesc + " "
+			+ "from dis_schools dish, "	
+            + "dis_valid_countries dvc, "
+			+ "dis_states dist, "
+			+ "dis_valid_dashboard_codes dvdc, "
+	        + "dis_valid_dash_source_codes dvdsc "
 			+ "where dish.dvc_code = dvc.dvc_code and "
-			+ "dish.dsta_code = dist.dsta_code and " + "dish.dish_code = ?";
+			+ "dish.dsta_code = dist.dsta_code and " 
+			+ "dish.dvdc_code = dvdc.dvdc_code(+) and "
+            + "dish.dvdsc_code = dvdsc.dvdsc_code(+) and "
+			+ "dish.dish_code = ?";
 	
 	private static final String kSelectMainSchoolMetadataForSchoolCodes = "select dish.dish_id " + kSchoolId	+ ", "
 			+ "dish.dish_code "	+ kSchoolCode	+ ", "
 			+ "dish.dish_name "	+ kSchoolName	+ ", "
 			+ "dvc.dvc_description " + kSchoolCountry + ", "
-			+ "dist.dsta_name "	+ kSchoolState	+ " "
+			+ "dist.dsta_name "	+ kSchoolState	+ ", "
+			+ "dish_dash_class_code " + kSchoolDashClassificationCode + ", "
+			+ "dvdsc.dvdsc_code " + kSchoolDashClassificationSource + ", "
+	        + "dvdc.dvdc_code " + kSchoolDashEligibilityCode + ", "
+	        + "dvdc.dvdc_description " + kSchoolDashEligibilityDesc + " "
 			+ "from dis_schools dish, "	
 			+ "dis_valid_countries dvc, "
-			+ "dis_states dist "
+			+ "dis_states dist, "
+            + "dis_valid_dashboard_codes dvdc, "
+            + "dis_valid_dash_source_codes dvdsc "
 			+ "where dish.dvc_code = dvc.dvc_code and "
-			+ "dish.dsta_code = dist.dsta_code and " + "dish.dish_code IN";
+			+ "dish.dsta_code = dist.dsta_code and " 
+            + "dish.dvdc_code = dvdc.dvdc_code(+) and "
+            + "dish.dvdsc_code = dvdsc.dvdsc_code(+) and "
+			+ "dish.dish_code IN";
 
 	private static final String kSelectAddresses = "select daad_id " + kAddressId + ", " 
 														+ "daad_name " + kAddressName + ", "
@@ -223,10 +246,19 @@ public class SchoolMetaDataQuery {
 		String schoolName = cursor.getString(kSchoolName);
 		String schoolCountry = cursor.getString(kSchoolCountry);
 		String schoolState = cursor.getString(kSchoolState);
+		String schoolDashClassCode = cursor.getString(kSchoolDashClassificationCode);
+		String schoolDashClassSource = cursor.getString(kSchoolDashClassificationSource);
+		String schoolDashEligibilityCode = cursor.getString(kSchoolDashEligibilityCode);
+		String schoolDashEligibilityDesc = cursor.getString(kSchoolDashEligibilityDesc );
+		
 		result.setCode(schoolCode);
 		result.setName(schoolName);
 		result.setCountry(schoolCountry);
 		result.setState(schoolState);
+		result.setDashboardClassificationCode(schoolDashClassCode);
+		result.setDashboardClassificationSource(schoolDashClassSource);
+		result.setDashboardEligibilityCode(schoolDashEligibilityCode);
+		result.setDashboardEligibilityDescription(schoolDashEligibilityDesc);
 		if (null != schoolId && !schoolId.isEmpty()) {
 			result.setAddresses(getAddressesFor(schoolId));
 		}

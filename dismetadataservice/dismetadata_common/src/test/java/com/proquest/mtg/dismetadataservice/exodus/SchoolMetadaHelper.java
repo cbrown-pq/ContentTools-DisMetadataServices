@@ -5,7 +5,6 @@ import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressType.Addres
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressUseType;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressUseType.SchoolContacts;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.PersonType;
-import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools.School.Addresses;
 
 public class SchoolMetadaHelper {
 	public static AddressUseType MakeAddressUseTypeFrom(String type, 
