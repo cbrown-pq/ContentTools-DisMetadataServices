@@ -38,6 +38,10 @@ public class SchoolMetadataMatcher extends TypeSafeMatcher<School> {
 		verify("School State",expected.getState(),actual.getState());
 		verify("School Code",expected.getCode(),actual.getCode());
 		verify("School Country",expected.getCountry(),actual.getCountry());
+		verify("School Dashboard Classification Code",expected.getDashboardClassificationCode(),actual.getDashboardClassificationCode());
+		verify("School Dashboard Classification Source",expected.getDashboardClassificationSource(),actual.getDashboardClassificationSource());
+		verify("School Dashboard Eligibility Code",expected.getDashboardEligibilityCode(),actual.getDashboardEligibilityCode());
+		verify("School Dashboard Eligibility Description",expected.getDashboardEligibilityDescription(),actual.getDashboardEligibilityDescription());
 		verifyAddresses(actual);
 		verifyPersonTypes(actual);
 		return hasErrors();
