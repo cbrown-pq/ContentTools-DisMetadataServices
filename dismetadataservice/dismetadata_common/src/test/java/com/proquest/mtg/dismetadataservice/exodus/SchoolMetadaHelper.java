@@ -1,9 +1,11 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressType;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.ContactType;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressType.AddressUses;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressUseType;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressUseType.SchoolContacts;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.NameType;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.PersonType;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools.School.Addresses;
 
@@ -46,4 +48,47 @@ public class SchoolMetadaHelper {
 		return address;
 	}
 
+	public static ContactType MakeSchoolContactTypeFrom(String type, String name, 
+			String effectiveDate, String dateCreated, String dateModified) {
+		ContactType contact = new ContactType();
+		contact.setType(type);
+		contact.setName(name);
+		contact.setEffectiveDate(effectiveDate);
+		contact.setDateCreated(dateCreated);
+		contact.setDateModified(dateModified);
+		return contact;
+	}
+
+
+	public static NameType MakeNameTypeFrom(String firstName, String middleName,
+			String lastName, String status, String statusDate, String dateCreated,
+			String dateModified) {
+		NameType name = new NameType();
+		name.setFirstName(firstName);
+		name.setMiddleName(middleName);
+		name.setLastName(lastName);
+		name.setStatus(status);
+		name.setStatusDate(statusDate);
+		name.setDateCreated(dateCreated);
+		name.setDateModified(dateModified);
+		
+		return name;
+	}
+
+
+	public static PersonType MakeSchoolPersonTypeFrom(String title, 
+			String titleCategory, String department, String status, 
+			String emailAddress, String startDate, String endDate, 
+			NameType name) {
+		PersonType person = new PersonType();
+		person.setTitle(title);
+		person.setTitleCategory(titleCategory);
+		person.setDepartment(department);
+		person.setStatus(status);
+		person.setEmailAddress(emailAddress);
+		person.setStartDate(startDate);
+		person.setEndDate(endDate);
+		person.setName(name);
+		return person;
+	}
 }

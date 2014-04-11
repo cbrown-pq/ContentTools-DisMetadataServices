@@ -66,25 +66,25 @@ public class SchoolMetadataMatcher extends TypeSafeMatcher<School> {
 						AddressType actualItem = actualAddresses.getAddress().get(i);
 						verify("Address Name " + i, 
 								expectedItem.getName(), actualItem.getName());
-						verify("Address Line 1" + i, 
+						verify("Address Line 1 : " + i, 
 								expectedItem.getLine1(), actualItem.getLine1());
-						verify("Address Line 2" + i, 
+						verify("Address Line 2 : " + i, 
 								expectedItem.getLine2(), actualItem.getLine2());
-						verify("Address Line 3" + i, 
+						verify("Address Line 3 : " + i, 
 								expectedItem.getLine3(), actualItem.getLine3());
-						verify("Address City" + i, 
+						verify("Address City : " + i, 
 								expectedItem.getCity(), actualItem.getCity());
-						verify("Address Zip" + i, 
+						verify("Address Zip : " + i, 
 								expectedItem.getZip(), actualItem.getZip());
-						verify("Address Effective Date" + i, 
+						verify("Address Effective Date : " + i, 
 								expectedItem.getEffectiveDate(), actualItem.getEffectiveDate());
-						verify("Address PostalCode" + i, 
+						verify("Address PostalCode : " + i, 
 								expectedItem.getPostalCode(), actualItem.getPostalCode());
-						verify("Address StateProvince" + i, 
+						verify("Address StateProvince : " + i, 
 								expectedItem.getStateProvince(), actualItem.getStateProvince());
-						verify("Address Country" + i, 
+						verify("Address Country : " + i, 
 								expectedItem.getCountry(), actualItem.getCountry());
-						verify("Address ActiveFlag " + i, 
+						verify("Address ActiveFlag : " + i, 
 								expectedItem.getActiveFlag(), actualItem.getActiveFlag());
 						
 						verifyAddressUses(expectedItem.getAddressUses(), actualItem.getAddressUses());
@@ -107,15 +107,15 @@ public class SchoolMetadataMatcher extends TypeSafeMatcher<School> {
 				AddressUseType expectAddressUseItem = expectedAddressUses.getAddressUse().get(j);
 				AddressUseType actualAddressUseItem = actualAddressUses.getAddressUse().get(j);
 				
-				verify("Address Uses " + j, expectAddressUseItem.getType(), 
+				verify("Address Uses : " + j, expectAddressUseItem.getType(), 
 						actualAddressUseItem.getType());
-				verify("Address Uses " + j, expectAddressUseItem.getEBSAccount(), 
+				verify("Address Uses : " + j, expectAddressUseItem.getEBSAccount(), 
 						actualAddressUseItem.getEBSAccount());
-				verify("Address Uses " + j, expectAddressUseItem.getDeliveryDate(), 
+				verify("Address Uses : " + j, expectAddressUseItem.getDeliveryDate(), 
 						actualAddressUseItem.getDeliveryDate());
-				verify("Address Uses " + j, expectAddressUseItem.getDateCreated(), 
+				verify("Address Uses : " + j, expectAddressUseItem.getDateCreated(), 
 						actualAddressUseItem.getDateCreated());
-				verify("Address Uses " + j, expectAddressUseItem.getDateModified(), 
+				verify("Address Uses : " + j, expectAddressUseItem.getDateModified(), 
 						actualAddressUseItem.getDateModified());
 				
 				verifyAddressSchoolContacts(expectAddressUseItem.getSchoolContacts(), 
@@ -127,22 +127,24 @@ public class SchoolMetadataMatcher extends TypeSafeMatcher<School> {
 	
 	private void verifyAddressSchoolContacts(SchoolContacts expectedSchoolContacts,
 			SchoolContacts actualSchoolContacts) {
-		int expectedSchoolContactsCount = expectedSchoolContacts.getSchoolContact().size();
-		int actualSchoolContactseCount = actualSchoolContacts.getSchoolContact().size();
-		if (expectedSchoolContactsCount == actualSchoolContactseCount) {
-			for (int k = 0; k < expectedSchoolContactsCount; ++k) {
-				ContactType expectedSchoolContact = expectedSchoolContacts.getSchoolContact().get(k);
-				ContactType actualSchoolContact = actualSchoolContacts.getSchoolContact().get(k);
-				verify("School Contacts " + k, expectedSchoolContact.getType(),
-						actualSchoolContact.getType());
-				verify("School Contacts " + k, expectedSchoolContact.getName(), 
-						actualSchoolContact.getName());
-				verify("School Contacts " + k, expectedSchoolContact.getEffectiveDate(), 
-						actualSchoolContact.getEffectiveDate());
-				verify("School Contacts " + k, expectedSchoolContact.getDateCreated(), 
-						actualSchoolContact.getDateCreated());
-				verify("School Contacts " + k, expectedSchoolContact.getDateModified(), 
-						actualSchoolContact.getDateModified());
+		if (null != expectedSchoolContacts && null != actualSchoolContacts) {
+			int expectedSchoolContactsCount = expectedSchoolContacts.getSchoolContact().size();
+			int actualSchoolContactseCount = actualSchoolContacts.getSchoolContact().size();
+			if (expectedSchoolContactsCount == actualSchoolContactseCount) {
+				for (int k = 0; k < expectedSchoolContactsCount; ++k) {
+					ContactType expectedSchoolContact = expectedSchoolContacts.getSchoolContact().get(k);
+					ContactType actualSchoolContact = actualSchoolContacts.getSchoolContact().get(k);
+					verify("School Contacts : " + k, expectedSchoolContact.getType(),
+							actualSchoolContact.getType());
+					verify("School Contacts : " + k, expectedSchoolContact.getName(), 
+							actualSchoolContact.getName());
+					verify("School Contacts : " + k, expectedSchoolContact.getEffectiveDate(), 
+							actualSchoolContact.getEffectiveDate());
+					verify("School Contacts : " + k, expectedSchoolContact.getDateCreated(), 
+							actualSchoolContact.getDateCreated());
+					verify("School Contacts : " + k, expectedSchoolContact.getDateModified(), 
+							actualSchoolContact.getDateModified());
+				}
 			}
 		}
 	}
@@ -150,31 +152,33 @@ public class SchoolMetadataMatcher extends TypeSafeMatcher<School> {
 	private void verifyPersonTypes(School actual) {
 		SchoolPersons expectedPersons = expected.getSchoolPersons(); 
 		SchoolPersons actualPersons = actual.getSchoolPersons();
-		verifyNotNullValue("Persons type: ", expectedPersons);
-		if (null != expectedPersons.getSchoolPerson() 
-				&& ! expectedPersons.getSchoolPerson().isEmpty()) {
-			int expectedCount = expectedPersons.getSchoolPerson().size();
-			int actualCount = actualPersons.getSchoolPerson().size();
-			verify("Person type Count", expectedCount, actualCount);
-			if (expectedCount == actualCount) {
-				for (int i = 0; i < expectedCount; ++i) {
-					PersonType expectedItem = expectedPersons.getSchoolPerson().get(i);
-					PersonType actualItem = actualPersons.getSchoolPerson().get(i);
-					verify("Title" + i, expectedItem.getTitle(), actualItem.getTitle());
-					verify("Category " + i, expectedItem.getTitleCategory(), 
-							actualItem.getTitleCategory());
-					verify("Department " + i, expectedItem.getDepartment(), 
-							actualItem.getDepartment());
-					verify("Status" + i, expectedItem.getStatus(), 
-							actualItem.getStatus());
-					verify("Email Address" + i, expectedItem.getEmailAddress(), 
-							actualItem.getEmailAddress());
-					verify("Start Date" + i, expectedItem.getStartDate(), 
-							actualItem.getStartDate());
-					verify("End Date" + i, expectedItem.getEndDate(), 
-							actualItem.getEndDate());
-					
-					varifyName(expectedItem.getName(), actualItem.getName());
+		if (null != expectedPersons && null != actualPersons) {
+			verifyNotNullValue("Persons type: ", expectedPersons);
+			if (null != expectedPersons.getSchoolPerson() 
+					&& ! expectedPersons.getSchoolPerson().isEmpty()) {
+				int expectedCount = expectedPersons.getSchoolPerson().size();
+				int actualCount = actualPersons.getSchoolPerson().size();
+				verify("Person type Count", expectedCount, actualCount);
+				if (expectedCount == actualCount) {
+					for (int i = 0; i < expectedCount; ++i) {
+						PersonType expectedItem = expectedPersons.getSchoolPerson().get(i);
+						PersonType actualItem = actualPersons.getSchoolPerson().get(i);
+						verify("Title" + i, expectedItem.getTitle(), actualItem.getTitle());
+						verify("Category " + i, expectedItem.getTitleCategory(), 
+								actualItem.getTitleCategory());
+						verify("Department " + i, expectedItem.getDepartment(), 
+								actualItem.getDepartment());
+						verify("Status" + i, expectedItem.getStatus(), 
+								actualItem.getStatus());
+						verify("Email Address" + i, expectedItem.getEmailAddress(), 
+								actualItem.getEmailAddress());
+						verify("Start Date" + i, expectedItem.getStartDate(), 
+								actualItem.getStartDate());
+						verify("End Date" + i, expectedItem.getEndDate(), 
+								actualItem.getEndDate());
+						
+						varifyName(expectedItem.getName(), actualItem.getName());
+					}
 				}
 			}
 		}

@@ -161,13 +161,14 @@ public class SchoolMetaDataQuery {
 			+ "DIS_ADDRESS_TYPES dat " + "where dau.dat_type = dat.dat_type and dau.daad_id = ?";
 
 	private static final String kSelectContactTypes = "select dcon_type " + kContactType + ", " 
-															+ "dcon_sequence_number " + kContactSequenceNumber + ", " 
-															+ "dcon_name " + kContactName
-															+ ", " + "dcon_notes " + kContactNotes + ", "
-															+ "to_char(dcon_effective_date,'dd-mon-yyyy') " + kContactEffectiveDate + ", "
-															+ "to_char(dcon_date_created,'dd-mon-yyyy') " + kContactDateCreated + ", "
-															+ "to_char(dcon_date_modified,'dd-mon-yyyy') " + kContactDateModified + " "
-															+ "from  dis_school_contacts " + "where dau_id = ?";
+			+ "dcon_sequence_number " + kContactSequenceNumber + ", " 
+			+ "dcon_name " + kContactName + ", " 
+			+ "dcon_notes " + kContactNotes + ", "
+			+ "to_char(dcon_effective_date,'dd-mon-yyyy') " + kContactEffectiveDate + ", "
+			+ "to_char(dcon_date_created,'dd-mon-yyyy') " + kContactDateCreated + ", "
+			+ "to_char(dcon_date_modified,'dd-mon-yyyy') " + kContactDateModified + " "
+			+ "from  dis_school_contacts " 
+			+ "where dau_id = ?";
 
 	public SchoolMetaDataQuery(Connection connection) throws SQLException {
 		this.schoolsStatement = connection.prepareStatement(kSelectSchoolCodes);
@@ -299,8 +300,10 @@ public class SchoolMetaDataQuery {
 				addressUseType.setDeliveryDate(cursor.getString(kDeliveryDate));
 				addressUseType.setDateCreated(cursor.getString(kDateCreated));
 				addressUseType.setDateModified(cursor.getString(kDateModified));
-				if (null != addressUseId && ! addressUseId.isEmpty()) {
-					addressUseType.setSchoolContacts(getSchoolContactFor(addressUseId));
+				if (null != addressUseId && 
+						! addressUseId.isEmpty()) {
+					addressUseType.setSchoolContacts(
+							getSchoolContactFor(addressUseId));
 				}
 				result.getAddressUse().add(addressUseType);
 			}
@@ -312,7 +315,8 @@ public class SchoolMetaDataQuery {
 		return result;
 	}
 
-	private SchoolContacts getSchoolContactFor(String addressUseId) throws SQLException {
+	private SchoolContacts getSchoolContactFor(String addressUseId)
+			throws SQLException {
 		SchoolContacts result = new SchoolContacts();
 		ResultSet cursor = null;
 		try {
@@ -322,9 +326,12 @@ public class SchoolMetaDataQuery {
 				ContactType contactType = new ContactType();
 				contactType.setType(cursor.getString(kContactType));
 				contactType.setName(cursor.getString(kContactName ));
-				contactType.setEffectiveDate((kContactEffectiveDate ));
-				contactType.setDateCreated(cursor.getString(kContactDateCreated));
-				contactType.setDateModified(cursor.getString(kContactDateModified));
+				contactType.setEffectiveDate(
+						cursor.getString(kContactEffectiveDate));
+				contactType.setDateCreated(
+						cursor.getString(kContactDateCreated));
+				contactType.setDateModified(
+						cursor.getString(kContactDateModified));
 				result.getSchoolContact().add(contactType);
 			}
 		} finally {

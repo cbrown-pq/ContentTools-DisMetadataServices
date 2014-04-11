@@ -14,10 +14,11 @@ import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools.School;
 
 
 public class SchoolMetaDataProvider_Tests {
-	/*
+	
 	static SchoolMetaDataProvider target;
 	static final int kSchoolBatchSize = 5;
 	
@@ -45,8 +46,8 @@ public class SchoolMetaDataProvider_Tests {
 	public void schoolVerifyAdressAndPersonCounts() throws Exception {
 		School school;
 		school = target.getSchoolMetaDataFor(MakeExodusSchoolMetadataForTesting.school2);
-		assertThat(school.getAddresses().size(),is(106));
-		assertThat(school.getPersonTypes().size(),is(3));
+		assertThat(school.getAddresses().getAddress().size(),is(106));
+		assertThat(school.getSchoolPersons().getSchoolPerson().size(),is(3));
 	}
 	
 	@Test
@@ -73,6 +74,4 @@ public class SchoolMetaDataProvider_Tests {
 		School school3 = schools.get(2);
 		assertThat(school3, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData3()));
 		}
-	*/
-	
 }
