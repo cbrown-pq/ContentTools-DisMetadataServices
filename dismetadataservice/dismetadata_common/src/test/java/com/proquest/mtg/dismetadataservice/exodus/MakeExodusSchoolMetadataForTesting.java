@@ -26,6 +26,8 @@ public class MakeExodusSchoolMetadataForTesting {
 		x.setState("Ohio");
 		x.setCode("0126");
 		x.setCountry("UNITED STATES");
+		x.setDashboardEligibilityCode("0001");
+		x.setDashboardEligibilityDescription("Not eligible for Dashboard");
 		
 		Addresses addressses = new Addresses();
 		
@@ -90,6 +92,8 @@ public class MakeExodusSchoolMetadataForTesting {
 		x.setState("California");
 		x.setCode("0502");
 		x.setCountry("UNITED STATES");
+		x.setDashboardEligibilityCode("0001");
+		x.setDashboardEligibilityDescription("Not eligible for Dashboard");
 		
 		NameType schoolPerson1_name = SchoolMetadaHelper.MakeNameTypeFrom("Stephanie", null, 
 				"August", "Y", "03-aug-2011", "03-aug-2011", null);
@@ -116,6 +120,8 @@ public class MakeExodusSchoolMetadataForTesting {
 		x.setState("Michigan");
 		x.setCode("0127");
 		x.setCountry("UNITED STATES");
+		x.setDashboardEligibilityCode("0001");
+		x.setDashboardEligibilityDescription("Not eligible for Dashboard");
 		
 		NameType schoolPerson1_name = SchoolMetadaHelper.MakeNameTypeFrom("Janet", "A.", 
 				"Weiss", "Y", "04-aug-2011", "04-aug-2011", null);
