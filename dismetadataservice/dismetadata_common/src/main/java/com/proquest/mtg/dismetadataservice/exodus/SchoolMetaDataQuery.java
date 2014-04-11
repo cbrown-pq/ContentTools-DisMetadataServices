@@ -80,14 +80,14 @@ public class SchoolMetaDataQuery {
 	public static final String kContactDateCreated = "ContactDateCreated";
 	public static final String kContactDateModified = "ContactDateModified";
 
-	private PreparedStatement schoolsStatement;
+	private PreparedStatement schoolCodesStatement;
 	private PreparedStatement mainSchoolMetaDataStatement;
-	private PreparedStatement mainSchoolMetaDataForSchoolCodesStatement;
-	private PreparedStatement mainSchoolAddressesStatement;
-	private PreparedStatement mainSchoolPersonTypesStatement;
-	private PreparedStatement mainSchoolNameTypesStatement;
-	private PreparedStatement mainSchoolAddressUsesStatement;
-	private PreparedStatement mainSchoolContactTypesStatement;
+	private PreparedStatement schoolMetaDataForSchoolCodesStatement;
+	private PreparedStatement schoolAddressesStatement;
+	private PreparedStatement schoolPersonTypesStatement;
+	private PreparedStatement schoolNameTypesStatement;
+	private PreparedStatement schoolAddressUsesStatement;
+	private PreparedStatement schoolContactTypesStatement;
 	
 	private Connection connection;
 
@@ -193,13 +193,13 @@ public class SchoolMetaDataQuery {
 															+ "from  dis_school_contacts " + "where dau_id = ?";
 
 	public SchoolMetaDataQuery(Connection connection) throws SQLException {
-		this.schoolsStatement = connection.prepareStatement(kSelectSchoolCodes);
+		this.schoolCodesStatement = connection.prepareStatement(kSelectSchoolCodes);
 		this.mainSchoolMetaDataStatement = connection.prepareStatement(kSelectMainSchoolMetadata);
-		this.mainSchoolAddressesStatement = connection.prepareStatement(kSelectAddresses);
-		this.mainSchoolPersonTypesStatement = connection.prepareStatement(kSelectSchoolPersonTypes);
-		this.mainSchoolNameTypesStatement = connection.prepareStatement(kSelectNameTypes);
-		this.mainSchoolAddressUsesStatement = connection.prepareStatement(kSelectAddressUses);		
-		this.mainSchoolContactTypesStatement = connection.prepareStatement(kSelectContactTypes);
+		this.schoolAddressesStatement = connection.prepareStatement(kSelectAddresses);
+		this.schoolPersonTypesStatement = connection.prepareStatement(kSelectSchoolPersonTypes);
+		this.schoolNameTypesStatement = connection.prepareStatement(kSelectNameTypes);
+		this.schoolAddressUsesStatement = connection.prepareStatement(kSelectAddressUses);		
+		this.schoolContactTypesStatement = connection.prepareStatement(kSelectContactTypes);
 		this.connection = connection;
 	}
 
@@ -207,7 +207,7 @@ public class SchoolMetaDataQuery {
 		List<String> result = new ArrayList<String>();
 		ResultSet cursor = null;
 		try {
-			cursor = schoolsStatement.executeQuery();
+			cursor = schoolCodesStatement.executeQuery();
 			while (cursor.next()) {
 				String schoolCode = cursor.getString(kCode);
 				result.add(schoolCode);
@@ -272,8 +272,8 @@ public class SchoolMetaDataQuery {
 		Addresses result = new Addresses();
 		ResultSet cursor = null;
 		try {
-			mainSchoolAddressesStatement.setString(1, schoolId);
-			cursor = mainSchoolAddressesStatement.executeQuery();
+			schoolAddressesStatement.setString(1, schoolId);
+			cursor = schoolAddressesStatement.executeQuery();
 			while (cursor.next()) {
 				AddressType addressType = new AddressType();
 				addressType.setName(cursor.getString(kAddressName));
@@ -320,8 +320,8 @@ public class SchoolMetaDataQuery {
 		AddressUses result = new AddressUses();
 		ResultSet cursor = null;
 		try {
-			mainSchoolAddressUsesStatement.setString(1, addressId);
-			cursor = mainSchoolAddressUsesStatement.executeQuery();
+			schoolAddressUsesStatement.setString(1, addressId);
+			cursor = schoolAddressUsesStatement.executeQuery();
 			while (cursor.next()) {
 				String addressUseId = cursor.getString(kAddressUseId);
 				
@@ -348,8 +348,8 @@ public class SchoolMetaDataQuery {
 		SchoolContacts result = new SchoolContacts();
 		ResultSet cursor = null;
 		try {
-			mainSchoolContactTypesStatement.setString(1, addressUseId);
-			cursor = mainSchoolContactTypesStatement.executeQuery();
+			schoolContactTypesStatement.setString(1, addressUseId);
+			cursor = schoolContactTypesStatement.executeQuery();
 			while (cursor.next()) {
 				ContactType contactType = new ContactType();
 				contactType.setType(cursor.getString(kContactType));
@@ -372,8 +372,8 @@ public class SchoolMetaDataQuery {
 		SchoolPersons result = new SchoolPersons();
 		ResultSet cursor = null;
 		try {
-			mainSchoolPersonTypesStatement.setString(1, schoolId);
-			cursor = mainSchoolPersonTypesStatement.executeQuery();
+			schoolPersonTypesStatement.setString(1, schoolId);
+			cursor = schoolPersonTypesStatement.executeQuery();
 			while (cursor.next()) {
 				PersonType personType = new PersonType();
 				
@@ -403,8 +403,8 @@ public class SchoolMetaDataQuery {
 		NameType result = new NameType();
 		ResultSet cursor = null;
 		try {
-			mainSchoolNameTypesStatement.setString(1, schoolPeopleNameId);
-			cursor = mainSchoolNameTypesStatement.executeQuery();
+			schoolNameTypesStatement.setString(1, schoolPeopleNameId);
+			cursor = schoolNameTypesStatement.executeQuery();
 			while (cursor.next()) {
 				String firstName = cursor.getString(kFirstName);
 				String middleName = cursor.getString(kMiddleName);
@@ -437,13 +437,13 @@ public class SchoolMetaDataQuery {
         while(schoolCodesEnum.hasMoreElements()){  
         	ResultSet cursor = null;
         	List<String> nextElement = schoolCodesEnum.nextElement();
-			mainSchoolMetaDataForSchoolCodesStatement = connection.prepareStatement(createQuery(nextElement.size()));
+			schoolMetaDataForSchoolCodesStatement = connection.prepareStatement(createQuery(nextElement.size()));
     	    int index =1 ;
         	for(String number: nextElement){  
-                mainSchoolMetaDataForSchoolCodesStatement.setString(index, number);
+                schoolMetaDataForSchoolCodesStatement.setString(index, number);
                 index++;
             }  
-            cursor = mainSchoolMetaDataForSchoolCodesStatement.executeQuery();
+            cursor = schoolMetaDataForSchoolCodesStatement.executeQuery();
             while (cursor.next()) {
 				School school = makeSchoolMetaDataFrom(cursor);
 				result.add(school);
@@ -464,7 +464,14 @@ public class SchoolMetaDataQuery {
 	}
 	
 	public void close() throws SQLException {
-		closeStatement(schoolsStatement);
+		closeStatement(schoolCodesStatement);
+		closeStatement(mainSchoolMetaDataStatement);
+		closeStatement(schoolMetaDataForSchoolCodesStatement);
+		closeStatement(schoolAddressesStatement);
+		closeStatement(schoolPersonTypesStatement);
+		closeStatement(schoolNameTypesStatement);
+		closeStatement(schoolAddressUsesStatement);
+		closeStatement(schoolContactTypesStatement);
 	}
 
 	private void closeStatement(PreparedStatement statment) throws SQLException {
