@@ -12,11 +12,13 @@ import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressType;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressType.AddressUses;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressUseType;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressUseType.SchoolContacts;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AssociatedSchoolType;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.ContactType;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.NameType;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.PersonType;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools.School;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools.School.Addresses;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools.School.AssociatedSchools;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools.School.SchoolPersons;
 
 
@@ -31,6 +33,7 @@ public class SchoolMetaDataQuery {
 	public static final String kSchoolName = "SchoolName";
 	public static final String kSchoolCountry = "SchoolCountry";
 	public static final String kSchoolState = "SchoolState";
+	public static final String kSchoolStateAbbrev = "SchoolStateAbbrev";
 	public static final String kSchoolDashClassificationCode = "SchoolDashClassCode";
     public static final String kSchoolDashClassificationSource = "SchoolDashClassSource";
     public static final String kSchoolDashEligibilityCode = "SchoolDashEligibilityCode";
@@ -49,6 +52,7 @@ public class SchoolMetaDataQuery {
 	public static final String kAddressCountryCode = "AddressCountryCode";
 	public static final String kAddressEffectiveDate = "AddressEffectiveDate";
 	public static final String kAddressEffectiveFlag = "AddressEffectiveFlag";
+	public static final String kAddressSchoolPeopleId = "AddressSchoolPeopleId";
 
 	public static final String kSchoolPersonTitle = "SchoolTitle";
 	public static final String kSchoolPersonTitleCategory = "SchoolPersonTitleCategory";
@@ -79,6 +83,9 @@ public class SchoolMetaDataQuery {
 	public static final String kContactEffectiveDate = "ContactEffectiveDate";
 	public static final String kContactDateCreated = "ContactDateCreated";
 	public static final String kContactDateModified = "ContactDateModified";
+	
+	public static final String kAssocSchoolCode = "AssociatedSchoolCode";
+	public static final String kAssocSchoolName = "AssociatedSchoolName";
 
 	private PreparedStatement schoolCodesStatement;
 	private PreparedStatement mainSchoolMetaDataStatement;
@@ -88,6 +95,8 @@ public class SchoolMetaDataQuery {
 	private PreparedStatement schoolNameTypesStatement;
 	private PreparedStatement schoolAddressUsesStatement;
 	private PreparedStatement schoolContactTypesStatement;
+	private PreparedStatement schoolPersonTypesForSchoolPeopleStatement;
+	private PreparedStatement associatedSchoolsStatement;
 	
 	private Connection connection;
 
@@ -100,6 +109,7 @@ public class SchoolMetaDataQuery {
 			+ "dish.dish_name "	+ kSchoolName	+ ", "
 			+ "dvc.dvc_description " + kSchoolCountry + ", "
 			+ "dist.dsta_name "	+ kSchoolState	+ ", "
+			+ "dist.dsta_code "	+ kSchoolStateAbbrev	+ ", "
 			+ "dish_dash_class_code " + kSchoolDashClassificationCode + ", "
             + "dvdsc.dvdsc_code " + kSchoolDashClassificationSource + ", "
             + "dvdc.dvdc_code " + kSchoolDashEligibilityCode + ", "
@@ -109,8 +119,8 @@ public class SchoolMetaDataQuery {
 			+ "dis_states dist, "
 			+ "dis_valid_dashboard_codes dvdc, "
 	        + "dis_valid_dash_source_codes dvdsc "
-			+ "where dish.dvc_code = dvc.dvc_code and "
-			+ "dish.dsta_code = dist.dsta_code and " 
+			+ "where dish.dvc_code = dvc.dvc_code(+) and "
+			+ "dish.dsta_code = dist.dsta_code(+) and " 
 			+ "dish.dvdc_code = dvdc.dvdc_code(+) and "
             + "dish.dvdsc_code = dvdsc.dvdsc_code(+) and "
 			+ "dish.dish_code = ?";
@@ -120,6 +130,7 @@ public class SchoolMetaDataQuery {
 			+ "dish.dish_name "	+ kSchoolName	+ ", "
 			+ "dvc.dvc_description " + kSchoolCountry + ", "
 			+ "dist.dsta_name "	+ kSchoolState	+ ", "
+			+ "dist.dsta_code "	+ kSchoolStateAbbrev	+ ", "
 			+ "dish_dash_class_code " + kSchoolDashClassificationCode + ", "
 			+ "dvdsc.dvdsc_code " + kSchoolDashClassificationSource + ", "
 	        + "dvdc.dvdc_code " + kSchoolDashEligibilityCode + ", "
@@ -147,7 +158,8 @@ public class SchoolMetaDataQuery {
 														+ "daad_province " + kAddressProvince + ", " 
 														+ "dvc_code "+ kAddressCountryCode + ", " 
 														+ "to_char(daad_effective_date ,'dd-mon-yyyy') " + kAddressEffectiveDate + ", "
-														+ "daad_active_flag " + kAddressEffectiveFlag + " " 
+														+ "daad_active_flag " + kAddressEffectiveFlag + ", " 
+														+ "dsp_id " + kAddressSchoolPeopleId + " "
 														+ "from dis_addresses "
 														+ "where dish_id = ?";
 
@@ -158,13 +170,13 @@ public class SchoolMetaDataQuery {
 			+ "dea.dea_description " + kSchoolPersonEmail + ", "
 			+ "to_char(dsp.dsp_start_date ,'dd-mon-yyyy')"	+ kSchoolPersonStartDate + ", "
 			+ "to_char(dsp.dsp_end_date,'dd-mon-yyyy') " + kSchoolPersonEndDate + ", "
-			+ "dsp.dpl_id "	+ kSchoolPeopleNameId + " "
+			+ "dsp.dsp_id "	+ kSchoolPeopleNameId + " "
 			+ "from dis_school_people dsp, "
 			+ "dis_electronic_addresses dea, "
 			+ "dis_valid_title_categories dvtc "
-			+ "where dsp.dsp_id = dea.dsp_id and "
-			+ "dsp.dvtc_id = dvtc.dvtc_id and " + "dish_id = ?";
-
+			+ "where dsp.dsp_id = dea.dsp_id(+) and "
+			+ "dsp.dvtc_id = dvtc.dvtc_id(+) and ";
+	
 	private static final String kSelectNameTypes = "select dpl_first_name "	+ kFirstName + ", " 
 			+ "dpl_middle_name " + kMiddleName + ", "
 			+ "dpl_last_name " + kLastName + ", " 
@@ -192,15 +204,25 @@ public class SchoolMetaDataQuery {
 			+ "to_char(dcon_date_modified,'dd-mon-yyyy') " + kContactDateModified + " "
 			+ "from  dis_school_contacts " 
 			+ "where dau_id = ?";
+	
+	private static final String kSelectAssociatedSchools = "select dish_code " + kAssocSchoolCode + ", " 
+			+ "dish_name " + kAssocSchoolName + " "
+			+ "from  dis_schools dish1, "
+			+ "(select DSA_ASSOC_DISH_ID school_id from dis_schools_assoc dsa, dis_schools dish2 "
+            + " where dsa.dsa_assoc_dish_id = dish2.dish_id "
+            + " and dsa.dsa_parent_dish_id = ?) assoc "
+			+ "where dish1.dish_id = assoc.school_id";
 
 	public SchoolMetaDataQuery(Connection connection) throws SQLException {
 		this.schoolCodesStatement = connection.prepareStatement(kSelectSchoolCodes);
 		this.mainSchoolMetaDataStatement = connection.prepareStatement(kSelectMainSchoolMetadata);
 		this.schoolAddressesStatement = connection.prepareStatement(kSelectAddresses);
-		this.schoolPersonTypesStatement = connection.prepareStatement(kSelectSchoolPersonTypes);
+		this.schoolPersonTypesStatement = connection.prepareStatement(kSelectSchoolPersonTypes + "dish_id = ?");
 		this.schoolNameTypesStatement = connection.prepareStatement(kSelectNameTypes);
 		this.schoolAddressUsesStatement = connection.prepareStatement(kSelectAddressUses);		
 		this.schoolContactTypesStatement = connection.prepareStatement(kSelectContactTypes);
+		this.schoolPersonTypesForSchoolPeopleStatement = connection.prepareStatement(kSelectSchoolPersonTypes + "dsp.dsp_id = ?");
+		this.associatedSchoolsStatement = connection.prepareStatement(kSelectAssociatedSchools);
 		this.connection = connection;
 	}
 
@@ -239,32 +261,63 @@ public class SchoolMetaDataQuery {
 		return result;
 	}
 
-	private School makeSchoolMetaDataFrom(ResultSet cursor)
-			throws SQLException {
+	private School makeSchoolMetaDataFrom(ResultSet cursor) throws SQLException {
 		School result = new School();
 		String schoolId = cursor.getString(kSchoolId);
 		String schoolCode = cursor.getString(kSchoolCode);
 		String schoolName = cursor.getString(kSchoolName);
 		String schoolCountry = cursor.getString(kSchoolCountry);
 		String schoolState = cursor.getString(kSchoolState);
-		String schoolDashClassCode = cursor.getString(kSchoolDashClassificationCode);
-		String schoolDashClassSource = cursor.getString(kSchoolDashClassificationSource);
-		String schoolDashEligibilityCode = cursor.getString(kSchoolDashEligibilityCode);
-		String schoolDashEligibilityDesc = cursor.getString(kSchoolDashEligibilityDesc );
-		
+		String schoolStateAbbrev = cursor.getString(kSchoolStateAbbrev);
+		String schoolDashClassCode = cursor
+				.getString(kSchoolDashClassificationCode);
+		String schoolDashClassSource = cursor
+				.getString(kSchoolDashClassificationSource);
+		String schoolDashEligibilityCode = cursor
+				.getString(kSchoolDashEligibilityCode);
+		String schoolDashEligibilityDesc = cursor
+				.getString(kSchoolDashEligibilityDesc);
+
 		result.setCode(schoolCode);
 		result.setName(schoolName);
 		result.setCountry(schoolCountry);
 		result.setState(schoolState);
+		result.setStateAbbrev(schoolStateAbbrev);
 		result.setDashboardClassificationCode(schoolDashClassCode);
 		result.setDashboardClassificationSource(schoolDashClassSource);
 		result.setDashboardEligibilityCode(schoolDashEligibilityCode);
 		result.setDashboardEligibilityDescription(schoolDashEligibilityDesc);
 		if (null != schoolId && !schoolId.isEmpty()) {
+			result.setAssociatedSchools(getAssociatedSchoolsFor(schoolId));
+		}
+		if (null != schoolId && !schoolId.isEmpty()) {
 			result.setAddresses(getAddressesFor(schoolId));
 		}
-		if (null != schoolId && ! schoolId.isEmpty()) {
+		if (null != schoolId && !schoolId.isEmpty()) {
 			result.setSchoolPersons(getSchoolPersonTypesFor(schoolId));
+		}
+		return result;
+	}
+
+	private AssociatedSchools getAssociatedSchoolsFor(String schoolId)
+			throws SQLException {
+		AssociatedSchools result = new AssociatedSchools();
+		ResultSet cursor = null;
+		try {
+			associatedSchoolsStatement.setString(1, schoolId);
+			cursor = associatedSchoolsStatement.executeQuery();
+			while (cursor.next()) {
+				AssociatedSchoolType associatedSchoolType = new AssociatedSchoolType();
+				associatedSchoolType.setSchoolCode(cursor
+						.getString(kAssocSchoolCode));
+				associatedSchoolType.setSchoolName(cursor
+						.getString(kAssocSchoolName));
+				result.getAssociatedSchool().add(associatedSchoolType);
+			}
+		} finally {
+			if (null != cursor) {
+				cursor.close();
+			}
 		}
 		return result;
 	}
@@ -284,30 +337,62 @@ public class SchoolMetaDataQuery {
 				addressType.setCity(cursor.getString(kAddressCity));
 				String fiveDigitZip = cursor.getString(kAddressZip);
 				String fourDigitZip = cursor.getString(kAddressFourDigitZip);
-				if (null != fiveDigitZip && ! fiveDigitZip.isEmpty()) {
+				if (null != fiveDigitZip && !fiveDigitZip.isEmpty()) {
 					String zipCode;
-					if (null != fourDigitZip && ! fourDigitZip.isEmpty()) {
+					if (null != fourDigitZip && !fourDigitZip.isEmpty()) {
 						zipCode = fiveDigitZip + "-" + fourDigitZip;
 					} else {
 						zipCode = fiveDigitZip;
 					}
 					addressType.setZip(zipCode);
 				}
-				addressType.setPostalCode(
-						cursor.getString(kAddressPostalCode));
-				addressType.setStateProvince(
-						cursor.getString(kAddressProvince));
-				addressType.setCountry(
-						cursor.getString(kAddressCountryCode));				
-				addressType.setEffectiveDate(
-						cursor.getString(kAddressEffectiveDate));
-				addressType.setActiveFlag(
-						cursor.getString(kAddressEffectiveFlag));
+				addressType.setPostalCode(cursor.getString(kAddressPostalCode));
+				addressType
+						.setStateProvince(cursor.getString(kAddressProvince));
+				addressType.setCountry(cursor.getString(kAddressCountryCode));
+				addressType.setEffectiveDate(cursor
+						.getString(kAddressEffectiveDate));
+				addressType.setActiveFlag(cursor
+						.getString(kAddressEffectiveFlag));
+
+				addressType.setAddressPerson(getAddressPerson(cursor
+						.getString(kAddressSchoolPeopleId)));
 				String addressId = cursor.getString(kAddressId);
-				if (null != addressId && ! addressId.isEmpty()) {
+				if (null != addressId && !addressId.isEmpty()) {
 					addressType.setAddressUses(getAddressUses(addressId));
 				}
 				result.getAddress().add(addressType);
+			}
+		} finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+		}
+		return result;
+	}
+
+	private PersonType getAddressPerson(String schoolPeopleId)
+			throws SQLException {
+		PersonType result = new PersonType();
+		ResultSet cursor = null;
+		try {
+			schoolPersonTypesForSchoolPeopleStatement.setString(1,
+					schoolPeopleId);
+			cursor = schoolPersonTypesForSchoolPeopleStatement.executeQuery();
+			while (cursor.next()) {
+				result.setTitle(cursor.getString(kSchoolPersonTitle));
+				result.setTitleCategory(cursor
+						.getString(kSchoolPersonTitleCategory));
+				result.setDepartment(cursor.getString(kSchoolPersonDepartment));
+				result.setStatus(cursor.getString(kSchoolPersonStatus));
+				result.setEmailAddress(cursor.getString(kSchoolPersonEmail));
+				result.setStartDate(cursor.getString(kSchoolPersonStartDate));
+				result.setEndDate(cursor.getString(kSchoolPersonEndDate));
+				String schoolPeopleNameId = cursor
+						.getString(kSchoolPeopleNameId);
+				if (null != schoolPeopleNameId && !schoolPeopleNameId.isEmpty()) {
+					result.setName(getNameTypeFor(schoolPeopleNameId));
+				}
 			}
 		} finally {
 			if (null != cursor) {
@@ -325,17 +410,16 @@ public class SchoolMetaDataQuery {
 			cursor = schoolAddressUsesStatement.executeQuery();
 			while (cursor.next()) {
 				String addressUseId = cursor.getString(kAddressUseId);
-				
+
 				AddressUseType addressUseType = new AddressUseType();
 				addressUseType.setType(cursor.getString(kAddressUseType));
 				addressUseType.setEBSAccount(cursor.getString(kEbsAccount));
 				addressUseType.setDeliveryDate(cursor.getString(kDeliveryDate));
 				addressUseType.setDateCreated(cursor.getString(kDateCreated));
 				addressUseType.setDateModified(cursor.getString(kDateModified));
-				if (null != addressUseId && 
-						! addressUseId.isEmpty()) {
-					addressUseType.setSchoolContacts(
-							getSchoolContactFor(addressUseId));
+				if (null != addressUseId && !addressUseId.isEmpty()) {
+					addressUseType
+							.setSchoolContacts(getSchoolContactFor(addressUseId));
 				}
 				result.getAddressUse().add(addressUseType);
 			}
@@ -357,13 +441,13 @@ public class SchoolMetaDataQuery {
 			while (cursor.next()) {
 				ContactType contactType = new ContactType();
 				contactType.setType(cursor.getString(kContactType));
-				contactType.setName(cursor.getString(kContactName ));
-				contactType.setEffectiveDate(
-						cursor.getString(kContactEffectiveDate));
-				contactType.setDateCreated(
-						cursor.getString(kContactDateCreated));
-				contactType.setDateModified(
-						cursor.getString(kContactDateModified));
+				contactType.setName(cursor.getString(kContactName));
+				contactType.setEffectiveDate(cursor
+						.getString(kContactEffectiveDate));
+				contactType.setDateCreated(cursor
+						.getString(kContactDateCreated));
+				contactType.setDateModified(cursor
+						.getString(kContactDateModified));
 				result.getSchoolContact().add(contactType);
 			}
 		} finally {
@@ -383,16 +467,21 @@ public class SchoolMetaDataQuery {
 			cursor = schoolPersonTypesStatement.executeQuery();
 			while (cursor.next()) {
 				PersonType personType = new PersonType();
-				
+
 				personType.setTitle(cursor.getString(kSchoolPersonTitle));
-				personType.setTitleCategory(cursor.getString(kSchoolPersonTitleCategory));
-				personType.setDepartment(cursor.getString(kSchoolPersonDepartment));
+				personType.setTitleCategory(cursor
+						.getString(kSchoolPersonTitleCategory));
+				personType.setDepartment(cursor
+						.getString(kSchoolPersonDepartment));
 				personType.setStatus(cursor.getString(kSchoolPersonStatus));
-				personType.setEmailAddress(cursor.getString(kSchoolPersonEmail));
-				personType.setStartDate(cursor.getString(kSchoolPersonStartDate));
+				personType
+						.setEmailAddress(cursor.getString(kSchoolPersonEmail));
+				personType.setStartDate(cursor
+						.getString(kSchoolPersonStartDate));
 				personType.setEndDate(cursor.getString(kSchoolPersonEndDate));
-				String schoolPeopleNameId = cursor.getString(kSchoolPeopleNameId);
-				if (null != schoolPeopleNameId && ! schoolPeopleNameId.isEmpty()) {
+				String schoolPeopleNameId = cursor
+						.getString(kSchoolPeopleNameId);
+				if (null != schoolPeopleNameId && !schoolPeopleNameId.isEmpty()) {
 					personType.setName(getNameTypeFor(schoolPeopleNameId));
 				}
 				result.getSchoolPerson().add(personType);
@@ -438,29 +527,33 @@ public class SchoolMetaDataQuery {
 		return result;
 	}
 
-	public List<School> getAllSchoolMetadata(List<String> schoolCodes, int batchSize) throws SQLException {
+	public List<School> getAllSchoolMetadata(List<String> schoolCodes,
+			int batchSize) throws SQLException {
 		List<School> result = new ArrayList<School>();
-		Enumeration<List<String>> schoolCodesEnum = PartitionListBasedOnBatchSize.createPartitionedEnum(schoolCodes, batchSize);
-        while(schoolCodesEnum.hasMoreElements()){  
-        	ResultSet cursor = null;
-        	List<String> nextElement = schoolCodesEnum.nextElement();
-			schoolMetaDataForSchoolCodesStatement = connection.prepareStatement(createQuery(nextElement.size()));
-    	    int index =1 ;
-        	for(String number: nextElement){  
-                schoolMetaDataForSchoolCodesStatement.setString(index, number);
-                index++;
-            }  
-            cursor = schoolMetaDataForSchoolCodesStatement.executeQuery();
-            while (cursor.next()) {
+		Enumeration<List<String>> schoolCodesEnum = PartitionListBasedOnBatchSize
+				.createPartitionedEnum(schoolCodes, batchSize);
+		while (schoolCodesEnum.hasMoreElements()) {
+			ResultSet cursor = null;
+			List<String> nextElement = schoolCodesEnum.nextElement();
+			schoolMetaDataForSchoolCodesStatement = connection
+					.prepareStatement(createQuery(nextElement.size()));
+			int index = 1;
+			for (String number : nextElement) {
+				schoolMetaDataForSchoolCodesStatement.setString(index, number);
+				index++;
+			}
+			cursor = schoolMetaDataForSchoolCodesStatement.executeQuery();
+			while (cursor.next()) {
 				School school = makeSchoolMetaDataFrom(cursor);
 				result.add(school);
 			}
-        }
+		}
 		return result;
 	}
 
 	private String createQuery(int size) {
-		StringBuilder queryBuilder = new StringBuilder(kSelectMainSchoolMetadataForSchoolCodes + "(");
+		StringBuilder queryBuilder = new StringBuilder(
+				kSelectMainSchoolMetadataForSchoolCodes + "(");
 		for (int i = 0; i < size; i++) {
 			queryBuilder.append(" ?");
 			if (i != size - 1)
@@ -469,7 +562,7 @@ public class SchoolMetaDataQuery {
 		queryBuilder.append(")");
 		return queryBuilder.toString();
 	}
-	
+
 	public void close() throws SQLException {
 		closeStatement(schoolCodesStatement);
 		closeStatement(mainSchoolMetaDataStatement);
@@ -479,6 +572,8 @@ public class SchoolMetaDataQuery {
 		closeStatement(schoolNameTypesStatement);
 		closeStatement(schoolAddressUsesStatement);
 		closeStatement(schoolContactTypesStatement);
+		closeStatement(schoolPersonTypesForSchoolPeopleStatement);
+		closeStatement(associatedSchoolsStatement);
 	}
 
 	private void closeStatement(PreparedStatement statment) throws SQLException {

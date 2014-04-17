@@ -24,6 +24,7 @@ public class MakeExodusSchoolMetadataForTesting {
 		School x = new School();
 		x.setName("Miami University");
 		x.setState("Ohio");
+		x.setStateAbbrev("OH");
 		x.setCode("0126");
 		x.setCountry("UNITED STATES");
 		x.setDashboardEligibilityCode("0001");
@@ -90,6 +91,7 @@ public class MakeExodusSchoolMetadataForTesting {
 		
 		x.setName("Loyola Marymount University");
 		x.setState("California");
+		x.setStateAbbrev("CA");
 		x.setCode("0502");
 		x.setCountry("UNITED STATES");
 		x.setDashboardEligibilityCode("0001");
@@ -118,6 +120,7 @@ public class MakeExodusSchoolMetadataForTesting {
 		
 		x.setName("University of Michigan");
 		x.setState("Michigan");
+		x.setStateAbbrev("MI");
 		x.setCode("0127");
 		x.setCountry("UNITED STATES");
 		x.setDashboardEligibilityCode("0001");
