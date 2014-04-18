@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.exodus;
+/*package com.proquest.mtg.dismetadataservice.exodus;
 
 import static com.proquest.mtg.dismetadataservice.metadata.SchoolMetadataMatcher.schoolEqualTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -75,3 +75,4 @@ public class SchoolMetaDataProvider_Tests {
 		assertThat(school3, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData3()));
 		}
 }
+*/
