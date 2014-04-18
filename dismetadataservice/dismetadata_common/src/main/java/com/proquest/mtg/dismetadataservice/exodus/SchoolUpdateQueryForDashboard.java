@@ -10,10 +10,11 @@ import java.util.Date;
 public class SchoolUpdateQueryForDashboard {
 	private Connection connection;
 	private PreparedStatement dashBoardAdminUpdateStmt;
+	private PreparedStatement disSchoolUpdateStmt;
 	private static String kExodusModifiedUserName = "OneAdmin";
 	private static String kDashBoardAdminName  = "DASHBOARD ADMIN";
 
-	private static final String kUpdateDashBoardAdmin = "UPDATE " +
+	private static final String kUpdateSchoolPersonForDashBoardAdmin = "UPDATE " +
 					"DIS_SCHOOL_PEOPLE dsp " +
 				"SET "  +
 					"dsp.DSP_END_DATE = to_date(?,'dd-Mon-yy'), " +
@@ -21,15 +22,24 @@ public class SchoolUpdateQueryForDashboard {
 					"dsp.DSP_USER_MODIFIED = '" + kExodusModifiedUserName + "', "+
 					"dsp.DSP_DATE_MODIFIED = to_date(?,'dd-Mon-yy') " +
 				"WHERE EXISTS (SELECT 1 FROM " +
-					"DIS_SCHOOLS ds, DIS_VALID_TITLE_CATEGORIES dvtc " +
+					"DIS_SCHOOLS dish, DIS_VALID_TITLE_CATEGORIES dvtc " +
 					"WHERE " +
-						"ds.DISH_ID = dsp.DISH_ID and " + 
+						"dish.DISH_ID = dsp.DISH_ID and " + 
 						"dsp.DVTC_ID = dvtc.DVTC_ID and " + 
 						"dvtc.DVTC_NAME = '" + kDashBoardAdminName + "' and " + 
-						"ds.DISH_CODE = ?)";
+						"dish.DISH_CODE = ?)";
+	
+	private static final String kUpdateSchoolLoadStatus = "UPDATE " +
+			"DIS_SCHOOLS dish " +
+		"SET "  +
+			"dish.DISH_DASH_LOAD_STATUS = 'Y', "+
+			"dish.DISH_DASH_LOAD_STATUS_DATE = to_date(?,'dd-Mon-yy') " +
+		"WHERE " +
+			"dish.DISH_CODE = ?";
 	
 	public SchoolUpdateQueryForDashboard(Connection connection) throws SQLException {
-		this.dashBoardAdminUpdateStmt = connection.prepareStatement(kUpdateDashBoardAdmin);
+		this.dashBoardAdminUpdateStmt = connection.prepareStatement(kUpdateSchoolPersonForDashBoardAdmin);
+		this.disSchoolUpdateStmt = connection.prepareStatement(kUpdateSchoolLoadStatus);
 		this.connection = connection;
 	}
 	
@@ -38,10 +48,8 @@ public class SchoolUpdateQueryForDashboard {
 		String currentDate = dateFormat.format(new Date());
 		try {
 			getConnection().setAutoCommit(false);
-			dashBoardAdminUpdateStmt.setString(1, currentDate);
-			dashBoardAdminUpdateStmt.setString(2, currentDate);
-			dashBoardAdminUpdateStmt.setString(3, schoolCode);
-			dashBoardAdminUpdateStmt.executeUpdate();
+			executeSchoolPersonUpdate(schoolCode, currentDate);
+			executeSchoolUpdate(schoolCode, currentDate);
 			getConnection().commit();
 	    } catch (SQLException e ) {
 	        if (getConnection() != null) {
@@ -58,6 +66,21 @@ public class SchoolUpdateQueryForDashboard {
 	    } finally {
 	        getConnection().setAutoCommit(true);
 	    }
+	}
+
+	private void executeSchoolUpdate(String schoolCode, String currentDate)
+			throws SQLException {
+		disSchoolUpdateStmt.setString(1, currentDate);
+		disSchoolUpdateStmt.setString(2, schoolCode);
+		disSchoolUpdateStmt.executeUpdate();
+	}
+
+	private void executeSchoolPersonUpdate(String schoolCode, String currentDate)
+			throws SQLException {
+		dashBoardAdminUpdateStmt.setString(1, currentDate);
+		dashBoardAdminUpdateStmt.setString(2, currentDate);
+		dashBoardAdminUpdateStmt.setString(3, schoolCode);
+		dashBoardAdminUpdateStmt.executeUpdate();
 	}
 
 	public Connection getConnection() {
