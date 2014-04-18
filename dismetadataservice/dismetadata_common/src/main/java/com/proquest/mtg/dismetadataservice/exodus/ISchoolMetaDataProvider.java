@@ -12,7 +12,9 @@ public interface ISchoolMetaDataProvider {
 	
 	List<School> getAllSchoolMetaData() throws Exception;
 
-	List<School> getAllSchoolsMetaDataFor(List<String> schoolCodes)
+	List<School> getAllSchoolsMetaDataFor(List<String> schoolCodes) 
 			throws Exception;
+	
+	void updateDsahboardLoadStatus(String schoolCodes) throws Exception;
 
 }

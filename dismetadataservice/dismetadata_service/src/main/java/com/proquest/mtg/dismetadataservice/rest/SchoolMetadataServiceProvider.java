@@ -3,6 +3,7 @@ package com.proquest.mtg.dismetadataservice.rest;
 import java.util.List;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -66,5 +67,17 @@ public class SchoolMetadataServiceProvider {
 			throw new MetaDataServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 		return result;
+	}
+	
+	@PUT
+	@Path("/ackSchoolMetadataLoadFor/{schoolCode}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response ackSchoolMetaDataLoadByCode(@PathParam("schoolCode") String schoolCode) throws WebApplicationException {
+		try {
+			getSchoolMetadataProvider().updateDsahboardLoadStatus(schoolCode);
+		} catch (Exception e) {
+			throw new MetaDataServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		return Response.status(Response.Status.OK).entity("SUCCESS").build();
 	}
 }

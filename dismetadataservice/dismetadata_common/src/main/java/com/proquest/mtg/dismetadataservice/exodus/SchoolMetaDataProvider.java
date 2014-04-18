@@ -104,5 +104,24 @@ public class SchoolMetaDataProvider implements ISchoolMetaDataProvider {
 		}
 		return result;
 	}
+	
+	@Override
+	public void updateDsahboardLoadStatus(String schoolCodes) throws Exception {
+		Connection connection = null;
+		SchoolUpdateQueryForDashboard query = null;
+		try {
+			connection = getConnectionPool().getConnection();
+			query = new SchoolUpdateQueryForDashboard(connection);
+	    	query.updateSchoolDashboardAdminFor(schoolCodes);
+		}
+		finally {
+			if (null != query) {
+				query.close();
+			}
+			if (null != connection) {
+				connection.close();
+			}
+		}
+	}
 
 }
