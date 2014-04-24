@@ -15,10 +15,10 @@ public class SchoolUpdateQueryForDashboard {
 	private static String kDashBoardAdminName  = "DASHBOARD ADMIN";
 
 	private static final String kUpdateSchoolPersonForDashBoardAdmin = "UPDATE " +
-					"DIS_SCHOOL_PEOPLE dsp " +
+					"DIS.DIS_SCHOOL_PEOPLE dsp " +
 				"SET "  +
 					"dsp.DSP_END_DATE = to_date(?,'dd-Mon-yy'), " +
-					"dsp.DSP_STATUS = 'N', " +
+					"dsp.DSP_STATUS = 'N', " +	
 					"dsp.DSP_USER_MODIFIED = '" + kExodusModifiedUserName + "', "+
 					"dsp.DSP_DATE_MODIFIED = to_date(?,'dd-Mon-yy') " +
 				"WHERE EXISTS (SELECT 1 FROM " +
@@ -26,11 +26,11 @@ public class SchoolUpdateQueryForDashboard {
 					"WHERE " +
 						"dish.DISH_ID = dsp.DISH_ID and " + 
 						"dsp.DVTC_ID = dvtc.DVTC_ID and " + 
-						"dvtc.DVTC_NAME = '" + kDashBoardAdminName + "' and " + 
+						"dvtc.DVTC_NAME = '" + kDashBoardAdminName + "' and " +  
 						"dish.DISH_CODE = ?)";
 	
 	private static final String kUpdateSchoolLoadStatus = "UPDATE " +
-			"DIS_SCHOOLS dish " +
+			"DIS.DIS_SCHOOLS dish " +
 		"SET "  +
 			"dish.DISH_DASH_LOAD_STATUS = 'Y', "+
 			"dish.DISH_DASH_LOAD_STATUS_DATE = to_date(?,'dd-Mon-yy') " +
