@@ -15,6 +15,6 @@ public interface ISchoolMetaDataProvider {
 	List<School> getAllSchoolsMetaDataFor(List<String> schoolCodes) 
 			throws Exception;
 	
-	void updateDsahboardLoadStatus(String schoolCodes) throws Exception;
+	void updateDashboardLoadStatus(String schoolCodes) throws Exception;
 
 }

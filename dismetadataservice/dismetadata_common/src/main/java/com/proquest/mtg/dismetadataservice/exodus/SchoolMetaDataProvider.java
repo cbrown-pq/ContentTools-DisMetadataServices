@@ -106,7 +106,7 @@ public class SchoolMetaDataProvider implements ISchoolMetaDataProvider {
 	}
 	
 	@Override
-	public void updateDsahboardLoadStatus(String schoolCodes) throws Exception {
+	public void updateDashboardLoadStatus(String schoolCodes) throws Exception {
 		Connection connection = null;
 		SchoolUpdateQueryForDashboard query = null;
 		try {
@@ -122,6 +122,27 @@ public class SchoolMetaDataProvider implements ISchoolMetaDataProvider {
 				connection.close();
 			}
 		}
+	}
+
+	public List<String> getSchoolDashBoardData(String schoolCode) throws Exception {
+		Connection connection = null;
+		SchoolUpdateQueryForDashboard query = null;		
+		List<String> dashBoardData = new ArrayList<String>();
+		try {
+			connection = getConnectionPool().getConnection();
+			query = new SchoolUpdateQueryForDashboard(connection);
+			dashBoardData = query.getSchoolDashboardDataFor(schoolCode);
+		}
+		finally {
+			if (null != query) {
+				query.close();
+			}
+			if (null != connection) {
+				connection.close();
+			}
+		}
+		return dashBoardData;
+		
 	}
 
 }

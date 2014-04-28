@@ -1,4 +1,4 @@
-/*package com.proquest.mtg.dismetadataservice.exodus;
+package com.proquest.mtg.dismetadataservice.exodus;
 
 import static com.proquest.mtg.dismetadataservice.metadata.SchoolMetadataMatcher.schoolEqualTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -74,5 +74,24 @@ public class SchoolMetaDataProvider_Tests {
 		School school3 = schools.get(2);
 		assertThat(school3, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData3()));
 		}
+	
+	@Test
+	public void updateSchoolDashboard_ForNonAdminSchoolCode() throws Exception {
+		target.updateDashboardLoadStatus("0127");
+		List<String> result = target.getSchoolDashBoardData("0127");
+		assertThat(result.size(), is(0));
+	}
+	
+	@Test
+	public void updateSchoolDashboard_ForAdminSchoolCode() throws Exception {
+		target.updateDashboardLoadStatus("0056");
+		List<String> result = target.getSchoolDashBoardData("0056");
+		assertThat(result.size(), is(6));
+		assertThat(result.get(0), is("2014-04-28 00:00:00"));
+		assertThat(result.get(1), is("N"));
+		assertThat(result.get(2), is("OneAdmin"));
+		assertThat(result.get(3), is("2014-04-28 00:00:00"));
+		assertThat(result.get(4), is("Y"));
+		assertThat(result.get(5), is("2014-04-28 00:00:00"));
+	}
 }
-*/

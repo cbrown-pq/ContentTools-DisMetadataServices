@@ -74,7 +74,7 @@ public class SchoolMetadataServiceProvider {
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response ackSchoolMetaDataLoadByCode(@PathParam("schoolCode") String schoolCode) throws WebApplicationException {
 		try {
-			getSchoolMetadataProvider().updateDsahboardLoadStatus(schoolCode);
+			getSchoolMetadataProvider().updateDashboardLoadStatus(schoolCode);
 		} catch (Exception e) {
 			throw new MetaDataServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}

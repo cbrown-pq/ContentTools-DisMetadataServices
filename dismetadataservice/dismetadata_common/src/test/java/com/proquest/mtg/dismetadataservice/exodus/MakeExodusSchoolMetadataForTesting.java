@@ -102,8 +102,8 @@ public class MakeExodusSchoolMetadataForTesting {
 		PersonType schoolPerson1 = SchoolMetadaHelper.MakeSchoolPersonTypeFrom("Spec Ass to the Chief Acad Off", "DEAN", null, "Y",
 				"saugust@lmu.edu", "03-aug-2011", null, schoolPerson1_name );
 		
-		NameType schoolPerson2_name = SchoolMetadaHelper.MakeNameTypeFrom("Gary", null, 
-				"Kuleck", "Y", "03-aug-2011", "03-aug-2011", null);
+		NameType schoolPerson2_name = SchoolMetadaHelper.MakeNameTypeFrom("George", null, 
+				"Justice", "Y", "03-aug-2011", "03-aug-2011", null);
 		PersonType schoolPerson2 = SchoolMetadaHelper.MakeSchoolPersonTypeFrom("Associate Dean", "DEAN", null, "Y",
 				"gkuleck@lmu.edu", "03-aug-2011", null, schoolPerson2_name );
 		
