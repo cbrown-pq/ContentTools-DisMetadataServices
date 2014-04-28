@@ -141,8 +141,7 @@ public class SchoolMetaDataProvider implements ISchoolMetaDataProvider {
 				connection.close();
 			}
 		}
-		return dashBoardData;
-		
+		return dashBoardData;		
 	}
 
 }

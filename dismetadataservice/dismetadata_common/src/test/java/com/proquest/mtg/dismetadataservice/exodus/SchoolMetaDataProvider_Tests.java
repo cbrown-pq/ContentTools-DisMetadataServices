@@ -94,4 +94,12 @@ public class SchoolMetaDataProvider_Tests {
 		assertThat(result.get(4), is("Y"));
 		assertThat(result.get(5), is("2014-04-28 00:00:00"));
 	}
+	
+	@Test
+	public void updateSchoolDashboard_NonExistingSchoolCode() throws Exception {
+		target.updateDashboardLoadStatus("NOTFOUND");
+		List<String> result = target.getSchoolDashBoardData("NOTFOUND");
+		assertThat(result.size(), is(0));
+	}
+	
 }
