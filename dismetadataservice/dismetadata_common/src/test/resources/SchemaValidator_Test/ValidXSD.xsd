@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ProQuest Dissertations & Theses School Metadata - XML Schema Definition-->
+<!-- Version 1.0, February 28th, 2014 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  	<xs:element name="Schools">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="School" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Code" type="xs:string"/>
+							<xs:element name="Name" type="xs:string"/>
+							<xs:element name="Country" type="xs:string"/>
+							<xs:element name="State" type="xs:string" minOccurs="0"/>
+							<xs:element name="StateAbbrev" type="xs:string" minOccurs="0"/>
+							<xs:element name="DashboardClassificationCode" type="xs:string" minOccurs="0" /> 
+							<xs:element name="DashboardClassificationSource" type="xs:string" minOccurs="0" /> 
+							<xs:element name="DashboardEligibilityCode" type="xs:string" minOccurs="0" />
+							<xs:element name="DashboardEligibilityDescription" type="xs:string" minOccurs="0" />
+							<xs:element name="AssociatedSchools" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="AssociatedSchool" type="AssociatedSchoolType" minOccurs="0" maxOccurs="unbounded" />
+									</xs:sequence>
+								</xs:complexType>			
+							</xs:element>
+							<xs:element name="SchoolPersons" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="SchoolPerson" type="PersonType" minOccurs="0" maxOccurs="unbounded" />
+									</xs:sequence>
+								</xs:complexType>			
+							</xs:element>
+							<xs:element name="Addresses"  minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Address" type="AddressType" minOccurs="0" maxOccurs="unbounded" />
+									</xs:sequence>
+								</xs:complexType>			
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="PersonType">
+		<xs:sequence>
+			<xs:element name="Title" type="xs:string" minOccurs="0" />
+			<xs:element name="TitleCategory" type="xs:string" minOccurs="0" />
+			<xs:element name="Department" type="xs:string" minOccurs="0" />
+			<xs:element name="Status" type="xs:string" minOccurs="0" />
+			<xs:element name="EmailAddress" type="xs:string" minOccurs="0" />
+			<xs:element name="StartDate" type="xs:string" minOccurs="0" />
+			<xs:element name="EndDate" type="xs:string" minOccurs="0" />
+			<xs:element name="Name" type="NameType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NameType">
+		<xs:sequence>
+			<xs:element name="FirstName" type="xs:string" />
+			<xs:element name="MiddleName" type="xs:string" minOccurs="0" />
+			<xs:element name="LastName" type="xs:string" />
+			<xs:element name="Status" type="xs:string" minOccurs="0" />
+			<xs:element name="StatusDate" type="xs:string" minOccurs="0" />
+			<xs:element name="DateCreated" type="xs:string" minOccurs="0" />
+			<xs:element name="DateModified" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AssociatedSchoolType">
+		<xs:sequence>
+			<xs:element name="SchoolName" type="xs:string" />
+			<xs:element name="SchoolCode" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddressType">
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string" />
+			<xs:element name="Line1" type="xs:string" minOccurs="0" />
+			<xs:element name="Line2" type="xs:string" minOccurs="0" />
+			<xs:element name="Line3" type="xs:string" minOccurs="0" />
+			<xs:element name="City" type="xs:string" minOccurs="0" />
+			<xs:element name="Zip" type="xs:string" minOccurs="0" />
+			<xs:element name="PostalCode" type="xs:string" minOccurs="0" />
+			<xs:element name="StateProvince" type="xs:string" minOccurs="0" />
+			<xs:element name="Country" type="xs:string" minOccurs="0" />
+			<xs:element name="EffectiveDate" type="xs:string" minOccurs="0" />
+			<xs:element name="ActiveFlag" type="xs:string" minOccurs="0" />
+			<xs:element name="DateCreated" type="xs:string" minOccurs="0" />
+			<xs:element name="DateModified" type="xs:string" minOccurs="0" />
+			<xs:element name="AddressPerson" type="PersonType" minOccurs="0" />
+			<xs:element name="AddressUses">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AddressUse" type="AddressUseType" minOccurs="0" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>			
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddressUseType">
+		<xs:sequence>
+			<xs:element name="Type" type="xs:string" minOccurs="0" />
+			<xs:element name="EBSAccount" type="xs:string" minOccurs="0" />
+			<xs:element name="DeliveryDate" type="xs:string" minOccurs="0" />
+			<xs:element name="DateCreated" type="xs:string" minOccurs="0" />
+			<xs:element name="DateModified" type="xs:string" minOccurs="0" />
+			<xs:element name="SchoolContacts" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SchoolContact" type="ContactType" minOccurs="0" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContactType">
+		<xs:sequence>
+			<xs:element name="Type" type="xs:string" minOccurs="0" />
+			<xs:element name="Name" type="xs:string" minOccurs="0" />
+			<xs:element name="EffectiveDate" type="xs:string" minOccurs="0" />
+			<xs:element name="DateCreated" type="xs:string" minOccurs="0" />
+			<xs:element name="DateModified" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
