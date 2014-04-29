@@ -49,12 +49,12 @@ public class SchoolUpdateQueryForDashboard {
 			"dish.DISH_CODE = ?";
 	
 	private static final String kSchoolLoadStatus =  "SELECT " 
-			+ "DSP.DSP_END_DATE " + kColumnSchoolEndDate + ", "
+			+ "TO_CHAR(DSP.DSP_END_DATE,'YYYY-MM-DD') " + kColumnSchoolEndDate + ", "
 			+ "DSP.DSP_STATUS " + kColumnSchoolStatus + ", "
 			+ "DSP.DSP_USER_MODIFIED " + kColumnSchoolUserModified + ", "
-			+ "DSP.DSP_DATE_MODIFIED " + kColumnSchoolDateModified + ", "
+			+ "TO_CHAR(DSP.DSP_DATE_MODIFIED,'YYYY-MM-DD') " + kColumnSchoolDateModified + ", "
 			+ "DISH.DISH_DASH_LOAD_STATUS " + kColumnSchoolLoadStatus + ", "
-			+ "DISH.DISH_DASH_LOAD_STATUS_DATE " + kColumnSchoolLoadStatusDate + " "
+			+ "TO_CHAR(DISH.DISH_DASH_LOAD_STATUS_DATE,'YYYY-MM-DD') " + kColumnSchoolLoadStatusDate + " "
 			+ "FROM "  +
 				"DIS_SCHOOL_PEOPLE DSP, " +
 				"DIS_SCHOOLS DISH, " +
