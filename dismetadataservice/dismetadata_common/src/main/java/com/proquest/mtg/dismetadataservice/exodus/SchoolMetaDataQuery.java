@@ -170,7 +170,7 @@ public class SchoolMetaDataQuery {
 			+ "dea.dea_description " + kSchoolPersonEmail + ", "
 			+ "to_char(dsp.dsp_start_date ,'dd-mon-yyyy')"	+ kSchoolPersonStartDate + ", "
 			+ "to_char(dsp.dsp_end_date,'dd-mon-yyyy') " + kSchoolPersonEndDate + ", "
-			+ "dsp.dsp_id "	+ kSchoolPeopleNameId + " "
+			+ "dsp.dpl_id "	+ kSchoolPeopleNameId + " "
 			+ "from dis_school_people dsp, "
 			+ "dis_electronic_addresses dea, "
 			+ "dis_valid_title_categories dvtc "
