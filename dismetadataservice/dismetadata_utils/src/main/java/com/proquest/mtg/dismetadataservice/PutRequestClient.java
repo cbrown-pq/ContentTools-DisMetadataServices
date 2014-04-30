@@ -10,8 +10,8 @@ import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 public class PutRequestClient {
 
 	public static void main(String args[]) {
-		String clientName = "user";
-		String password = "password";
+		String clientName = "schoolmetadata";
+		String password = "pw4school";
 		Client c = Client.create();
 		c.addFilter(new HTTPBasicAuthFilter(clientName, password));
 		WebResource resource = c.resource("http://localhost:8080/dismetadata_service/disout/schoolmetadata/ackSchoolMetadataLoadFor/0056");
