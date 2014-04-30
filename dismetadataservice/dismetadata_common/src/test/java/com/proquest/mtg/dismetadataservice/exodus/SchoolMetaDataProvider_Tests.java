@@ -5,11 +5,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -74,7 +72,7 @@ public class SchoolMetaDataProvider_Tests {
 		School school1 = schools.get(0);
 		assertThat(school1, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData1()));
 		School school2 = schools.get(1);
-		//assertThat(school2, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData2()));
+		assertThat(school2, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData2()));
 		School school3 = schools.get(2);
 		assertThat(school3, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData3()));
 		}
