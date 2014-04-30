@@ -17,7 +17,7 @@ public class XMLSchemaValidator_Tests {
 	File destinationDir;
 	
 	private static String kValidXSDFileName = "ValidXSD.xsd";
-	private static String kInvalidInputXmlFileName = "InvalidXmlFile.xml";
+	private static String kInvalidInputXmlFileName = "InvalidXMLFile.xml";
 	private static String kValidInputXmlFileName = "ValidXML.xml";
 	private static String kMissingInputXmlFileName = "missingXML.xml";
 	String resourceLocation;
