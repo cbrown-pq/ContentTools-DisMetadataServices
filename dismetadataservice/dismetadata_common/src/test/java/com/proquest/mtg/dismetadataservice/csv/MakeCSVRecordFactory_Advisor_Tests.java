@@ -37,7 +37,7 @@ public class MakeCSVRecordFactory_Advisor_Tests {
 	public void makeWithEmptyAdvisors() throws Exception {
 		metadata.setAdvisors(advisors);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -49,7 +49,7 @@ public class MakeCSVRecordFactory_Advisor_Tests {
 		advisors.setAdvisor(advisorList);
 		metadata.setAdvisors(advisors);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -65,7 +65,7 @@ public class MakeCSVRecordFactory_Advisor_Tests {
 		advisors.setAdvisor(advisorList);
 		metadata.setAdvisors(advisors);
 		String expectedCSVData = header
-				+ "\r\n,,\"Moriarty, Matthew D.|Kinstlinger, Gary\",,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,\"Moriarty, Matthew D.|Kinstlinger, Gary\",,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
 
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));

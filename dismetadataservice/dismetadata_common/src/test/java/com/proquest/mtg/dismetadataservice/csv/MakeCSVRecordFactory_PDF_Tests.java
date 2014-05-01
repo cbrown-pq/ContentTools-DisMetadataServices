@@ -30,7 +30,7 @@ public class MakeCSVRecordFactory_PDF_Tests {
 
 		metadata.setPdfStatus(pdfStatus);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -40,7 +40,7 @@ public class MakeCSVRecordFactory_PDF_Tests {
 		pdfStatus.setPdfAvailableStatus(true);
 		metadata.setPdfStatus(pdfStatus);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"Y\"" + ",,,";
+				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"Y\"" + ",,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -50,7 +50,7 @@ public class MakeCSVRecordFactory_PDF_Tests {
 		pdfStatus.setPdfAvailableDate("PdfAvailableDate");
 		metadata.setPdfStatus(pdfStatus);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"N\"" + ",,,";
+				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"N\"" + ",,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

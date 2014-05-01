@@ -138,6 +138,12 @@ public class CSVRecordFactory {
 		kAllHeaders.put(CSVHeaders.kFormatRestrictionCode,
 				CSVRecordFactory.class
 						.getDeclaredMethod("handleFormatRestrictionCode"));
+		kAllHeaders.put(CSVHeaders.kExternalId,
+				CSVRecordFactory.class
+						.getDeclaredMethod("handleExternalId"));
+		kAllHeaders.put(CSVHeaders.kOpenAccessFlag,
+				CSVRecordFactory.class
+						.getDeclaredMethod("handleOpenAccessFlag"));
 	}
 
 	public LinkedHashMap<String, Method> getTagMappings() {
@@ -865,6 +871,25 @@ public class CSVRecordFactory {
 			}
 		}
 		addField(formatRestrictionCode);
+	}
+	
+	private void handleExternalId() {
+		String externalId = "";
+		
+		if (null != curMetaData.getExternalId() && !curMetaData.getExternalId().isEmpty()) {
+			externalId = curMetaData.getExternalId();
+		}
+
+		addField(externalId);
+	}
+	
+	private void handleOpenAccessFlag() {
+		String openAccessFlag = "";
+		if (null != curMetaData.getOpenAccessFlag() && !curMetaData.getOpenAccessFlag().isEmpty()) {
+			openAccessFlag = curMetaData.getOpenAccessFlag();
+		}
+
+		addField(openAccessFlag);
 	}
 
 	private void addField(String data) {

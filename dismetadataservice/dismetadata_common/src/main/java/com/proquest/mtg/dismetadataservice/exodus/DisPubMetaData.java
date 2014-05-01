@@ -34,6 +34,8 @@ public class DisPubMetaData {
 	private School school;
 	private PdfStatus pdfStatus;
 	private String pqOpenURL;
+	private String openAccessFlag;
+	private String externalId;
 
 	public BigInteger getDateOfExtraction() {
 		return dateOfExtraction;
@@ -289,6 +291,22 @@ public class DisPubMetaData {
 	
 	public String getPqOpenURL() {
 		return pqOpenURL;
+	}
+	
+	public String getOpenAccessFlag() {
+		return openAccessFlag;
+	}
+
+	public void setOpenAccessFlag(String openAccessFlag) {
+		this.openAccessFlag = openAccessFlag;
+	}
+
+	public String getExternalId() {
+		return externalId;
+	}
+
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
 	}
 	
 	@Override

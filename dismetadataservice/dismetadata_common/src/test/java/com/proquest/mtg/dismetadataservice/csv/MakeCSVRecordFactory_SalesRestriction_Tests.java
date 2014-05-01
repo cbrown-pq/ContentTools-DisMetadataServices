@@ -32,7 +32,7 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests {
 		salesRestrictions = Lists.newArrayList();
 		metadata.setSalesRestrictions(salesRestrictions);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -47,7 +47,7 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests {
 		metadata.setSalesRestrictions(salesRestrictions);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,," + ",\"" + "SalesRestrictionCode" + "\""
-				+ ",,,,,,,\"N\",,,";
+				+ ",,,,,,,\"N\",,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -62,7 +62,7 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests {
 		metadata.setSalesRestrictions(salesRestrictions);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,," + ",,\"" + "SalesRestrictionDescription"
-				+ "\"" + ",,,,,,\"N\",,,";
+				+ "\"" + ",,,,,,\"N\",,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -81,7 +81,7 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests {
 		metadata.setSalesRestrictions(salesRestrictions);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,," + ",\"" + "1|2" + "\"" + ",\""
-				+ "Not Available For Sale|Available" + "\"" + ",,,,,,\"N\",,,";
+				+ "Not Available For Sale|Available" + "\"" + ",,,,,,\"N\",,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

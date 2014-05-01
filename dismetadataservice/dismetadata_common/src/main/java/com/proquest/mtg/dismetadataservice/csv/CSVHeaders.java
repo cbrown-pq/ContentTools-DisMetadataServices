@@ -47,5 +47,7 @@ public class CSVHeaders {
 	public static final String kHasPDF = "PDF AVAILABLE";
 	public static final String kPDFAvailableDate = "PDF AVAILABLE DATE";
 	public static final String kFormatRestrictionCode = "FORMAT RESTRICTION CODE";
+	public static final String kExternalId = "ExternalId";
+	public static final String kOpenAccessFlag = "OpenAccessFlag";
 
 }

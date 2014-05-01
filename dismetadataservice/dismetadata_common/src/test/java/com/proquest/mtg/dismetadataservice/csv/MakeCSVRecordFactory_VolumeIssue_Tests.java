@@ -30,7 +30,7 @@ public class MakeCSVRecordFactory_VolumeIssue_Tests {
 		String volumeIssue = null;
 		metadata.setPubNumber(volumeIssue);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -40,7 +40,7 @@ public class MakeCSVRecordFactory_VolumeIssue_Tests {
 		batch.setVolumeIssue("74-08(E)");
 		metadata.setBatch(batch);
 		String expectedCSVData = header
-				+ "\r\n,\"74-08(E)\",,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,";
+				+ "\r\n,\"74-08(E)\",,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

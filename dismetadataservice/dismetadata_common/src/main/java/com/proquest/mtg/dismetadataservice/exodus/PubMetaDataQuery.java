@@ -106,6 +106,8 @@ public class PubMetaDataQuery {
 	private static final String kColumnSchoolState = "SchoolState";
 	
 	private static final String kColumnPdfAvailableDate = "PdfAvailableDate";
+	private static final String kColumnExternalId = "ExternalId";
+	private static final String kColumnOpenAccessFlag = "OpenAccessFlag";
 	
 	private static final String kSelectSchoolId = 
 			"( " +
@@ -137,12 +139,14 @@ public class PubMetaDataQuery {
                   "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'M' AND ditm_id = ditm.ditm_id ) " + kColumnMasterTitle + ", " +
                   "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'P' AND ditm_id = ditm.ditm_id ) " + kColumnElectronicTitle + ", " +
                   "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'E' AND ditm_id = ditm.ditm_id ) " + kColumnEngOverwriteTitle + ", " +
-                  "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'F' AND ditm_id = ditm.ditm_id ) " + kColumnForeignTitle + " " +
-            "FROM " +
-                  "dis.dis_items ditm " +
-            "WHERE " +
-                  "ditm.ditm_pub_number = ? AND " +
-                  "ditm.dvi_id IS NOT NULL ";
+                  "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'F' AND ditm_id = ditm.ditm_id ) " + kColumnForeignTitle + ", " +
+                  "open_access.flag  " + kColumnOpenAccessFlag + ", " +
+                  "ditm_external_id " + kColumnExternalId + " " +
+                  "FROM dis.dis_items ditm, " +
+                   "( SELECT pub_number,decode(open_access_flag,1,'Y',0,'N','N') flag from dis_vu_pqd_open_access where pub_number = ?) open_access " +
+                  "WHERE ditm.ditm_pub_number = ? " +  
+                  "and ditm_pub_number = open_access.pub_number(+) " +
+                  "AND ditm.dvi_id IS NOT NULL ";
 	
 	private static final String kSelectLanguage = 
 			"SELECT " +
@@ -404,6 +408,7 @@ public class PubMetaDataQuery {
 		ResultSet cursor = null;
 		try {
 			mainPubDataStatement.setString(1, pubId);
+			mainPubDataStatement.setString(2, pubId);
 			cursor = mainPubDataStatement.executeQuery();
 			if (cursor.next()) {
 				result = makeDisPubMetaDataFrom(cursor);
@@ -456,6 +461,8 @@ public class PubMetaDataQuery {
 		result.setDateOfExtraction(getExtractionDateAsInt());
 		result.setSchool(getSchoolFor(cursor.getString(kColumnSchoolId)));
 		result.setPqOpenURL(makePqOpenUrlFor(pubId));
+		result.setOpenAccessFlag(cursor.getString(kColumnOpenAccessFlag));
+		result.setExternalId(cursor.getString(kColumnExternalId));
 		return result;
 	}
 	
