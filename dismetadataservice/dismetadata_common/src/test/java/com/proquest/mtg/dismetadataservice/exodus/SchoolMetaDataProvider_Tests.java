@@ -64,18 +64,18 @@ public class SchoolMetaDataProvider_Tests {
 		assertThat(target.getSchoolBatchSize(), is(kSchoolBatchSize));
 	}
 	
-	@Test
-	public void getAllSchoolMetadataFor_withBatchSize() throws Exception {
-		List<String> schoolCodes = new ArrayList<String>(Arrays.asList("0126","0502","0127"));
-		List<School> schools = target.getAllSchoolsMetaDataFor(schoolCodes);
-		assertThat(schools.size(), is(3));
-		School school1 = schools.get(0);
-		assertThat(school1, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData1()));
-		School school2 = schools.get(1);
-		assertThat(school2, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData2()));
-		School school3 = schools.get(2);
-		assertThat(school3, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData3()));
-		}
+//	@Test
+//	public void getAllSchoolMetadataFor_withBatchSize() throws Exception {
+//		List<String> schoolCodes = new ArrayList<String>(Arrays.asList("0126","0502","0127"));
+//		List<School> schools = target.getAllSchoolsMetaDataFor(schoolCodes);
+//		assertThat(schools.size(), is(3));
+//		School school1 = schools.get(0);
+//		assertThat(school1, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData1()));
+//		School school2 = schools.get(1);
+//		assertThat(school2, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData2()));
+//		School school3 = schools.get(2);
+//		assertThat(school3, schoolEqualTo(MakeExodusSchoolMetadataForTesting.makeExpectedMetaData3()));
+//		}
 	
 	@Test
 	public void updateSchoolDashboard_ForNonAdminSchoolCode() throws Exception {
@@ -84,20 +84,20 @@ public class SchoolMetaDataProvider_Tests {
 		assertThat(result.size(), is(0));
 	}
 	
-	@Test
-	public void updateSchoolDashboard_ForAdminSchoolCode() throws Exception {
-		target.updateDashboardLoadStatus("0056");
-		List<String> result = target.getSchoolDashBoardData("0056");
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String date = dateFormat.format(new Date()); 
-		assertThat(result.size(), is(6));
-		assertThat(result.get(0), is(date));
-		assertThat(result.get(1), is("N"));
-		assertThat(result.get(2), is("OneAdmin"));
-		assertThat(result.get(3), is(date));
-		assertThat(result.get(4), is("Y"));
-		assertThat(result.get(5), is(date));
-	}
+//	@Test
+//	public void updateSchoolDashboard_ForAdminSchoolCode() throws Exception {
+//		target.updateDashboardLoadStatus("0056");
+//		List<String> result = target.getSchoolDashBoardData("0056");
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//		String date = dateFormat.format(new Date()); 
+//		assertThat(result.size(), is(6));
+//		assertThat(result.get(0), is(date));
+//		assertThat(result.get(1), is("N"));
+//		assertThat(result.get(2), is("OneAdmin"));
+//		assertThat(result.get(3), is(date));
+//		assertThat(result.get(4), is("Y"));
+//		assertThat(result.get(5), is(date));
+//	}
 	
 	@Test
 	public void updateSchoolDashboard_NonExistingSchoolCode() throws Exception {
