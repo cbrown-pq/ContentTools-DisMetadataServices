@@ -12,10 +12,14 @@ import java.util.List;
 
 public class SchoolUpdateQueryForDashboard {
 	private Connection connection;
-	private PreparedStatement dashBoardAdminUpdateStmt;
+	private PreparedStatement dashBoardAdminDeleteStmt;
+	private PreparedStatement dashBoardAdminDeleteElectronicAddressStmt;
+	private PreparedStatement dashBoardAdminDeleteElectronicAddressUsesStmt;
+	private PreparedStatement dashBoardAdminDeleteAddressesStmt;
+	private PreparedStatement dashBoardAdminDeletePhoneNumbersStmt;
+	private PreparedStatement dashBoardAdminDeletePhoneNumberUsesStmt;
 	private PreparedStatement disSchoolUpdateStmt;
 	private PreparedStatement disSchoolLoadStatusStmt;
-	private static String kExodusModifiedUserName = "OneAdmin";
 	private static String kDashBoardAdminName = "DASHBOARD ADMIN";
 	private static final String kColumnSchoolEndDate = "SchoolEndDate";
 	private static final String kColumnSchoolStatus = "SchoolStatus";
@@ -24,21 +28,52 @@ public class SchoolUpdateQueryForDashboard {
 	private static final String kColumnSchoolLoadStatus = "SchoolLoadStatus";
 	private static final String kColumnSchoolLoadStatusDate = "SchoolLoadStatusDate";
 	public static final String kEmptyValue = "";
+	
+	private static final String kDeleteElectronicAddressUsesForDashBoardAdmin = "DELETE FROM DIS_ELEC_ADDRESS_USES DEAU " + 
+			"WHERE DEA_ID in(SELECT DEA.DEA_ID FROM DIS_SCHOOLS DISH, DIS_SCHOOL_PEOPLE DSP, DIS_VALID_TITLE_CATEGORIES DVTC,DIS_ELECTRONIC_ADDRESSES DEA " + 
+			"WHERE DSP.DISH_ID =  DISH.DISH_ID " + 
+			"AND DSP.DVTC_ID = DVTC.DVTC_ID " +
+			"AND DSP.DSP_ID = DEA.DSP_ID " + 
+			"AND DVTC.DVTC_NAME = '" + kDashBoardAdminName + "' " +
+			"AND DISH.DISH_CODE = ?)";	
 
-	private static final String kUpdateSchoolPersonForDashBoardAdmin = "UPDATE " +
-					"DIS.DIS_SCHOOL_PEOPLE dsp " +
-				"SET "  +
-					"dsp.DSP_END_DATE = to_date(?,'dd-Mon-yy'), " +
-					"dsp.DSP_STATUS = 'N', " +	
-					"dsp.DSP_USER_MODIFIED = '" + kExodusModifiedUserName + "', "+
-					"dsp.DSP_DATE_MODIFIED = to_date(?,'dd-Mon-yy') " +
-				"WHERE EXISTS (SELECT 1 FROM " +
-					"DIS_SCHOOLS dish, DIS_VALID_TITLE_CATEGORIES dvtc " +
-					"WHERE " +
-						"dish.DISH_ID = dsp.DISH_ID and " + 
-						"dsp.DVTC_ID = dvtc.DVTC_ID and " + 
-						"dvtc.DVTC_NAME = '" + kDashBoardAdminName + "' and " +  
-						"dish.DISH_CODE = ?)";
+	private static final String kDeleteElectronicAddressForDashBoardAdmin = "DELETE FROM DIS_ELECTRONIC_ADDRESSES DEA " + 
+			"WHERE DSP_ID in(SELECT DSP_ID FROM DIS_SCHOOLS DISH, DIS_SCHOOL_PEOPLE DSP, DIS_VALID_TITLE_CATEGORIES DVTC " + 
+			"WHERE DSP.DISH_ID =  DISH.DISH_ID " + 
+			"AND DSP.DVTC_ID = DVTC.DVTC_ID " +
+			"AND DVTC.DVTC_NAME = '" + kDashBoardAdminName + "' " +
+			"AND DISH.DISH_CODE = ?)";	
+	
+	private static final String kDeleteAddressesForDashBoardAdmin = "DELETE FROM DIS_ADDRESSES DA " + 
+			"WHERE DSP_ID in(SELECT DSP_ID FROM DIS_SCHOOLS DISH, DIS_SCHOOL_PEOPLE DSP, DIS_VALID_TITLE_CATEGORIES DVTC " + 
+			"WHERE DSP.DISH_ID =  DISH.DISH_ID " + 
+			"AND DSP.DVTC_ID = DVTC.DVTC_ID " +
+			"AND DVTC.DVTC_NAME = '" + kDashBoardAdminName + "' " +
+			"AND DISH.DISH_CODE = ?)";	
+	
+	
+	private static final String kDeletePhoneNumbersForDashBoardAdmin = "DELETE FROM DIS_PHONE_NUMBERS DPN " + 
+			"WHERE DSP_ID in(SELECT DSP_ID FROM DIS_SCHOOLS DISH, DIS_SCHOOL_PEOPLE DSP, DIS_VALID_TITLE_CATEGORIES DVTC " + 
+			"WHERE DSP.DISH_ID =  DISH.DISH_ID " + 
+			"AND DSP.DVTC_ID = DVTC.DVTC_ID " +
+			"AND DVTC.DVTC_NAME = '" + kDashBoardAdminName + "' " +
+			"AND DISH.DISH_CODE = ?)";	
+	
+	
+	private static final String kDeletePhoneNumberUsesForDashBoardAdmin = "DELETE FROM DIS_PHONE_USES DPU " + 
+			"WHERE DPN_ID in(SELECT DPN_ID FROM DIS_SCHOOLS DISH, DIS_SCHOOL_PEOPLE DSP, DIS_VALID_TITLE_CATEGORIES DVTC,DIS_PHONE_NUMBERS DPN " + 
+			"WHERE DSP.DISH_ID =  DISH.DISH_ID " + 
+			"AND DSP.DVTC_ID = DVTC.DVTC_ID " +
+			"AND DSP.DSP_ID = DPN.DSP_ID " + 
+			"AND DVTC.DVTC_NAME = '" + kDashBoardAdminName + "' " +
+			"AND DISH.DISH_CODE = ?)";
+	
+	private static final String kDeleteSchoolPersonForDashBoardAdmin = "DELETE FROM DIS_SCHOOL_PEOPLE DSP " + 
+																		"WHERE DSP_ID in(SELECT DSP_ID FROM DIS_SCHOOLS DISH, DIS_VALID_TITLE_CATEGORIES DVTC " + 
+																		"WHERE DSP.DISH_ID =  DISH.DISH_ID " + 
+																		"AND DSP.DVTC_ID = DVTC.DVTC_ID " +
+																		"AND DVTC.DVTC_NAME = '" + kDashBoardAdminName + "' " +
+																		"AND DISH.DISH_CODE = ?)";	
 	
 	private static final String kUpdateSchoolLoadStatus = "UPDATE " +
 			"DIS.DIS_SCHOOLS dish " +
@@ -48,31 +83,28 @@ public class SchoolUpdateQueryForDashboard {
 		"WHERE " +
 			"dish.DISH_CODE = ?";
 	
-	private static final String kSchoolLoadStatus =  "SELECT " 
-			+ "TO_CHAR(DSP.DSP_END_DATE,'YYYY-MM-DD') " + kColumnSchoolEndDate + ", "
-			+ "DSP.DSP_STATUS " + kColumnSchoolStatus + ", "
-			+ "DSP.DSP_USER_MODIFIED " + kColumnSchoolUserModified + ", "
-			+ "TO_CHAR(DSP.DSP_DATE_MODIFIED,'YYYY-MM-DD') " + kColumnSchoolDateModified + ", "
+	private static final String kSchoolLoadStatus =  "SELECT " 			
 			+ "DISH.DISH_DASH_LOAD_STATUS " + kColumnSchoolLoadStatus + ", "
 			+ "TO_CHAR(DISH.DISH_DASH_LOAD_STATUS_DATE,'YYYY-MM-DD') " + kColumnSchoolLoadStatusDate + " "
-			+ "FROM "  +
-				"DIS_SCHOOL_PEOPLE DSP, " +
-				"DIS_SCHOOLS DISH, " +
-				"DIS_VALID_TITLE_CATEGORIES DVTC " +
-			"WHERE DSP.DISH_ID = DISH.DISH_ID " +
-						"AND DSP.DVTC_ID = DVTC.DVTC_ID " +
-						"AND dvtc.DVTC_NAME = '" + kDashBoardAdminName + "' " +
-						"AND DISH_CODE = ? ";
+			+ "FROM "  +				
+				"DIS_SCHOOLS DISH " +
+			"WHERE DISH_CODE = ? ";
 					
 	
 	public SchoolUpdateQueryForDashboard(Connection connection)
 			throws SQLException {
-		this.dashBoardAdminUpdateStmt = connection
-				.prepareStatement(kUpdateSchoolPersonForDashBoardAdmin);
+		this.dashBoardAdminDeleteStmt = connection
+				.prepareStatement(kDeleteSchoolPersonForDashBoardAdmin);
+		this.dashBoardAdminDeleteElectronicAddressStmt = connection
+				.prepareStatement(kDeleteElectronicAddressForDashBoardAdmin);
 		this.disSchoolUpdateStmt = connection
 				.prepareStatement(kUpdateSchoolLoadStatus);
 		this.disSchoolLoadStatusStmt = connection
 				.prepareStatement(kSchoolLoadStatus);
+		this.dashBoardAdminDeleteElectronicAddressUsesStmt = connection.prepareStatement(kDeleteElectronicAddressUsesForDashBoardAdmin);
+		this.dashBoardAdminDeleteAddressesStmt = connection.prepareStatement(kDeleteAddressesForDashBoardAdmin);
+		this.dashBoardAdminDeletePhoneNumbersStmt = connection.prepareStatement(kDeletePhoneNumbersForDashBoardAdmin);
+		this.dashBoardAdminDeletePhoneNumberUsesStmt = connection.prepareStatement(kDeletePhoneNumberUsesForDashBoardAdmin);
 		this.connection = connection;
 	}
 
@@ -82,7 +114,12 @@ public class SchoolUpdateQueryForDashboard {
 		String currentDate = dateFormat.format(new Date());
 		try {
 			getConnection().setAutoCommit(false);
-			executeSchoolPersonUpdate(schoolCode, currentDate);
+			executeElectronicAddressUsesDelete(schoolCode);
+			executeElectronicAddressDelete(schoolCode);
+			executeAddressDelete(schoolCode);
+			executePhoneNumberUses(schoolCode);
+			executePhoneNumbersDelete(schoolCode);
+			executeSchoolPersonDelete(schoolCode);
 			executeSchoolUpdate(schoolCode, currentDate);
 			getConnection().commit();
 		} catch (SQLException e) {
@@ -113,12 +150,40 @@ public class SchoolUpdateQueryForDashboard {
 		disSchoolUpdateStmt.executeUpdate();
 	}
 
-	private void executeSchoolPersonUpdate(String schoolCode, String currentDate)
+	private void executeSchoolPersonDelete(String schoolCode)
 			throws SQLException {
-		dashBoardAdminUpdateStmt.setString(1, currentDate);
-		dashBoardAdminUpdateStmt.setString(2, currentDate);
-		dashBoardAdminUpdateStmt.setString(3, schoolCode);
-		dashBoardAdminUpdateStmt.executeUpdate();
+		dashBoardAdminDeleteStmt.setString(1, schoolCode);
+		dashBoardAdminDeleteStmt.executeUpdate();
+	}
+	
+	private void executeElectronicAddressDelete(String schoolCode)
+			throws SQLException {
+		dashBoardAdminDeleteElectronicAddressStmt.setString(1, schoolCode);
+		dashBoardAdminDeleteElectronicAddressStmt.executeUpdate();
+	}
+	
+	private void executeElectronicAddressUsesDelete(String schoolCode)
+			throws SQLException {
+		dashBoardAdminDeleteElectronicAddressUsesStmt.setString(1, schoolCode);
+		dashBoardAdminDeleteElectronicAddressUsesStmt.executeUpdate();
+	}
+	
+	private void executePhoneNumbersDelete(String schoolCode)
+			throws SQLException {
+		dashBoardAdminDeletePhoneNumbersStmt.setString(1, schoolCode);
+		dashBoardAdminDeletePhoneNumbersStmt.executeUpdate();
+	}
+	
+	private void executePhoneNumberUses(String schoolCode)
+			throws SQLException {
+		dashBoardAdminDeletePhoneNumberUsesStmt.setString(1, schoolCode);
+		dashBoardAdminDeletePhoneNumberUsesStmt.executeUpdate();
+	}
+		
+	private void executeAddressDelete(String schoolCode)
+			throws SQLException {
+		dashBoardAdminDeleteAddressesStmt.setString(1, schoolCode);
+		dashBoardAdminDeleteAddressesStmt.executeUpdate();
 	}
 
 	public Connection getConnection() {
@@ -126,7 +191,7 @@ public class SchoolUpdateQueryForDashboard {
 	}
 
 	public void close() throws SQLException {
-		closeStatement(dashBoardAdminUpdateStmt);
+		closeStatement(dashBoardAdminDeleteStmt);
 	}
 
 	private void closeStatement(PreparedStatement statment) throws SQLException {
@@ -144,14 +209,6 @@ public class SchoolUpdateQueryForDashboard {
 				disSchoolLoadStatusStmt.setString(1, schoolCode);
 				cursor = disSchoolLoadStatusStmt.executeQuery();
 				if (cursor.next()) {
-					dashboardData.add(required(cursor
-							.getString(kColumnSchoolEndDate)));
-					dashboardData.add(required(cursor
-							.getString(kColumnSchoolStatus)));
-					dashboardData.add(required(cursor
-							.getString(kColumnSchoolUserModified)));
-					dashboardData.add(required(cursor
-							.getString(kColumnSchoolDateModified)));
 					dashboardData.add(required(cursor
 							.getString(kColumnSchoolLoadStatus)));
 					dashboardData.add(required(cursor

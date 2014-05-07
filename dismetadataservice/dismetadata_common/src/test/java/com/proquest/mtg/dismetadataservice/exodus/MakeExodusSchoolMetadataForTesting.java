@@ -28,7 +28,7 @@ public class MakeExodusSchoolMetadataForTesting {
 		x.setCode("0126");
 		x.setCountry("UNITED STATES");
 		x.setDashboardEligibilityCode("0001");
-		x.setDashboardEligibilityDescription("Not eligible for Dashboard");
+		x.setDashboardEligibilityDescription("Ineligible - Default");
 		
 		Addresses addressses = new Addresses();
 		
@@ -95,7 +95,7 @@ public class MakeExodusSchoolMetadataForTesting {
 		x.setCode("0502");
 		x.setCountry("UNITED STATES");
 		x.setDashboardEligibilityCode("0001");
-		x.setDashboardEligibilityDescription("Not eligible for Dashboard");
+		x.setDashboardEligibilityDescription("Ineligible - Default");
 		
 		NameType schoolPerson1_name = SchoolMetadaHelper.MakeNameTypeFrom("Stephanie", null, 
 				"August", "Y", "03-aug-2011", "03-aug-2011", null);
@@ -137,24 +137,24 @@ public class MakeExodusSchoolMetadataForTesting {
 		x.setCode("0127");
 		x.setCountry("UNITED STATES");
 		x.setDashboardEligibilityCode("0001");
-		x.setDashboardEligibilityDescription("Not eligible for Dashboard");
+		x.setDashboardEligibilityDescription("Ineligible - Default");
 		
-		NameType schoolPerson1_name = SchoolMetadaHelper.MakeNameTypeFrom("Antonucci", null, 
-				" Toni", "Y", "01-jun-2009", "01-jun-2009", null);
-		PersonType schoolPerson1 = SchoolMetadaHelper.MakeSchoolPersonTypeFrom("Associate Dean", 
-				"DEAN", null, "Y", "tca@umich.edu", "01-jun-2009", null, 
+		NameType schoolPerson1_name = SchoolMetadaHelper.MakeNameTypeFrom("Janet", "A.", 
+				"Weiss", "Y", "04-aug-2011", "04-aug-2011", null);
+		PersonType schoolPerson1 = SchoolMetadaHelper.MakeSchoolPersonTypeFrom("VP and Dean", 
+				"DEAN", null, "Y", "janetw@umich.edu", "04-aug-2011", null, 
 				schoolPerson1_name );
 		
-		NameType schoolPerson2_name = SchoolMetadaHelper.MakeNameTypeFrom("Bergman", null, 
-				" Maia", "Y", "01-jun-2009", "01-jun-2009", null);
+		NameType schoolPerson2_name = SchoolMetadaHelper.MakeNameTypeFrom("Antonucci", null, 
+				" Toni", "Y", "01-jun-2009", "01-jun-2009", null);
 		PersonType schoolPerson2 = SchoolMetadaHelper.MakeSchoolPersonTypeFrom(
-				"Assistant Director Institutional Research", "OTHER", null, "Y",
-				"mbergman@umich.edu", "01-jun-2009", null, schoolPerson2_name );
+				"Associate Dean", "DEAN", null, "Y",
+				"tca@umich.edu", "01-jun-2009", null, schoolPerson2_name );
 		
-		NameType schoolPerson3_name = SchoolMetadaHelper.MakeNameTypeFrom("Janet", "A.", 
-				"Weiss", "Y", "04-aug-2011", "04-aug-2011", null);
-		PersonType schoolPerson3 = SchoolMetadaHelper.MakeSchoolPersonTypeFrom("VP and Dean", "DEAN", null, "Y",
-				"janetw@umich.edu", "04-aug-2011", null, schoolPerson3_name );
+		NameType schoolPerson3_name = SchoolMetadaHelper.MakeNameTypeFrom("Bergman", null, 
+				" Maia", "Y", "01-jun-2009", "01-jun-2009", null);
+		PersonType schoolPerson3 = SchoolMetadaHelper.MakeSchoolPersonTypeFrom("Assistant Director Institutional Research", "OTHER", null, "Y",
+				"mbergman@umich.edu", "01-jun-2009", null, schoolPerson3_name );
 		SchoolPersons schoolPersons = new SchoolPersons();
 		schoolPersons.getSchoolPerson().addAll(Lists.newArrayList(schoolPerson1, schoolPerson2, schoolPerson3));
 		
