@@ -102,7 +102,8 @@ public class SchoolMetaDataQuery {
 
 	private static final String kSelectSchoolCodes = "select dish_id " + kId	+ ", "
 			+ "dish_code "	+ kCode
-			+ " from dis_schools";
+			+ " from dis_schools "
+			+ "order by dish_code asc";
 
 	private static final String kSelectMainSchoolMetadata = "select dish.dish_id " + kSchoolId	+ ", "
 			+ "dish.dish_code "	+ kSchoolCode	+ ", "
@@ -140,8 +141,8 @@ public class SchoolMetaDataQuery {
 			+ "dis_states dist, "
             + "dis_valid_dashboard_codes dvdc, "
             + "dis_valid_dash_source_codes dvdsc "
-			+ "where dish.dvc_code = dvc.dvc_code and "
-			+ "dish.dsta_code = dist.dsta_code and " 
+			+ "where dish.dvc_code = dvc.dvc_code(+) and "
+			+ "dish.dsta_code = dist.dsta_code(+) and " 
             + "dish.dvdc_code = dvdc.dvdc_code(+) and "
             + "dish.dvdsc_code = dvdsc.dvdsc_code(+) and "
 			+ "dish.dish_code IN";
