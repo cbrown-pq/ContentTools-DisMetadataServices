@@ -108,7 +108,7 @@ public class MakeExodusSchoolMetadataForTesting {
 				"gkuleck@lmu.edu", "03-aug-2011", null, schoolPerson2_name );
 		
 		
-		NameType schoolPerson3_name = SchoolMetadaHelper.MakeNameTypeFrom("Stephanie", null, 
+		/*NameType schoolPerson3_name = SchoolMetadaHelper.MakeNameTypeFrom("Stephanie", null, 
 				"August", "Y", "03-aug-2011", "03-aug-2011", null);
 		PersonType schoolPerson3 = SchoolMetadaHelper.MakeSchoolPersonTypeFrom(null, "DASHBOARD ADMIN", null, "Y",
 				"Stephanie.August@gmail.com", "21-apr-2014", null, schoolPerson3_name );
@@ -118,10 +118,10 @@ public class MakeExodusSchoolMetadataForTesting {
 		PersonType schoolPerson4 = SchoolMetadaHelper.MakeSchoolPersonTypeFrom(null, "DASHBOARD ADMIN", null, "Y",
 				"S.August@gmail.com", "29-apr-2014", null, schoolPerson4_name );
 		
-		
+		*/
 		
 		SchoolPersons schoolPersons = new SchoolPersons();
-		schoolPersons.getSchoolPerson().addAll(Lists.newArrayList(schoolPerson1, schoolPerson2, schoolPerson3, schoolPerson4));
+		schoolPersons.getSchoolPerson().addAll(Lists.newArrayList(schoolPerson1, schoolPerson2));
 		
 		x.setSchoolPersons(schoolPersons);
 		
