@@ -87,7 +87,7 @@ public class CSVRecordFactory {
 		kAllHeaders.put(CSVHeaders.kDegreeDesc, CSVRecordFactory.class
 				.getDeclaredMethod("handleDegreeDescForFirstAuthor"));
 		kAllHeaders.put(CSVHeaders.kDegreeYear, CSVRecordFactory.class
-				.getDeclaredMethod("handleDegreeYearForFirstAuthor"));	
+				.getDeclaredMethod("handleDegreeYearForFirstAuthor"));
 		kAllHeaders.put(CSVHeaders.kAbstract,
 				CSVRecordFactory.class.getDeclaredMethod("handleAbstract"));
 		kAllHeaders.put(CSVHeaders.kSubjectDesc,
@@ -138,12 +138,16 @@ public class CSVRecordFactory {
 		kAllHeaders.put(CSVHeaders.kFormatRestrictionCode,
 				CSVRecordFactory.class
 						.getDeclaredMethod("handleFormatRestrictionCode"));
+		kAllHeaders.put(CSVHeaders.kFormatRestrictionStartDt,
+				CSVRecordFactory.class
+						.getDeclaredMethod("handleFormatRestrictionStartDt"));
+		kAllHeaders.put(CSVHeaders.kFormatRestrictionEndDt,
+				CSVRecordFactory.class
+						.getDeclaredMethod("handleFormatRestrictionEndDt"));
 		kAllHeaders.put(CSVHeaders.kExternalId,
-				CSVRecordFactory.class
-						.getDeclaredMethod("handleExternalId"));
-		kAllHeaders.put(CSVHeaders.kOpenAccessFlag,
-				CSVRecordFactory.class
-						.getDeclaredMethod("handleOpenAccessFlag"));
+				CSVRecordFactory.class.getDeclaredMethod("handleExternalId"));
+		kAllHeaders.put(CSVHeaders.kOpenAccessFlag, CSVRecordFactory.class
+				.getDeclaredMethod("handleOpenAccessFlag"));
 		kAllHeaders.put(CSVHeaders.kAuthorCitizenship, CSVRecordFactory.class
 				.getDeclaredMethod("handleAuthorCitizenship"));
 	}
@@ -271,7 +275,7 @@ public class CSVRecordFactory {
 		addField(blNumber);
 
 	}
-	
+
 	private void handlePqOpenUrl() {
 		String source = "";
 		if (null != curMetaData.getPqOpenURL()
@@ -280,7 +284,7 @@ public class CSVRecordFactory {
 		}
 		addField(source);
 	}
-	
+
 	private void handleExternalUrl() {
 		String source = "";
 		if (null != curMetaData.getExternalURL()
@@ -483,7 +487,8 @@ public class CSVRecordFactory {
 						degreeCode += endWithPipes(curDegree.getDegreeCode());
 				}
 				if (degreeCode.endsWith(DELIMITER)) {
-					degreeCode = degreeCode.substring(0, degreeCode.length() - 1);
+					degreeCode = degreeCode.substring(0,
+							degreeCode.length() - 1);
 				}
 			}
 		}
@@ -501,7 +506,8 @@ public class CSVRecordFactory {
 				for (Degree curDegree : degrees) {
 					if (null != curDegree.getDegreeDescription()
 							&& !curDegree.getDegreeDescription().isEmpty()) {
-						degreeDesc += endWithPipes(curDegree.getDegreeDescription());
+						degreeDesc += endWithPipes(curDegree
+								.getDegreeDescription());
 					}
 				}
 				if (degreeDesc.endsWith(DELIMITER)) {
@@ -588,7 +594,8 @@ public class CSVRecordFactory {
 			for (Subject curSubject : subjects) {
 				if (null != curSubject.getSubjectGroupDesc()
 						&& !curSubject.getSubjectGroupDesc().isEmpty()) {
-					subjGroupDesc += endWithPipes(curSubject.getSubjectGroupDesc());
+					subjGroupDesc += endWithPipes(curSubject
+							.getSubjectGroupDesc());
 				}
 			}
 			if (subjGroupDesc.endsWith(DELIMITER)) {
@@ -789,8 +796,7 @@ public class CSVRecordFactory {
 								.isEmpty()) {
 					salesRestrictionEndDate += endWithPipes(currSalesRestriction
 							.getRestrictionEndDate());
-				}
-				else {
+				} else {
 					salesRestrictionEndDate += endWithPipes("NONE");
 				}
 			}
@@ -857,8 +863,6 @@ public class CSVRecordFactory {
 
 	private void handleFormatRestrictionCode() {
 		String formatRestrictionCode = "";
-		String formatRestrictionStartDt = "";
-		String formatRestrictionEndDt = "";
 		if (null != curMetaData.getFormatRestrictions()
 				&& !curMetaData.getFormatRestrictions().isEmpty()) {
 			List<FormatRestriction> formatRestrictions = curMetaData
@@ -868,28 +872,8 @@ public class CSVRecordFactory {
 						&& !curFormatRestriction.getCode().isEmpty()) {
 					formatRestrictionCode = formatRestrictionCode
 							+ endWithPipes(curFormatRestriction.getCode());
-				}
-				else {
+				} else {
 					formatRestrictionCode += endWithPipes("NONE");
-				}
-				
-				if (null != curFormatRestriction.getFormatRestrictionStartDt()
-						&& !curFormatRestriction.getFormatRestrictionStartDt().isEmpty()) {
-					formatRestrictionStartDt = formatRestrictionStartDt
-							+ endWithPipes(curFormatRestriction.getFormatRestrictionStartDt());
-				}
-				else {
-					formatRestrictionStartDt += endWithPipes("NONE");
-				}
-				
-				
-				if (null != curFormatRestriction.getFormatRestrictionEndDt()
-						&& !curFormatRestriction.getFormatRestrictionEndDt().isEmpty()) {
-					formatRestrictionEndDt = formatRestrictionEndDt
-							+ endWithPipes(curFormatRestriction.getFormatRestrictionEndDt());
-				}
-				else {
-					formatRestrictionEndDt += endWithPipes("NONE");
 				}
 			}
 
@@ -897,39 +881,85 @@ public class CSVRecordFactory {
 				formatRestrictionCode = formatRestrictionCode.substring(0,
 						formatRestrictionCode.length() - 1);
 			}
-			if (formatRestrictionStartDt.endsWith(DELIMITER)) {
-				formatRestrictionStartDt = formatRestrictionStartDt.substring(0,
-						formatRestrictionStartDt.length() - 1);
+		}
+		addField(formatRestrictionCode);
+	}
+
+	private void handleFormatRestrictionStartDt() {
+		String formatRestrictionStartDt = "";
+		if (null != curMetaData.getFormatRestrictions()
+				&& !curMetaData.getFormatRestrictions().isEmpty()) {
+			List<FormatRestriction> formatRestrictions = curMetaData
+					.getFormatRestrictions();
+			for (FormatRestriction curFormatRestriction : formatRestrictions) {
+
+				if (null != curFormatRestriction.getFormatRestrictionStartDt()
+						&& !curFormatRestriction.getFormatRestrictionStartDt()
+								.isEmpty()) {
+					formatRestrictionStartDt = formatRestrictionStartDt
+							+ endWithPipes(curFormatRestriction
+									.getFormatRestrictionStartDt());
+				} else {
+					formatRestrictionStartDt += endWithPipes("NONE");
+				}
+
 			}
+			if (formatRestrictionStartDt.endsWith(DELIMITER)) {
+				formatRestrictionStartDt = formatRestrictionStartDt.substring(
+						0, formatRestrictionStartDt.length() - 1);
+			}
+		}
+		addField(formatRestrictionStartDt);
+	}
+
+	private void handleFormatRestrictionEndDt() {
+		String formatRestrictionEndDt = "";
+		if (null != curMetaData.getFormatRestrictions()
+				&& !curMetaData.getFormatRestrictions().isEmpty()) {
+			List<FormatRestriction> formatRestrictions = curMetaData
+					.getFormatRestrictions();
+			for (FormatRestriction curFormatRestriction : formatRestrictions) {
+
+				if (null != curFormatRestriction.getFormatRestrictionEndDt()
+						&& !curFormatRestriction.getFormatRestrictionEndDt()
+								.isEmpty()) {
+					formatRestrictionEndDt = formatRestrictionEndDt
+							+ endWithPipes(curFormatRestriction
+									.getFormatRestrictionEndDt());
+				} else {
+					formatRestrictionEndDt += endWithPipes("NONE");
+				}
+			}
+
 			if (formatRestrictionEndDt.endsWith(DELIMITER)) {
 				formatRestrictionEndDt = formatRestrictionEndDt.substring(0,
 						formatRestrictionEndDt.length() - 1);
 			}
 		}
-		addField(formatRestrictionCode);
-		addField(formatRestrictionStartDt);
 		addField(formatRestrictionEndDt);
 	}
-	
+
 	private void handleExternalId() {
 		String externalId = "";
-		
-		if (null != curMetaData.getExternalId() && !curMetaData.getExternalId().isEmpty()) {
+
+		if (null != curMetaData.getExternalId()
+				&& !curMetaData.getExternalId().isEmpty()) {
 			externalId = curMetaData.getExternalId();
 		}
 
 		addField(externalId);
 	}
-	
+
 	private void handleOpenAccessFlag() {
 		String openAccessFlag = "";
-		if (null != curMetaData.getOpenAccessFlag() && !curMetaData.getOpenAccessFlag().isEmpty()) {
+		if (null != curMetaData.getOpenAccessFlag()
+				&& !curMetaData.getOpenAccessFlag().isEmpty()) {
 			openAccessFlag = curMetaData.getOpenAccessFlag();
 		}
 
 		addField(openAccessFlag);
 	}
-	
+
 	private void handleAuthorCitizenship() {
 		List<Author> authors = curMetaData.getAuthors();
 		String authorCitizenship = "";
@@ -937,15 +967,15 @@ public class CSVRecordFactory {
 			for (Author curAuthor : authors) {
 				if (null != curAuthor.getAuthorCitizenship()
 						&& !curAuthor.getAuthorCitizenship().isEmpty()) {
-					authorCitizenship += endWithPipes(curAuthor.getAuthorCitizenship());
-				}
-				else {
+					authorCitizenship += endWithPipes(curAuthor
+							.getAuthorCitizenship());
+				} else {
 					authorCitizenship += endWithPipes("NONE");
 				}
 			}
 			if (null != authorCitizenship && !authorCitizenship.isEmpty()) {
-				authorCitizenship = authorCitizenship
-						.substring(0, authorCitizenship.length() - 1);
+				authorCitizenship = authorCitizenship.substring(0,
+						authorCitizenship.length() - 1);
 			}
 		}
 		addField(authorCitizenship);
