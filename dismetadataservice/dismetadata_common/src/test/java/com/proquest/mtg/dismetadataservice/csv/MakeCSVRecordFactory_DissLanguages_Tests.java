@@ -32,7 +32,7 @@ public class MakeCSVRecordFactory_DissLanguages_Tests {
 	public void makeWithEmpty() throws Exception {
 		metadata.setDissLanguages(languages);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -45,7 +45,7 @@ public class MakeCSVRecordFactory_DissLanguages_Tests {
 		languages.add(lang2);
 		metadata.setDissLanguages(languages);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,\"English|French\",\"EN|FR\",,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
+				+ "\r\n,,,,,,,,,,,\"English|French\",\"EN|FR\",,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

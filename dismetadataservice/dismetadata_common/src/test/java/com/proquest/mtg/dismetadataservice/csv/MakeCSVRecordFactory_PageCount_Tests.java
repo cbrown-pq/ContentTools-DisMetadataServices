@@ -27,7 +27,7 @@ public class MakeCSVRecordFactory_PageCount_Tests {
 		String pageCount = null;
 		metadata.setPageCount(pageCount);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -36,7 +36,7 @@ public class MakeCSVRecordFactory_PageCount_Tests {
 	public void withOnlyPubPageCount() throws Exception {
 		metadata.setPageCount("128");
 		String expectedCSVData = header
-				+ "\r\n,,,,,\"128\",,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
+				+ "\r\n,,,,,\"128\",,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

@@ -56,6 +56,7 @@ public class PubMetaDataQuery {
 	private static final String kColumnAuthorSequenceNumber = "AuthorSequenceNumber"; 
 	private static final String kColumnAuthorFullName = "AuthorFullName";
 	private static final String kColumnAuthorAlternateFullName = "AuthorAlternateFullName";
+	private static final String kColumnAuthorCitizenship = "AuthorCitizenship"; 
 	
 	private static final String kColumnDegreeCode = "DegreeCode";
 	private static final String kColumnDegreeDescription = "DegreeDescription";
@@ -164,14 +165,17 @@ public class PubMetaDataQuery {
 				"dath.dath_id " + kColumnAuthorId + ", " +
 				"dath_sequence_number " + kColumnAuthorSequenceNumber + ", " +
 				"dath_fullname " + kColumnAuthorFullName + ", " + 
-				"dsa_fullname " + kColumnAuthorAlternateFullName + " " + 
+				"dsa_fullname " + kColumnAuthorAlternateFullName + ", " +
+				"dvc_description " + kColumnAuthorCitizenship + " " +
 			"FROM " +
 				"dis.dis_authors dath, " + 
-				"dis.dis_supp_authors dsa " + 
+				"dis.dis_supp_authors dsa, " +
+				"dis.dis_valid_countries dvc " +
 			"WHERE " +
 				"dath.ditm_id = ? AND " +  
 				"dath.dath_id = dsa.dath_id(+) AND " + 
-				"dath.dath_sequence_number = dsa.dsa_sequence_number(+) " + 
+				"dath.dath_sequence_number = dsa.dsa_sequence_number(+) AND " +
+				"dath.dvc_code = dvc.dvc_code(+) " +
 			"ORDER BY dath_sequence_number asc "; 
 	
 	private static final String kSelectDegree = 
@@ -506,6 +510,7 @@ public class PubMetaDataQuery {
 					author.setAltAuthorFullName(alternateFullName);
 				}
 				author.setDegrees(getDegreesFor(cursor.getString(kColumnAuthorId)));
+				author.setAuthorCitizenship(cursor.getString(kColumnAuthorCitizenship));
 				result.add(author);
 			}
 		}

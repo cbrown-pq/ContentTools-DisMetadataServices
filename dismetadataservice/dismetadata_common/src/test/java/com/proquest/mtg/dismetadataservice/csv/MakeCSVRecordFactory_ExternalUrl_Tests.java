@@ -27,7 +27,7 @@ public class MakeCSVRecordFactory_ExternalUrl_Tests {
 		String url = null;
 		metadata.setBLNumber(url);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -36,7 +36,7 @@ public class MakeCSVRecordFactory_ExternalUrl_Tests {
 	public void withOnlyExternalUrl() throws Exception {
 		metadata.setExternalURL("http://www.theses.com/idx/registered_users/etd/8f.asp");
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,\"http://www.theses.com/idx/registered_users/etd/8f.asp\",,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
+				+ "\r\n,,,,,,,,,,\"http://www.theses.com/idx/registered_users/etd/8f.asp\",,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

@@ -32,7 +32,7 @@ public class MakeCSVRecordFactory_Keyword_Tests {
 		keywords = Lists.newArrayList();
 		metadata.setKeywords(keywords);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -47,7 +47,7 @@ public class MakeCSVRecordFactory_Keyword_Tests {
 		metadata.setKeywords(keywords);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,," + ",,\"" + "KeywordSource" + "\""
-				+ ",,,,,,,,\"N\",,,,,";
+				+ ",,,,,,,,\"N\",,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -62,7 +62,7 @@ public class MakeCSVRecordFactory_Keyword_Tests {
 		metadata.setKeywords(keywords);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,," + ",\"" + "KeywordValue" + "\""
-				+ ",,,,,,,,,\"N\",,,,,";
+				+ ",,,,,,,,,\"N\",,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -81,7 +81,7 @@ public class MakeCSVRecordFactory_Keyword_Tests {
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,," + ",\"" + "By Author|For Datrix" + "\""
 				+ ",\"" + "low temperature adsorption drying|	  免疫" + "\""
-				+ ",,,,,,,,\"N\",,,,,";
+				+ ",,,,,,,,\"N\",,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

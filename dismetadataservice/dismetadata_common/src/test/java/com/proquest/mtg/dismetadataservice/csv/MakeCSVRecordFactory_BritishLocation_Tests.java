@@ -27,7 +27,7 @@ public class MakeCSVRecordFactory_BritishLocation_Tests {
 		String blNumber = null;
 		metadata.setBLNumber(blNumber);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -37,7 +37,7 @@ public class MakeCSVRecordFactory_BritishLocation_Tests {
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setBLNumber("BLNumber");
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,\"BLNumber\",,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
+				+ "\r\n,,,,,,,,\"BLNumber\",,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

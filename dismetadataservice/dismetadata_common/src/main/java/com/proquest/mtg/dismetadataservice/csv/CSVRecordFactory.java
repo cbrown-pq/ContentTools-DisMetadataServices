@@ -87,7 +87,7 @@ public class CSVRecordFactory {
 		kAllHeaders.put(CSVHeaders.kDegreeDesc, CSVRecordFactory.class
 				.getDeclaredMethod("handleDegreeDescForFirstAuthor"));
 		kAllHeaders.put(CSVHeaders.kDegreeYear, CSVRecordFactory.class
-				.getDeclaredMethod("handleDegreeYearForFirstAuthor"));
+				.getDeclaredMethod("handleDegreeYearForFirstAuthor"));	
 		kAllHeaders.put(CSVHeaders.kAbstract,
 				CSVRecordFactory.class.getDeclaredMethod("handleAbstract"));
 		kAllHeaders.put(CSVHeaders.kSubjectDesc,
@@ -144,6 +144,8 @@ public class CSVRecordFactory {
 		kAllHeaders.put(CSVHeaders.kOpenAccessFlag,
 				CSVRecordFactory.class
 						.getDeclaredMethod("handleOpenAccessFlag"));
+		kAllHeaders.put(CSVHeaders.kAuthorCitizenship, CSVRecordFactory.class
+				.getDeclaredMethod("handleAuthorCitizenship"));
 	}
 
 	public LinkedHashMap<String, Method> getTagMappings() {
@@ -788,6 +790,9 @@ public class CSVRecordFactory {
 					salesRestrictionEndDate += endWithPipes(currSalesRestriction
 							.getRestrictionEndDate());
 				}
+				else {
+					salesRestrictionEndDate += endWithPipes("NONE");
+				}
 			}
 			if (salesRestrictionEndDate.endsWith(DELIMITER)) {
 				salesRestrictionEndDate = salesRestrictionEndDate.substring(0,
@@ -890,6 +895,27 @@ public class CSVRecordFactory {
 		}
 
 		addField(openAccessFlag);
+	}
+	
+	private void handleAuthorCitizenship() {
+		List<Author> authors = curMetaData.getAuthors();
+		String authorCitizenship = "";
+		if (null != authors && !authors.isEmpty()) {
+			for (Author curAuthor : authors) {
+				if (null != curAuthor.getAuthorCitizenship()
+						&& !curAuthor.getAuthorCitizenship().isEmpty()) {
+					authorCitizenship += endWithPipes(curAuthor.getAuthorCitizenship());
+				}
+				else {
+					authorCitizenship += endWithPipes("NONE");
+				}
+			}
+			if (null != authorCitizenship && !authorCitizenship.isEmpty()) {
+				authorCitizenship = authorCitizenship
+						.substring(0, authorCitizenship.length() - 1);
+			}
+		}
+		addField(authorCitizenship);
 	}
 
 	private void addField(String data) {

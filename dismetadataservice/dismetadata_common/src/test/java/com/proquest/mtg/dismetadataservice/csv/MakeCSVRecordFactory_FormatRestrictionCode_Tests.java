@@ -35,7 +35,7 @@ public class MakeCSVRecordFactory_FormatRestrictionCode_Tests {
 		formatRestrictions.add(formatRestriction);
 		metadata.setFormatRestrictions(formatRestrictions);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -52,7 +52,7 @@ public class MakeCSVRecordFactory_FormatRestrictionCode_Tests {
 		formatRestrictions.add(formatRestriction2);
 		metadata.setFormatRestrictions(formatRestrictions);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"N\"" + ",,\"C|CE\",,,";
+				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"N\"" + ",,\"C|CE\",,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
