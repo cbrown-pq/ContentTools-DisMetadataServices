@@ -515,6 +515,8 @@ public class DisPubMetaData {
     
     public static class FormatRestriction {
     	private String code;
+    	private String formatRestrictionStartDt;
+		private String formatRestrictionEndDt;
 
 		public String getCode() {
 			return code;
@@ -523,6 +525,23 @@ public class DisPubMetaData {
 		public void setCode(String value) {
 			this.code = value;
 		}
+		public String getFormatRestrictionStartDt() {
+			return formatRestrictionStartDt;
+		}
+		
+		public void setFormatRestrictionStartDt(String formatRestrictionStartDt) {
+			this.formatRestrictionStartDt = formatRestrictionStartDt;
+		}
+		
+		public String getFormatRestrictionEndDt() {
+			return formatRestrictionEndDt;
+		}
+		
+		public void setFormatRestrictionEndDt(String formatRestrictionEndDt) {
+			this.formatRestrictionEndDt = formatRestrictionEndDt;
+		}
+	
+		
     }
     
     public static class Batch {

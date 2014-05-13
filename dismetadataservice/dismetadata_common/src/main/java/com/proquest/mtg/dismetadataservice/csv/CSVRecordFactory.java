@@ -857,7 +857,8 @@ public class CSVRecordFactory {
 
 	private void handleFormatRestrictionCode() {
 		String formatRestrictionCode = "";
-
+		String formatRestrictionStartDt = "";
+		String formatRestrictionEndDt = "";
 		if (null != curMetaData.getFormatRestrictions()
 				&& !curMetaData.getFormatRestrictions().isEmpty()) {
 			List<FormatRestriction> formatRestrictions = curMetaData
@@ -868,14 +869,46 @@ public class CSVRecordFactory {
 					formatRestrictionCode = formatRestrictionCode
 							+ endWithPipes(curFormatRestriction.getCode());
 				}
+				else {
+					formatRestrictionCode += endWithPipes("NONE");
+				}
+				
+				if (null != curFormatRestriction.getFormatRestrictionStartDt()
+						&& !curFormatRestriction.getFormatRestrictionStartDt().isEmpty()) {
+					formatRestrictionStartDt = formatRestrictionStartDt
+							+ endWithPipes(curFormatRestriction.getFormatRestrictionStartDt());
+				}
+				else {
+					formatRestrictionStartDt += endWithPipes("NONE");
+				}
+				
+				
+				if (null != curFormatRestriction.getFormatRestrictionEndDt()
+						&& !curFormatRestriction.getFormatRestrictionEndDt().isEmpty()) {
+					formatRestrictionEndDt = formatRestrictionEndDt
+							+ endWithPipes(curFormatRestriction.getFormatRestrictionEndDt());
+				}
+				else {
+					formatRestrictionEndDt += endWithPipes("NONE");
+				}
 			}
 
 			if (formatRestrictionCode.endsWith(DELIMITER)) {
 				formatRestrictionCode = formatRestrictionCode.substring(0,
 						formatRestrictionCode.length() - 1);
 			}
+			if (formatRestrictionStartDt.endsWith(DELIMITER)) {
+				formatRestrictionStartDt = formatRestrictionStartDt.substring(0,
+						formatRestrictionStartDt.length() - 1);
+			}
+			if (formatRestrictionEndDt.endsWith(DELIMITER)) {
+				formatRestrictionEndDt = formatRestrictionEndDt.substring(0,
+						formatRestrictionEndDt.length() - 1);
+			}
 		}
 		addField(formatRestrictionCode);
+		addField(formatRestrictionStartDt);
+		addField(formatRestrictionEndDt);
 	}
 	
 	private void handleExternalId() {
