@@ -531,10 +531,11 @@ public class SchoolMetaDataQuery {
 	public List<School> getAllSchoolMetadata(List<String> schoolCodes,
 			int batchSize) throws SQLException {
 		List<School> result = new ArrayList<School>();
+		ResultSet cursor = null;
+		try {
 		Enumeration<List<String>> schoolCodesEnum = PartitionListBasedOnBatchSize
 				.createPartitionedEnum(schoolCodes, batchSize);
 		while (schoolCodesEnum.hasMoreElements()) {
-			ResultSet cursor = null;
 			List<String> nextElement = schoolCodesEnum.nextElement();
 			schoolMetaDataForSchoolCodesStatement = connection
 					.prepareStatement(createQuery(nextElement.size()));
@@ -547,6 +548,11 @@ public class SchoolMetaDataQuery {
 			while (cursor.next()) {
 				School school = makeSchoolMetaDataFrom(cursor);
 				result.add(school);
+			}
+		}
+		} finally {
+			if (null != cursor) {
+				cursor.close();
 			}
 		}
 		return result;

@@ -881,10 +881,13 @@ public class PubMetaDataQuery {
 		closeStatement(supplementalFilesStatement);
 		closeStatement(departmentsStatement);
 		closeStatement(keywordsStatement);
+		closeStatement(salesRestrictionStatement);
+		closeStatement(formatRestrictionStatement);
 		closeStatement(batchStatement);
 		closeStatement(alternateTitlesStatement);
 		closeStatement(alternateAdvisorsStatement);
 		closeStatement(schoolStatement);
+		closeStatement(pdfStatusStatement);	
 	}
 	
 	private void closeStatement(PreparedStatement statment) throws SQLException {
