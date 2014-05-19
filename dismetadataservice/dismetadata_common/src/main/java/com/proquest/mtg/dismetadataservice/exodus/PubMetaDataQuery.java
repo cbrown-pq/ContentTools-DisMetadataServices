@@ -18,6 +18,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.ManuscriptMedia;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfStatus;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
@@ -112,6 +113,10 @@ public class PubMetaDataQuery {
 	private static final String kColumnExternalId = "ExternalId";
 	private static final String kColumnOpenAccessFlag = "OpenAccessFlag";
 	
+	private static final String kColumnPubDate = "PubDate";
+	private static final String kColumnManuscriptMediaCode = "ManuscriptMediaCode";
+	private static final String kColumnManuscriptMediaDesc = "ManuscriptMediaDesc";
+	
 	private static final String kSelectSchoolId = 
 			"( " +
 				"SELECT dish_id FROM dis_schools WHERE dish_id = ditm.dish_id " +
@@ -144,9 +149,13 @@ public class PubMetaDataQuery {
                   "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'E' AND ditm_id = ditm.ditm_id ) " + kColumnEngOverwriteTitle + ", " +
                   "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'F' AND ditm_id = ditm.ditm_id ) " + kColumnForeignTitle + ", " +
                   "open_access.flag  " + kColumnOpenAccessFlag + ", " +
-                  "ditm_external_id " + kColumnExternalId + " " +
+                  "ditm_external_id " + kColumnExternalId + ", " +
+                  "(SELECT MAX (to_char(dwos_date_created,'dd-MON-yyyy')) " +
+                  "FROM dis_work_order_stations dwos " +                 
+                  "WHERE dvwo_code = 'S'" + 
+                  "AND dwos.diw_id = ditm.diw_id) " + kColumnPubDate + " " +
                   "FROM dis.dis_items ditm, " +
-                   "( SELECT pub_number,decode(open_access_flag,1,'Y',0,'N','N') flag from dis_vu_pqd_open_access where pub_number = ?) open_access " +
+                   		"( SELECT pub_number,decode(open_access_flag,1,'Y',0,'N','N') flag from dis_vu_pqd_open_access where pub_number = ?) open_access " +
                   "WHERE ditm.ditm_pub_number = ? " +  
                   "and ditm_pub_number = open_access.pub_number(+) " +
                   "AND ditm.dvi_id IS NOT NULL ";
@@ -360,6 +369,16 @@ public class PubMetaDataQuery {
 				"diaf.dvf_code = 'PDF' ";
 	
 	
+	private static final String kSelectManuscriptMedia = 
+			"SELECT " +
+				"di.dvmm_code " +  kColumnManuscriptMediaCode + ", " +
+				"dvmm_description " + kColumnManuscriptMediaDesc + " " +
+			"FROM " + 
+				"dis.dis_valid_manuscript_media dvmm, dis_items di " + 
+			"WHERE " + 
+				"di.ditm_id = ? " + 
+				"AND di.dvmm_code = dvmm.dvmm_code";
+	
 	private PreparedStatement authorsStatement;
 	private PreparedStatement mainPubDataStatement;
 	private PreparedStatement languageStatement;
@@ -377,6 +396,7 @@ public class PubMetaDataQuery {
 	private PreparedStatement alternateAdvisorsStatement;
 	private PreparedStatement schoolStatement;
 	private PreparedStatement pdfStatusStatement;
+	private PreparedStatement manuscriptMediaStatement;
 	
 	private final String pqOpenUrlBase;
 	
@@ -401,6 +421,7 @@ public class PubMetaDataQuery {
 		this.alternateAdvisorsStatement = connection.prepareStatement(kSelectAlternateAdvisors);
 		this.schoolStatement = connection.prepareStatement(kSelectSchool);
 		this.pdfStatusStatement = connection.prepareStatement(kSelectPdfStatus);
+		this.manuscriptMediaStatement = connection.prepareStatement(kSelectManuscriptMedia);
 	}
 	
 	public String getPqOpenUrlBase() {
@@ -470,7 +491,9 @@ public class PubMetaDataQuery {
 		result.setSchool(getSchoolFor(cursor.getString(kColumnSchoolId)));
 		result.setPqOpenURL(makePqOpenUrlFor(pubId));
 		result.setOpenAccessFlag(cursor.getString(kColumnOpenAccessFlag));
+		result.setPubDate(cursor.getString(kColumnPubDate));
 		result.setExternalId(cursor.getString(kColumnExternalId));
+		result.setManuscriptMedia(getManuscriptMediaFor(itemId));
 		return result;
 	}
 	
@@ -869,6 +892,27 @@ public class PubMetaDataQuery {
 		}
 		return result;
 	}
+	
+	private ManuscriptMedia getManuscriptMediaFor(String itemId) throws SQLException {
+		ManuscriptMedia result = new ManuscriptMedia();
+		if (null != itemId) {
+			ResultSet cursor = null;
+			try {
+				manuscriptMediaStatement.setString(1, itemId);
+				cursor = manuscriptMediaStatement.executeQuery();
+				if (cursor.next()) {
+					result.setManuscriptMediaCode(required(cursor.getString(kColumnManuscriptMediaCode)));
+					result.setManuscriptMediaDesc(required(cursor.getString(kColumnManuscriptMediaDesc)));
+				}
+			}
+			finally {
+				if (null != cursor) {
+					cursor.close();
+				}
+			}
+		}
+		return result;
+	}
 
 	public void close() throws SQLException {
 		closeStatement(authorsStatement);
@@ -888,6 +932,7 @@ public class PubMetaDataQuery {
 		closeStatement(alternateAdvisorsStatement);
 		closeStatement(schoolStatement);
 		closeStatement(pdfStatusStatement);	
+		closeStatement(manuscriptMediaStatement);
 	}
 	
 	private void closeStatement(PreparedStatement statment) throws SQLException {

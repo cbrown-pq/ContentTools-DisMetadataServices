@@ -27,7 +27,7 @@ public class MakeCSVRecordFactory_PubNumber_Tests {
 		String pubNumber = null;
 		metadata.setPubNumber(pubNumber);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -36,7 +36,7 @@ public class MakeCSVRecordFactory_PubNumber_Tests {
 	public void makeWithPubNumber() throws Exception {
 		metadata.setPubNumber("3569004");
 		String expectedCSVData = header
-				+ "\r\n\"3569004\",,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,";
+				+ "\r\n\"3569004\",,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

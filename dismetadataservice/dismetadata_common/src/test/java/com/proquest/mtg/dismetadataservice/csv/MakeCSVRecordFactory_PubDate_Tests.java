@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 
-public class MakeCSVRecordFactory_BritishLocation_Tests {
+public class MakeCSVRecordFactory_PubDate_Tests {
 	CSVRecordFactory factory;
 	String header = "";
 	DisPubMetaData metadata;
@@ -16,16 +16,16 @@ public class MakeCSVRecordFactory_BritishLocation_Tests {
 	@Before
 	public void setUp() throws Exception {
 		factory = new CSVRecordFactory();
+		metadata = new DisPubMetaData();
 		for (String curheader : factory.getHeaders()) {
 			header += curheader + ",";
 		}
 	}
 
 	@Test
-	public void makeWithEmptyBritishLocation() throws Exception {
-		metadata = new DisPubMetaData();
-		String blNumber = null;
-		metadata.setBLNumber(blNumber);
+	public void makeWithEmptyPubDate() throws Exception {
+		String pubDate = null;
+		metadata.setPageCount(pubDate);
 		String expectedCSVData = header
 				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
@@ -33,11 +33,10 @@ public class MakeCSVRecordFactory_BritishLocation_Tests {
 	}
 
 	@Test
-	public void withOnlyBritishLocation() throws Exception {
-		DisPubMetaData metadata = new DisPubMetaData();
-		metadata.setBLNumber("BLNumber");
+	public void withOnlyPubDate() throws Exception {
+		metadata.setPubDate("TESTPUBDATE");
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,\"BLNumber\",,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,\"TESTPUBDATE\",,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

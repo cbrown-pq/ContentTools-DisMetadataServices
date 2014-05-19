@@ -29,7 +29,7 @@ public class MakeCSVRecordFactory_Abstract_Tests {
 		String abstractString = null;
 		metadata.setAbstract(abstractString);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -43,7 +43,7 @@ public class MakeCSVRecordFactory_Abstract_Tests {
 		metadata.setAbstract(abstractText);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,"
 				+ "\"" + abstractText + "\""
-				+ ",,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,";
+				+ ",,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

@@ -11,6 +11,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.ManuscriptMedia;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfStatus;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
@@ -148,8 +149,14 @@ public class CSVRecordFactory {
 				CSVRecordFactory.class.getDeclaredMethod("handleExternalId"));
 		kAllHeaders.put(CSVHeaders.kOpenAccessFlag, CSVRecordFactory.class
 				.getDeclaredMethod("handleOpenAccessFlag"));
+		kAllHeaders.put(CSVHeaders.kPubDate, CSVRecordFactory.class
+				.getDeclaredMethod("handlePubDate"));
 		kAllHeaders.put(CSVHeaders.kAuthorCitizenship, CSVRecordFactory.class
 				.getDeclaredMethod("handleAuthorCitizenship"));
+		kAllHeaders.put(CSVHeaders.kManuscriptMediaCode, CSVRecordFactory.class
+				.getDeclaredMethod("handleManuscriptMediaCode"));
+		kAllHeaders.put(CSVHeaders.kManuscriptMediaDesc, CSVRecordFactory.class
+				.getDeclaredMethod("handleManuscriptMediaDesc"));
 	}
 
 	public LinkedHashMap<String, Method> getTagMappings() {
@@ -979,6 +986,39 @@ public class CSVRecordFactory {
 			}
 		}
 		addField(authorCitizenship);
+	}
+	
+	private void handlePubDate() {
+		String pubDate = "";
+		if (null != curMetaData.getPubDate()
+				&& !curMetaData.getPubDate().isEmpty()) {
+			pubDate = curMetaData.getPubDate();
+		}
+		addField(pubDate);
+	}
+	
+	private void handleManuscriptMediaCode() {
+		ManuscriptMedia manuscriptMedia = curMetaData.getManuscriptMedia();
+		String manuscriptMediaCode = "";
+		
+		if(null != manuscriptMedia) {
+			if(null != manuscriptMedia.getManuscriptMediaCode() && !manuscriptMedia.getManuscriptMediaCode().isEmpty()) {
+				manuscriptMediaCode = manuscriptMedia.getManuscriptMediaCode();
+			}
+		}
+		addField(manuscriptMediaCode);
+	}
+	
+	private void handleManuscriptMediaDesc() {
+		ManuscriptMedia manuscriptMedia = curMetaData.getManuscriptMedia();
+		String manuscriptMediaDesc = "";
+		
+		if(null != manuscriptMedia) {
+			if(null != manuscriptMedia.getManuscriptMediaDesc() && !manuscriptMedia.getManuscriptMediaDesc().isEmpty()) {
+				manuscriptMediaDesc = manuscriptMedia.getManuscriptMediaDesc();
+			}
+		}
+		addField(manuscriptMediaDesc);
 	}
 
 	private void addField(String data) {
