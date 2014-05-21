@@ -25,6 +25,7 @@ public class DisMetadataServiceProvider_Tests extends EasyMockSupport {
 	static String kBASE_URI = "http://localhost:9999/dismetadata_service/";
 	MetaDataFormatFactory metaDataFormatFactory;
 	SchoolMetadataServiceProvider schoolMetadata;
+	SubjectsMetadataServiceProvider subjectsMetadata;
 	IMetaDataFormats metaDataFormats;
 	MockServiceTestHelper serviceTestHelper;
 	WebResource service;
@@ -39,8 +40,9 @@ public class DisMetadataServiceProvider_Tests extends EasyMockSupport {
 		metaDataFormats = createMock(IMetaDataFormats.class);
 		
 		schoolMetadata = createMock(SchoolMetadataServiceProvider.class);
+		subjectsMetadata = createMock(SubjectsMetadataServiceProvider.class);
 
-		serviceTestHelper = new MockServiceTestHelper(metaDataFormatFactory, schoolMetadata);
+		serviceTestHelper = new MockServiceTestHelper(metaDataFormatFactory, schoolMetadata, subjectsMetadata);
 		serviceTestHelper.startHTTPServer();
 		Client client = Client.create(new DefaultClientConfig());
 		service = client.resource(kBASE_URI);
