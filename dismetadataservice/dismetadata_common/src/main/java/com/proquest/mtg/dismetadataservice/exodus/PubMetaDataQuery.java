@@ -110,6 +110,7 @@ public class PubMetaDataQuery {
 	private static final String kColumnSchoolCountry = "SchoolCountry";
 	private static final String kColumnSchoolState = "SchoolState";
 	
+	private static final String kColumnPdfAvailableFlag = "PdfAvailableFlag";
 	private static final String kColumnPdfAvailableDate = "PdfAvailableDate";
 	private static final String kColumnExternalId = "ExternalId";
 	private static final String kColumnOpenAccessFlag = "OpenAccessFlag";
@@ -362,15 +363,15 @@ public class PubMetaDataQuery {
 	
 	private static final String kSelectPdfStatus = 
 			"SELECT " + 
-				"TO_CHAR(GREATEST (diaf_date_created, " +
-							"NVL (diaf_date_modified, diaf_date_created))," +
-							" 'DD-MON-YYYY')  " + kColumnPdfAvailableDate + " " +
+			"PDF_IN_VAULT_FLAG " + kColumnPdfAvailableFlag + ", " +
+			"TO_CHAR(DPDF_DATE_MODIFIED,'DD-MON-YYYY')  " + kColumnPdfAvailableDate + " " +
 			"FROM " + 
-				"dis.dis_item_available_formats diaf " + 
+				"dis_pub_doc_pdf dpdp, " + 
+				"dis_items di " +
 			"WHERE " + 
-				"diaf.ditm_id = ? " + 
+				"di.ditm_pub_number = dpdp.ditm_pub_number " + 
 				"AND " + 
-				"diaf.dvf_code = 'PDF' ";
+				"di.ditm_id = ? ";
 	
 	
 	private static final String kSelectManuscriptMedia = 
@@ -839,7 +840,13 @@ public class PubMetaDataQuery {
 		ResultSet cursor = pdfStatusStatement.executeQuery();
 		if (cursor.next()) {
 			result.setPdfAvailableDate(cursor.getString(kColumnPdfAvailableDate));
-			result.setPdfAvailableStatus(true);
+			String pdfAvailableFlag = cursor.getString(kColumnPdfAvailableFlag);
+			if(pdfAvailableFlag.equals("Y")) {
+					result.setPdfAvailableStatus(true);
+			}
+			else {
+				result.setPdfAvailableStatus(false);
+			}
 		} else {
 			result.setPdfAvailableStatus(false);
 		}

@@ -36,7 +36,7 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests {
 		metadata = new DisPubMetaData();
 		metadata.setSuppFiles(suppFiles);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -51,7 +51,7 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests {
 		metadata.setSuppFiles(suppFiles);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"Y\"" + ",,\"" + suppFileDesc + "\"" + ",\""
-				+ suppFileCategory + "\"" + ",,,,,,,,,,,\"N\",,,,,,,,,,,";
+				+ suppFileCategory + "\"" + ",,,,,,,,,,,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -66,7 +66,7 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests {
 		metadata.setSuppFiles(suppFiles);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"Y\"" + ",\"" + suppFileName + "\"" + ",,\""
-				+ suppFileCategory + "\"" + ",,,,,,,,,,,\"N\",,,,,,,,,,,";
+				+ suppFileCategory + "\"" + ",,,,,,,,,,,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -81,7 +81,7 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests {
 		metadata.setSuppFiles(suppFiles);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"Y\"" + ",\"" + suppFileName + "\"" + ",\"" + suppFileDesc
-				+ "\"" + "," + ",,,,,,,,,,,\"N\",,,,,,,,,,,";
+				+ "\"" + "," + ",,,,,,,,,,,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -101,7 +101,7 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests {
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"Y\"" + ",\"" + suppFileName + "\"" + ",\"" + suppFileDesc
 				+ "\"" + ",\"" + suppFileCategory + "\""
-				+ ",,,,,,,,,,,\"N\",,,,,,,,,,,";
+				+ ",,,,,,,,,,,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

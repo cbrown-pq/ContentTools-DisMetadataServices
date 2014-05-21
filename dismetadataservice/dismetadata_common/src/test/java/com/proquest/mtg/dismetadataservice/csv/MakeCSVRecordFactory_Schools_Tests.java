@@ -29,7 +29,7 @@ public class MakeCSVRecordFactory_Schools_Tests {
 	public void makeSchoolWithEmpty() throws Exception {
 		metadata.setSchool(school);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -41,7 +41,7 @@ public class MakeCSVRecordFactory_Schools_Tests {
 		school.setSchoolState("SchoolState");
 		metadata.setSchool(school);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,\"SchoolName\",\"SchoolCountry\",\"SchoolState\",,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,,\"SchoolName\",\"SchoolCountry\",\"SchoolState\",,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -53,7 +53,7 @@ public class MakeCSVRecordFactory_Schools_Tests {
 		school.setSchoolState("SchoolState");
 		metadata.setSchool(school);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,\"SchoolCode\",,\"SchoolCountry\",\"SchoolState\",,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,\"SchoolCode\",,\"SchoolCountry\",\"SchoolState\",,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -65,7 +65,7 @@ public class MakeCSVRecordFactory_Schools_Tests {
 		school.setSchoolState("SchoolState");
 		metadata.setSchool(school);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,\"SchoolCode\",\"SchoolName\",,\"SchoolState\",,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,\"SchoolCode\",\"SchoolName\",,\"SchoolState\",,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -78,7 +78,7 @@ public class MakeCSVRecordFactory_Schools_Tests {
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setSchool(school);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,\"SchoolCode\",\"SchoolName\",\"SchoolCountry\",,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,\"SchoolCode\",\"SchoolName\",\"SchoolCountry\",,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -90,7 +90,7 @@ public class MakeCSVRecordFactory_Schools_Tests {
 		school.setSchoolCountry("UNITED STATES");
 		school.setSchoolState("Massachusetts");
 		metadata.setSchool(school);
-		String expectedCSVData = header + "\r\n,,,,,,,,,,,,,\"0753\",\"Massachusetts Institute of Technology\",\"UNITED STATES\",\"Massachusetts\",,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";	
+		String expectedCSVData = header + "\r\n,,,,,,,,,,,,,\"0753\",\"Massachusetts Institute of Technology\",\"UNITED STATES\",\"Massachusetts\",,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,";	
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

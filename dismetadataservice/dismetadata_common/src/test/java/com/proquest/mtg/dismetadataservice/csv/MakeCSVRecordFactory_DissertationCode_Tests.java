@@ -30,7 +30,7 @@ public class MakeCSVRecordFactory_DissertationCode_Tests {
 
 		metadata.setBatch(batch);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -43,7 +43,7 @@ public class MakeCSVRecordFactory_DissertationCode_Tests {
 		metadata.setBatch(batch);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,,,,,," + ",\"" + "DAC" + "\""
-				+ ",,,\"N\",,,,,,,,,,,";
+				+ ",,,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -56,7 +56,7 @@ public class MakeCSVRecordFactory_DissertationCode_Tests {
 		metadata.setBatch(batch);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,,,,,,," + ",\""
-				+ "Dissertation Abstracts International" + "\"" + ",,\"N\",,,,,,,,,,,";
+				+ "Dissertation Abstracts International" + "\"" + ",,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -68,7 +68,7 @@ public class MakeCSVRecordFactory_DissertationCode_Tests {
 		batch.setDAISectionCode("B");
 		metadata.setBatch(batch);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"N\"" + ",,,,,,,,,,,," + ",\"" + "B" + "\"" + ",\"N\",,,,,,,,,,,";
+				+ ",\"N\"" + ",,,,,,,,,,,," + ",\"" + "B" + "\"" + ",\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

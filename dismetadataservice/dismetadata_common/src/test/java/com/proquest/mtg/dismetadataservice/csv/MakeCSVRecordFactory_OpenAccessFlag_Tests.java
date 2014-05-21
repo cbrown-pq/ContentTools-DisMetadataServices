@@ -27,7 +27,7 @@ public class MakeCSVRecordFactory_OpenAccessFlag_Tests {
 		String openAccessFlag = null;
 		metadata.setOpenAccessFlag(openAccessFlag);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -37,7 +37,7 @@ public class MakeCSVRecordFactory_OpenAccessFlag_Tests {
 		String openAccessFlag = "TESTOAFLAG";
 		metadata.setOpenAccessFlag(openAccessFlag);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,\"TESTOAFLAG\",,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,\"TESTOAFLAG\",,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
