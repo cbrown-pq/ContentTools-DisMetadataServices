@@ -100,8 +100,8 @@ public class SchoolMetaDataQuery {
 	
 	private Connection connection;
 
-	private static final String kSelectSchoolCodes = "select dish_id " + kId	+ ", "
-			+ "dish_code "	+ kCode
+	private static final String kSelectSchoolCodes = "select dish_id " + kId + ", "
+			+ "dish_code " + kCode
 			+ " from dis_schools "
 			+ "order by dish_code asc";
 

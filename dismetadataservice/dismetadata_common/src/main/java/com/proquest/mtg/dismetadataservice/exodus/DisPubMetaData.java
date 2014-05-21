@@ -318,11 +318,11 @@ public class DisPubMetaData {
 	public ManuscriptMedia getManuscriptMedia() {
 		return manuscriptMedia;
 	}
-	
+
 	public void setManuscriptMedia(ManuscriptMedia manuscriptMedia) {
 		this.manuscriptMedia = manuscriptMedia;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "DisPubMetaData [pubNumber=" + pubNumber + ", itemId=" + itemId
@@ -529,6 +529,7 @@ public class DisPubMetaData {
 
 	public static class FormatRestriction {
 		private String code;
+		private String desc;
 		private String formatRestrictionStartDt;
 		private String formatRestrictionEndDt;
 
@@ -538,6 +539,14 @@ public class DisPubMetaData {
 
 		public void setCode(String value) {
 			this.code = value;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
+
+		public void setDesc(String desc) {
+			this.desc = desc;
 		}
 
 		public String getFormatRestrictionStartDt() {

@@ -90,6 +90,7 @@ public class PubMetaDataQuery {
 	private static final String kColumnSalesRestrctionEndDate = "SalesRestrictionEndDate";
 	
 	private static final String kColumnFormatRestrictionCode = "FormatRestrictionCode";
+	private static final String kColumnFormatRestrictionDesc  = "FormatRestrictionDesc";
 	private static final String kColumnFormatRestrictionStartDt = "FormatRestrictionCodeStartDt";
 	private static final String kColumnFormatRestrictionEndDt = "FormatRestrictionCodeEndDt";
 	
@@ -297,12 +298,15 @@ public class PubMetaDataQuery {
 	private static final String kSelectFormatRestriction = 
 			"SELECT " + 
 				"dfr.dvfr_code " + kColumnFormatRestrictionCode + ", " +
+				"dvfr.dvfr_description " + kColumnFormatRestrictionDesc + ", " +
 				"dfr.dfr_res_start_date " + kColumnFormatRestrictionStartDt + ", " +
 				"dfr.dfr_res_lift_date " + kColumnFormatRestrictionEndDt + " " +
 			"FROM " + 
-				"dis.dis_format_restrictions dfr " +  
+				"dis.dis_format_restrictions dfr " + ", " + 
+				"dis_valid_format_rstcns dvfr " +
 			"WHERE " + 
-				"dfr.ditm_id = ? " +
+				"dfr.ditm_id = ?  AND " +
+			    "dfr.dvfr_code = dvfr.dvfr_code " +
 			"ORDER BY dfr.dvfr_code";
 	
 	private static final String kSelectBatch = 
@@ -749,6 +753,7 @@ public class PubMetaDataQuery {
 				}
 				FormatRestriction item = new FormatRestriction();
 				item.setCode(trimmed(cursor.getString(kColumnFormatRestrictionCode)));
+				item.setDesc(trimmed(cursor.getString(kColumnFormatRestrictionDesc)));
 				item.setFormatRestrictionStartDt(cursor.getString(kColumnFormatRestrictionStartDt));
 				item.setFormatRestrictionEndDt(cursor.getString(kColumnFormatRestrictionEndDt));
 				result.add(item);

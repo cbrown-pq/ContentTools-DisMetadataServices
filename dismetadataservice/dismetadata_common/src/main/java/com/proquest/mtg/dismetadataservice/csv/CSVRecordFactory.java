@@ -139,6 +139,9 @@ public class CSVRecordFactory {
 		kAllHeaders.put(CSVHeaders.kFormatRestrictionCode,
 				CSVRecordFactory.class
 						.getDeclaredMethod("handleFormatRestrictionCode"));
+		kAllHeaders.put(CSVHeaders.kFormatRestrictionDesc,
+				CSVRecordFactory.class
+						.getDeclaredMethod("handleFormatRestrictionDesc"));
 		kAllHeaders.put(CSVHeaders.kFormatRestrictionStartDt,
 				CSVRecordFactory.class
 						.getDeclaredMethod("handleFormatRestrictionStartDt"));
@@ -890,6 +893,30 @@ public class CSVRecordFactory {
 			}
 		}
 		addField(formatRestrictionCode);
+	}
+	
+	private void handleFormatRestrictionDesc() {
+		String formatRestrictionDesc = "";
+		if (null != curMetaData.getFormatRestrictions()
+				&& !curMetaData.getFormatRestrictions().isEmpty()) {
+			List<FormatRestriction> formatRestrictions = curMetaData
+					.getFormatRestrictions();
+			for (FormatRestriction curFormatRestriction : formatRestrictions) {
+				if (null != curFormatRestriction.getDesc()
+						&& !curFormatRestriction.getDesc().isEmpty()) {
+					formatRestrictionDesc = formatRestrictionDesc
+							+ endWithPipes(curFormatRestriction.getDesc());
+				} else {
+					formatRestrictionDesc += endWithPipes("NONE");
+				}
+			}
+
+			if (formatRestrictionDesc.endsWith(DELIMITER)) {
+				formatRestrictionDesc = formatRestrictionDesc.substring(0,
+						formatRestrictionDesc.length() - 1);
+			}
+		}
+		addField(formatRestrictionDesc);
 	}
 
 	private void handleFormatRestrictionStartDt() {

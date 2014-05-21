@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ProQuest Dissertations & Theses School Metadata - XML Schema Definition-->
+<!-- Version 1.0, February 28th, 2014 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  	<xs:element name="Subjects">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Subject" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SubjectCode" type="xs:string"  minOccurs="0"/>
+							<xs:element name="SubjectDesc" type="xs:string"  minOccurs="0"/>
+							<xs:element name="PQOnlineDesc" type="xs:string"  minOccurs="0"/>
+							<xs:element name="PQOnlineDescriptions" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="PQOnlineDescription" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+									</xs:sequence>
+								</xs:complexType>			
+							</xs:element>
+							<xs:element name="Status" type="xs:string" minOccurs="0"/>
+							<xs:element name="StatusDate" type="xs:string" minOccurs="0"/>							
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
