@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.proquest.mtg.dismetadataservice.subjects.xml.Subjects;
 import com.proquest.mtg.dismetadataservice.subjects.xml.Subjects.Subject;
 import com.proquest.mtg.dismetadataservice.subjects.xml.Subjects.Subject.PQOnlineDescriptions;
 
@@ -21,18 +20,16 @@ public class SubjectsMetaDataQuery {
 	
 	private PreparedStatement subjectsStatement;
 	
-	private Connection connection;
 
 	private static final String kSelectSubjects = "select dvsc_code " + kSubjCode	+ ", " +
 			 "dvsc_description "	+ kSubjDesc + ", " +
-			 "'ONLINEDESC1;ONLINEDESC2' "	+ kSubjectPQOnlineDesc + ", " +
+			 "dvsc_pq_description "	+ kSubjectPQOnlineDesc + ", " +
 			 "dvsc_status_flag "	+ kSubjectStatus + ", " +
 			 "dvsc_status_date "	+ kSubjectStatusDate + " " +
 			 "from dis_valid_subjects ";
 	
 	public SubjectsMetaDataQuery(Connection connection) throws SQLException {
 		this.subjectsStatement = connection.prepareStatement(kSelectSubjects);
-		this.connection = connection;
 	}
 	
 	public List<Subject> getAllSubjects() throws SQLException {
@@ -45,11 +42,16 @@ public class SubjectsMetaDataQuery {
 				Subject subject = new Subject();
 				subject.setSubjectCode(cursor.getString(kSubjCode));
 				subject.setSubjectDesc(cursor.getString(kSubjDesc));
-				String[] onlineDescriptionString = cursor.getString(kSubjectPQOnlineDesc)
-						.split(";");
+				int index = kSubjectPQOnlineDesc.indexOf(";");
 				List<String> descriptions = new ArrayList<String>();
-				for (int i = 0; i < onlineDescriptionString.length; i++) {
-					descriptions.add(onlineDescriptionString[i]);
+				if (index > -1) {
+					String[] onlineDescriptionString = cursor.getString(
+							kSubjectPQOnlineDesc).split(";");
+					for (int i = 0; i < onlineDescriptionString.length; i++) {
+						descriptions.add(onlineDescriptionString[i]);
+					}
+				} else {
+					descriptions.add(cursor.getString(kSubjectPQOnlineDesc));
 				}
 				PQOnlineDescriptions pqOnlineDescriptions = new PQOnlineDescriptions();
 				pqOnlineDescriptions.setPQOnlineDescription(descriptions);
