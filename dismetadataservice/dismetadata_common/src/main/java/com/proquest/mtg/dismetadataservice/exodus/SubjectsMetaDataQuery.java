@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.proquest.mtg.dismetadataservice.subjects.xml.Subjects.Subject;
-import com.proquest.mtg.dismetadataservice.subjects.xml.Subjects.Subject.PQOnlineDescriptions;
 
 public class SubjectsMetaDataQuery {
 	
@@ -33,7 +32,6 @@ public class SubjectsMetaDataQuery {
 	}
 	
 	public List<Subject> getAllSubjects() throws SQLException {
-
 		List<Subject> result = new ArrayList<Subject>();
 		ResultSet cursor = null;
 		try {
@@ -42,20 +40,8 @@ public class SubjectsMetaDataQuery {
 				Subject subject = new Subject();
 				subject.setSubjectCode(cursor.getString(kSubjCode));
 				subject.setSubjectDesc(cursor.getString(kSubjDesc));
-				int index = kSubjectPQOnlineDesc.indexOf(";");
-				List<String> descriptions = new ArrayList<String>();
-				if (index > -1) {
-					String[] onlineDescriptionString = cursor.getString(
-							kSubjectPQOnlineDesc).split(";");
-					for (int i = 0; i < onlineDescriptionString.length; i++) {
-						descriptions.add(onlineDescriptionString[i]);
-					}
-				} else {
-					descriptions.add(cursor.getString(kSubjectPQOnlineDesc));
-				}
-				PQOnlineDescriptions pqOnlineDescriptions = new PQOnlineDescriptions();
-				pqOnlineDescriptions.setPQOnlineDescription(descriptions);
-				subject.setPQOnlineDescriptions(pqOnlineDescriptions);
+				subject.setPQOnlineDescriptions( SplitPQOnlineSubjectsDescriptors.split(cursor.getString(
+							kSubjectPQOnlineDesc)));
 				subject.setStatus(cursor.getString(kSubjectStatus));
 				subject.setStatusDate(cursor.getString(kSubjectStatusDate));
 				result.add(subject);
