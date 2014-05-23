@@ -1,8 +1,7 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
 import static org.junit.Assert.assertEquals;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.CoreMatchers.instanceOf;
+
 import org.junit.Before;
 import org.junit.Test;
 
