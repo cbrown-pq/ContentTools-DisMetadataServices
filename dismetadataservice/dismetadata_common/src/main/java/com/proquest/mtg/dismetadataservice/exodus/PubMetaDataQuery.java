@@ -26,6 +26,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Title;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
+import com.proquest.mtg.dismetadataservice.metadata.Author.Claimant;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 import com.proquest.mtg.dismetadataservice.metadata.SplitAuthorNames;
 
@@ -44,6 +45,7 @@ public class PubMetaDataQuery {
 	private static final String kColumnPublisher = "Publisher";
 	private static final String kColumnReferenceLocation = "ReferenceLocation";
 	private static final String kColumnBritishLibraryNumber = "BritishLibraryNumber";
+	private static final String kManuscriptYear = "ManuScriptYear";
 	private static final String kColumnSource = "Source";
 	private static final String kColumnExternalUrl = "ExternalUrl";
 	private static final String kColumnLanguageDescription = "LanguageDescription";
@@ -52,12 +54,19 @@ public class PubMetaDataQuery {
 	private static final String kColumnElectronicTitle = "ElectronicTitle";
 	private static final String kColumnEngOverwriteTitle = "EnglishOevrwriteTitle";
 	private static final String kColumnForeignTitle = "ForeignTitle";
+	private static final String kColumnCRCTitle = "CRCOverrideTitle";
+	private static final String kColumnDwosReceiveDate = "dwosReceiveDate";
 	
 	private static final String kColumnAuthorId = "AuthorId"; 
 	private static final String kColumnAuthorSequenceNumber = "AuthorSequenceNumber"; 
 	private static final String kColumnAuthorFullName = "AuthorFullName";
 	private static final String kColumnAuthorAlternateFullName = "AuthorAlternateFullName";
+	private static final String kColumnClaimantAddFlag = "ClaimantAddFlag";
 	private static final String kColumnAuthorCitizenship = "AuthorCitizenship"; 
+	
+	private static final String kColumnClaimantId = "AuthorId"; 
+	private static final String kColumnClaimantSequenceNumber = "AuthorSequenceNumber"; 
+	private static final String kColumnClaimantFullName = "AuthorFullName";
 	
 	private static final String kColumnDegreeCode = "DegreeCode";
 	private static final String kColumnDegreeDescription = "DegreeDescription";
@@ -89,7 +98,7 @@ public class PubMetaDataQuery {
 	private static final String kColumnSalesRestrctionStartDate = "SalesRestrictionStartDate";
 	private static final String kColumnSalesRestrctionEndDate = "SalesRestrictionEndDate";
 	
-	private static final String kColumnFormatRestrictionCode = "FormatRestrictionCode";
+	private static final String kColumnFormatRestrctionCode = "FormatRestrictionCode";
 	private static final String kColumnFormatRestrictionStartDt = "FormatRestrictionCodeStartDt";
 	private static final String kColumnFormatRestrictionEndDt = "FormatRestrictionCodeEndDt";
 	
@@ -141,6 +150,7 @@ public class PubMetaDataQuery {
                   "ditm_page_count " + kColumnPageCount + ", " +
                   "ditm_publisher " + kColumnPublisher + ", " +
                   "ditm_reference_location " + kColumnReferenceLocation + ", " +
+                  "ditm_manuscript_year " + kManuscriptYear + ", " +
                   "ditm_bl_no " + kColumnBritishLibraryNumber + ", " +
                   "ditm_source " + kColumnSource + ", " +
                   "ditm_ft_url " + kColumnExternalUrl + ", " +
@@ -148,17 +158,33 @@ public class PubMetaDataQuery {
                   "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'P' AND ditm_id = ditm.ditm_id ) " + kColumnElectronicTitle + ", " +
                   "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'E' AND ditm_id = ditm.ditm_id ) " + kColumnEngOverwriteTitle + ", " +
                   "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'F' AND ditm_id = ditm.ditm_id ) " + kColumnForeignTitle + ", " +
+                  "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'C' AND ditm_id = ditm.ditm_id ) " + kColumnCRCTitle + ", " +
                   "open_access.flag  " + kColumnOpenAccessFlag + ", " +
                   "ditm_external_id " + kColumnExternalId + ", " +
                   "(SELECT MAX (to_char(dwos_date_created,'dd-MON-yyyy')) " +
                   "FROM dis_work_order_stations dwos " +                 
                   "WHERE dvwo_code = 'S'" + 
-                  "AND dwos.diw_id = ditm.diw_id) " + kColumnPubDate + " " +
+                  "AND dwos.diw_id = ditm.diw_id) " + kColumnPubDate + ", " +
+                  "(SELECT MAX(to_char(dwos_received_date,'MM/DD/YYYY')) " +
+                  "FROM dis_work_order_stations dwos, dis_work_orders dwo " +                 
+                  "WHERE dwo.diw_id = dwos.diw_id and dwos.diw_id = ditm.diw_id) " + kColumnDwosReceiveDate + " " +
                   "FROM dis.dis_items ditm, " +
-                   		"( SELECT pub_number,decode(open_access_flag,1,'Y',0,'N','N') flag from dis_vu_pqd_open_access where pub_number = ?) open_access " +
+                   "( SELECT pub_number,decode(open_access_flag,1,'Y',0,'N','N') flag from dis_vu_pqd_open_access where pub_number = ?) open_access " +
                   "WHERE ditm.ditm_pub_number = ? " +  
                   "and ditm_pub_number = open_access.pub_number(+) " +
                   "AND ditm.dvi_id IS NOT NULL ";
+	
+	
+//	private static final String kSelectDwosReceiveDate = 
+//			"SELECT " +
+//				"dwos_received_date " + kColumnDwosReceiveDate + "," +
+//			"FROM " + 
+//				"dis_items, " +
+//				"dis_work_order_stations dwos " +
+//			"WHERE " + 
+//				"dis_items.ditm_id = ?  AND " + 
+//				"dwos.diw_id = dis_items.diw_id";
+	
 	
 	private static final String kSelectLanguage = 
 			"SELECT " +
@@ -176,18 +202,30 @@ public class PubMetaDataQuery {
 				"dath.dath_id " + kColumnAuthorId + ", " +
 				"dath_sequence_number " + kColumnAuthorSequenceNumber + ", " +
 				"dath_fullname " + kColumnAuthorFullName + ", " + 
-				"dsa_fullname " + kColumnAuthorAlternateFullName + ", " +
-				"dvc_description " + kColumnAuthorCitizenship + " " +
+				"dsa_fullname " + kColumnAuthorAlternateFullName + ", " + 
+				"dvc_description " + kColumnAuthorCitizenship + ", " +
+				"dath_use_claimant_add_flag " + kColumnClaimantAddFlag + " " +
 			"FROM " +
 				"dis.dis_authors dath, " + 
-				"dis.dis_supp_authors dsa, " +
+				"dis.dis_supp_authors dsa, " + 
 				"dis.dis_valid_countries dvc " +
 			"WHERE " +
 				"dath.ditm_id = ? AND " +  
 				"dath.dath_id = dsa.dath_id(+) AND " + 
-				"dath.dath_sequence_number = dsa.dsa_sequence_number(+) AND " +
+				"dath.dath_sequence_number = dsa.dsa_sequence_number(+) AND " + 
 				"dath.dvc_code = dvc.dvc_code(+) " +
 			"ORDER BY dath_sequence_number asc "; 
+	
+	private static final String kSelectClaimants = 
+			"SELECT " +
+				"dclm_id " + kColumnClaimantId + ", " +
+				"dclm_sequence_number " + kColumnClaimantSequenceNumber + ", " +
+				"dclm_fullname " + kColumnClaimantFullName + " " + 
+			"FROM " +
+				"dis.dis_claimants dclm " + 
+			"WHERE " +
+				"dclm.dath_id = ? " + 
+			"ORDER BY dclm_sequence_number asc "; 
 	
 	private static final String kSelectDegree = 
 			"SELECT " +
@@ -296,9 +334,9 @@ public class PubMetaDataQuery {
 	
 	private static final String kSelectFormatRestriction = 
 			"SELECT " + 
-				"dfr.dvfr_code " + kColumnFormatRestrictionCode + ", " +
-				"dfr.dfr_res_start_date " + kColumnFormatRestrictionStartDt + ", " +
-				"dfr.dfr_res_lift_date " + kColumnFormatRestrictionEndDt + " " +
+				"dfr.dvfr_code " + kColumnFormatRestrctionCode + ", " +
+						"dfr.dfr_res_start_date " + kColumnFormatRestrictionStartDt + ", " +
+						"dfr.dfr_res_lift_date " + kColumnFormatRestrictionEndDt + " " +
 			"FROM " + 
 				"dis.dis_format_restrictions dfr " +  
 			"WHERE " + 
@@ -368,7 +406,6 @@ public class PubMetaDataQuery {
 				"AND " + 
 				"diaf.dvf_code = 'PDF' ";
 	
-	
 	private static final String kSelectManuscriptMedia = 
 			"SELECT " +
 				"di.dvmm_code " +  kColumnManuscriptMediaCode + ", " +
@@ -380,7 +417,9 @@ public class PubMetaDataQuery {
 				"AND di.dvmm_code = dvmm.dvmm_code";
 	
 	private PreparedStatement authorsStatement;
+	private PreparedStatement claimantsStatement;
 	private PreparedStatement mainPubDataStatement;
+	//private PreparedStatement dwsoReceivedDataStatement;
 	private PreparedStatement languageStatement;
 	private PreparedStatement degreeStatement;
 	private PreparedStatement abstractStatement;
@@ -405,7 +444,9 @@ public class PubMetaDataQuery {
 		this.pqOpenUrlBase = pqOpenUrlBase;
 		
 		this.authorsStatement = connection.prepareStatement(kSelectAuthors);
+		this.claimantsStatement = connection.prepareStatement(kSelectClaimants);
 		this.mainPubDataStatement = connection.prepareStatement(kSelectMainPubData);
+		//this.dwsoReceivedDataStatement = connection.prepareStatement(kSelectDwosReceiveDate);
 		this.languageStatement = connection.prepareStatement(kSelectLanguage);
 		this.degreeStatement = connection.prepareStatement(kSelectDegree);
 		this.abstractStatement = connection.prepareStatement(kSelectAbstract);
@@ -460,9 +501,11 @@ public class PubMetaDataQuery {
 		result.setPubPageNum(trimmed(cursor.getString(kColumnPageNumber)));
 		result.setPageCount(trimmed(cursor.getString(kColumnPageCount)));
 		result.setPublisher(trimmed(cursor.getString(kColumnPublisher)));
+		result.setManuscriptYear(trimmed(cursor.getString(kManuscriptYear)));
 		result.setBLNumber(trimmed(cursor.getString(kColumnBritishLibraryNumber)));
 		result.setReferenceLocation(trimmed(cursor.getString(kColumnReferenceLocation)));
 		result.setTitle(makeTitleFrom(cursor));
+		result.setFirstPublicationDate(cursor.getString(kColumnDwosReceiveDate));
 		String source = trimmed(cursor.getString(kColumnSource));
 		if (null != source && source.equalsIgnoreCase("I")) {
 			result.setExternalURL(trimmed(cursor.getString(kColumnExternalUrl)));
@@ -526,6 +569,7 @@ public class PubMetaDataQuery {
 			cursor = authorsStatement.executeQuery();
 			while (cursor.next()) {
 				Author author = new Author();
+				author.setAuthorId(cursor.getString(kColumnAuthorId));
 				SplitAuthorNames splitNames = new SplitAuthorNames(cursor.getString(kColumnAuthorFullName));
 				author.setAuthorFullName(required(splitNames.getFull()));
 				author.setLastName(required(splitNames.getLast()));
@@ -536,8 +580,10 @@ public class PubMetaDataQuery {
 				if (null != alternateFullName) {
 					author.setAltAuthorFullName(alternateFullName);
 				}
+				author.setClaimantAddFlag(cursor.getString(kColumnClaimantAddFlag));
 				author.setDegrees(getDegreesFor(cursor.getString(kColumnAuthorId)));
 				author.setAuthorCitizenship(cursor.getString(kColumnAuthorCitizenship));
+				author.setClaimants(getClaimantsFor(cursor.getString(kColumnAuthorId)));
 				result.add(author);
 			}
 		}
@@ -574,6 +620,34 @@ public class PubMetaDataQuery {
 		return result;
 	}
 
+	private List<Claimant> getClaimantsFor(String authorId) throws SQLException {
+		List<Claimant> result = Lists.newArrayList();
+		if (null != authorId) {
+			ResultSet cursor = null;
+			try {
+				claimantsStatement.setString(1, authorId);
+				cursor = claimantsStatement.executeQuery();
+				while (cursor.next()) {
+					Claimant claimant = new Claimant();
+					claimant.setClaimantId(cursor.getString(kColumnClaimantId));
+					claimant.setSequenceNumber(cursor.getInt(kColumnClaimantSequenceNumber));
+					SplitAuthorNames splitNames = new SplitAuthorNames(cursor.getString(kColumnClaimantFullName));
+					claimant.setClaimantFullName(required(splitNames.getFull()));
+					claimant.setLastName(required(splitNames.getLast()));
+					claimant.setFirstName(splitNames.getFirst());
+					claimant.setMiddleName(splitNames.getMiddle());
+					result.add(claimant);
+				}
+			}
+			finally {
+				if (null != cursor) {
+					cursor.close();
+				}
+			}
+		}
+		return result;
+	}
+	
 	private String getAbstractFor(String itemId)  throws SQLException {
 		String result = null;
 		ResultSet cursor = null;
@@ -748,7 +822,7 @@ public class PubMetaDataQuery {
 					result = Lists.newArrayList();
 				}
 				FormatRestriction item = new FormatRestriction();
-				item.setCode(trimmed(cursor.getString(kColumnFormatRestrictionCode)));
+				item.setCode(trimmed(cursor.getString(kColumnFormatRestrctionCode)));
 				item.setFormatRestrictionStartDt(cursor.getString(kColumnFormatRestrictionStartDt));
 				item.setFormatRestrictionEndDt(cursor.getString(kColumnFormatRestrictionEndDt));
 				result.add(item);
@@ -867,6 +941,7 @@ public class PubMetaDataQuery {
 		result.setMasterTitle(cursor.getString(kColumnMasterTitle));
 		result.setEnglishOverwriteTitle(cursor.getString(kColumnEngOverwriteTitle));
         result.setForeignTitle(cursor.getString(kColumnForeignTitle)); 
+        result.setCRCTitle(cursor.getString(kColumnCRCTitle));
 		return result;
 	}
 	

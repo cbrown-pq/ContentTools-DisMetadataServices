@@ -52,6 +52,7 @@ public class DisMetadataProperties_Tests {
 	@Test
 	public void hasCorrect_PqOpenUrlBase() throws Exception{
 		assertThat(target.getPqOpenUrlBase(), is(kPQOpenUrlBase));
+		
 	}
 	
 	@Test

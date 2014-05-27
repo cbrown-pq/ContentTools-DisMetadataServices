@@ -14,6 +14,7 @@ public class DisPubMetaData {
 	private String pubPageNum;
 	private String pageCount;
 	private String publisher;
+	private String manuscriptYear;
 	private String blNumber;
 	private String referenceLocation;
 	private String externalURL;
@@ -38,11 +39,12 @@ public class DisPubMetaData {
 	private String pubDate;
 	private String externalId;
 	private ManuscriptMedia manuscriptMedia;
+	private String firstPublicationDate;
 
 	public BigInteger getDateOfExtraction() {
 		return dateOfExtraction;
 	}
-
+	
 	public void setDateOfExtraction(BigInteger dateOfExtraction) {
 		this.dateOfExtraction = dateOfExtraction;
 	}
@@ -50,11 +52,11 @@ public class DisPubMetaData {
 	public String getPubNumber() {
 		return pubNumber;
 	}
-
+	
 	public void setPubNumber(String pubNumber) {
 		this.pubNumber = pubNumber;
 	}
-
+	
 	public String getItemId() {
 		return itemId;
 	}
@@ -62,7 +64,7 @@ public class DisPubMetaData {
 	public void setItemId(String itemId) {
 		this.itemId = itemId;
 	}
-
+	
 	public String getISBN() {
 		return isbn;
 	}
@@ -78,7 +80,7 @@ public class DisPubMetaData {
 	public void setPubPageNum(String pubPageNum) {
 		this.pubPageNum = pubPageNum;
 	}
-
+	
 	public String getPageCount() {
 		return pageCount;
 	}
@@ -91,6 +93,14 @@ public class DisPubMetaData {
 		return blNumber;
 	}
 
+	public void setManuscriptYear(String manuscriptYear) {
+		this.manuscriptYear = manuscriptYear;
+	}
+	
+	public String getManuscriptYear() {
+		return manuscriptYear;
+	}
+	
 	public void setBLNumber(String blNumber) {
 		this.blNumber = blNumber;
 	}
@@ -118,7 +128,7 @@ public class DisPubMetaData {
 	public void setAuthors(Iterable<Author> authors) {
 		this.authors = Lists.newArrayList(authors);
 	}
-
+	
 	public List<DissLanguage> getDissLanguages() {
 		return dissLanguages;
 	}
@@ -134,11 +144,11 @@ public class DisPubMetaData {
 	public String getAbstract() {
 		return dissAbstract;
 	}
-
+	
 	public void setAbstract(String value) {
 		this.dissAbstract = value;
 	}
-
+	
 	public void setCmteMembers(Iterable<CmteMember> value) {
 		if (null == value) {
 			this.cmteMembers = Lists.newArrayList();
@@ -146,11 +156,11 @@ public class DisPubMetaData {
 			this.cmteMembers = Lists.newArrayList(value);
 		}
 	}
-
+	
 	public List<CmteMember> getCmteMembers() {
 		return cmteMembers;
 	}
-
+	
 	public void setSubjects(Iterable<Subject> value) {
 		if (null == value) {
 			this.subjects = Lists.newArrayList();
@@ -158,11 +168,11 @@ public class DisPubMetaData {
 			this.subjects = Lists.newArrayList(value);
 		}
 	}
-
+	
 	public List<Subject> getSubjects() {
 		return subjects;
 	}
-
+	
 	public void setSuppFiles(Iterable<SuppFile> value) {
 		if (null == value) {
 			this.suppFiles = Lists.newArrayList();
@@ -170,11 +180,11 @@ public class DisPubMetaData {
 			this.suppFiles = Lists.newArrayList(value);
 		}
 	}
-
+	
 	public List<SuppFile> getSuppFiles() {
 		return suppFiles;
 	}
-
+	
 	public void setDepartments(Iterable<String> value) {
 		if (null == value) {
 			this.departments = Lists.newArrayList();
@@ -182,11 +192,11 @@ public class DisPubMetaData {
 			this.departments = Lists.newArrayList(value);
 		}
 	}
-
+	
 	public List<String> getDepartments() {
 		return departments;
 	}
-
+	
 	public void setKeywords(Iterable<Keyword> value) {
 		if (null == value) {
 			this.keywords = Lists.newArrayList();
@@ -198,7 +208,7 @@ public class DisPubMetaData {
 	public List<Keyword> getKeywords() {
 		return keywords;
 	}
-
+	
 	public void setSalesRestrictions(Iterable<SalesRestriction> value) {
 		if (null == value) {
 			this.salesRestrictions = Lists.newArrayList();
@@ -206,15 +216,15 @@ public class DisPubMetaData {
 			this.salesRestrictions = Lists.newArrayList(value);
 		}
 	}
-
+	
 	public List<SalesRestriction> getSalesRestrictions() {
 		return salesRestrictions;
 	}
-
+	
 	public List<FormatRestriction> getFormatRestrictions() {
 		return formatRestrictions;
 	}
-
+	
 	public void setFormatRestrictions(Iterable<FormatRestriction> value) {
 		if (null == value) {
 			this.formatRestrictions = Lists.newArrayList();
@@ -222,15 +232,15 @@ public class DisPubMetaData {
 			this.formatRestrictions = Lists.newArrayList(value);
 		}
 	}
-
+		
 	public void setBatch(Batch value) {
 		this.batch = value;
 	}
-
+	
 	public Batch getBatch() {
 		return batch;
 	}
-
+	            
 	public void setAlternateTitles(Iterable<AlternateTitle> value) {
 		if (null == value) {
 			this.alternateTitle = Lists.newArrayList();
@@ -243,14 +253,15 @@ public class DisPubMetaData {
 		return alternateTitle;
 	}
 
+
 	public void setAdvisors(Advisors value) {
 		this.advisors = value;
 	}
-
+	
 	public Advisors getAdvisors() {
 		return advisors;
 	}
-
+	
 	public void setTitle(Title value) {
 		this.title = value;
 	}
@@ -262,35 +273,35 @@ public class DisPubMetaData {
 	public void setSchool(School value) {
 		this.school = value;
 	}
-
+	
 	public School getSchool() {
 		return school;
 	}
-
+	
 	public PdfStatus getPdfStatus() {
 		return pdfStatus;
 	}
-
+	
 	public void setPdfStatus(PdfStatus value) {
 		this.pdfStatus = value;
 	}
-
+	
 	public void setPublisher(String value) {
 		this.publisher = value;
 	}
-
+	
 	public String getPublisher() {
 		return publisher;
 	}
-
+	
 	public void setPqOpenURL(String pqOpenURL) {
 		this.pqOpenURL = pqOpenURL;
 	}
-
+	
 	public String getPqOpenURL() {
 		return pqOpenURL;
 	}
-
+	
 	public String getOpenAccessFlag() {
 		return openAccessFlag;
 	}
@@ -298,7 +309,7 @@ public class DisPubMetaData {
 	public void setOpenAccessFlag(String openAccessFlag) {
 		this.openAccessFlag = openAccessFlag;
 	}
-
+	
 	public String getPubDate() {
 		return pubDate;
 	}
@@ -314,7 +325,7 @@ public class DisPubMetaData {
 	public void setExternalId(String externalId) {
 		this.externalId = externalId;
 	}
-
+	
 	public ManuscriptMedia getManuscriptMedia() {
 		return manuscriptMedia;
 	}
@@ -336,16 +347,16 @@ public class DisPubMetaData {
 	public static class DissLanguage {
 		private final String languageDescription;
 		private final String languageCode;
-
+		
 		public DissLanguage(String languageDescription, String languageCode) {
 			this.languageDescription = languageDescription;
 			this.languageCode = languageCode;
 		}
-
+		
 		public String getLanguageCode() {
 			return languageCode;
 		}
-
+		
 		public String getLanguageDescription() {
 			return languageDescription;
 		}
@@ -355,152 +366,152 @@ public class DisPubMetaData {
 			return "Language [languageDescription=" + languageDescription
 					+ ", languageCode=" + languageCode + "]";
 		}
-
+		
 	}
-
+	
 	public static class CmteMember {
-		protected String firstName;
-		protected String middleName;
-		protected String lastName;
-		protected String suffix;
+        protected String firstName;        
+        protected String middleName;        
+        protected String lastName;
+        protected String suffix;
 
-		public String getFirstName() {
-			return firstName;
-		}
+        public String getFirstName() {
+            return firstName;
+        }
 
-		public void setFirstName(String value) {
-			this.firstName = value;
-		}
+        public void setFirstName(String value) {
+            this.firstName = value;
+        }
 
-		public String getMiddleName() {
-			return middleName;
-		}
+        public String getMiddleName() {
+            return middleName;
+        }
 
-		public void setMiddleName(String value) {
-			this.middleName = value;
-		}
+        public void setMiddleName(String value) {
+            this.middleName = value;
+        }
 
-		public String getLastName() {
-			return lastName;
-		}
+        public String getLastName() {
+            return lastName;
+        }
 
-		public void setLastName(String value) {
-			this.lastName = value;
-		}
+        public void setLastName(String value) {
+            this.lastName = value;
+        }
 
-		public String getSuffix() {
-			return suffix;
-		}
+        public String getSuffix() {
+            return suffix;
+        }
 
-		public void setSuffix(String value) {
-			this.suffix = value;
-		}
-	}
-
+        public void setSuffix(String value) {
+            this.suffix = value;
+        }
+    }
+	
 	public static class Subject {
-		private String subjectGroupDesc;
-		private String subjectCode;
-		private String subjectDesc;
-		private Integer sequenceNumber;
+        private String subjectGroupDesc;
+        private String subjectCode;
+        private String subjectDesc;
+        private Integer sequenceNumber;
 
-		public String getSubjectGroupDesc() {
-			return subjectGroupDesc;
-		}
+        public String getSubjectGroupDesc() {
+            return subjectGroupDesc;
+        }
 
-		public void setSubjectGroupDesc(String value) {
-			this.subjectGroupDesc = value;
-		}
+        public void setSubjectGroupDesc(String value) {
+            this.subjectGroupDesc = value;
+        }
 
-		public String getSubjectCode() {
-			return subjectCode;
-		}
+        public String getSubjectCode() {
+            return subjectCode;
+        }
 
-		public void setSubjectCode(String value) {
-			this.subjectCode = value;
-		}
+        public void setSubjectCode(String value) {
+            this.subjectCode = value;
+        }
 
-		public String getSubjectDesc() {
-			return subjectDesc;
-		}
+        public String getSubjectDesc() {
+            return subjectDesc;
+        }
 
-		public void setSubjectDesc(String value) {
-			this.subjectDesc = value;
-		}
+        public void setSubjectDesc(String value) {
+            this.subjectDesc = value;
+        }
 
-		public Integer getSequenceNumber() {
-			return sequenceNumber;
-		}
+        public Integer getSequenceNumber() {
+            return sequenceNumber;
+        }
 
-		public void setSequenceNumber(Integer value) {
-			this.sequenceNumber = value;
-		}
-	}
-
+        public void setSequenceNumber(Integer value) {
+            this.sequenceNumber = value;
+        }
+    }
+	
 	public static class SuppFile {
-		private String suppFileCategory;
-		private String suppFilename;
-		private String suppFileDesc;
+        private String suppFileCategory;
+        private String suppFilename;
+        private String suppFileDesc;
 
-		public String getSuppFileCategory() {
-			return suppFileCategory;
-		}
+        public String getSuppFileCategory() {
+            return suppFileCategory;
+        }
 
-		public void setSuppFileCategory(String value) {
-			this.suppFileCategory = value;
-		}
+        public void setSuppFileCategory(String value) {
+            this.suppFileCategory = value;
+        }
 
-		public String getSuppFilename() {
-			return suppFilename;
-		}
+        public String getSuppFilename() {
+            return suppFilename;
+        }
 
-		public void setSuppFilename(String value) {
-			this.suppFilename = value;
-		}
+        public void setSuppFilename(String value) {
+            this.suppFilename = value;
+        }
 
-		public String getSuppFileDesc() {
-			return suppFileDesc;
-		}
+        public String getSuppFileDesc() {
+            return suppFileDesc;
+        }
 
-		public void setSuppFileDesc(String value) {
-			this.suppFileDesc = value;
-		}
-	}
+        public void setSuppFileDesc(String value) {
+            this.suppFileDesc = value;
+        }
+    }
+	
+    public static class Keyword {
+        private String value;
+        private String source;
 
-	public static class Keyword {
-		private String value;
-		private String source;
+        public String getValue() {
+            return value;
+        }
 
-		public String getValue() {
-			return value;
-		}
+        public void setValue(String value) {
+            this.value = value;
+        }
 
-		public void setValue(String value) {
-			this.value = value;
-		}
+        public String getSource() {
+            return source;
+        }
 
-		public String getSource() {
-			return source;
-		}
+        public void setSource(String value) {
+            this.source = value;
+        }
 
-		public void setSource(String value) {
-			this.source = value;
-		}
+    }
+    
+    public static class SalesRestriction {
+    	private String code;
+        private String description;
+        private String restrictionStartDate;
+        private String restrictionEndDate;
 
-	}
+        public String getDescription() {
+            return description;
+        }
 
-	public static class SalesRestriction {
-		private String code;
-		private String description;
-		private String restrictionStartDate;
-		private String restrictionEndDate;
-
-		public String getDescription() {
-			return description;
-		}
-
-		public void setDescription(String value) {
-			this.description = value;
-		}
+        public void setDescription(String value) {
+            this.description = value;
+        }
 
 		public String getCode() {
 			return code;
@@ -525,11 +536,11 @@ public class DisPubMetaData {
 		public void setRestrictionEndDate(String value) {
 			this.restrictionEndDate = value;
 		}
-	}
-
-	public static class FormatRestriction {
-		private String code;
-		private String formatRestrictionStartDt;
+    }
+    
+    public static class FormatRestriction {
+    	private String code;
+    	private String formatRestrictionStartDt;
 		private String formatRestrictionEndDt;
 
 		public String getCode() {
@@ -539,7 +550,7 @@ public class DisPubMetaData {
 		public void setCode(String value) {
 			this.code = value;
 		}
-
+		
 		public String getFormatRestrictionStartDt() {
 			return formatRestrictionStartDt;
 		}
@@ -556,196 +567,190 @@ public class DisPubMetaData {
 			this.formatRestrictionEndDt = formatRestrictionEndDt;
 		}
 
-	}
+    }
+    
+    public static class Batch {
+        private String dbTypeCode;
+        private String dbTypeDesc;
+        private String volumeIssue;
+        private String daiSectionCode;
 
-	public static class Batch {
-		private String dbTypeCode;
-		private String dbTypeDesc;
-		private String volumeIssue;
-		private String daiSectionCode;
+        public String getDBTypeCode() {
+            return dbTypeCode;
+        }
 
-		public String getDBTypeCode() {
-			return dbTypeCode;
-		}
+        public void setDBTypeCode(String value) {
+            this.dbTypeCode = value;
+        }
 
-		public void setDBTypeCode(String value) {
-			this.dbTypeCode = value;
-		}
+        public String getDBTypeDesc() {
+            return dbTypeDesc;
+        }
 
-		public String getDBTypeDesc() {
-			return dbTypeDesc;
-		}
+        public void setDBTypeDesc(String value) {
+            this.dbTypeDesc = value;
+        }
 
-		public void setDBTypeDesc(String value) {
-			this.dbTypeDesc = value;
-		}
+        public String getVolumeIssue() {
+            return volumeIssue;
+        }
 
-		public String getVolumeIssue() {
-			return volumeIssue;
-		}
+        public void setVolumeIssue(String value) {
+            this.volumeIssue = value;
+        }
 
-		public void setVolumeIssue(String value) {
-			this.volumeIssue = value;
-		}
+        public String getDAISectionCode() {
+            return daiSectionCode;
+        }
 
-		public String getDAISectionCode() {
-			return daiSectionCode;
-		}
+        public void setDAISectionCode(String value) {
+            this.daiSectionCode = value;
+        }
+    }
+    
+    public static class AlternateTitle {
+        protected String altTitle;
+        protected String language;
 
-		public void setDAISectionCode(String value) {
-			this.daiSectionCode = value;
-		}
-	}
+        public String getAltTitle() {
+            return altTitle;
+        }
 
-	public static class AlternateTitle {
-		protected String altTitle;
-		protected String language;
+        public void setAltTitle(String value) {
+            this.altTitle = value;
+        }
 
-		public String getAltTitle() {
-			return altTitle;
-		}
+        public String getLanguage() {
+            return language;
+        }
 
-		public void setAltTitle(String value) {
-			this.altTitle = value;
-		}
-
-		public String getLanguage() {
-			return language;
-		}
-
-		public void setLanguage(String value) {
-			this.language = value;
-		}
-	}
-
-	public static class Advisors {
-		private String advisorsExodusStr;
-		private List<Advisor> advisors;
-
-		public String getAdvisorsExodusStr() {
-			return advisorsExodusStr;
-		}
-
-		public void setAdvisorsExodusStr(String value) {
-			this.advisorsExodusStr = value;
-		}
-
-		public List<Advisor> getAdvisor() {
-			return advisors;
-		}
-
-		public void setAdvisor(Iterable<Advisor> value) {
-			if (null == value) {
-				this.advisors = Lists.newArrayList();
-			} else {
-				this.advisors = Lists.newArrayList(value);
-			}
-		}
-	}
-
-	public static class Advisor {
-		private String advisorFullName;
-		private String altAdvisorFullName;
-
-		public String getAdvisorFullName() {
-			return advisorFullName;
-		}
-
-		public void setAdvisorFullName(String value) {
-			this.advisorFullName = value;
-		}
-
-		public String getAltAdvisorFullName() {
-			return altAdvisorFullName;
-		}
-
-		public void setAltAdvisorFullName(String value) {
-			this.altAdvisorFullName = value;
-		}
-	}
-
-	public static class Title {
-		private String electronicTitle;
-		private String masterTitle;
-		private String englishOverwriteTitle;
-		private String foreignTitle;
-
+        public void setLanguage(String value) {
+            this.language = value;
+        }
+    }
+    
+    public static class Advisors {
+        private String advisorsExodusStr;
+        private List<Advisor> advisors;
+        
+        public String getAdvisorsExodusStr() {
+            return advisorsExodusStr;
+        }
+        public void setAdvisorsExodusStr(String value) {
+            this.advisorsExodusStr = value;
+        }
+        public List<Advisor> getAdvisor() {
+            return advisors;
+        }
+        public void setAdvisor(Iterable<Advisor> value) {
+        	if (null == value) {
+        		this.advisors = Lists.newArrayList();
+        	} else {
+        		this.advisors = Lists.newArrayList(value);
+        	}
+        }
+    }
+    
+    public static class Advisor {
+        private String advisorFullName;
+        private String altAdvisorFullName;
+        
+        public String getAdvisorFullName() {
+            return advisorFullName;
+        }
+        public void setAdvisorFullName(String value) {
+            this.advisorFullName = value;
+        }
+        public String getAltAdvisorFullName() {
+            return altAdvisorFullName;
+        }
+        public void setAltAdvisorFullName(String value) {
+            this.altAdvisorFullName = value;
+        }
+    }
+    
+    public static class Title {
+        private String electronicTitle;
+        private String masterTitle;
+        private String englishOverwriteTitle;
+        private String foreignTitle;
+        private String crcTitle;
+        
 		public String getElectronicTitle() {
 			return electronicTitle;
 		}
-
 		public void setElectronicTitle(String value) {
 			this.electronicTitle = value;
 		}
-
 		public String getMasterTitle() {
 			return masterTitle;
 		}
-
 		public void setMasterTitle(String value) {
 			this.masterTitle = value;
 		}
-
 		public String getEnglishOverwriteTitle() {
 			return englishOverwriteTitle;
 		}
-
 		public void setEnglishOverwriteTitle(String value) {
 			this.englishOverwriteTitle = value;
 		}
-
 		public String getForeignTitle() {
 			return foreignTitle;
 		}
-
 		public void setForeignTitle(String value) {
 			this.foreignTitle = value;
 		}
-	}
-
-	public static class School {
-		private String schoolCode;
-		private String schoolName;
-		private String schoolCountry;
-		private String schoolState;
-
-		public String getSchoolCode() {
-			return schoolCode;
+		public void setCRCTitle(String crcTitle) {
+			this.crcTitle = crcTitle;
 		}
-
-		public void setSchoolCode(String value) {
-			this.schoolCode = value;
+		public String getCRCTitle(String string) {
+			return crcTitle;
 		}
+    }
+    
+    public static class School {
+        private String schoolCode;
+        private String schoolName;
+        private String schoolCountry;
+        private String schoolState;
 
-		public String getSchoolName() {
-			return schoolName;
-		}
+        public String getSchoolCode() {
+            return schoolCode;
+        }
 
-		public void setSchoolName(String value) {
-			this.schoolName = value;
-		}
+        public void setSchoolCode(String value) {
+            this.schoolCode = value;
+        }
 
-		public String getSchoolCountry() {
-			return schoolCountry;
-		}
+        public String getSchoolName() {
+            return schoolName;
+        }
 
-		public void setSchoolCountry(String value) {
-			this.schoolCountry = value;
-		}
+        public void setSchoolName(String value) {
+            this.schoolName = value;
+        }
 
-		public String getSchoolState() {
-			return schoolState;
-		}
+        public String getSchoolCountry() {
+            return schoolCountry;
+        }
 
-		public void setSchoolState(String value) {
-			this.schoolState = value;
-		}
-	}
+        public void setSchoolCountry(String value) {
+            this.schoolCountry = value;
+        }
 
-	public static class PdfStatus {
-		private boolean pdfAvailableStatus;
-		private String pdfAvailableDate;
+        public String getSchoolState() {
+            return schoolState;
+        }
 
+        public void setSchoolState(String value) {
+            this.schoolState = value;
+        }
+    }
+    
+    public static class PdfStatus {
+        private boolean pdfAvailableStatus;
+        private String pdfAvailableDate;
+        
 		public String getPdfAvailableDate() {
 			return pdfAvailableDate;
 		}
@@ -761,9 +766,9 @@ public class DisPubMetaData {
 		public void setPdfAvailableStatus(boolean value) {
 			this.pdfAvailableStatus = value;
 		}
-	}
-
-	public static class ManuscriptMedia {
+    }
+    
+    public static class ManuscriptMedia {
 		private String manuscriptMediaCode;
 		private String manuscriptMediaDesc;
 
@@ -783,4 +788,13 @@ public class DisPubMetaData {
 			this.manuscriptMediaDesc = manuscriptMediaDesc;
 		}
 	}
+
+	public String getFirstPublicationDate() {
+		return firstPublicationDate;
+	}
+
+	public void setFirstPublicationDate(String firstPublicationDate) {
+		this.firstPublicationDate = firstPublicationDate;
+	}
+	
 }
