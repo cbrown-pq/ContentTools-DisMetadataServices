@@ -21,10 +21,6 @@ public class SchoolUpdateQueryForDashboard {
 	private PreparedStatement disSchoolUpdateStmt;
 	private PreparedStatement disSchoolLoadStatusStmt;
 	private static String kDashBoardAdminName = "DASHBOARD ADMIN";
-	private static final String kColumnSchoolEndDate = "SchoolEndDate";
-	private static final String kColumnSchoolStatus = "SchoolStatus";
-	private static final String kColumnSchoolUserModified = "SchoolUserModified";
-	private static final String kColumnSchoolDateModified = "SchoolDateModified";
 	private static final String kColumnSchoolLoadStatus = "SchoolLoadStatus";
 	private static final String kColumnSchoolLoadStatusDate = "SchoolLoadStatusDate";
 	public static final String kEmptyValue = "";

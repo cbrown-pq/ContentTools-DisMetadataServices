@@ -31,7 +31,7 @@ public class MakeCSVRecordFactory_ManuscriptMedia_Tests {
 		manuscriptMedia.setManuscriptMediaCode(manuscriptMediaCode);
 		metadata.setManuscriptMedia(manuscriptMedia);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -42,7 +42,7 @@ public class MakeCSVRecordFactory_ManuscriptMedia_Tests {
 		manuscriptMedia.setManuscriptMediaDesc(manuscriptMediaDesc);
 		metadata.setManuscriptMedia(manuscriptMedia);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -53,7 +53,7 @@ public class MakeCSVRecordFactory_ManuscriptMedia_Tests {
 		manuscriptMedia.setManuscriptMediaCode(manuscriptMediaCode);
 		metadata.setManuscriptMedia(manuscriptMedia);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,\"ManuscriptMediaCode\",,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,\"ManuscriptMediaCode\",,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -64,7 +64,7 @@ public class MakeCSVRecordFactory_ManuscriptMedia_Tests {
 		manuscriptMedia.setManuscriptMediaCode(manuscriptMediaDesc);
 		metadata.setManuscriptMedia(manuscriptMedia);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,\"ManuscriptMediaDesc\",,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,\"ManuscriptMediaDesc\",,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

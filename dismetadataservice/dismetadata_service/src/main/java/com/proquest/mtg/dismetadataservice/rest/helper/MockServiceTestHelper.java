@@ -7,10 +7,11 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.proquest.mtg.dismetadataservice.format.MetaDataFormatFactory;
 import com.proquest.mtg.dismetadataservice.rest.SchoolMetadataServiceProvider;
+import com.proquest.mtg.dismetadataservice.rest.SubjectsMetadataServiceProvider;
 
 public class MockServiceTestHelper extends ServiceTestHelperBase {
 	
-	public MockServiceTestHelper(final MetaDataFormatFactory metaDataFormatFactory, final SchoolMetadataServiceProvider schoolMetadata) 
+	public MockServiceTestHelper(final MetaDataFormatFactory metaDataFormatFactory, final SchoolMetadataServiceProvider schoolMetadata, final SubjectsMetadataServiceProvider subjectsMetadata) 
 			throws IllegalArgumentException, IOException {
 		
 		Injector injector = Guice.createInjector( new AbstractModule() {
@@ -18,6 +19,7 @@ public class MockServiceTestHelper extends ServiceTestHelperBase {
 									 protected void configure() {
 										 bind(MetaDataFormatFactory.class).toInstance(metaDataFormatFactory);
 										 bind(SchoolMetadataServiceProvider.class).toInstance(schoolMetadata);
+										 bind(SubjectsMetadataServiceProvider.class).toInstance(subjectsMetadata);
 									 }
 		 	 					});
 		

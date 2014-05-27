@@ -13,8 +13,10 @@ import com.proquest.mtg.dismetadataservice.exodus.ICSVProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IMarcProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IPubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.ISchoolMetaDataProvider;
+import com.proquest.mtg.dismetadataservice.exodus.ISubjectsMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.SchoolMetaDataProvider;
+import com.proquest.mtg.dismetadataservice.exodus.SubjectsMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.format.CSVFormat;
 import com.proquest.mtg.dismetadataservice.format.FakeFormat;
 import com.proquest.mtg.dismetadataservice.format.Marc21RdaFormat;
@@ -111,6 +113,7 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		bind(ICSVProvider.class).to(ExodusDataProvider.class);
 		bind(IPubMetaDataProvider.class).to(PubMetaDataProvider.class);
 		bind(ISchoolMetaDataProvider.class).to(SchoolMetaDataProvider.class);
+		bind(ISubjectsMetaDataProvider.class).to(SubjectsMetaDataProvider.class);
 		bind(IWriter.class).to(StringWriter.class);
 	}
 
