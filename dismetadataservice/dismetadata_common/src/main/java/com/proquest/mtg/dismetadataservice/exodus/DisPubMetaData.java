@@ -540,6 +540,7 @@ public class DisPubMetaData {
     
     public static class FormatRestriction {
     	private String code;
+    	private String desc;
     	private String formatRestrictionStartDt;
 		private String formatRestrictionEndDt;
 
@@ -549,6 +550,14 @@ public class DisPubMetaData {
 
 		public void setCode(String value) {
 			this.code = value;
+		}
+		
+		public String getDesc() {
+			return desc;
+		}
+		
+		public void setDesc(String desc) {
+			this.desc = desc;
 		}
 		
 		public String getFormatRestrictionStartDt() {
@@ -566,6 +575,7 @@ public class DisPubMetaData {
 		public void setFormatRestrictionEndDt(String formatRestrictionEndDt) {
 			this.formatRestrictionEndDt = formatRestrictionEndDt;
 		}
+
 
     }
     
