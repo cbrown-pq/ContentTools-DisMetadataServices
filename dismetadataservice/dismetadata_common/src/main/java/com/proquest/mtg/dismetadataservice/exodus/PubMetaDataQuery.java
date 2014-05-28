@@ -904,12 +904,12 @@ public class PubMetaDataQuery {
 		if (cursor.next()) {
 			result.setPdfAvailableDate(cursor.getString(kColumnPdfAvailableDate));
 			String pdfAvailableFlag = cursor.getString(kColumnPdfAvailableFlag);
-			if(pdfAvailableFlag.equals("Y")) {
-					result.setPdfAvailableStatus(true);
-			}
-			else {
-				result.setPdfAvailableStatus(false);
-			}
+				if(null != pdfAvailableFlag && !pdfAvailableFlag.isEmpty() &&pdfAvailableFlag.equals("Y")) {
+						result.setPdfAvailableStatus(true);
+				}
+				else {
+					result.setPdfAvailableStatus(false);
+				}
 		} else {
 			result.setPdfAvailableStatus(false);
 		}
