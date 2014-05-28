@@ -98,7 +98,8 @@ public class PubMetaDataQuery {
 	private static final String kColumnSalesRestrctionStartDate = "SalesRestrictionStartDate";
 	private static final String kColumnSalesRestrctionEndDate = "SalesRestrictionEndDate";
 	
-	private static final String kColumnFormatRestrctionCode = "FormatRestrictionCode";
+	private static final String kColumnFormatRestrictionCode = "FormatRestrictionCode";
+	private static final String kColumnFormatRestrictionDesc  = "FormatRestrictionDesc";
 	private static final String kColumnFormatRestrictionStartDt = "FormatRestrictionCodeStartDt";
 	private static final String kColumnFormatRestrictionEndDt = "FormatRestrictionCodeEndDt";
 	
@@ -118,6 +119,7 @@ public class PubMetaDataQuery {
 	private static final String kColumnSchoolCountry = "SchoolCountry";
 	private static final String kColumnSchoolState = "SchoolState";
 	
+	private static final String kColumnPdfAvailableFlag = "PdfAvailableFlag";
 	private static final String kColumnPdfAvailableDate = "PdfAvailableDate";
 	private static final String kColumnExternalId = "ExternalId";
 	private static final String kColumnOpenAccessFlag = "OpenAccessFlag";
@@ -165,7 +167,7 @@ public class PubMetaDataQuery {
                   "FROM dis_work_order_stations dwos " +                 
                   "WHERE dvwo_code = 'S'" + 
                   "AND dwos.diw_id = ditm.diw_id) " + kColumnPubDate + ", " +
-                  "(SELECT to_char(dwos_received_date,'MM/DD/YYYY') " +
+                  "(SELECT MAX (to_char(dwos_received_date,'MM/DD/YYYY')) " +
                   "FROM dis_work_order_stations dwos, dis_work_orders dwo " +                 
                   "WHERE dwo.diw_id = dwos.diw_id and dwos.diw_id = ditm.diw_id) " + kColumnDwosReceiveDate + " " +
                   "FROM dis.dis_items ditm, " +
@@ -173,17 +175,6 @@ public class PubMetaDataQuery {
                   "WHERE ditm.ditm_pub_number = ? " +  
                   "and ditm_pub_number = open_access.pub_number(+) " +
                   "AND ditm.dvi_id IS NOT NULL ";
-	
-	
-//	private static final String kSelectDwosReceiveDate = 
-//			"SELECT " +
-//				"dwos_received_date " + kColumnDwosReceiveDate + "," +
-//			"FROM " + 
-//				"dis_items, " +
-//				"dis_work_order_stations dwos " +
-//			"WHERE " + 
-//				"dis_items.ditm_id = ?  AND " + 
-//				"dwos.diw_id = dis_items.diw_id";
 	
 	
 	private static final String kSelectLanguage = 
@@ -334,13 +325,16 @@ public class PubMetaDataQuery {
 	
 	private static final String kSelectFormatRestriction = 
 			"SELECT " + 
-				"dfr.dvfr_code " + kColumnFormatRestrctionCode + ", " +
-						"dfr.dfr_res_start_date " + kColumnFormatRestrictionStartDt + ", " +
-						"dfr.dfr_res_lift_date " + kColumnFormatRestrictionEndDt + " " +
+				"dfr.dvfr_code " + kColumnFormatRestrictionCode + ", " +
+				"dvfr.dvfr_description " + kColumnFormatRestrictionDesc + ", " +
+				"dfr.dfr_res_start_date " + kColumnFormatRestrictionStartDt + ", " +
+				"dfr.dfr_res_lift_date " + kColumnFormatRestrictionEndDt + " " +
 			"FROM " + 
-				"dis.dis_format_restrictions dfr " +  
+				"dis.dis_format_restrictions dfr " + ", " + 
+				"dis_valid_format_rstcns dvfr " +
 			"WHERE " + 
-				"dfr.ditm_id = ? " +
+				"dfr.ditm_id = ?  AND " +
+			    "dfr.dvfr_code = dvfr.dvfr_code " +
 			"ORDER BY dfr.dvfr_code";
 	
 	private static final String kSelectBatch = 
@@ -396,15 +390,15 @@ public class PubMetaDataQuery {
 	
 	private static final String kSelectPdfStatus = 
 			"SELECT " + 
-				"TO_CHAR(GREATEST (diaf_date_created, " +
-							"NVL (diaf_date_modified, diaf_date_created))," +
-							" 'DD-MON-YYYY')  " + kColumnPdfAvailableDate + " " +
+			"PDF_IN_VAULT_FLAG " + kColumnPdfAvailableFlag + ", " +
+			"TO_CHAR(DPDF_DATE_MODIFIED,'DD-MON-YYYY')  " + kColumnPdfAvailableDate + " " +
 			"FROM " + 
-				"dis.dis_item_available_formats diaf " + 
+				"dis_pub_doc_pdf dpdp, " + 
+				"dis_items di " +
 			"WHERE " + 
-				"diaf.ditm_id = ? " + 
+				"di.ditm_pub_number = dpdp.ditm_pub_number " + 
 				"AND " + 
-				"diaf.dvf_code = 'PDF' ";
+				"di.ditm_id = ? ";
 	
 	private static final String kSelectManuscriptMedia = 
 			"SELECT " +
@@ -822,7 +816,8 @@ public class PubMetaDataQuery {
 					result = Lists.newArrayList();
 				}
 				FormatRestriction item = new FormatRestriction();
-				item.setCode(trimmed(cursor.getString(kColumnFormatRestrctionCode)));
+				item.setCode(trimmed(cursor.getString(kColumnFormatRestrictionCode)));
+				item.setDesc(trimmed(cursor.getString(kColumnFormatRestrictionDesc)));
 				item.setFormatRestrictionStartDt(cursor.getString(kColumnFormatRestrictionStartDt));
 				item.setFormatRestrictionEndDt(cursor.getString(kColumnFormatRestrictionEndDt));
 				result.add(item);
@@ -908,7 +903,13 @@ public class PubMetaDataQuery {
 		ResultSet cursor = pdfStatusStatement.executeQuery();
 		if (cursor.next()) {
 			result.setPdfAvailableDate(cursor.getString(kColumnPdfAvailableDate));
-			result.setPdfAvailableStatus(true);
+			String pdfAvailableFlag = cursor.getString(kColumnPdfAvailableFlag);
+			if(pdfAvailableFlag.equals("Y")) {
+					result.setPdfAvailableStatus(true);
+			}
+			else {
+				result.setPdfAvailableStatus(false);
+			}
 		} else {
 			result.setPdfAvailableStatus(false);
 		}
@@ -991,6 +992,7 @@ public class PubMetaDataQuery {
 
 	public void close() throws SQLException {
 		closeStatement(authorsStatement);
+		closeStatement(claimantsStatement);
 		closeStatement(mainPubDataStatement);
 		closeStatement(languageStatement);
 		closeStatement(degreeStatement);
