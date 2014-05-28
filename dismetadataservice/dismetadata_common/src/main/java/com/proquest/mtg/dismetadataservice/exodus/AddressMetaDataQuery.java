@@ -133,10 +133,17 @@ public class AddressMetaDataQuery {
 	
 	private String getStateCode(String zip) throws SQLException {
 		String stateCode= null;
+		ResultSet cursor = null;
 		stateCodeStatement.setString(1, zip);
-		ResultSet cursor = stateCodeStatement.executeQuery();
-		if(cursor.next()) {
-			stateCode = cursor.getString(kAddressStateCode);
+		try {
+			cursor = stateCodeStatement.executeQuery();
+			if(cursor.next()) {
+				stateCode = cursor.getString(kAddressStateCode);
+			}
+		} finally {
+			if (null != cursor) {
+				cursor.close();
+			}
 		}
 		return stateCode;
 	}
