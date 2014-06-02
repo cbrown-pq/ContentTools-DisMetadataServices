@@ -155,7 +155,7 @@ public class PubMetaDataQuery {
                   "ditm_manuscript_year " + kManuscriptYear + ", " +
                   "ditm_bl_no " + kColumnBritishLibraryNumber + ", " +
                   "ditm_source " + kColumnSource + ", " +
-                  "ditm_ft_url " + kColumnExternalUrl + ", " +
+                  "ditm_ext_url " + kColumnExternalUrl + ", " +
                   "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'M' AND ditm_id = ditm.ditm_id ) " + kColumnMasterTitle + ", " +
                   "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'P' AND ditm_id = ditm.ditm_id ) " + kColumnElectronicTitle + ", " +
                   "( SELECT dttl_text FROM dis.dis_titles WHERE dvtl_code = 'E' AND ditm_id = ditm.ditm_id ) " + kColumnEngOverwriteTitle + ", " +
