@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfStatus;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfAvailableDateStatus;
 import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 
@@ -14,16 +14,16 @@ public class Marc21RdaRecordFactory_ContentType_Tests extends
 	String tag = MarcTags.kContentType;
 	String expectedMarcFieldData;
 	DisPubMetaData metaData;
-	PdfStatus pdfStatus;
+	PdfAvailableDateStatus pdfStatus;
 
 	@Before
 	public void setup() {
 		metaData = new DisPubMetaData();
-		pdfStatus = new PdfStatus();
+		pdfStatus = new PdfAvailableDateStatus();
 	}
 	
 	@Test
-	public void withNull() {
+	public void withNull() throws Exception {
 		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "aunspecified"
 				+ MarcCharSet.kSubFieldIndicator + "bzzz"
 				+ MarcCharSet.kSubFieldIndicator + "2rdacontent";
@@ -31,7 +31,7 @@ public class Marc21RdaRecordFactory_ContentType_Tests extends
 	}
 
 	@Test
-	public void withNoPdfStatus() {
+	public void withNoPdfStatus() throws Exception {
 		metaData.setPdfStatus(pdfStatus);
 		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "aunspecified"
 				+ MarcCharSet.kSubFieldIndicator + "bzzz"
@@ -41,9 +41,9 @@ public class Marc21RdaRecordFactory_ContentType_Tests extends
 
 
 	@Test
-	public void withPdfStatusAvailable() {
-		pdfStatus.setPdfAvailableStatus(true);
+	public void withPdfStatusAvailable() throws Exception {
 		metaData.setPdfStatus(pdfStatus);
+		metaData.setPubNumber(Marc21RdaRecordFactory_Test_Helper.kPubForPdfAvailable);
 		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "atext"
 				+ MarcCharSet.kSubFieldIndicator + "btxt"
 				+ MarcCharSet.kSubFieldIndicator + "2rdacontent";
@@ -52,9 +52,9 @@ public class Marc21RdaRecordFactory_ContentType_Tests extends
 	}
 	
 	@Test
-	public void withPdfStatusNotAvailable() {
-		pdfStatus.setPdfAvailableStatus(false);
+	public void withPdfStatusNotAvailable() throws Exception {
 		metaData.setPdfStatus(pdfStatus);
+		metaData.setPubNumber(Marc21RdaRecordFactory_Test_Helper.kPubForPdfNotAvailable);
 		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "aunspecified"
 				+ MarcCharSet.kSubFieldIndicator + "bzzz"
 				+ MarcCharSet.kSubFieldIndicator + "2rdacontent";

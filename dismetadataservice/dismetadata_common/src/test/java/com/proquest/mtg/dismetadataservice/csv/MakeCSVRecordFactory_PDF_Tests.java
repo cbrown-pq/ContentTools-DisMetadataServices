@@ -1,34 +1,43 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertThat;
 
+import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfStatus;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfAvailableDateStatus;
+import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider;
+import com.proquest.mtg.dismetadataservice.media.PubMediaInfoProvider;
 
-public class MakeCSVRecordFactory_PDF_Tests {
+public class MakeCSVRecordFactory_PDF_Tests extends EasyMockSupport {
 	CSVRecordFactory factory;
 	String header = "";
 	DisPubMetaData metadata;
-	PdfStatus pdfStatus;
+	PdfAvailableDateStatus pdfAvailableDateStatus;
+	PubMediaInfoProvider pubMediaInforProvider;
+	PDFVaultAvailableStatusProvider pdfVaultAvailableStatus;
+	String pubNumber;
 
 	@Before
 	public void setUp() throws Exception {
-		factory = new CSVRecordFactory();
+		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
+		factory = new CSVRecordFactory(pdfVaultAvailableStatus);
 		metadata = new DisPubMetaData();
 		for (String curheader : factory.getHeaders()) {
 			header += curheader + ",";
 		}
-		pdfStatus = new PdfStatus();
+		pdfAvailableDateStatus = new PdfAvailableDateStatus();
+		pubNumber = "Pub1";
 	}
 
 	@Test
 	public void makeWithEmptyPdfStatus() throws Exception {
 
-		metadata.setPdfStatus(pdfStatus);
+		metadata.setPdfStatus(pdfAvailableDateStatus);
 		String expectedCSVData = header
 				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
@@ -37,9 +46,12 @@ public class MakeCSVRecordFactory_PDF_Tests {
 
 	@Test
 	public void makeWithPDFAvailableAndEmptyPdfAvailableDate() throws Exception {
-		pdfStatus.setPdfAvailableStatus(true);
-		metadata.setPdfStatus(pdfStatus);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
+		metadata.setPdfStatus(pdfAvailableDateStatus);
+		metadata.setPubNumber(pubNumber);
+		expect(pdfVaultAvailableStatus.isPdfAvailableInVaultFor(pubNumber)).andStubReturn(true);
+		replayAll();
+		metadata.setPdfStatus(pdfAvailableDateStatus);
+		String expectedCSVData = header + "\r\n" + "\"" + pubNumber + "\",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"Y\"" + ",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
@@ -47,47 +59,41 @@ public class MakeCSVRecordFactory_PDF_Tests {
 	
 	@Test
 	public void makeWithNoPDFAvailableAndEmptyPdfAvailable() throws Exception {
-		pdfStatus.setPdfAvailableStatus(false);
-		metadata.setPdfStatus(pdfStatus);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
+		metadata.setPdfStatus(pdfAvailableDateStatus);
+		metadata.setPubNumber(pubNumber);
+		expect(pdfVaultAvailableStatus.isPdfAvailableInVaultFor(pubNumber)).andStubReturn(false);
+		replayAll();
+		String expectedCSVData = header + "\r\n" + "\"" + pubNumber + "\",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"N\"" + ",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
 
 	@Test
-	public void makeWithPDFAvailableDateAndNoPdfAvailable() throws Exception {
-		pdfStatus.setPdfAvailableDate("PdfAvailableDate");
-		metadata.setPdfStatus(pdfStatus);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"N\"" 
-				+ ",,,,,,,,,,,,";
-		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
-	}
-	
-	@Test
 	public void makeWithPDFAvailableDateAndPdfStatusNotAvailable() throws Exception {
-		pdfStatus.setPdfAvailableDate("PdfAvailableDate");
-		pdfStatus.setPdfAvailableStatus(false);
-		metadata.setPdfStatus(pdfStatus);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
+		pdfAvailableDateStatus.setPdfAvailableDate("PdfAvailableDate");
+		metadata.setPdfStatus(pdfAvailableDateStatus);
+		metadata.setPubNumber(pubNumber);
+		expect(pdfVaultAvailableStatus.isPdfAvailableInVaultFor(pubNumber)).andStubReturn(false);
+		replayAll();
+		String expectedCSVData = header + "\r\n" + "\"" + pubNumber + "\",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"N\"" 
-				+ ",,,,,,,,,,,,";
+				+ ",\"PdfAvailableDate\",,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
 	
 	@Test
 	public void makeWithPDFAvailableDateAndPdfStatusAvailable() throws Exception {
-		pdfStatus.setPdfAvailableDate("PdfAvailableDate");
-		pdfStatus.setPdfAvailableStatus(true);
-		metadata.setPdfStatus(pdfStatus);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
+		pdfAvailableDateStatus.setPdfAvailableDate("PdfAvailableDate");
+		metadata.setPdfStatus(pdfAvailableDateStatus);
+		metadata.setPubNumber(pubNumber);
+		expect(pdfVaultAvailableStatus.isPdfAvailableInVaultFor(pubNumber)).andStubReturn(true);
+		replayAll();
+		String expectedCSVData = header + "\r\n" + "\"" + pubNumber + "\",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"Y\"" 
 				+ ",\"PdfAvailableDate\",,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
-
 }

@@ -30,10 +30,9 @@ public class Marc21RdaRecordFactory_SystemControlNumber_Tests extends
 	@Test
 	public void withSystemControlNumber() {
 		DisPubMetaData metaData = new DisPubMetaData();
-		String pubNumber = "U573156";
-		metaData.setPubNumber(pubNumber);
+		metaData.setPubNumber(Marc21RdaRecordFactory_Test_Helper.kPubForPdfNotAvailable);
 		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator
-				+ "a(MiAaPQD)AAI" + pubNumber;
+				+ "a(MiAaPQD)AAI" + Marc21RdaRecordFactory_Test_Helper.kPubForPdfNotAvailable;
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
 	}
 }

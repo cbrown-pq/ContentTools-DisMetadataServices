@@ -19,6 +19,10 @@ public class DisMetadataProperties_Tests {
 	static final String kExodusDbClassType = "FakeDbClassType";
 	static final String kPQOpenUrlBase = "www.proquest.com/base/url:fake";
 	static final String kSchoolBatchSize = "5";
+	static final String kServiceUrlBase = "www.service.proquest.com/base/url:fake";
+	static final String kPqserviceTimeout = "30";
+	static final String kUserAgent = "fakeAgent";
+	
 	
 	public static Properties makePropertyMapForTesting() {
 		Properties props = new Properties();
@@ -29,6 +33,9 @@ public class DisMetadataProperties_Tests {
 		props.setProperty(DisMetadataProperties.EXODUS_DB_CLASSTYPE, kExodusDbClassType);
 		props.setProperty(DisMetadataProperties.PQ_OPEN_URL_BASE, kPQOpenUrlBase);
 		props.setProperty(DisMetadataProperties.SCHOOL_BATCH_SIZE, kSchoolBatchSize);
+		props.setProperty(DisMetadataProperties.PQ_SERVICE_URL_BASE, kServiceUrlBase);
+		props.setProperty(DisMetadataProperties.PQ_SERVICE_TIMEOUT_MS, kPqserviceTimeout);
+		props.setProperty(DisMetadataProperties.PQ_SERVICE_USER_AGENT, kUserAgent);
 		return props;
 	}
 	
@@ -58,5 +65,20 @@ public class DisMetadataProperties_Tests {
 	@Test
 	public void hasCorrect_SchoolBatchSize() throws Exception{
 		assertThat(target.getSchoolBatchSize(), is(Integer.parseInt(kSchoolBatchSize)));
+	}
+	
+	@Test
+	public void hasCorrect_ServiceUrlBase() throws Exception {
+		assertThat(target.getPQServiceURL(), is(kServiceUrlBase));
+	}
+	
+	@Test
+	public void hasCorrect_PqServiceTimeoutMS() throws Exception {
+		assertThat(target.getPqServiceTimeoutMS(), is(Integer.parseInt(kPqserviceTimeout)));
+	}
+	
+	@Test
+	public void hasCorrect_PqServiceUserAgent() throws Exception {
+		assertThat(target.getPqServiceUserAgent(), is(kUserAgent));
 	}
 }

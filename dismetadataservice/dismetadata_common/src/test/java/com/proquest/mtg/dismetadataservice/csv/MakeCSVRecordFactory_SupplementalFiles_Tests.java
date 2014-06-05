@@ -6,22 +6,26 @@ import static org.junit.Assert.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
+import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider;
 
-public class MakeCSVRecordFactory_SupplementalFiles_Tests {
+public class MakeCSVRecordFactory_SupplementalFiles_Tests extends EasyMockSupport {
 	CSVRecordFactory factory;
 	String header = "";
 	DisPubMetaData metadata;
 	SuppFile suppFile;
 	List<SuppFile> suppFiles;
+	PDFVaultAvailableStatusProvider pdfVaultAvailableStatus;
 
 	@Before
 	public void setUp() throws Exception {
-		factory = new CSVRecordFactory();
+		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
+		factory = new CSVRecordFactory(pdfVaultAvailableStatus);
 		metadata = new DisPubMetaData();
 		for (String curheader : factory.getHeaders()) {
 			header += curheader + ",";

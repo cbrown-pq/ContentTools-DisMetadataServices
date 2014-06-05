@@ -417,8 +417,6 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 			if (verifyNotNullValue("Pdf Status", actual.getPdfStatus())) {
 				verify("PdfStatus.AvailableDate", expected.getPdfStatus().getPdfAvailableDate(), 
 						actual.getPdfStatus().getPdfAvailableDate());
-				verify("PdfStatus.IsAvailable", expected.getPdfStatus().isPdfAvailable(), 
-						actual.getPdfStatus().isPdfAvailable());
 			}
 		}
 		else {

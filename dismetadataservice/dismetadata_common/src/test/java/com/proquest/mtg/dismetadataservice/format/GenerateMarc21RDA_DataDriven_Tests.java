@@ -14,10 +14,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.proquest.mtg.dismetadataservice.exodus.ExodusDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IMarcProvider;
 import com.proquest.mtg.dismetadataservice.exodus.MakeExodusMetadataForTesting;
 import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataProvider;
+import com.proquest.mtg.dismetadataservice.guice.DisMetadataServiceGuiceModule;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
@@ -25,6 +28,7 @@ import com.proquest.mtg.dismetadataservice.marc.MarcParser;
 import com.proquest.mtg.dismetadataservice.marc.MarcParserException;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
+import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.metadata.HTMLTagRemover;
 import com.proquest.mtg.dismetadataservice.metadata.PlainTextNormalizer;
@@ -89,7 +93,12 @@ public class GenerateMarc21RDA_DataDriven_Tests {
 				MakeExodusMetadataForTesting.pqOpenUrlBase);
 		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(connectionPool);
 		PlainTextNormalizer plainTextNormalizer = new PlainTextNormalizer(new HTMLTagRemover());
-		marcProvider = new ExodusDataProvider(pubMetaDataProvider, disGenMappingProvider, plainTextNormalizer);
+		Injector injector = Guice.createInjector(
+				new DisMetadataServiceGuiceModule("dismetadata.local.properties"));
+		PDFVaultAvailableStatusProvider pdfVaultAvailableStatusProvider = 
+				injector.getInstance(PDFVaultAvailableStatusProvider.class);
+		marcProvider = new ExodusDataProvider(pubMetaDataProvider, disGenMappingProvider,
+				plainTextNormalizer, pdfVaultAvailableStatusProvider);
 	}
 	
 	private void initExpectedMarcRecords() throws IOException,

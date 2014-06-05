@@ -49,7 +49,7 @@ public class Marc21RdaRecordFactory_AccessNoteRestriction_Tests extends
 		String salesRestrictioNote = "This item must not be sold to any third party vendors";
 		DisPubMetaData metaData = new DisPubMetaData();
 		salesRestriction = new SalesRestriction();
-		metaData.setPubNumber("test pub");
+		metaData.setPubNumber(Marc21RdaRecordFactory_Test_Helper.kPubForPdfAvailable);
 		salesRestriction.setCode("5");
 		metaData.setSalesRestrictions(Lists.newArrayList(salesRestriction));
 		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a"
@@ -62,7 +62,7 @@ public class Marc21RdaRecordFactory_AccessNoteRestriction_Tests extends
 			throws Exception {
 		String salesRestrictioNote = "This item must not be added to any third party search indexes";
 		DisPubMetaData metaData = new DisPubMetaData();
-		metaData.setPubNumber("test pub");
+		metaData.setPubNumber(Marc21RdaRecordFactory_Test_Helper.kPubForPdfAvailable);
 		salesRestriction = new SalesRestriction();
 		salesRestriction.setCode("8");
 		metaData.setSalesRestrictions(Lists.newArrayList(salesRestriction));
@@ -75,7 +75,7 @@ public class Marc21RdaRecordFactory_AccessNoteRestriction_Tests extends
 	public void withSalesRestriction_AllOtherRestrictions() throws Exception {
 		String salesRestrictioNote = "This item is not available from ProQuest Dissertations & Theses";
 		DisPubMetaData metaData = new DisPubMetaData();
-		metaData.setPubNumber("test pub");
+		metaData.setPubNumber(Marc21RdaRecordFactory_Test_Helper.kPubForPdfAvailable);
 		SalesRestriction salesRestriction = new SalesRestriction();
 		salesRestriction.setCode("2");
 		metaData.setSalesRestrictions(Lists.newArrayList(salesRestriction));
