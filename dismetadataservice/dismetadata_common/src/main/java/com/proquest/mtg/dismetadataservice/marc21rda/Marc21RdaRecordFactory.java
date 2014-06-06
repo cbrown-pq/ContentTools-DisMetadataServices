@@ -21,6 +21,7 @@ import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecordFactoryBase;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
+import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
@@ -41,11 +42,18 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	private MarcRecord curRecord = null;
 	private final DisGenMappingProvider disGenMappingProvider;
 	private boolean pdfAvailable;
+	private final PDFVaultAvailableStatusProvider pdfVaultAvailableStatus;
 
-	public Marc21RdaRecordFactory(DisGenMappingProvider disGenMappingProvider) {
+	public Marc21RdaRecordFactory(DisGenMappingProvider disGenMappingProvider,
+			PDFVaultAvailableStatusProvider pdfAvailableStatus) {
 		this.disGenMappingProvider = disGenMappingProvider;
+		this.pdfVaultAvailableStatus = pdfAvailableStatus;
 	}
 
+	public PDFVaultAvailableStatusProvider getPDFVaultAvailableStatusProvider() {
+		return pdfVaultAvailableStatus;
+	}
+	
 	public MarcRecord makeFrom(DisPubMetaData metaData) {
 
 		if (null == metaData) {
@@ -53,14 +61,20 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		}
 
 		curMetaData = metaData;
-		pdfAvailable = curMetaData.getPdfStatus() != null ? curMetaData
-				.getPdfStatus().isPdfAvailable() : false;
-		if (pdfAvailable)
+		try {
+			pdfAvailable = getPDFVaultAvailableStatusProvider().
+					isPdfAvailableInVaultFor(metaData.getPubNumber());
+		} catch (Exception e) {
+			pdfAvailable = false;
+		}
+				
+		if (pdfAvailable) {
 			curRecord = new MarcRecord('a', kEncodingLevel,
 					kDescriptiveCataloging);
-		else
+		} else {
 			curRecord = new MarcRecord(' ', kEncodingLevel,
 					kDescriptiveCataloging);
+		}
 		handleRecordId(); /* 001 */
 		handleTimeStamp(); /* 005 */
 		handleFixedLengthElements(); /* 008 */

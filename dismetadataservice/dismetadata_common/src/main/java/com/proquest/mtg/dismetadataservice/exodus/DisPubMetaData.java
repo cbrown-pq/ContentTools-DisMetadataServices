@@ -33,7 +33,7 @@ public class DisPubMetaData {
 	private Advisors advisors;
 	private Title title;
 	private School school;
-	private PdfStatus pdfStatus;
+	private PdfAvailableDateStatus pdfStatus;
 	private String pqOpenURL;
 	private String openAccessFlag;
 	private String pubDate;
@@ -278,11 +278,11 @@ public class DisPubMetaData {
 		return school;
 	}
 	
-	public PdfStatus getPdfStatus() {
+	public PdfAvailableDateStatus getPdfStatus() {
 		return pdfStatus;
 	}
 	
-	public void setPdfStatus(PdfStatus value) {
+	public void setPdfStatus(PdfAvailableDateStatus value) {
 		this.pdfStatus = value;
 	}
 	
@@ -757,8 +757,7 @@ public class DisPubMetaData {
         }
     }
     
-    public static class PdfStatus {
-        private boolean pdfAvailableStatus;
+    public static class PdfAvailableDateStatus {
         private String pdfAvailableDate;
         
 		public String getPdfAvailableDate() {
@@ -767,14 +766,6 @@ public class DisPubMetaData {
 
 		public void setPdfAvailableDate(String value) {
 			this.pdfAvailableDate = value;
-		}
-
-		public boolean isPdfAvailable() {
-			return pdfAvailableStatus;
-		}
-
-		public void setPdfAvailableStatus(boolean value) {
-			this.pdfAvailableStatus = value;
 		}
     }
     

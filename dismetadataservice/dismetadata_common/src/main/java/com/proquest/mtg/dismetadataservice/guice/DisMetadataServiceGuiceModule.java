@@ -5,9 +5,18 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
+import org.apache.http.HttpVersion;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.impl.conn.SchemeRegistryFactory;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.proquest.gossamer.ApacheGossamerServiceClient;
+import com.proquest.gossamer.GossamerServiceClient;
 import com.proquest.mtg.dismetadataservice.exodus.ExodusDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.ICSVProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IMarcProvider;
@@ -29,6 +38,10 @@ import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.properties.AppConfigReader;
 import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
 import com.proquest.mtg.dismetadataservice.properties.IAppConfigReader;
+import com.proquest.mtg.services.gossamer.docfrosting.DocumentfrostingObjectIdResource;
+import com.proquest.mtg.services.gossamer.docfrosting.DocumentfrostingObjectIdResource_ClientStub;
+import com.proquest.mtg.services.gossamer.relatedids.RelatedidsGoidIdtypeIdResource;
+import com.proquest.mtg.services.gossamer.relatedids.RelatedidsGoidIdtypeIdResource_ClientStub;
 import com.proquest.mtg.utils.writer.IWriter;
 import com.proquest.mtg.utils.writer.StringWriter;
 
@@ -36,6 +49,7 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 	
 	private final AppConfigReader appConfigReader;
 	private IJdbcConnectionPool exodusConnectionPool;
+	private ThreadSafeClientConnManager httpClientConnectionManager;
 	
 	private final Logger logger = LoggerFactory.getLogger(DisMetadataServiceGuiceModule.class);
 	
@@ -74,6 +88,30 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		return props.getSchoolBatchSize();
 	}
 	
+	@Provides @Named(DisMetadataProperties.PQ_SERVICE_URL_BASE)
+	protected String pqUrlBase(DisMetadataProperties props) {
+		return props.getPQServiceURL();
+	}
+	
+	@Provides @Named(DisMetadataProperties.PQ_SERVICE_TIMEOUT_MS)
+	protected int pqSeviceTimeoutMs(DisMetadataProperties props) {
+		return props.getPqServiceTimeoutMS();
+	}
+	
+	@Provides @Named(DisMetadataProperties.PQ_SERVICE_USER_AGENT)
+	protected String pqServiceUserAgent(DisMetadataProperties props) {
+		return props.getPqServiceUserAgent();
+	}
+	
+	@Provides @Singleton
+	protected ClientConnectionManager getHttpClientConnectionManager() {
+		int workerThreadCount = 2;
+		httpClientConnectionManager = 
+				new ThreadSafeClientConnManager(SchemeRegistryFactory.createDefault());
+		httpClientConnectionManager.setDefaultMaxPerRoute(workerThreadCount);
+		return httpClientConnectionManager;
+	}
+	
 	@Provides @Singleton @Named(IJdbcConnectionPool.kExodusConnectionPool)
 	protected IJdbcConnectionPool exodusConnectionPool(DisMetadataProperties props) {
 		IJdbcConnectionPool result = null;
@@ -83,6 +121,33 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 			logger.error("Failed to initialize Exodus JDBC Connection Pool, because: " + e.getMessage(), e);
 		}
 		return result;
+	}
+	
+	@Provides @Singleton GossamerServiceClient getGossamerServiceClient(
+			@Named(DisMetadataProperties.PQ_SERVICE_URL_BASE) String pqServicesUrlBase,
+			@Named(DisMetadataProperties.PQ_SERVICE_TIMEOUT_MS) int timeoutMs,
+			@Named(DisMetadataProperties.PQ_SERVICE_USER_AGENT) String userAgent,
+			ClientConnectionManager connectionManager) {
+		
+		HttpParams params = new BasicHttpParams();
+		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
+		
+		return new ApacheGossamerServiceClient(
+				userAgent,
+				pqServicesUrlBase,
+				timeoutMs, 
+				connectionManager, 
+				params);
+	}
+	
+	@Provides @Singleton RelatedidsGoidIdtypeIdResource getRelatedidsGoidIdtypeIdResource(
+			GossamerServiceClient gossamerServiceClient) {
+		return new RelatedidsGoidIdtypeIdResource_ClientStub(gossamerServiceClient);
+	}
+	
+	@Provides @Singleton DocumentfrostingObjectIdResource getDocumentfrostingObjectIdResource(
+			GossamerServiceClient gossamerServiceClient) {
+		return new DocumentfrostingObjectIdResource_ClientStub(gossamerServiceClient);
 	}
 	
 	@Provides @Singleton

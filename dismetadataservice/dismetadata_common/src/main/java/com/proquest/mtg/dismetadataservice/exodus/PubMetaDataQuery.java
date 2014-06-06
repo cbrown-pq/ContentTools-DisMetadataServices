@@ -19,7 +19,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.ManuscriptMedia;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfStatus;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfAvailableDateStatus;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
@@ -897,23 +897,13 @@ public class PubMetaDataQuery {
 		return result; 
 	}
 	
-	private PdfStatus getPdfStatusFor(String itemId) throws SQLException {
-		PdfStatus result = new PdfStatus();
+	private PdfAvailableDateStatus getPdfStatusFor(String itemId) throws SQLException {
+		PdfAvailableDateStatus result = new PdfAvailableDateStatus();
 		pdfStatusStatement.setString(1, itemId);
 		ResultSet cursor = pdfStatusStatement.executeQuery();
 		if (cursor.next()) {
 			result.setPdfAvailableDate(cursor.getString(kColumnPdfAvailableDate));
-			String pdfAvailableFlag = cursor.getString(kColumnPdfAvailableFlag);
-				if(null != pdfAvailableFlag && !pdfAvailableFlag.isEmpty() &&pdfAvailableFlag.equals("Y")) {
-						result.setPdfAvailableStatus(true);
-				}
-				else {
-					result.setPdfAvailableStatus(false);
-				}
-		} else {
-			result.setPdfAvailableStatus(false);
-		}
-		
+		} 
 		return result; 
 	}
 	

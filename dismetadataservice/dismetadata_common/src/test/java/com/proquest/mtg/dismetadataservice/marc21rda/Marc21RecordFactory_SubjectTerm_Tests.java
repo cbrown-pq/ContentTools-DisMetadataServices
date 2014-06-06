@@ -9,14 +9,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
+import com.proquest.mtg.dismetadataservice.guice.DisMetadataServiceGuiceModule;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
+import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 
 public class Marc21RecordFactory_SubjectTerm_Tests {
@@ -29,7 +33,11 @@ public class Marc21RecordFactory_SubjectTerm_Tests {
 		tag = MarcTags.kSubjectTerm;
 		IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
 		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(connectionPool);
-		factory = new Marc21RdaRecordFactory(disGenMappingProvider);
+		Injector injector = Guice.createInjector(
+				new DisMetadataServiceGuiceModule("dismetadata.local.properties"));
+		PDFVaultAvailableStatusProvider pdfVaultAvailableStatusProvider = 
+				injector.getInstance(PDFVaultAvailableStatusProvider.class);
+		factory = new Marc21RdaRecordFactory(disGenMappingProvider, pdfVaultAvailableStatusProvider);
 	}
 	
 	@Test

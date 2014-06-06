@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfStatus;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfAvailableDateStatus;
 import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
@@ -18,7 +18,7 @@ public class Marc21RdaRecordFactory_MediaType_Tests extends
 	String tag = MarcTags.kMediaType;
 	String expectedMarcFieldData;
 	DisPubMetaData metaData;
-	PdfStatus pdfStatus;
+	PdfAvailableDateStatus pdfStatus;
 	List<SuppFile> suppFileList;
 
 	@Before

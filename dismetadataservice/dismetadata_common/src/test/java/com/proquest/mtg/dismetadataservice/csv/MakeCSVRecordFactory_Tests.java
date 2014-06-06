@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,20 +14,23 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfStatus;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfAvailableDateStatus;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Title;
+import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider;
 import com.proquest.mtg.dismetadataservice.metadata.SGMLEntitySubstitution;
 import com.proquest.mtg.dismetadataservice.metadata.TextNormalizer;
 
-public class MakeCSVRecordFactory_Tests {
+public class MakeCSVRecordFactory_Tests extends EasyMockSupport {
 	CSVRecordFactory factory;
 	String header = "";
-
+	PDFVaultAvailableStatusProvider pdfVaultAvailableStatus;
+	
 	@Before
 	public void setUp() throws Exception {
-		factory = new CSVRecordFactory();
+		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
+		factory = new CSVRecordFactory(pdfVaultAvailableStatus);
 		for (String curheader : factory.getHeaders()) {
 			header += curheader + ",";
 		}
@@ -118,9 +122,8 @@ public class MakeCSVRecordFactory_Tests {
 	}
 
 	private List<FormatRestriction> makeFormatRestriction() {
-		PdfStatus pdfStatus = new PdfStatus();
+		PdfAvailableDateStatus pdfStatus = new PdfAvailableDateStatus();
 		pdfStatus.setPdfAvailableDate("23-APR-2012");
-		pdfStatus.setPdfAvailableStatus(true);
 		List<FormatRestriction> formatRestrictions = new ArrayList<FormatRestriction>();
 		FormatRestriction formatRestriction1 = new FormatRestriction();
 		formatRestriction1.setCode("C");

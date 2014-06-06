@@ -5,18 +5,27 @@ import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.ManuscriptMedia;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfStatus;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfAvailableDateStatus;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
+import com.proquest.mtg.dismetadataservice.media.IPubMediaInfoProvider;
+import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider;
+import com.proquest.mtg.dismetadataservice.media.PdfMediaInfo;
+import com.proquest.mtg.dismetadataservice.media.PdfType;
+import com.proquest.mtg.dismetadataservice.media.PubMediaInfo;
+import com.proquest.mtg.dismetadataservice.media.PubMediaInfoProviderFactory;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 import com.proquest.mtg.dismetadataservice.metadata.SGMLEntitySubstitution;
@@ -28,12 +37,20 @@ public class CSVRecordFactory {
 	private DisPubMetaData curMetaData = null;
 	private String curRecord = "";
 	private final TextNormalizer abstractNormalizer = new TextNormalizer();
+	private final PDFVaultAvailableStatusProvider pdfAvailableStatus;
 
 	private final LinkedHashMap<String, Method> kAllHeaders = new LinkedHashMap<String, Method>();
 
-	public CSVRecordFactory() throws NoSuchMethodException, SecurityException,
-			ClassNotFoundException {
+	
+	public CSVRecordFactory(PDFVaultAvailableStatusProvider pdfVaultAvailableStatus) 
+			throws NoSuchMethodException, SecurityException, ClassNotFoundException {
 		initTagMapping();
+		this.pdfAvailableStatus = pdfVaultAvailableStatus;
+		
+	}
+
+	public PDFVaultAvailableStatusProvider getPDFVaultAvailableStatusProvider() {
+		return pdfAvailableStatus;
 	}
 
 	private void initTagMapping() throws NoSuchMethodException,
@@ -847,25 +864,28 @@ public class CSVRecordFactory {
 	}
 
 	private void hasPDF() {
-		PdfStatus pdfStatus = curMetaData.getPdfStatus();
 		String hasPDF = "N";
-		if (null != pdfStatus) {
-			if (pdfStatus.isPdfAvailable()) {
-				hasPDF = "Y";
-			}
+		String pubNumber = curMetaData.getPubNumber(); 
+		if (null != pubNumber && !pubNumber.isEmpty()) {
+			try {
+				if (getPDFVaultAvailableStatusProvider().
+						isPdfAvailableInVaultFor(pubNumber)) {
+					hasPDF = "Y";
+				}
+			} catch (Exception e) {
+				hasPDF = "N";
+			}			
 		}
 		addField(hasPDF);
 	}
 
 	private void handlePDFAvailableDate() {
-		PdfStatus pdfStatus = curMetaData.getPdfStatus();
+		PdfAvailableDateStatus pdfStatus = curMetaData.getPdfStatus();
 		String pdfAvailableDate = "";
 		if (null != pdfStatus) {
-			if (pdfStatus.isPdfAvailable()) {
-				if (null != pdfStatus.getPdfAvailableDate()
-						&& !pdfStatus.getPdfAvailableDate().isEmpty()) {
-					pdfAvailableDate = pdfStatus.getPdfAvailableDate();
-				}
+			if (null != pdfStatus.getPdfAvailableDate()
+					&& !pdfStatus.getPdfAvailableDate().isEmpty()) {
+				pdfAvailableDate = pdfStatus.getPdfAvailableDate();
 			}
 		}
 		addField(pdfAvailableDate);
@@ -1062,5 +1082,7 @@ public class CSVRecordFactory {
 	private String endsWithPunctuationMark(String x) {
 		return x.matches("^.+[\\.,\\?;:!]$") ? x : x + ".";
 	}
+
+
 
 }
