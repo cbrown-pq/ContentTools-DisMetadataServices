@@ -33,8 +33,10 @@ public class DisMetadataServiceProvider {
 		try {
 			result = getMetaDataFormatFactory().getFor(formatType).makeFor(pubNumber);
 		} catch(IllegalArgumentException e) {
+			System.out.println(e.getMessage());
 			throw new MetaDataServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			throw new MetaDataServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 		return Response.status(Response.Status.OK).entity(result).build();

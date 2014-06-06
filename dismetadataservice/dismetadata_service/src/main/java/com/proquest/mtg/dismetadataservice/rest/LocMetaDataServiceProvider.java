@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 import com.google.inject.Inject;
 import com.proquest.mtg.dismetadataservice.loc.LOCFormat;
 import com.proquest.mtg.dismetadataservice.pqloc.Claims;
+import com.proquest.mtg.dismetadataservice.pqloc.CreateNewClaimInput;
 
 
 @Path("/locmetadata/")
@@ -28,12 +29,12 @@ public class LocMetaDataServiceProvider {
 	}
 	
 	@GET
-	@Path("/eligiblePubs/{lastRunDate}")
+	@Path("/eligiblePubs/")
 	@Produces(MediaType.APPLICATION_XML)
-	public Claims getLOCDataForAllEligiblePubs(@PathParam("lastRunDate") String lastRunDate) throws WebApplicationException {
-		Claims result = null;
+	public CreateNewClaimInput getLOCDataForAllEligiblePubs() throws WebApplicationException {
+		CreateNewClaimInput result = null;
 		try {
-			result = getLocFormat().makeForEligiblePubs(lastRunDate);
+			result = getLocFormat().makeForEligiblePubs();
 		} catch(IllegalArgumentException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -48,8 +49,8 @@ public class LocMetaDataServiceProvider {
 	@GET
 	@Path("/{pubNumber}")
 	@Produces(MediaType.APPLICATION_XML)
-	public Claims getLOCDataFor(@PathParam("pubNumber") String pubNumber) throws WebApplicationException {
-		Claims result = null;
+	public CreateNewClaimInput getLOCDataFor(@PathParam("pubNumber") String pubNumber) throws WebApplicationException {
+		CreateNewClaimInput result = null;
 		try {
 			result = getLocFormat().makeFor(pubNumber);
 		} catch(IllegalArgumentException e) {

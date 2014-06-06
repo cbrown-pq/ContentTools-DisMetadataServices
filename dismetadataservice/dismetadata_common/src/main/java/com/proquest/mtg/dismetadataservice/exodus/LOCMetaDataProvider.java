@@ -9,7 +9,8 @@ import com.google.inject.Inject;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.loc.LOCRecordFactory;
 import com.proquest.mtg.dismetadataservice.pqloc.Claims;
-import com.proquest.mtg.dismetadataservice.pqloc.Claims.Claim;
+import com.proquest.mtg.dismetadataservice.pqloc.Claim;
+import com.proquest.mtg.dismetadataservice.pqloc.CreateNewClaimInput;
 
 public class LOCMetaDataProvider {
 	
@@ -40,7 +41,7 @@ public class LOCMetaDataProvider {
 		return connectionPool;
 	}
 	
-	public Claims getEligibleLOCData(String lastRunDate) throws Exception {
+	public CreateNewClaimInput getEligibleLOCData() throws Exception {
 		
 		List<String> pubIds;
 		Connection connection = null;
@@ -48,7 +49,7 @@ public class LOCMetaDataProvider {
 		try {
 			connection = getConnectionPool().getConnection();
 			query = new LOCPubSelectionQuery(connection);
-			pubIds = query.getAll(lastRunDate);
+			pubIds = query.getAll();
 		}
 		finally {
 			if (null != query) {
@@ -65,14 +66,18 @@ public class LOCMetaDataProvider {
 		for(String pubId : pubIds) {
 			claimList.add(getDataFor(pubId));
 		}
-		return claims;
+		CreateNewClaimInput createNewClaimInput = new CreateNewClaimInput();
+		createNewClaimInput.setClaims(claims);
+		return createNewClaimInput;
 	}
 	
-	public Claims getLOCDataFor(String pubId) throws Exception {
+	public CreateNewClaimInput getLOCDataFor(String pubId) throws Exception {
 		Claims claims = new Claims();
 		List<Claim> claimList = claims.getClaim();
 		claimList.add(getDataFor(pubId));
-		return claims;
+		CreateNewClaimInput createNewClaimInput = new CreateNewClaimInput();
+		createNewClaimInput.setClaims(claims);
+		return createNewClaimInput;
 	}
 	
 	private Claim getDataFor(String pubId) throws Exception {

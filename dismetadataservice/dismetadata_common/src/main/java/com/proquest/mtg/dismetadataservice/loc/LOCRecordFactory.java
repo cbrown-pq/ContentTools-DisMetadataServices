@@ -10,10 +10,10 @@ import com.proquest.mtg.dismetadataservice.metadata.Author.Claimant;
 import com.proquest.mtg.dismetadataservice.metadata.SGMLEntitySubstitution;
 import com.proquest.mtg.dismetadataservice.pqloc.Author;
 import com.proquest.mtg.dismetadataservice.pqloc.Authors;
-import com.proquest.mtg.dismetadataservice.pqloc.CertificateMailingAddresses;
+import com.proquest.mtg.dismetadataservice.pqloc.CertificateMailingAddress;
 import com.proquest.mtg.dismetadataservice.pqloc.Claimants;
-import com.proquest.mtg.dismetadataservice.pqloc.Claims.Claim;
-import com.proquest.mtg.dismetadataservice.pqloc.Claims.Claim.Publication;
+import com.proquest.mtg.dismetadataservice.pqloc.Claim;
+import com.proquest.mtg.dismetadataservice.pqloc.Publication;
 import com.proquest.mtg.dismetadataservice.pqloc.TitleofthisWork;
 import com.proquest.mtg.dismetadataservice.pqloc.Titles;
 
@@ -35,6 +35,11 @@ public class LOCRecordFactory {
 	
 	public Claim getLOCRecordFor(DisPubMetaData disPubMetaData) throws Exception {
 		Claim claim = new Claim();
+		claim.setSRNumber(null);
+		claim.setCustomerClaimId(null);
+		claim.setTypeofWork(null);
+		claim.setDeposits(null);
+		
 		
 		List<AddressMetaData> claimantAddresses = getClaimantAddress(disPubMetaData);
 		List<AddressMetaData> authorAddresses = getAddressMetaDataProvider().getAddressFor(
@@ -42,13 +47,13 @@ public class LOCRecordFactory {
 					kAuthorAddress);
 		
 		Publication publication = new Publication();
-		publication.setDateOffirstpublication(disPubMetaData.getFirstPublicationDate());
+		publication.setDateoffirstpublication(disPubMetaData.getFirstPublicationDate());
 		publication.setAuthors(createAuthors(disPubMetaData));
 		publication.setClaimants(
 				createClaimants(disPubMetaData, claimantAddresses, authorAddresses));
 		claim.setCustomerClaimId(disPubMetaData.getPubNumber());
 		
-		publication.setCertificateMailingAddresses(createCertificateMailingAddress(
+		publication.setCertificateMailingAddress(createCertificateMailingAddress(
 				disPubMetaData,
 				claimantAddresses,
 				authorAddresses));
@@ -76,32 +81,32 @@ public class LOCRecordFactory {
 		return claimantAddresses;
 	}
 	
-	private CertificateMailingAddresses createCertificateMailingAddress(
+	private CertificateMailingAddress createCertificateMailingAddress(
 			DisPubMetaData disPubMetaData,
 			List<AddressMetaData> claimantAddresses,
 			List<AddressMetaData> authorAddresses) {
-		CertificateMailingAddresses certificateMailingAddresses = new CertificateMailingAddresses();
+		CertificateMailingAddress certificateMailingAddress = new CertificateMailingAddress();
 		com.proquest.mtg.dismetadataservice.metadata.Author author = disPubMetaData.getAuthors().get(0);
 		if(author.getClaimantAddFlag() != null && author.getClaimantAddFlag().equalsIgnoreCase("Y")) {
 			List<Claimant> claimants = disPubMetaData.getAuthors().get(0).getClaimants();
 			if(claimants != null && claimants.size() != 0 ) {
 				Claimant claimant = claimants.get(0);
-				certificateMailingAddresses.setFirstName(claimant.getFirstName());
-				certificateMailingAddresses.setMiddleName(claimant.getMiddleName());
-				certificateMailingAddresses.setLastName(claimant.getLastName());
-				fillAddress(certificateMailingAddresses, claimantAddresses);		}
+				certificateMailingAddress.setFirstName(claimant.getFirstName());
+				certificateMailingAddress.setMiddleName(claimant.getMiddleName());
+				certificateMailingAddress.setLastName(claimant.getLastName());
+				fillAddress(certificateMailingAddress, claimantAddresses);		}
 		} else {
-			certificateMailingAddresses.setFirstName(author.getFirstName());
-			certificateMailingAddresses.setMiddleName(author.getMiddleName());
-			certificateMailingAddresses.setLastName(author.getLastName());
-			fillAddress(certificateMailingAddresses, authorAddresses);
+			certificateMailingAddress.setFirstName(author.getFirstName());
+			certificateMailingAddress.setMiddleName(author.getMiddleName());
+			certificateMailingAddress.setLastName(author.getLastName());
+			fillAddress(certificateMailingAddress, authorAddresses);
 		}
 			
-		return certificateMailingAddresses;
+		return certificateMailingAddress;
 	}
 
 	private void fillAddress(
-			CertificateMailingAddresses certificateMailingAddresses,
+			CertificateMailingAddress certificateMailingAddress,
 			List<AddressMetaData> claimantAddresses) {
 		AddressMetaData claimantAddress = null;
 		if(claimantAddresses != null && claimantAddresses.size() != 0) {
@@ -109,15 +114,15 @@ public class LOCRecordFactory {
 		}
 		
 		if (null != claimantAddress) {
-			certificateMailingAddresses.setAddress1(createAddress1(claimantAddress));
-			certificateMailingAddresses.setCity(claimantAddress.getCity());
+			certificateMailingAddress.setAddress1(createAddress1(claimantAddress));
+			certificateMailingAddress.setCity(claimantAddress.getCity());
 			if(claimantAddress.getCountry().equalsIgnoreCase("US")) {
-				certificateMailingAddresses.setCountry(claimantAddress.getCountry());
+				certificateMailingAddress.setCountry(claimantAddress.getCountry());
 			} else {
-				certificateMailingAddresses.setCountry(claimantAddress.getCountryDescription());
+				certificateMailingAddress.setCountry(claimantAddress.getCountryDescription());
 			}
-			certificateMailingAddresses.setState(claimantAddress.getStateCode());
-			certificateMailingAddresses.setPostalCode(createPostalCode(claimantAddress));
+			certificateMailingAddress.setState(claimantAddress.getStateCode());
+			certificateMailingAddress.setPostalCode(createPostalCode(claimantAddress));
 		}
 		
 	}

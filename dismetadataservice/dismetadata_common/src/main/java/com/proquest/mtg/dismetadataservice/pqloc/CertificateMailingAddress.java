@@ -8,24 +8,24 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for Claimant complex type.
+ * <p>Java class for CertificateMailingAddress complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="Claimant">
+ * &lt;complexType name="CertificateMailingAddress">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="ClaimantIntegrationId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="OrganizationName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="FirstName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="MiddleName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="LastName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="Address1" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="Address2" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="City" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="State" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="PostalCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="State" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="PostalCode" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="Country" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -36,8 +36,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Claimant", propOrder = {
-    "claimantIntegrationId",
+@XmlType(name = "CertificateMailingAddress", propOrder = {
+    "organizationName",
     "firstName",
     "middleName",
     "lastName",
@@ -48,10 +48,10 @@ import javax.xml.bind.annotation.XmlType;
     "postalCode",
     "country"
 })
-public class Claimant {
+public class CertificateMailingAddress {
 
-    @XmlElement(name = "ClaimantIntegrationId")
-    protected String claimantIntegrationId;
+    @XmlElement(name = "OrganizationName")
+    protected String organizationName;
     @XmlElement(name = "FirstName")
     protected String firstName;
     @XmlElement(name = "MiddleName")
@@ -64,35 +64,35 @@ public class Claimant {
     protected String address2;
     @XmlElement(name = "City", required = true)
     protected String city;
-    @XmlElement(name = "State")
+    @XmlElement(name = "State", required = true)
     protected String state;
-    @XmlElement(name = "PostalCode")
+    @XmlElement(name = "PostalCode", required = true)
     protected String postalCode;
     @XmlElement(name = "Country")
     protected String country;
 
     /**
-     * Gets the value of the claimantIntegrationId property.
+     * Gets the value of the organizationName property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getClaimantIntegrationId() {
-        return claimantIntegrationId;
+    public String getOrganizationName() {
+        return organizationName;
     }
 
     /**
-     * Sets the value of the claimantIntegrationId property.
+     * Sets the value of the organizationName property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setClaimantIntegrationId(String value) {
-        this.claimantIntegrationId = value;
+    public void setOrganizationName(String value) {
+        this.organizationName = value;
     }
 
     /**

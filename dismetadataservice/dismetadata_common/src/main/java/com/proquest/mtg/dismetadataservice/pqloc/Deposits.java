@@ -10,16 +10,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for Authors complex type.
+ * <p>Java class for Deposits complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="Authors">
+ * &lt;complexType name="Deposits">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="Author" type="{http://www.loc.gov/BulkClaim}Author" maxOccurs="unbounded"/>
+ *         &lt;element name="Deposit" type="{http://www.loc.gov/BulkClaim}Deposit" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,41 +29,41 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Authors", propOrder = {
-    "author"
+@XmlType(name = "Deposits", propOrder = {
+    "deposit"
 })
-public class Authors {
+public class Deposits {
 
-    @XmlElement(name = "Author", required = true)
-    protected List<Author> author;
+    @XmlElement(name = "Deposit", required = true)
+    protected List<Deposit> deposit;
 
     /**
-     * Gets the value of the author property.
+     * Gets the value of the deposit property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the author property.
+     * This is why there is not a <CODE>set</CODE> method for the deposit property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getAuthor().add(newItem);
+     *    getDeposit().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Author }
+     * {@link Deposit }
      * 
      * 
      */
-    public List<Author> getAuthor() {
-        if (author == null) {
-            author = new ArrayList<Author>();
+    public List<Deposit> getDeposit() {
+        if (deposit == null) {
+            deposit = new ArrayList<Deposit>();
         }
-        return this.author;
+        return this.deposit;
     }
 
 }

@@ -8,19 +8,23 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for Claimant complex type.
+ * <p>Java class for Correspondent complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="Claimant">
+ * &lt;complexType name="Correspondent">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="ClaimantIntegrationId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="OrganizationName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="FirstName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="MiddleName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="LastName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="Email" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="Phone" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="AlternatePhone" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="Fax" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="Address1" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="Address2" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="City" type="{http://www.w3.org/2001/XMLSchema}string"/>
@@ -36,11 +40,15 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Claimant", propOrder = {
-    "claimantIntegrationId",
+@XmlType(name = "Correspondent", propOrder = {
+    "organizationName",
     "firstName",
     "middleName",
     "lastName",
+    "email",
+    "phone",
+    "alternatePhone",
+    "fax",
     "address1",
     "address2",
     "city",
@@ -48,16 +56,24 @@ import javax.xml.bind.annotation.XmlType;
     "postalCode",
     "country"
 })
-public class Claimant {
+public class Correspondent {
 
-    @XmlElement(name = "ClaimantIntegrationId")
-    protected String claimantIntegrationId;
+    @XmlElement(name = "OrganizationName")
+    protected String organizationName;
     @XmlElement(name = "FirstName")
     protected String firstName;
     @XmlElement(name = "MiddleName")
     protected String middleName;
     @XmlElement(name = "LastName")
     protected String lastName;
+    @XmlElement(name = "Email", required = true)
+    protected String email;
+    @XmlElement(name = "Phone")
+    protected String phone;
+    @XmlElement(name = "AlternatePhone")
+    protected String alternatePhone;
+    @XmlElement(name = "Fax")
+    protected String fax;
     @XmlElement(name = "Address1", required = true)
     protected String address1;
     @XmlElement(name = "Address2")
@@ -72,27 +88,27 @@ public class Claimant {
     protected String country;
 
     /**
-     * Gets the value of the claimantIntegrationId property.
+     * Gets the value of the organizationName property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getClaimantIntegrationId() {
-        return claimantIntegrationId;
+    public String getOrganizationName() {
+        return organizationName;
     }
 
     /**
-     * Sets the value of the claimantIntegrationId property.
+     * Sets the value of the organizationName property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setClaimantIntegrationId(String value) {
-        this.claimantIntegrationId = value;
+    public void setOrganizationName(String value) {
+        this.organizationName = value;
     }
 
     /**
@@ -165,6 +181,102 @@ public class Claimant {
      */
     public void setLastName(String value) {
         this.lastName = value;
+    }
+
+    /**
+     * Gets the value of the email property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Sets the value of the email property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setEmail(String value) {
+        this.email = value;
+    }
+
+    /**
+     * Gets the value of the phone property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * Sets the value of the phone property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setPhone(String value) {
+        this.phone = value;
+    }
+
+    /**
+     * Gets the value of the alternatePhone property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getAlternatePhone() {
+        return alternatePhone;
+    }
+
+    /**
+     * Sets the value of the alternatePhone property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setAlternatePhone(String value) {
+        this.alternatePhone = value;
+    }
+
+    /**
+     * Gets the value of the fax property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getFax() {
+        return fax;
+    }
+
+    /**
+     * Sets the value of the fax property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setFax(String value) {
+        this.fax = value;
     }
 
     /**
