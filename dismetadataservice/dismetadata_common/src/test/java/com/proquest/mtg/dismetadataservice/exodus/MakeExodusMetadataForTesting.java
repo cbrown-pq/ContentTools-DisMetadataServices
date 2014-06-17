@@ -220,7 +220,7 @@ public class MakeExodusMetadataForTesting {
 						makeDegreeFrom("Dr.", "Doctorate/Docteur", "1998", 1)));
 		x.setAuthors(authors);
 		
-		x.setPdfStatus(makePdfStatusFrom("04-JUN-2014"));
+		x.setPdfStatus(makePdfStatusFrom("17-JUN-2014"));
 		
 		return x;
 	}
@@ -372,7 +372,7 @@ public class MakeExodusMetadataForTesting {
 						makeDegreeFrom("Ph.D.", "Doctor of Philosophy", "1921", 1)));
 		x.setAuthors(authors);
 
-		x.setPdfStatus(makePdfStatusFrom("04-JUN-2014"));
+		x.setPdfStatus(makePdfStatusFrom("16-JUN-2014"));
 		
 		return x;
 	}
@@ -443,7 +443,7 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("STRUCTURES", "For Datrix")
 				));
 		
-		x.setPdfStatus(makePdfStatusFrom("04-JUN-2014"));
+		x.setPdfStatus(makePdfStatusFrom("16-JUN-2014"));
 		
 		return x;
 	}
@@ -490,6 +490,14 @@ public class MakeExodusMetadataForTesting {
 		
 		x.setDepartments(null);
 		x.setKeywords(Lists.newArrayList(
+				makeKeywordFrom("AIR","For Datrix"),
+				makeKeywordFrom("CONDITIONER","For Datrix"),
+				makeKeywordFrom("CONTROL","For Datrix"),
+				makeKeywordFrom("CONTROLLER","For Datrix"),
+				makeKeywordFrom("DEVELOPMENT","For Datrix"),
+				makeKeywordFrom("FUZZY","For Datrix"),
+				makeKeywordFrom("THEORY","For Datrix"),
+				makeKeywordFrom("USING","For Datrix"),
 				makeKeywordFrom("房间空调器", "By Author"),
 				makeKeywordFrom("模糊控制", "By Author"),
 				makeKeywordFrom("空气调节", "By Author"),
@@ -1047,7 +1055,7 @@ public class MakeExodusMetadataForTesting {
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
 		x.setDepartments(null);
-		x.setPdfStatus(makePdfStatusFrom("04-JUN-2014"));
+		x.setPdfStatus(makePdfStatusFrom("11-JUN-2014"));
 		
 		return x;
 	}
