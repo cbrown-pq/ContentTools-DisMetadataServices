@@ -220,7 +220,7 @@ public class MakeExodusMetadataForTesting {
 						makeDegreeFrom("Dr.", "Doctorate/Docteur", "1998", 1)));
 		x.setAuthors(authors);
 		
-		x.setPdfStatus(makePdfStatusFrom("17-JUN-2014"));
+		x.setPdfStatus(makePdfStatusFrom("03-JUL-2014"));
 		
 		return x;
 	}
@@ -372,7 +372,7 @@ public class MakeExodusMetadataForTesting {
 						makeDegreeFrom("Ph.D.", "Doctor of Philosophy", "1921", 1)));
 		x.setAuthors(authors);
 
-		x.setPdfStatus(makePdfStatusFrom("16-JUN-2014"));
+		x.setPdfStatus(makePdfStatusFrom("02-JUL-2014"));
 		
 		return x;
 	}
@@ -443,7 +443,7 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("STRUCTURES", "For Datrix")
 				));
 		
-		x.setPdfStatus(makePdfStatusFrom("16-JUN-2014"));
+		x.setPdfStatus(makePdfStatusFrom("02-JUL-2014"));
 		
 		return x;
 	}
@@ -1055,7 +1055,7 @@ public class MakeExodusMetadataForTesting {
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
 		x.setDepartments(null);
-		x.setPdfStatus(makePdfStatusFrom("19-JUN-2014"));
+		x.setPdfStatus(makePdfStatusFrom("05-JUL-2014"));
 		
 		return x;
 	}
