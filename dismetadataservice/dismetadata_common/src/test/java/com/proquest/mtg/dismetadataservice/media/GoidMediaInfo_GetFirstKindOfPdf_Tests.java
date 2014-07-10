@@ -14,7 +14,7 @@ public class GoidMediaInfo_GetFirstKindOfPdf_Tests {
 	static final String goid = "1234567890";
 	static final PdfMediaInfo pdfInfoSearchable = new PdfMediaInfo(PdfType.SEARCHABLE, "");
 	static final PdfMediaInfo pdfInfoImage300 = new PdfMediaInfo(PdfType.IMAGE_300DPI, "");
-	static final PdfMediaInfo pdfInfoNative = new PdfMediaInfo(PdfType.NATIVE, "");
+	
 	List<PdfMediaInfo> pdfInfoList;
 	GoidMediaInfo target;
 	
@@ -24,7 +24,6 @@ public class GoidMediaInfo_GetFirstKindOfPdf_Tests {
 		target = new GoidMediaInfo(goid, pdfInfoList);
 		assertThat(target.getFirstKindOfPdf(PdfType.SEARCHABLE), nullValue());
 		assertThat(target.getFirstKindOfPdf(PdfType.IMAGE_300DPI), nullValue());
-		assertThat(target.getFirstKindOfPdf(PdfType.NATIVE), nullValue());
 	}
 	
 	@Test
@@ -33,7 +32,6 @@ public class GoidMediaInfo_GetFirstKindOfPdf_Tests {
 		target = new GoidMediaInfo(goid, pdfInfoList);
 		assertThat(target.getFirstKindOfPdf(PdfType.SEARCHABLE), sameInstance(pdfInfoSearchable));
 		assertThat(target.getFirstKindOfPdf(PdfType.IMAGE_300DPI), nullValue());
-		assertThat(target.getFirstKindOfPdf(PdfType.NATIVE), nullValue());
 	}
 	
 	@Test
@@ -42,24 +40,13 @@ public class GoidMediaInfo_GetFirstKindOfPdf_Tests {
 		target = new GoidMediaInfo(goid, pdfInfoList);
 		assertThat(target.getFirstKindOfPdf(PdfType.SEARCHABLE), nullValue());
 		assertThat(target.getFirstKindOfPdf(PdfType.IMAGE_300DPI), sameInstance(pdfInfoImage300));
-		assertThat(target.getFirstKindOfPdf(PdfType.NATIVE), nullValue());
-	}
-	
-	@Test
-	public void with_One_Native() throws Exception {
-		pdfInfoList = Lists.newArrayList(pdfInfoNative);
-		target = new GoidMediaInfo(goid, pdfInfoList);
-		assertThat(target.getFirstKindOfPdf(PdfType.SEARCHABLE), nullValue());
-		assertThat(target.getFirstKindOfPdf(PdfType.IMAGE_300DPI), nullValue());
-		assertThat(target.getFirstKindOfPdf(PdfType.NATIVE), sameInstance(pdfInfoNative));
 	}
 	
 	@Test
 	public void with_All() throws Exception {
-		pdfInfoList = Lists.newArrayList(pdfInfoSearchable, pdfInfoImage300, pdfInfoNative);
+		pdfInfoList = Lists.newArrayList(pdfInfoSearchable, pdfInfoImage300);
 		target = new GoidMediaInfo(goid, pdfInfoList);
 		assertThat(target.getFirstKindOfPdf(PdfType.SEARCHABLE), sameInstance(pdfInfoSearchable));
 		assertThat(target.getFirstKindOfPdf(PdfType.IMAGE_300DPI), sameInstance(pdfInfoImage300));
-		assertThat(target.getFirstKindOfPdf(PdfType.NATIVE), sameInstance(pdfInfoNative));
 	}
 }

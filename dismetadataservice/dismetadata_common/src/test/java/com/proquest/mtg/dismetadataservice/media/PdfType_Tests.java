@@ -17,15 +17,6 @@ public class PdfType_Tests {
 	}
 	
 	@Test
-	public void native_enum() throws Exception {
-		String value = "NPDF";
-		PdfType target = PdfType.fromString(value);
-		assertThat(target, is(PdfType.NATIVE));
-		assertThat(target.getValue(), is(value));
-		assertThat(target.toString(), is(value));
-	}
-	
-	@Test
 	public void image300Dpi_enum() throws Exception {
 		String value = "300PDF";
 		PdfType target = PdfType.fromString(value);

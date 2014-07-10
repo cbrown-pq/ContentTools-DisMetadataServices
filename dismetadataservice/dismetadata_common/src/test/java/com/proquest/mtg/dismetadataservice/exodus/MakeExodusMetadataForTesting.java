@@ -372,7 +372,7 @@ public class MakeExodusMetadataForTesting {
 						makeDegreeFrom("Ph.D.", "Doctor of Philosophy", "1921", 1)));
 		x.setAuthors(authors);
 
-		x.setPdfStatus(makePdfStatusFrom("02-JUL-2014"));
+		x.setPdfStatus(makePdfStatusFrom("10-JUL-2014"));
 		
 		return x;
 	}
@@ -443,7 +443,7 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("STRUCTURES", "For Datrix")
 				));
 		
-		x.setPdfStatus(makePdfStatusFrom("02-JUL-2014"));
+		x.setPdfStatus(makePdfStatusFrom("10-JUL-2014"));
 		
 		return x;
 	}

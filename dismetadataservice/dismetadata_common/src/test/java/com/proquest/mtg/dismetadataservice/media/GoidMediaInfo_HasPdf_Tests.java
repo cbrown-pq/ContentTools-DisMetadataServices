@@ -13,7 +13,6 @@ public class GoidMediaInfo_HasPdf_Tests {
 	static final String goid = "1234567890";
 	static final PdfMediaInfo pdfInfo1 = new PdfMediaInfo(PdfType.SEARCHABLE, "");
 	static final PdfMediaInfo pdfInfo2 = new PdfMediaInfo(PdfType.IMAGE_300DPI, "");
-	static final PdfMediaInfo pdfInfo3 = new PdfMediaInfo(PdfType.NATIVE, "");
 	List<PdfMediaInfo> pdfInfoList;
 	GoidMediaInfo target;
 	
@@ -33,7 +32,7 @@ public class GoidMediaInfo_HasPdf_Tests {
 	
 	@Test
 	public void with_SeveralPdfInfo_ReturnsTrue() throws Exception {
-		pdfInfoList = Lists.newArrayList(pdfInfo1, pdfInfo2, pdfInfo3);
+		pdfInfoList = Lists.newArrayList(pdfInfo1, pdfInfo2);
 		target = new GoidMediaInfo(goid, pdfInfoList);
 		assertThat(target.hasPdf(), is(true));
 	}
