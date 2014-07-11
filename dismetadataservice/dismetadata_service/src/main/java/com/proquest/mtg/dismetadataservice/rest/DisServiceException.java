@@ -5,13 +5,13 @@ import javax.ws.rs.core.Response;
 
 
 @SuppressWarnings("serial")
-public class MetaDataServiceException extends WebApplicationException {
+public class DisServiceException extends WebApplicationException {
 
-	public MetaDataServiceException(Response.Status status) {
+	public DisServiceException(Response.Status status) {
 		super(createResponse(status, null));
 	}
 	
-	public MetaDataServiceException(Response.Status status, String message) {
+	public DisServiceException(Response.Status status, String message) {
 		super(createResponse(status, message));
 	}
 	

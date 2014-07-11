@@ -7,10 +7,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import com.google.inject.Inject;
+import com.proquest.mtg.dismetadataservice.media.MediaDownloadException;
 import com.proquest.mtg.dismetadataservice.pdf.PDFDownloadOptions;
 import com.proquest.mtg.dismetadataservice.pdf.PdfMediaProvider;
 import com.proquest.mtg.dismetadataservice.pdf.SupportedPdfTypes;
@@ -27,6 +29,7 @@ public class PdfDownloadServiceProvider {
 	public PdfMediaProvider getPdfMediaProvider() {
 		return pdfMediaProvider;
 	}
+	
 		
 	@GET
 	@Path("/{pubNumber}/{pdfType}")
@@ -37,6 +40,7 @@ public class PdfDownloadServiceProvider {
 			@DefaultValue("0") @QueryParam("ri") int restrictionIncluded) throws WebApplicationException {
 		ResponseBuilder response = null;
 		byte[] input = null;
+		
 		try {
 			if (! SupportedPdfTypes.kSupportedPdfTypes.contains(pdfType.toUpperCase())) {
 				throw new Exception("Pdf type : " + pdfType + " is not supported.");
@@ -47,9 +51,12 @@ public class PdfDownloadServiceProvider {
 				response = Response.status(Response.Status.OK).entity(input);
 				response.header("Content-Disposition", "attachment; filename=out.pdf");
 			}
+		} catch (MediaDownloadException e) {
+			System.out.println(e.getMessage());
+			throw new DisServiceException(Response.Status.NO_CONTENT);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			response =  Response.status(Response.Status.OK).entity(e.getMessage());
+			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 		return response.build();
 	}
