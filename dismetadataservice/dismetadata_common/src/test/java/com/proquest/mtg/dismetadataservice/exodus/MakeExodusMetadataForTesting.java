@@ -220,7 +220,7 @@ public class MakeExodusMetadataForTesting {
 						makeDegreeFrom("Dr.", "Doctorate/Docteur", "1998", 1)));
 		x.setAuthors(authors);
 		
-		x.setPdfStatus(makePdfStatusFrom("03-JUL-2014"));
+		x.setPdfStatus(makePdfStatusFrom("11-JUL-2014"));
 		
 		return x;
 	}

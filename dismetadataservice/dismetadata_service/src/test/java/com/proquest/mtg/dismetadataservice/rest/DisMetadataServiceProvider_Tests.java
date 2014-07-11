@@ -9,7 +9,6 @@ import static org.junit.Assert.assertThat;
 import org.easymock.EasyMockSupport;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.format.IMetaDataFormats;
