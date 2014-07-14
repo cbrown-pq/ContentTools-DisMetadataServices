@@ -1055,7 +1055,7 @@ public class MakeExodusMetadataForTesting {
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
 		x.setDepartments(null);
-		x.setPdfStatus(makePdfStatusFrom("05-JUL-2014"));
+		x.setPdfStatus(makePdfStatusFrom("13-JUL-2014"));
 		
 		return x;
 	}
