@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class PdfMediaInfo {
+	public final static String kUrlAddtionToRemovePdfCopyright = "ec=1";
 	private final PdfType pdfType;
 	private final String urlSpec;
 	
@@ -23,6 +24,14 @@ public class PdfMediaInfo {
 	}
 	
 	public URL getUrl() throws MalformedURLException {
+		return new URL(getUrlSpec());
+	}
+	
+	public URL getUrlWithoutPdfCopyrightMsg() throws MalformedURLException {
+		return new URL(getUrlSpec() + "?" + kUrlAddtionToRemovePdfCopyright);
+	}
+
+	public URL getUrlWithPdfCopyrightMsg() throws MalformedURLException {
 		return new URL(getUrlSpec());
 	}
 

@@ -34,6 +34,8 @@ import com.proquest.mtg.dismetadataservice.format.USMarcFormat;
 import com.proquest.mtg.dismetadataservice.helper.WellKnownFormatTypes;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcConnectionPool;
+import com.proquest.mtg.dismetadataservice.media.IMediaDownloader;
+import com.proquest.mtg.dismetadataservice.media.MediaDownloader;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.properties.AppConfigReader;
 import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
@@ -179,6 +181,7 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		bind(IPubMetaDataProvider.class).to(PubMetaDataProvider.class);
 		bind(ISchoolMetaDataProvider.class).to(SchoolMetaDataProvider.class);
 		bind(ISubjectsMetaDataProvider.class).to(SubjectsMetaDataProvider.class);
+		bind(IMediaDownloader.class).to(MediaDownloader.class);
 		bind(IWriter.class).to(StringWriter.class);
 	}
 
