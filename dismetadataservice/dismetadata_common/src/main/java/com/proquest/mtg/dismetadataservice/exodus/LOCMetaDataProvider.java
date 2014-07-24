@@ -8,8 +8,8 @@ import javax.inject.Named;
 import com.google.inject.Inject;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.loc.LOCRecordFactory;
-import com.proquest.mtg.dismetadataservice.pqloc.Claims;
 import com.proquest.mtg.dismetadataservice.pqloc.Claim;
+import com.proquest.mtg.dismetadataservice.pqloc.Claims;
 import com.proquest.mtg.dismetadataservice.pqloc.CreateNewClaimInput;
 
 public class LOCMetaDataProvider {
@@ -83,6 +83,42 @@ public class LOCMetaDataProvider {
 	private Claim getDataFor(String pubId) throws Exception {
 		DisPubMetaData disPubMetaData = getPubMetaDataProvider().getPubMetaDataFor(pubId);
 		return getLOCRecordFactory().getLOCRecordFor(disPubMetaData);
+	}
+
+	public void updateLOCClaimSubmissionFor(String pubNumber) throws Exception {
+		Connection connection = null;
+		LOCSubmissionUpdateQuery query = null;
+		try {
+			connection = getConnectionPool().getConnection();
+			query = new LOCSubmissionUpdateQuery(connection);
+	    	query.updateClaimSubmissionFor(pubNumber);
+		}
+		finally {
+			if (null != query) {
+				query.close();
+			}
+			if (null != connection) {
+				connection.close();
+			}
+		}
+	}
+	
+	public void updateLOCDeliverySubmissionFor(String pubNumber) throws Exception {
+		Connection connection = null;
+		LOCSubmissionUpdateQuery query = null;
+		try {
+			connection = getConnectionPool().getConnection();
+			query = new LOCSubmissionUpdateQuery(connection);
+	    	query.updateDeliverySubmissionFor(pubNumber);
+		}
+		finally {
+			if (null != query) {
+				query.close();
+			}
+			if (null != connection) {
+				connection.close();
+			}
+		}
 	}
 	
 }

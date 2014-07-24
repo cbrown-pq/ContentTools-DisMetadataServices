@@ -2,7 +2,6 @@ package com.proquest.mtg.dismetadataservice.loc;
 
 import com.google.inject.Inject;
 import com.proquest.mtg.dismetadataservice.exodus.LOCMetaDataProvider;
-import com.proquest.mtg.dismetadataservice.pqloc.Claims;
 import com.proquest.mtg.dismetadataservice.pqloc.CreateNewClaimInput;
 
 public class LOCFormat {
@@ -24,6 +23,14 @@ public class LOCFormat {
 	
 	public CreateNewClaimInput makeForEligiblePubs() throws Exception {
 		return getLocDataProvider().getEligibleLOCData();
+	}
+
+	public void updateLOCClaimSubmissionFor(String pubNumber) throws Exception {
+		getLocDataProvider().updateLOCClaimSubmissionFor(pubNumber);
+	}
+	
+	public void updateLOCDeliverySubmissionFor(String pubNumber) throws Exception {
+		getLocDataProvider().updateLOCDeliverySubmissionFor(pubNumber);
 	}
 
 }
