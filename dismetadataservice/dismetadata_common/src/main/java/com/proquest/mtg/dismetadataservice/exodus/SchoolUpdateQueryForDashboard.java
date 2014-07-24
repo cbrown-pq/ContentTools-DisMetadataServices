@@ -188,6 +188,13 @@ public class SchoolUpdateQueryForDashboard {
 
 	public void close() throws SQLException {
 		closeStatement(dashBoardAdminDeleteStmt);
+		closeStatement(dashBoardAdminDeleteElectronicAddressStmt);
+		closeStatement(dashBoardAdminDeleteElectronicAddressUsesStmt);
+		closeStatement(dashBoardAdminDeleteAddressesStmt);
+		closeStatement(dashBoardAdminDeletePhoneNumbersStmt);
+		closeStatement(dashBoardAdminDeletePhoneNumberUsesStmt);
+		closeStatement(disSchoolUpdateStmt);
+		closeStatement(disSchoolLoadStatusStmt);
 	}
 
 	private void closeStatement(PreparedStatement statment) throws SQLException {
