@@ -40,6 +40,7 @@ public class LOCSubmissionUpdateQuery {
 	public void updateClaimSubmissionFor(String pubNumber)
 			throws Exception {
 		try {
+			getClaimSubmissionUpdateStmt().setString(1, pubNumber);
 			if (getClaimSubmissionUpdateStmt().executeUpdate() == 0) {
 				throw new Exception("Failed to update Claim submission date for pub number : " 
 						+ pubNumber + ". Reason : Exodus update return to result.");
@@ -53,6 +54,7 @@ public class LOCSubmissionUpdateQuery {
 	public void updateDeliverySubmissionFor(String pubNumber)
 			throws Exception {
 		try {
+			getDeliverySubmissionUpdateStmt().setString(1, pubNumber);
 			if (getDeliverySubmissionUpdateStmt().executeUpdate() == 0) {
 				throw new Exception("Failed to update delivery submission date for pub number : " 
 						+ pubNumber + ". Reason : Exodus update return to result.");
