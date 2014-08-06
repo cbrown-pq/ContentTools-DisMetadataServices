@@ -31,7 +31,7 @@ public class MakeCSVRecordFactory_Publisher_Tests extends EasyMockSupport {
 		String publisher = null;
 		metadata.setPublisher(publisher);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -40,7 +40,7 @@ public class MakeCSVRecordFactory_Publisher_Tests extends EasyMockSupport {
 	public void withOnlyPublisher() throws Exception {
 		metadata.setPublisher("Kuopion Yliopiston Painatuskeskus, Kuopio, Finland");
 		String expectedCSVData = header
-				+ "\r\n,,,,,,\"Kuopion Yliopiston Painatuskeskus, Kuopio, Finland\",,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,";
+				+ "\r\n,,,,,,\"Kuopion Yliopiston Painatuskeskus, Kuopio, Finland\",,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

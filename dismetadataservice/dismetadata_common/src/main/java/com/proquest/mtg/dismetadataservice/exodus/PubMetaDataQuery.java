@@ -128,6 +128,9 @@ public class PubMetaDataQuery {
 	private static final String kColumnManuscriptMediaCode = "ManuscriptMediaCode";
 	private static final String kColumnManuscriptMediaDesc = "ManuscriptMediaDesc";
 	
+	private static final String kColumnSchoolLocCountry = "SchoolLocCountry";
+	private static final String kColumnAuthorLocCitizenship = "LocAuthorCitizenship";
+	
 	private static final String kSelectSchoolId = 
 			"( " +
 				"SELECT dish_id FROM dis_schools WHERE dish_id = ditm.dish_id " +
@@ -195,7 +198,8 @@ public class PubMetaDataQuery {
 				"dath_fullname " + kColumnAuthorFullName + ", " + 
 				"dsa_fullname " + kColumnAuthorAlternateFullName + ", " + 
 				"dvc_description " + kColumnAuthorCitizenship + ", " +
-				"dath_use_claimant_add_flag " + kColumnClaimantAddFlag + " " +
+				"dath_use_claimant_add_flag " + kColumnClaimantAddFlag + ", " +
+				"dvc_loc_description " + kColumnAuthorLocCitizenship + " " +
 			"FROM " +
 				"dis.dis_authors dath, " + 
 				"dis.dis_supp_authors dsa, " + 
@@ -370,13 +374,15 @@ public class PubMetaDataQuery {
 				"dis.dis_supp_advisors advis " +
 			"WHERE " +
 				"ditm_id = ? ";
+
 	
 	private static final String kSelectSchool = 
 			"SELECT " + 
 				"dish_code " + kColumnSchoolCode + ", " + 
 				"dish_name " + kColumnSchoolName + ", " + 
 				"dvc_description " + kColumnSchoolCountry + ", " + 
-				"dsta_name " + kColumnSchoolState + " " +
+				"dsta_name " + kColumnSchoolState + ", " +
+				"dvc_loc_description " + kColumnSchoolLocCountry + " " +
 			"FROM " + 
 				"dis.dis_schools dish, " + 
 				"dis.dis_valid_countries dvc, " +  
@@ -578,6 +584,7 @@ public class PubMetaDataQuery {
 				author.setDegrees(getDegreesFor(cursor.getString(kColumnAuthorId)));
 				author.setAuthorCitizenship(cursor.getString(kColumnAuthorCitizenship));
 				author.setClaimants(getClaimantsFor(cursor.getString(kColumnAuthorId)));
+				author.setAuthorLocCitizenship(cursor.getString(kColumnAuthorLocCitizenship));
 				result.add(author);
 			}
 		}
@@ -948,6 +955,7 @@ public class PubMetaDataQuery {
 					result.setSchoolName(required(cursor.getString(kColumnSchoolName)));
 					result.setSchoolCountry(required(cursor.getString(kColumnSchoolCountry)));
 					result.setSchoolState(trimmed(cursor.getString(kColumnSchoolState)));
+					result.setSchoolLocCountry(trimmed(cursor.getString(kColumnSchoolLocCountry)));
 				}
 			}
 			finally {

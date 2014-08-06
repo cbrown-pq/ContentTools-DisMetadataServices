@@ -19,6 +19,7 @@ public class Author {
     private List<AddressMetaData> addresses;
     private int sequenceNumber;
     private String authorCitizenship;
+    private String authorLocCitizenship;
 
     public String getAuthorId() {
     	return authorId;
@@ -245,6 +246,14 @@ public class Author {
 
 	public void setAuthorCitizenship(String authorCitizenship) {
 		this.authorCitizenship = authorCitizenship;
+	}
+
+	public String getAuthorLocCitizenship() {
+		return authorLocCitizenship;
+	}
+
+	public void setAuthorLocCitizenship(String authorLocCitizenship) {
+		this.authorLocCitizenship = authorLocCitizenship;
 	}
 
 }

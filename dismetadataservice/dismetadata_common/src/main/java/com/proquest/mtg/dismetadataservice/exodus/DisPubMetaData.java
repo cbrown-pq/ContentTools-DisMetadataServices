@@ -723,7 +723,8 @@ public class DisPubMetaData {
         private String schoolName;
         private String schoolCountry;
         private String schoolState;
-
+        private String schoolLocCountry;
+        
         public String getSchoolCode() {
             return schoolCode;
         }
@@ -755,6 +756,14 @@ public class DisPubMetaData {
         public void setSchoolState(String value) {
             this.schoolState = value;
         }
+
+		public String getSchoolLocCountry() {
+			return schoolLocCountry;
+		}
+
+		public void setSchoolLocCountry(String schoolLocCountry) {
+			this.schoolLocCountry = schoolLocCountry;
+		}
     }
     
     public static class PdfAvailableDateStatus {

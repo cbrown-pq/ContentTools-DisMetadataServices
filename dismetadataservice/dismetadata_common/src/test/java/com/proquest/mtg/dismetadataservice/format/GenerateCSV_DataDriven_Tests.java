@@ -69,7 +69,7 @@ public class GenerateCSV_DataDriven_Tests {
 			PubAndCSVRecord actualCsv = PubAndCSVRecord.makeFor(csvProvider,
 					expectedCsv.getPubId());
 			assertEquals(actualCsv.getPubId(), expectedCsv.getPubId());
-			//assertEquals("Pub ID: " + actualCsv.getPubId(), actualCsv.getCSVRecord(), expectedCsv.getCSVRecord());
+			assertEquals("Pub ID: " + actualCsv.getPubId(), actualCsv.getCSVRecord(), expectedCsv.getCSVRecord());
 		}
 	}
 

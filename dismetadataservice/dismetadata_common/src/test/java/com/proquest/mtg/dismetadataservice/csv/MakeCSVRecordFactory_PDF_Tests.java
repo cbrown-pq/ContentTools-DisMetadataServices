@@ -39,7 +39,7 @@ public class MakeCSVRecordFactory_PDF_Tests extends EasyMockSupport {
 
 		metadata.setPdfStatus(pdfAvailableDateStatus);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -52,7 +52,7 @@ public class MakeCSVRecordFactory_PDF_Tests extends EasyMockSupport {
 		replayAll();
 		metadata.setPdfStatus(pdfAvailableDateStatus);
 		String expectedCSVData = header + "\r\n" + "\"" + pubNumber + "\",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"Y\"" + ",,,,,,,,,,,,";
+				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"Y\"" + ",,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -64,7 +64,7 @@ public class MakeCSVRecordFactory_PDF_Tests extends EasyMockSupport {
 		expect(pdfVaultAvailableStatus.isPdfAvailableInVaultFor(pubNumber)).andStubReturn(false);
 		replayAll();
 		String expectedCSVData = header + "\r\n" + "\"" + pubNumber + "\",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"N\"" + ",,,,,,,,,,,,";
+				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"N\"" + ",,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -78,7 +78,7 @@ public class MakeCSVRecordFactory_PDF_Tests extends EasyMockSupport {
 		replayAll();
 		String expectedCSVData = header + "\r\n" + "\"" + pubNumber + "\",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"N\"" 
-				+ ",\"PdfAvailableDate\",,,,,,,,,,,";
+				+ ",\"PdfAvailableDate\",,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -92,7 +92,7 @@ public class MakeCSVRecordFactory_PDF_Tests extends EasyMockSupport {
 		replayAll();
 		String expectedCSVData = header + "\r\n" + "\"" + pubNumber + "\",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,,,,,,,,," + ",\"Y\"" 
-				+ ",\"PdfAvailableDate\",,,,,,,,,,,";
+				+ ",\"PdfAvailableDate\",,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

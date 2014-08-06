@@ -177,6 +177,10 @@ public class CSVRecordFactory {
 				.getDeclaredMethod("handleManuscriptMediaCode"));
 		kAllHeaders.put(CSVHeaders.kManuscriptMediaDesc, CSVRecordFactory.class
 				.getDeclaredMethod("handleManuscriptMediaDesc"));
+		kAllHeaders.put(CSVHeaders.kSchoolLocCountry, CSVRecordFactory.class
+				.getDeclaredMethod("handleSchoolLocCountry"));
+		kAllHeaders.put(CSVHeaders.kAuthorLocCitizenship, CSVRecordFactory.class
+				.getDeclaredMethod("handleAuthorLocCitizenship"));
 	}
 
 	public LinkedHashMap<String, Method> getTagMappings() {
@@ -1067,6 +1071,40 @@ public class CSVRecordFactory {
 		}
 		addField(manuscriptMediaDesc);
 	}
+	
+	private void handleAuthorLocCitizenship() {
+		List<Author> authors = curMetaData.getAuthors();
+		String authorLocCitizenship = "";
+		if (null != authors && !authors.isEmpty()) {
+			for (Author curAuthor : authors) {
+				if (null != curAuthor.getAuthorLocCitizenship()
+						&& !curAuthor.getAuthorLocCitizenship().isEmpty()) {
+					authorLocCitizenship += endWithPipes(curAuthor
+							.getAuthorLocCitizenship());
+				} else {
+					authorLocCitizenship += endWithPipes("NONE");
+				}
+			}
+			if (null != authorLocCitizenship && !authorLocCitizenship.isEmpty()) {
+				authorLocCitizenship = authorLocCitizenship.substring(0,
+						authorLocCitizenship.length() - 1);
+			}
+		}
+		addField(authorLocCitizenship);
+	}
+	
+	
+	private void handleSchoolLocCountry() {
+		School school = curMetaData.getSchool();
+		String schoolLocCountry = "";
+		if (null != school) {
+			if (null != school.getSchoolLocCountry()
+					&& !school.getSchoolLocCountry().isEmpty())
+				schoolLocCountry = school.getSchoolLocCountry();
+		}
+		addField(schoolLocCountry);
+	}
+
 
 	private void addField(String data) {
 		if (data.trim() != "")

@@ -56,5 +56,7 @@ public class CSVHeaders {
 	public static final String kPubDate = "PUB DATE";
 	public static final String kManuscriptMediaCode = "MANUSCRIPTMEDIA CODE";
 	public static final String kManuscriptMediaDesc = "MANUSCRIPTMEDIA DESC";
+	public static final String kSchoolLocCountry = "LOC SCHOOL COUNTRY";
+	public static final String kAuthorLocCitizenship = "LOC AUTHOR CITIZENSHIP";
 
 }

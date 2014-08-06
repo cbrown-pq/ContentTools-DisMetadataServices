@@ -58,7 +58,7 @@ public class LOCRecordFactory {
 				claimantAddresses,
 				authorAddresses));
 		publication.setYearofCompletion(disPubMetaData.getManuscriptYear());
-		publication.setNationofFirstPublication("USA");
+		publication.setNationofFirstPublication("United States");
 		publication.setTitles(createTitles(disPubMetaData));
 		claim.setPublication(publication);
 		claim.setTypeofWork("TX");
