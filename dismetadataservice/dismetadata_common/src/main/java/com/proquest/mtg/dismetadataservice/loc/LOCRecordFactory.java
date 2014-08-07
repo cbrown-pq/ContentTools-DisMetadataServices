@@ -176,7 +176,7 @@ public class LOCRecordFactory {
 		pqLocAuthor.setFirstName(author.getFirstName());
 		pqLocAuthor.setMiddleName(author.getMiddleName());
 		pqLocAuthor.setLastName(author.getLastName());
-		pqLocAuthor.setCitizenShip(author.getAuthorCitizenship());
+		pqLocAuthor.setCitizenShip(author.getAuthorLocCitizenship());
 		pqLocAuthor.setAuthorContributionText("Y");
 		pqLocAuthors.getAuthor().add(pqLocAuthor);
 		return pqLocAuthors;
