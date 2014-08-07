@@ -119,7 +119,7 @@ public class LOCRecordFactory {
 			if(claimantAddress.getCountry().equalsIgnoreCase("US")) {
 				certificateMailingAddress.setCountry(claimantAddress.getCountry());
 			} else {
-				certificateMailingAddress.setCountry(claimantAddress.getCountryDescription());
+				certificateMailingAddress.setCountry(claimantAddress.getLocCountryDescription());
 			}
 			certificateMailingAddress.setState(claimantAddress.getStateCode());
 			certificateMailingAddress.setPostalCode(createPostalCode(claimantAddress));

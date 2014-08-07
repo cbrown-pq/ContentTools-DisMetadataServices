@@ -15,6 +15,7 @@ public class AddressMetaData {
 	    private String country;
 	    private String stateCode;
 	    private String countryDescription;
+	    private String locCountryDescription;
 	    
 		public String getName() {
 			return name;
@@ -111,7 +112,7 @@ public class AddressMetaData {
 		public String getCountryDescription() {
 			return countryDescription;
 		}
-		
+
 		@Override
 		public String toString() {
 			return "AddressMetaData [name=" + name + ", line1=" + line1
@@ -120,10 +121,16 @@ public class AddressMetaData {
 					+ ", fourDigitZip=" + fourDigitZip + ", postalCode="
 					+ postalCode + ", stateProvince=" + stateProvince
 					+ ", country=" + country + ", stateCode=" + stateCode
-					+ ", countryDescription=" + countryDescription + "]";
+					+ ", countryDescription=" + countryDescription
+					+ ", locCountryDescription=" + locCountryDescription + "]";
 		}
 
+		public String getLocCountryDescription() {
+			return locCountryDescription;
+		}
 
-
+		public void setLocCountryDescription(String locCountryDescription) {
+			this.locCountryDescription = locCountryDescription;
+		}
 		
 }

@@ -25,6 +25,7 @@ public class AddressMetaDataQuery {
 	public static final String kAddressSchoolPeopleId = "AddressSchoolPeopleId";
 	public static final String kAddressStateCode = "AddressStateCode";
 	public static final String kAddressCountryDescription = "AddressCountryDescription";
+	private static final String kAddressLocCountryDescription = "AddressLocCountryDescription";;
 	
 	//private PreparedStatement schoolAddressStatement;
 	private PreparedStatement authorAddressStatement;
@@ -46,7 +47,8 @@ public class AddressMetaDataQuery {
 			+ "da.dvc_code "+ kAddressCountryCode + ", " 
 			+ "to_char(da.daad_effective_date ,'dd-mon-yyyy') " + kAddressEffectiveDate + ", "
 			+ "da.daad_active_flag " + kAddressEffectiveFlag + ", "
-			+ "dvc.dvc_description "+ kAddressCountryDescription 
+			+ "dvc.dvc_description " + kAddressCountryDescription + ", "
+			+ "dvc.dvc_loc_description " + kAddressLocCountryDescription 
 			+ " from dis_addresses da, dis_valid_countries dvc "
 			+ "where da.dvc_code = dvc.dvc_code and ";
 	
@@ -126,6 +128,7 @@ public class AddressMetaDataQuery {
 				addressMetaData.setStateCode(getStateCode(addressMetaData.getFiveDigitZip()));
 			}
 			addressMetaData.setCountryDescription(cursor.getString(kAddressCountryDescription));
+			addressMetaData.setLocCountryDescription(cursor.getString(kAddressLocCountryDescription));
 			result.add(addressMetaData);
 		}
 		return result;
