@@ -199,7 +199,8 @@ public class PubMetaDataQuery {
 				"dsa_fullname " + kColumnAuthorAlternateFullName + ", " + 
 				"dvc_description " + kColumnAuthorCitizenship + ", " +
 				"dath_use_claimant_add_flag " + kColumnClaimantAddFlag + ", " +
-				"dvc_loc_description " + kColumnAuthorLocCitizenship + " " +
+				"'United States'" + kColumnAuthorLocCitizenship + " " +
+			//	"dvc_loc_description" + kColumnAuthorLocCitizenship + " " +
 			"FROM " +
 				"dis.dis_authors dath, " + 
 				"dis.dis_supp_authors dsa, " + 
@@ -382,7 +383,8 @@ public class PubMetaDataQuery {
 				"dish_name " + kColumnSchoolName + ", " + 
 				"dvc_description " + kColumnSchoolCountry + ", " + 
 				"dsta_name " + kColumnSchoolState + ", " +
-				"dvc_loc_description " + kColumnSchoolLocCountry + " " +
+				//"dvc_loc_description " + kColumnSchoolLocCountry + " " +
+				"'United States'" + kColumnSchoolLocCountry + " " +
 			"FROM " + 
 				"dis.dis_schools dish, " + 
 				"dis.dis_valid_countries dvc, " +  
