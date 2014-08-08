@@ -48,7 +48,8 @@ public class AddressMetaDataQuery {
 			+ "to_char(da.daad_effective_date ,'dd-mon-yyyy') " + kAddressEffectiveDate + ", "
 			+ "da.daad_active_flag " + kAddressEffectiveFlag + ", "
 			+ "dvc.dvc_description " + kAddressCountryDescription + ", "
-			+ "dvc.dvc_loc_description " + kAddressLocCountryDescription 
+			//+ "dvc.dvc_loc_description " + kAddressLocCountryDescription 
+			+ "'United States'" + kAddressLocCountryDescription 
 			+ " from dis_addresses da, dis_valid_countries dvc "
 			+ "where da.dvc_code = dvc.dvc_code and ";
 	

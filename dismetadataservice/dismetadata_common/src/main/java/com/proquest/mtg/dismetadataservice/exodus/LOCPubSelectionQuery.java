@@ -19,8 +19,9 @@ public class LOCPubSelectionQuery {
     + " WHERE dwo.dvwo_code = 'V'"
     + " AND ditm.diw_id = dwo.diw_id"
     + " AND ditm.ditm_copyright_year IS NOT NULL"
-    + " AND ditm.ditm_lc_date_of_delivery IS NULL"
+    //+ " AND ditm.ditm_lc_date_of_delivery IS NULL"
     + " AND ditm.ditm_date_of_delivery IS NOT NULL"
+    + " AND ditm_pub_number in('3621589','3580999','3581000','3584889','3615969','3621131','3621152','3621158','3621321','3621358','3621367','3621381')"
     + " ORDER BY ditm.ditm_pub_number";
 
 
