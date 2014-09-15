@@ -220,7 +220,7 @@ public class MakeExodusMetadataForTesting {
 						makeDegreeFrom("Dr.", "Doctorate/Docteur", "1998", 1)));
 		x.setAuthors(authors);
 		
-		x.setPdfStatus(makePdfStatusFrom("28-AUG-2014"));
+		x.setPdfStatus(makePdfStatusFrom("13-SEP-2014"));
 		
 		return x;
 	}
@@ -372,7 +372,7 @@ public class MakeExodusMetadataForTesting {
 						makeDegreeFrom("Ph.D.", "Doctor of Philosophy", "1921", 1)));
 		x.setAuthors(authors);
 
-		x.setPdfStatus(makePdfStatusFrom("27-AUG-2014"));
+		x.setPdfStatus(makePdfStatusFrom("12-SEP-2014"));
 		
 		return x;
 	}
@@ -382,7 +382,7 @@ public class MakeExodusMetadataForTesting {
 		DisPubMetaData x = new DisPubMetaData();
 		x.setPubNumber(pubId3);
 		x.setPageCount("1");
-		x.setExternalURL("http://eprints.soton.ac.uk/15468");
+		x.setExternalURL("http://www.theses.com/idx/registered_users/etd/78a.asp");
 		x.setBLNumber("DXN074035");
 		x.setAdvisors(null);
 		x.setPqOpenURL(makePqOpenUrlFor(pubId3));
@@ -443,7 +443,7 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("STRUCTURES", "For Datrix")
 				));
 		
-		x.setPdfStatus(makePdfStatusFrom("27-AUG-2014"));
+		x.setPdfStatus(makePdfStatusFrom("12-SEP-2014"));
 		
 		return x;
 	}
@@ -1055,7 +1055,7 @@ public class MakeExodusMetadataForTesting {
 		x.setCmteMembers(null);
 		x.setSuppFiles(null);
 		x.setDepartments(null);
-		x.setPdfStatus(makePdfStatusFrom("30-AUG-2014"));
+		x.setPdfStatus(makePdfStatusFrom("15-SEP-2014"));
 		
 		return x;
 	}
