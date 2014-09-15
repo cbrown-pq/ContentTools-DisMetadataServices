@@ -20,6 +20,9 @@ import com.proquest.mtg.dismetadataservice.pqloc.Titles;
 public class LOCRecordFactory {
 	private static String kAuthorAddress = "authorAddress";
 	private static String kClaimantAddress = "claimantAddress";
+	private static String kClaimantIntegrationIdConstant = "C";
+	private static String kAuthorIntegrationIdConstant = "A";
+	private static String kTitleIntegrationIdConstant = "T";
 	
 	private final AddressMetaDataProvider addressMetaDataProvider;
 	
@@ -162,7 +165,7 @@ public class LOCRecordFactory {
 			title = endsWithPunctuationMark(title);
 			title = SGMLEntitySubstitution.applyAllTo(title);
 		}
-		titleOfThisWork.setTitleIntegrationId(disPubMetaData.getPubNumber());
+		titleOfThisWork.setTitleIntegrationId(disPubMetaData.getPubNumber() + kTitleIntegrationIdConstant);
 		titleOfThisWork.setTitle(title);
 		
 		return titleOfThisWork;
@@ -172,7 +175,7 @@ public class LOCRecordFactory {
 		com.proquest.mtg.dismetadataservice.pqloc.Authors pqLocAuthors = new Authors();
 		com.proquest.mtg.dismetadataservice.metadata.Author author = disPubMetaData.getAuthors().get(0);
 		com.proquest.mtg.dismetadataservice.pqloc.Author pqLocAuthor = new Author();
-		pqLocAuthor.setAuthorIntegrationId(disPubMetaData.getPubNumber());
+		pqLocAuthor.setAuthorIntegrationId(disPubMetaData.getPubNumber() + kAuthorIntegrationIdConstant);
 		pqLocAuthor.setFirstName(author.getFirstName());
 		pqLocAuthor.setMiddleName(author.getMiddleName());
 		pqLocAuthor.setLastName(author.getLastName());
@@ -193,12 +196,12 @@ public class LOCRecordFactory {
 		List<Claimant> claimants = pubMetaDataAuthor.getClaimants();
 		if(claimants != null && claimants.size() != 0 ) {
 			Claimant claimant = claimants.get(0);
-			pqLocClaimant.setClaimantIntegrationId(claimant.getClaimantId());
+			pqLocClaimant.setClaimantIntegrationId(claimant.getClaimantId() + kClaimantIntegrationIdConstant);
 			pqLocClaimant.setFirstName(claimant.getFirstName());
 			pqLocClaimant.setMiddleName(claimant.getMiddleName());
 			pqLocClaimant.setLastName(claimant.getLastName());
 		} else {
-			pqLocClaimant.setClaimantIntegrationId(disPubMetaData.getPubNumber());
+			pqLocClaimant.setClaimantIntegrationId(disPubMetaData.getPubNumber()+ kClaimantIntegrationIdConstant);
 			pqLocClaimant.setFirstName(pubMetaDataAuthor.getFirstName());
 			pqLocClaimant.setMiddleName(pubMetaDataAuthor.getMiddleName());
 			pqLocClaimant.setLastName(pubMetaDataAuthor.getLastName());
