@@ -20,7 +20,8 @@ public class LOCPubSelectionQuery {
     + " AND ditm.diw_id = dwo.diw_id"
     + " AND ditm.ditm_copyright_year IS NOT NULL"
     + " AND ditm.ditm_lc_date_of_delivery IS NULL"
-    + " AND ditm.ditm_date_of_delivery IS NOT NULL AND rownum < 11"
+    + " AND ditm.ditm_date_of_delivery IS NOT NULL"
+    + " AND ditm.ditm_lc_claim_sent_date IS NULL"
     + " ORDER BY ditm.ditm_pub_number";
 
 
