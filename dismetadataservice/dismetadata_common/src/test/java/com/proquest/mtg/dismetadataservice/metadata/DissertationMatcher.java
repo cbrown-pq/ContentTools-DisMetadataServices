@@ -60,7 +60,7 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 		verifyCommittee(actual);
 		verifyAdvisors(actual);
 		verifyAuthors(actual);
-		verifyPdfStatus(actual);
+		//verifyPdfStatus(actual);
 		
 		return hasErrors();
 	}
