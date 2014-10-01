@@ -112,22 +112,17 @@ public class LOCRecordFactory {
 			CertificateMailingAddress certificateMailingAddress,
 			List<AddressMetaData> claimantAddresses) {
 		AddressMetaData claimantAddress = null;
-		if(claimantAddresses != null && claimantAddresses.size() != 0) {
+		if (claimantAddresses != null && claimantAddresses.size() != 0) {
 			claimantAddress = claimantAddresses.get(0);
 		}
 		
 		if (null != claimantAddress) {
 			certificateMailingAddress.setAddress1(createAddress1(claimantAddress));
 			certificateMailingAddress.setCity(claimantAddress.getCity());
-			if(claimantAddress.getCountry().equalsIgnoreCase("US")) {
-				certificateMailingAddress.setCountry(claimantAddress.getCountry());
-			} else {
-				certificateMailingAddress.setCountry(claimantAddress.getLocCountryDescription());
-			}
+			certificateMailingAddress.setCountry(claimantAddress.getLocCountryDescription());
 			certificateMailingAddress.setState(claimantAddress.getStateCode());
 			certificateMailingAddress.setPostalCode(createPostalCode(claimantAddress));
 		}
-		
 	}
 
 	private String createPostalCode(AddressMetaData claimantAddress) {
@@ -141,8 +136,7 @@ public class LOCRecordFactory {
 					postalCode = fiveDigitZip + "-" + fourDigitZip;
 				} else {
 					postalCode = fiveDigitZip;
-				}
-				
+				}	
 			}
 		} else {
 			postalCode = claimantAddress.getPostalCode();
