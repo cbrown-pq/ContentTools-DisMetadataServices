@@ -135,8 +135,8 @@ public class PubMediaInfoProvider_DocforstingStatus_Tests extends EasyMockSuppor
 		expect(docFrostingResource.get(goid1, null, restrictionIncluded, null)).andReturn(docFrosting1).once();		
 		expect(docFrostingResource.get(goid2, null, restrictionIncluded, null)).andReturn(docFrosting2).once();
 
-		expect(docFrosting1.getStatus()).andReturn(new String("DELETE")).once();
-		expect(docFrosting2.getStatus()).andReturn(new String("DELETE")).once();
+		expect(docFrosting1.getStatus()).andReturn(new String("DELETE")).atLeastOnce();
+		expect(docFrosting2.getStatus()).andReturn(new String("DELETE")).atLeastOnce();
 		
 		replayAll();
 		
@@ -161,8 +161,8 @@ public class PubMediaInfoProvider_DocforstingStatus_Tests extends EasyMockSuppor
 		expect(docFrostingResource.get(goid1, null, restrictionIncluded, null)).andReturn(docFrosting1).once();		
 		expect(docFrostingResource.get(goid2, null, restrictionIncluded, null)).andReturn(docFrosting2).once();
 
-		expect(docFrosting1.getStatus()).andReturn(new String("DELETE")).once();
-		expect(docFrosting2.getStatus()).andReturn(new String("NORMAL")).once();
+		expect(docFrosting1.getStatus()).andReturn(new String("DELETE")).atLeastOnce();
+		expect(docFrosting2.getStatus()).andReturn(new String("NORMAL")).atLeastOnce();
 		
 		
 		expect(pdfMediaInfoFactory.makeFrom(docFrosting2)).andReturn(
@@ -192,9 +192,9 @@ public class PubMediaInfoProvider_DocforstingStatus_Tests extends EasyMockSuppor
 		expect(docFrostingResource.get(goid2, null, restrictionIncluded, null)).andReturn(docFrosting2).once();
 		expect(docFrostingResource.get(goid3, null, restrictionIncluded, null)).andReturn(docFrosting3).once();
 
-		expect(docFrosting1.getStatus()).andReturn(new String("DELETE")).once();
-		expect(docFrosting2.getStatus()).andReturn(new String("DELETE")).once();
-		expect(docFrosting3.getStatus()).andReturn(new String("NORMAL")).once();
+		expect(docFrosting1.getStatus()).andReturn(new String("DELETE")).atLeastOnce();
+		expect(docFrosting2.getStatus()).andReturn(new String("DELETE")).atLeastOnce();
+		expect(docFrosting3.getStatus()).andReturn(new String("NORMAL")).atLeastOnce();
 		
 		
 		expect(pdfMediaInfoFactory.makeFrom(docFrosting3)).andReturn(
