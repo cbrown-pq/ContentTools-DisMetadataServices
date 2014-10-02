@@ -199,8 +199,7 @@ public class PubMetaDataQuery {
 				"dsa_fullname " + kColumnAuthorAlternateFullName + ", " + 
 				"dvc_description " + kColumnAuthorCitizenship + ", " +
 				"dath_use_claimant_add_flag " + kColumnClaimantAddFlag + ", " +
-				"'United States'" + kColumnAuthorLocCitizenship + " " +
-			//	"dvc_loc_description" + kColumnAuthorLocCitizenship + " " +
+				"dvc_loc_description " + kColumnAuthorLocCitizenship + " " +
 			"FROM " +
 				"dis.dis_authors dath, " + 
 				"dis.dis_supp_authors dsa, " + 
@@ -383,8 +382,7 @@ public class PubMetaDataQuery {
 				"dish_name " + kColumnSchoolName + ", " + 
 				"dvc_description " + kColumnSchoolCountry + ", " + 
 				"dsta_name " + kColumnSchoolState + ", " +
-				//"dvc_loc_description " + kColumnSchoolLocCountry + " " +
-				"'United States'" + kColumnSchoolLocCountry + " " +
+				"dvc_loc_description " + kColumnSchoolLocCountry + " " +
 			"FROM " + 
 				"dis.dis_schools dish, " + 
 				"dis.dis_valid_countries dvc, " +  
@@ -572,21 +570,36 @@ public class PubMetaDataQuery {
 			while (cursor.next()) {
 				Author author = new Author();
 				author.setAuthorId(cursor.getString(kColumnAuthorId));
-				SplitAuthorNames splitNames = new SplitAuthorNames(cursor.getString(kColumnAuthorFullName));
+				SplitAuthorNames splitNames = new SplitAuthorNames(
+						cursor.getString(kColumnAuthorFullName));
 				author.setAuthorFullName(required(splitNames.getFull()));
 				author.setLastName(required(splitNames.getLast()));
 				author.setFirstName(splitNames.getFirst());
 				author.setMiddleName(splitNames.getMiddle());
-				author.setSequenceNumber(cursor.getInt(kColumnAuthorSequenceNumber));
-				String alternateFullName = cursor.getString(kColumnAuthorAlternateFullName);
+				author.setSequenceNumber(cursor
+						.getInt(kColumnAuthorSequenceNumber));
+				String alternateFullName = cursor
+						.getString(kColumnAuthorAlternateFullName);
 				if (null != alternateFullName) {
 					author.setAltAuthorFullName(alternateFullName);
 				}
-				author.setClaimantAddFlag(cursor.getString(kColumnClaimantAddFlag));
-				author.setDegrees(getDegreesFor(cursor.getString(kColumnAuthorId)));
-				author.setAuthorCitizenship(cursor.getString(kColumnAuthorCitizenship));
-				author.setClaimants(getClaimantsFor(cursor.getString(kColumnAuthorId)));
-				author.setAuthorLocCitizenship(cursor.getString(kColumnAuthorLocCitizenship));
+				author.setClaimantAddFlag(cursor
+						.getString(kColumnClaimantAddFlag));
+				author.setDegrees(getDegreesFor(cursor
+						.getString(kColumnAuthorId)));
+				author.setAuthorCitizenship(cursor
+						.getString(kColumnAuthorCitizenship));
+				author.setClaimants(getClaimantsFor(cursor
+						.getString(kColumnAuthorId)));
+				if (null != cursor.getString(kColumnAuthorLocCitizenship)
+						&& !cursor.getString(kColumnAuthorLocCitizenship)
+								.isEmpty()) {
+					author.setAuthorLocCitizenship(cursor
+							.getString(kColumnAuthorLocCitizenship));
+				} else {
+					author.setAuthorLocCitizenship(cursor
+							.getString(kColumnAuthorCitizenship));
+				}
 				result.add(author);
 			}
 		}
@@ -957,7 +970,12 @@ public class PubMetaDataQuery {
 					result.setSchoolName(required(cursor.getString(kColumnSchoolName)));
 					result.setSchoolCountry(required(cursor.getString(kColumnSchoolCountry)));
 					result.setSchoolState(trimmed(cursor.getString(kColumnSchoolState)));
-					result.setSchoolLocCountry(trimmed(cursor.getString(kColumnSchoolLocCountry)));
+					if(null != cursor.getString(kColumnSchoolLocCountry) && !cursor.getString(kColumnSchoolLocCountry).isEmpty()) {
+						result.setSchoolLocCountry(trimmed(cursor.getString(kColumnSchoolLocCountry)));
+					} 
+					else {
+						result.setSchoolLocCountry(trimmed(cursor.getString(kColumnSchoolCountry)));
+					}
 				}
 			}
 			finally {
