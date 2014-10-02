@@ -56,7 +56,8 @@ public class PubMediaInfoProvider implements IPubMediaInfoProvider {
 		for (String curGoid : getGoidsFor(pubId)) {
 			DocFrosting curDocFrosting = getDocFrostingFor(curGoid);
 			if (null != curDocFrosting) {
-				if (curDocFrosting.getStatus().toString().equals("NORMAL")) {
+				if (curDocFrosting.getStatus().toString().equals("NORMAL") || 
+						curDocFrosting.getStatus().toString().equals("HOLD")) {
 				result.add(new GoidMediaInfo(
 						curGoid, 
 						getPdfMediaInfoFactory().makeFrom(curDocFrosting)));
