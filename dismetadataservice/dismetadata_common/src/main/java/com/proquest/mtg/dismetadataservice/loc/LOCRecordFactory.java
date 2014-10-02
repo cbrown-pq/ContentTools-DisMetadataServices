@@ -115,13 +115,22 @@ public class LOCRecordFactory {
 		if (claimantAddresses != null && claimantAddresses.size() != 0) {
 			claimantAddress = claimantAddresses.get(0);
 		}
-		
+
 		if (null != claimantAddress) {
-			certificateMailingAddress.setAddress1(createAddress1(claimantAddress));
+			certificateMailingAddress
+					.setAddress1(createAddress1(claimantAddress));
 			certificateMailingAddress.setCity(claimantAddress.getCity());
-			certificateMailingAddress.setCountry(claimantAddress.getLocCountryDescription());
+			if (null != claimantAddress.getLocCountryDescription()
+					&& !claimantAddress.getLocCountryDescription().isEmpty()) {
+				certificateMailingAddress.setCountry(claimantAddress
+						.getLocCountryDescription());
+			} else {
+				certificateMailingAddress.setCountry(claimantAddress
+						.getCountryDescription());
+			}
 			certificateMailingAddress.setState(claimantAddress.getStateCode());
-			certificateMailingAddress.setPostalCode(createPostalCode(claimantAddress));
+			certificateMailingAddress
+					.setPostalCode(createPostalCode(claimantAddress));
 		}
 	}
 
@@ -231,8 +240,8 @@ public class LOCRecordFactory {
 		
 		pqLocClaimant.setAddress1(createAddress1(claimantAddress));
 		pqLocClaimant.setCity(claimantAddress.getCity());
-		if(claimantAddress.getCountry().equalsIgnoreCase("US")) {
-			pqLocClaimant.setCountry(claimantAddress.getCountry());
+		if(null != claimantAddress.getLocCountryDescription() && !claimantAddress.getLocCountryDescription().isEmpty()) {
+			pqLocClaimant.setCountry(claimantAddress.getLocCountryDescription());
 		} else {
 			pqLocClaimant.setCountry(claimantAddress.getCountryDescription());
 		}
