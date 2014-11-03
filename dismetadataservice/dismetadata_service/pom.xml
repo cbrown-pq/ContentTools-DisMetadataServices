@@ -82,6 +82,14 @@
             
   </dependencies>
   <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/../config</directory>
+      </resource>
+	   <resource>
+        <directory>${basedir}/../schema</directory>
+      </resource>
+    </resources>
     <finalName>dismetadata_service</finalName>
   </build>
 </project>
