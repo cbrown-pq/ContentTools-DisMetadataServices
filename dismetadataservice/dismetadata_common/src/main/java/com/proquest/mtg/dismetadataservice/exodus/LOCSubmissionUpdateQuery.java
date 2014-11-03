@@ -22,7 +22,7 @@ public class LOCSubmissionUpdateQuery {
 			"UPDATE " +
 					"DIS_ITEMS ditm " +
 			"SET " +
-					"DITM_LC_DATE_OF_DELIVERY = to_date(SYSDATE, 'DD-MON-YY') " + 
+					"DITM_LC_COPYRIGHT_SENT_DATE = to_date(SYSDATE, 'DD-MON-YY') " + 
 			"WHERE " +
 					"DITM_PUB_NUMBER = ? ";
 					
