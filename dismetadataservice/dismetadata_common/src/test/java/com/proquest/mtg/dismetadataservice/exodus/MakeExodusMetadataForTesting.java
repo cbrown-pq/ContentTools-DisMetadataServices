@@ -505,7 +505,12 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("计算机仿真", "By Author")
 				));
 		
-		x.setSalesRestrictions(null);
+		
+		SalesRestriction salesRestriction = new SalesRestriction();
+		salesRestriction.setCode("9");
+		salesRestriction.setDescription("Do not Sell");
+		salesRestriction.setRestrictionStartDate("11-NOV-2014");
+		x.setSalesRestrictions(Lists.newArrayList(salesRestriction));
 		x.setFormatRestrictions(null);
 
 		Advisors advisors = makeAdvisorsFrom(

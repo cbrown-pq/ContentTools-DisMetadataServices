@@ -23,6 +23,7 @@ public class LOCRecordFactory {
 	private static String kClaimantIntegrationIdConstant = "C";
 	private static String kAuthorIntegrationIdConstant = "A";
 	private static String kTitleIntegrationIdConstant = "T";
+	private static String kUnknownLocCitizenship = "not known";
 	
 	private final AddressMetaDataProvider addressMetaDataProvider;
 	
@@ -182,7 +183,10 @@ public class LOCRecordFactory {
 		pqLocAuthor.setFirstName(author.getFirstName());
 		pqLocAuthor.setMiddleName(author.getMiddleName());
 		pqLocAuthor.setLastName(author.getLastName());
-		pqLocAuthor.setCitizenShip(author.getAuthorLocCitizenship());
+		if(null != author.getAuthorCitizenship() && author.getAuthorCitizenship().isEmpty())
+			pqLocAuthor.setCitizenShip(author.getAuthorLocCitizenship());
+		else
+			pqLocAuthor.setCitizenShip(kUnknownLocCitizenship);
 		pqLocAuthor.setAuthorContributionText("Y");
 		pqLocAuthors.getAuthor().add(pqLocAuthor);
 		return pqLocAuthors;
@@ -204,7 +208,7 @@ public class LOCRecordFactory {
 			pqLocClaimant.setMiddleName(claimant.getMiddleName());
 			pqLocClaimant.setLastName(claimant.getLastName());
 		} else {
-			pqLocClaimant.setClaimantIntegrationId(disPubMetaData.getPubNumber()+ kClaimantIntegrationIdConstant);
+			pqLocClaimant.setClaimantIntegrationId(disPubMetaData.getPubNumber() + kClaimantIntegrationIdConstant);
 			pqLocClaimant.setFirstName(pubMetaDataAuthor.getFirstName());
 			pqLocClaimant.setMiddleName(pubMetaDataAuthor.getMiddleName());
 			pqLocClaimant.setLastName(pubMetaDataAuthor.getLastName());
@@ -245,7 +249,10 @@ public class LOCRecordFactory {
 		} else {
 			pqLocClaimant.setCountry(claimantAddress.getCountryDescription());
 		}
-		pqLocClaimant.setState(claimantAddress.getStateCode());
+		if(null != claimantAddress.getStateCode() && !claimantAddress.getStateCode().isEmpty())
+			pqLocClaimant.setState(claimantAddress.getStateCode());
+		else
+			pqLocClaimant.setState(claimantAddress.getStateCode());
 		pqLocClaimant.setPostalCode(createPostalCode(claimantAddress));
 	}
 
