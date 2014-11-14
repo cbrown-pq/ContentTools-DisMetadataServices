@@ -24,6 +24,7 @@ public class LOCRecordFactory {
 	private static String kAuthorIntegrationIdConstant = "A";
 	private static String kTitleIntegrationIdConstant = "T";
 	private static String kUnknownLocCitizenship = "not known";
+	private static String kDefaultNonUSState = "Non-U.S.";
 	
 	private final AddressMetaDataProvider addressMetaDataProvider;
 	
@@ -98,7 +99,8 @@ public class LOCRecordFactory {
 				certificateMailingAddress.setFirstName(claimant.getFirstName());
 				certificateMailingAddress.setMiddleName(claimant.getMiddleName());
 				certificateMailingAddress.setLastName(claimant.getLastName());
-				fillAddress(certificateMailingAddress, claimantAddresses);		}
+				fillAddress(certificateMailingAddress, claimantAddresses);		
+			}
 		} else {
 			certificateMailingAddress.setFirstName(author.getFirstName());
 			certificateMailingAddress.setMiddleName(author.getMiddleName());
@@ -118,8 +120,7 @@ public class LOCRecordFactory {
 		}
 
 		if (null != claimantAddress) {
-			certificateMailingAddress
-					.setAddress1(createAddress1(claimantAddress));
+			certificateMailingAddress.setAddress1(createAddress1(claimantAddress));
 			certificateMailingAddress.setCity(claimantAddress.getCity());
 			if (null != claimantAddress.getLocCountryDescription()
 					&& !claimantAddress.getLocCountryDescription().isEmpty()) {
@@ -129,7 +130,12 @@ public class LOCRecordFactory {
 				certificateMailingAddress.setCountry(claimantAddress
 						.getCountryDescription());
 			}
-			certificateMailingAddress.setState(claimantAddress.getStateCode());
+			if (null != claimantAddress.getStateCode() 
+					&& ! claimantAddress.getStateCode().isEmpty()) {
+				certificateMailingAddress.setState(claimantAddress.getStateCode());
+			} else {
+				certificateMailingAddress.setState(kDefaultNonUSState);
+			}
 			certificateMailingAddress
 					.setPostalCode(createPostalCode(claimantAddress));
 		}
@@ -183,10 +189,12 @@ public class LOCRecordFactory {
 		pqLocAuthor.setFirstName(author.getFirstName());
 		pqLocAuthor.setMiddleName(author.getMiddleName());
 		pqLocAuthor.setLastName(author.getLastName());
-		if(null != author.getAuthorCitizenship() && author.getAuthorCitizenship().isEmpty())
+		if (null != author.getAuthorCitizenship() 
+				&& author.getAuthorCitizenship().isEmpty()) {
 			pqLocAuthor.setCitizenShip(author.getAuthorLocCitizenship());
-		else
+		} else {
 			pqLocAuthor.setCitizenShip(kUnknownLocCitizenship);
+		}
 		pqLocAuthor.setAuthorContributionText("Y");
 		pqLocAuthors.getAuthor().add(pqLocAuthor);
 		return pqLocAuthors;
@@ -249,10 +257,12 @@ public class LOCRecordFactory {
 		} else {
 			pqLocClaimant.setCountry(claimantAddress.getCountryDescription());
 		}
-		if(null != claimantAddress.getStateCode() && !claimantAddress.getStateCode().isEmpty())
+		if (null != claimantAddress.getStateCode() 
+				&& ! claimantAddress.getStateCode().isEmpty()) {
 			pqLocClaimant.setState(claimantAddress.getStateCode());
-		else
-			pqLocClaimant.setState(claimantAddress.getStateCode());
+		} else {
+			pqLocClaimant.setState(kDefaultNonUSState);
+		}
 		pqLocClaimant.setPostalCode(createPostalCode(claimantAddress));
 	}
 
