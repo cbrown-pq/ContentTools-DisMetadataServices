@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.common.collect.Lists;
+import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.proquest.mtg.dismetadataservice.exodus.LocReportPubMetaData;
 import com.proquest.mtg.dismetadataservice.locreports.CopyrightPubReportProvider;
@@ -42,6 +43,29 @@ public class LocReportServiceProvider {
 		}
 		return Response.status(Response.Status.OK).entity(result).build();
 	}
+	
+	
+	@GET
+	@Path("/metadataForNonCopyrightPubs/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getLOCDataForAllNonCopyrightPubs() throws WebApplicationException {
+		List<LocReportPubMetaData> reportMetaData = null;
+		String result = null;
+		Gson gson = new Gson();
+		try {
+			reportMetaData = getCopyrightPubReportProvider().getNonCopyrightPubs();
+			result = gson.toJson(reportMetaData);
+		} catch(IllegalArgumentException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		return Response.status(Response.Status.OK).entity(result).build();
+	}
+	
 
 	public CopyrightPubReportProvider getCopyrightPubReportProvider() {
 		return copyrightPubReportProvider;

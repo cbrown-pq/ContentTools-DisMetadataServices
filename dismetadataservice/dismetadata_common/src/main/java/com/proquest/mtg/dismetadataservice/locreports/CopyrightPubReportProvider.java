@@ -46,4 +46,27 @@ public class CopyrightPubReportProvider {
 		}
 		return result;
 	}
+
+	public List<LocReportPubMetaData> getNonCopyrightPubs() throws Exception {
+		List<LocReportPubMetaData> nonCopyrightPubs;
+		Connection connection = null;
+		LocReportMetaDataQuery query = null;
+		try {
+			connection = getConnectionPool().getConnection();
+			query = new LocReportMetaDataQuery(connection);
+			nonCopyrightPubs = query.getLOCReportPubsForNonCopyright();
+		}
+		finally {
+			if (null != query) {
+				query.close();
+			}
+			if (null != connection) {
+				connection.close();
+			}
+		}
+		
+		
+		return nonCopyrightPubs;
+	}
+	
 }
