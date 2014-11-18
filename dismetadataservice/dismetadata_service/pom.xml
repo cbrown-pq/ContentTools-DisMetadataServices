@@ -79,6 +79,11 @@
 	   <artifactId>jersey-guice</artifactId>
 	   <version>1.18</version>
 	</dependency>
+	<dependency>
+  		<groupId>com.owlike</groupId>
+  		<artifactId>genson</artifactId>
+  		<version>0.99</version>
+	</dependency>
             
   </dependencies>
   <build>
