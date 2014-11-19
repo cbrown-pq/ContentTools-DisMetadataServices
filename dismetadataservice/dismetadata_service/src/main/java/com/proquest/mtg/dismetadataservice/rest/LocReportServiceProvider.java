@@ -49,12 +49,9 @@ public class LocReportServiceProvider {
 	@Path("/metadataForNonCopyrightPubs/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getLOCDataForAllNonCopyrightPubs() throws WebApplicationException {
-		List<LocReportPubMetaData> reportMetaData = null;
-		String result = null;
-		Gson gson = new Gson();
+		List<LocReportPubMetaData> result = null;
 		try {
-			reportMetaData = getCopyrightPubReportProvider().getNonCopyrightPubs();
-			result = gson.toJson(reportMetaData);
+			result = getCopyrightPubReportProvider().getNonCopyrightPubs();
 		} catch(IllegalArgumentException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
