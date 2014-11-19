@@ -10,7 +10,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.common.collect.Lists;
-import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.proquest.mtg.dismetadataservice.exodus.LocReportPubMetaData;
 import com.proquest.mtg.dismetadataservice.locreports.CopyrightPubReportProvider;
