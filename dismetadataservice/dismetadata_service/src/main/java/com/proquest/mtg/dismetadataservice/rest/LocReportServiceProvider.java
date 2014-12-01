@@ -49,7 +49,7 @@ public class LocReportServiceProvider {
 	
 	
 	@GET
-	@Path("/metadataForNonCopyrightPubs/")
+	@Path("/noncopyrightpubs/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getLOCDataForAllNonCopyrightPubs() throws WebApplicationException {
 		List<LocReportPubMetaData> result = null;
@@ -91,5 +91,4 @@ public class LocReportServiceProvider {
 	public CopyrightPubReportProvider getCopyrightPubReportProvider() {
 		return copyrightPubReportProvider;
 	}
-
 }
