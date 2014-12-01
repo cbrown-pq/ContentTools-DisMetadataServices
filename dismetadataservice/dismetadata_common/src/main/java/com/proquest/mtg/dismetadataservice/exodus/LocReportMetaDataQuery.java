@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -14,6 +18,8 @@ public class LocReportMetaDataQuery {
 
 	private static final String kColumnPubId = "PubNumber";
 	private static final String kColumnAuthorFullName = "AuthorFullName";
+	
+	public static final int kMaxNumberOfValuesForUpdate = 5;
 
 	private static final String kSelectCopyrightReportPubs = "SELECT "
 			+ "DISTINCT ditm.ditm_pub_number " + kColumnPubId + ", "
@@ -63,6 +69,13 @@ public class LocReportMetaDataQuery {
 			+ " diaf.dvf_code in('MP','MN','RFP','RFN') and"
 			// + " di.ditm_lc_nocopyright_sent_date is null and"
 			+ " da.dvc_code = dvc.dvc_code(+) and" + " da.dvc_code like \'US\'";
+	
+	private static final String kLOCFilmPullDateUpdate = "UPDATE " +
+			"DIS.DIS_ITEMS ditm " +
+		"SET "  +
+			"ditm.DITM_LC_FILM_PULL_DATE = to_date(?,'dd-Mon-yy') " +
+		"WHERE " +
+			"ditm.DITM_PUB_NUMBER IN (%s)";
 
 	private PreparedStatement locReportForCopyrightStatement;
 	private PreparedStatement locReportForNonCopyrightsStatement;
@@ -120,6 +133,60 @@ public class LocReportMetaDataQuery {
 			}
 		}
 		return locReportPubMetaDataList;
+	}
+	
+	public void updateLOCFilmPullDateFor(List<String> pubs)
+			throws Exception {
+		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy");
+		String currentDate = dateFormat.format(new Date());
+		PreparedStatement locFilmPullDateStatement = null;
+		try {
+			getConnection().setAutoCommit(false);
+			while (pubs.size() > 0) {
+				List<String> pubsSubSet = null;
+				if (pubs.size() > kMaxNumberOfValuesForUpdate) {
+					pubsSubSet = Lists.newArrayList(pubs.subList(0, kMaxNumberOfValuesForUpdate));
+					pubs.subList(0, kMaxNumberOfValuesForUpdate).clear();
+				} else {
+					pubsSubSet = Lists.newArrayList(pubs);
+					pubs.clear();
+				}
+				String sql = String.format(kLOCFilmPullDateUpdate, preparePlaceHolders(pubsSubSet));
+				locFilmPullDateStatement = getConnection().prepareStatement(sql);
+				locFilmPullDateStatement.setString(1, currentDate);
+				locFilmPullDateStatement.executeUpdate();
+			}
+			getConnection().commit();
+		} catch (SQLException e) {
+			if (getConnection() != null) {
+				System.err.print("Transaction is being rolled back");
+				e.printStackTrace();
+				getConnection().rollback();
+				throw new Exception(
+						"Failed to update LOC Film Pull Date. Exception : "
+								+ e.getMessage());
+			}
+		} finally {
+			getConnection().setAutoCommit(true);
+		}
+	}
+	
+	public static String preparePlaceHolders(List<String> pubs) {
+	    StringBuilder builder = new StringBuilder();
+	    int length = pubs.size();
+	    for (int i = 0; i < length;) {
+	        builder.append("'" + pubs.get(i) + "'");
+	        if (++i < length) {
+	            builder.append(",");
+	        }
+	    }
+	    return builder.toString();
+	}
+
+	public static void setValues(PreparedStatement preparedStatement, List<String> values) throws SQLException {
+	    for (int i = 0; i < values.size(); i++) {
+	        preparedStatement.setObject(i + 1, values.get(i));
+	    }
 	}
 
 	public PreparedStatement getLocReportForCopyrightStatement() {

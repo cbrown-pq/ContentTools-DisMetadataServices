@@ -68,5 +68,23 @@ public class CopyrightPubReportProvider {
 		
 		return nonCopyrightPubs;
 	}
+
+	public void updateFilmPullDate(List<String> pubs) throws Exception {
+		Connection connection = null;
+		LocReportMetaDataQuery query = null;
+		try {
+			connection = getConnectionPool().getConnection();
+			query = new LocReportMetaDataQuery(connection);
+			query.updateLOCFilmPullDateFor(pubs);
+		}
+		finally {
+			if (null != query) {
+				query.close();
+			}
+			if (null != connection) {
+				connection.close();
+			}
+		}
+	}
 	
 }
