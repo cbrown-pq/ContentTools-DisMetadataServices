@@ -6,6 +6,7 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
@@ -30,12 +31,12 @@ public class LocReportServiceProvider {
 	}
 	
 	@GET
-	@Path("/copyrightpubs/")
+	@Path("/copyrightpubs/{formatType}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getEligibleCopyrightPubs() throws WebApplicationException {
+	public Response getEligibleCopyrightPubs(@PathParam("formatType") String formatType) throws WebApplicationException {
 		List<LocReportPubMetaData> result = Lists.newArrayList();
 		try {
-			result = getCopyrightPubReportProvider().getCopyrightSubmittedPubs();
+			result = getCopyrightPubReportProvider().getCopyrightSubmittedPubs(formatType);
 		} catch(IllegalArgumentException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -49,12 +50,12 @@ public class LocReportServiceProvider {
 	
 	
 	@GET
-	@Path("/noncopyrightpubs/")
+	@Path("/noncopyrightpubs/{formatType}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getLOCDataForAllNonCopyrightPubs() throws WebApplicationException {
+	public Response getLOCDataForAllNonCopyrightPubs(@PathParam("formatType") String formatType) throws WebApplicationException {
 		List<LocReportPubMetaData> result = null;
 		try {
-			result = getCopyrightPubReportProvider().getNonCopyrightPubs();
+			result = getCopyrightPubReportProvider().getNonCopyrightPubs(formatType);
 		} catch(IllegalArgumentException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());

@@ -1,12 +1,12 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,14 +18,18 @@ public class LocReportMetaDataQuery {
 
 	private static final String kColumnPubId = "PubNumber";
 	private static final String kColumnAuthorFullName = "AuthorFullName";
+	private static final String kFormatTypeFilm35MM = "\'MP\',\'MN\'";
+	private static final String kFormatTypeFiche105MM = "\'RFP\',\'RFN\'";
 	
 	public static final int kMaxNumberOfValuesForUpdate = 5;
 
 	private static final String kSelectCopyrightReportPubs = "SELECT "
 			+ "DISTINCT ditm.ditm_pub_number " + kColumnPubId + ", "
 			+ "dath.dath_fullname " + kColumnAuthorFullName + " " + "FROM "
-			+ "dis_work_orders dwo, dis_items ditm, dis.dis_authors dath "
-			+ "WHERE " + "dwo.dvwo_code = 'V' AND "
+			+ "dis_work_orders dwo, dis_items ditm, dis.dis_authors dath, dis_item_available_formats diaf "
+			+ "WHERE " 
+			+ "ditm.ditm_id = diaf.ditm_id AND "
+			+ "dwo.dvwo_code = 'V' AND "
 			+ "ditm.diw_id = dwo.diw_id AND "
 			+ "ditm.ditm_copyright_year IS NOT NULL AND "
 			+ "ditm.DITM_LC_COPYRIGHT_SENT_DATE IS NOT NULL AND "
@@ -33,8 +37,7 @@ public class LocReportMetaDataQuery {
 			+ "ditm.ditm_lc_claim_sent_date IS NOT NULL AND "
 			+ "ditm.DITM_LC_FILM_PULL_DATE is NULL AND "
 			+ "ditm.ditm_id = dath.ditm_id AND "
-			+ "dath.dath_sequence_number = 1 "
-			+ "ORDER BY ditm.ditm_pub_number ";
+			+ "dath.dath_sequence_number = 1 ";
 
 	private static final String kSelectLocNoncopyrightPubs = "select distinct ditm_pub_number "
 			+ kColumnPubId
@@ -66,9 +69,10 @@ public class LocReportMetaDataQuery {
 			+ "         where diaf.ditm_id = di.ditm_id"
 			+ "               and dvf_code in ('MFC','MFL') ) and"
 			+ " diaf.dvf_code = dvf.dvf_code and"
-			+ " diaf.dvf_code in('MP','MN','RFP','RFN') and"
-			// + " di.ditm_lc_nocopyright_sent_date is null and"
-			+ " da.dvc_code = dvc.dvc_code(+) and" + " da.dvc_code like \'US\'";
+		//	+ " di.ditm_lc_claim_sent_date is null and"
+		//	+ " di.ditm_lc_film_pull_date is null and"
+			+ " da.dvc_code = dvc.dvc_code(+) and" 
+			+ " da.dvc_code like \'US\'";
 	
 	private static final String kLOCFilmPullDateUpdate = "UPDATE " +
 			"DIS.DIS_ITEMS ditm " +
@@ -82,21 +86,30 @@ public class LocReportMetaDataQuery {
 
 	public LocReportMetaDataQuery(Connection connection) throws SQLException {
 		this.connection = connection;
-		this.locReportForCopyrightStatement = connection
-				.prepareStatement(kSelectCopyrightReportPubs);
-		this.locReportForNonCopyrightsStatement = connection
-				.prepareStatement(kSelectLocNoncopyrightPubs);
 	}
 
 	public Connection getConnection() {
 		return connection;
 	}
 
-	public List<LocReportPubMetaData> getLOCReportPubsForCopyright()
-			throws SQLException {
+	public List<LocReportPubMetaData> getLOCReportPubsForCopyright(String formatType)
+			throws Exception {
 		List<LocReportPubMetaData> result = Lists.newArrayList();
 		ResultSet cursor = null;
+		String sql = "";
 		try {
+			if(formatType.equalsIgnoreCase("35mm")) {
+				sql = kSelectCopyrightReportPubs + " and diaf.dvf_code in(" + kFormatTypeFilm35MM + ")";
+			}
+			else if(formatType.equalsIgnoreCase("105mm")) {
+				sql = kSelectCopyrightReportPubs + " and diaf.dvf_code in(" + kFormatTypeFiche105MM + ")";
+			
+			}
+			else{ 
+				sql = kSelectCopyrightReportPubs + " and diaf.dvf_code in(" + kFormatTypeFilm35MM  + "," + kFormatTypeFiche105MM  +  ")";
+			}
+			sql = sql + " order by ditm_pub_number";
+			this.locReportForCopyrightStatement = getConnection().prepareStatement(sql);
 			cursor = getLocReportForCopyrightStatement().executeQuery();
 			while (cursor.next()) {
 				String pubNumber = trimmed(cursor.getString(kColumnPubId));
@@ -106,6 +119,13 @@ public class LocReportMetaDataQuery {
 						pubNumber, authorFullName);
 				result.add(reportPubs);
 			}
+		} catch (SQLException e) {
+			if (getConnection() != null) {
+				e.printStackTrace();
+				throw new Exception(
+						"Failed to getLOCReportPubsForNonCopyright. Exception : "
+								+ e.getMessage());
+			} 
 		} finally {
 			if (null != cursor) {
 				cursor.close();
@@ -114,12 +134,26 @@ public class LocReportMetaDataQuery {
 		return result;
 	}
 
-	public List<LocReportPubMetaData> getLOCReportPubsForNonCopyright()
-			throws SQLException {
+	public List<LocReportPubMetaData> getLOCReportPubsForNonCopyright(String formatType)
+			throws Exception {
 		List<LocReportPubMetaData> locReportPubMetaDataList = Lists
 				.newArrayList();
 		ResultSet cursor = null;
+		String sql = "";
 		try {
+			
+			if(formatType.equalsIgnoreCase("35mm")) {
+				sql = kSelectLocNoncopyrightPubs + " and diaf.dvf_code in(" + kFormatTypeFilm35MM + ")";
+			}
+			else if(formatType.equalsIgnoreCase("105mm")) {
+				sql = kSelectLocNoncopyrightPubs + " and diaf.dvf_code in(" + kFormatTypeFiche105MM + ")";
+			
+			}
+			else{ 
+				sql = kSelectLocNoncopyrightPubs + " and diaf.dvf_code in(" + kFormatTypeFilm35MM  + "," + kFormatTypeFiche105MM  +  ")";
+			}
+			sql = sql + " order by ditm_pub_number";
+			this.locReportForNonCopyrightsStatement = getConnection().prepareStatement(sql);
 			cursor = getLocReportForNonCopyrightStatement().executeQuery();
 			while (cursor.next()) {
 				LocReportPubMetaData locReportPubMetaData = new LocReportPubMetaData(
@@ -127,7 +161,15 @@ public class LocReportMetaDataQuery {
 						cursor.getString(kColumnAuthorFullName));
 				locReportPubMetaDataList.add(locReportPubMetaData);
 			}
-		} finally {
+		} catch (SQLException e) {
+			if (getConnection() != null) {
+				e.printStackTrace();
+				throw new Exception(
+						"Failed to getLOCReportPubsForNonCopyright. Exception : "
+								+ e.getMessage());
+			} 
+		}
+		finally {
 			if (null != cursor) {
 				cursor.close();
 			}
@@ -200,6 +242,7 @@ public class LocReportMetaDataQuery {
 
 	public void close() throws SQLException {
 		closeStatement(locReportForCopyrightStatement);
+		closeStatement(locReportForNonCopyrightsStatement);
 	}
 
 	private void closeStatement(PreparedStatement statment) throws SQLException {

@@ -27,14 +27,14 @@ public class CopyrightPubReportProvider {
 	}
 	
 	
-	public List<LocReportPubMetaData> getCopyrightSubmittedPubs() throws Exception {
+	public List<LocReportPubMetaData> getCopyrightSubmittedPubs(String formatType) throws Exception {
 		List<LocReportPubMetaData> result = Lists.newArrayList();
 		Connection connection = null;
 		LocReportMetaDataQuery query = null;
 		try {
 			connection = getConnectionPool().getConnection();
 			query = new LocReportMetaDataQuery(connection);
-			result = query.getLOCReportPubsForCopyright();
+			result = query.getLOCReportPubsForCopyright(formatType);
 		}
 		finally {
 			if (null != query) {
@@ -47,14 +47,14 @@ public class CopyrightPubReportProvider {
 		return result;
 	}
 
-	public List<LocReportPubMetaData> getNonCopyrightPubs() throws Exception {
+	public List<LocReportPubMetaData> getNonCopyrightPubs(String formatType) throws Exception {
 		List<LocReportPubMetaData> nonCopyrightPubs;
 		Connection connection = null;
 		LocReportMetaDataQuery query = null;
 		try {
 			connection = getConnectionPool().getConnection();
 			query = new LocReportMetaDataQuery(connection);
-			nonCopyrightPubs = query.getLOCReportPubsForNonCopyright();
+			nonCopyrightPubs = query.getLOCReportPubsForNonCopyright(formatType);
 		}
 		finally {
 			if (null != query) {
