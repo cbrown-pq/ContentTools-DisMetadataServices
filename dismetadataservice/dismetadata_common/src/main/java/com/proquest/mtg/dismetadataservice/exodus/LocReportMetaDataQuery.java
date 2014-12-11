@@ -35,7 +35,7 @@ public class LocReportMetaDataQuery {
 			+ "ditm.DITM_LC_COPYRIGHT_SENT_DATE IS NOT NULL AND "
 			+ "ditm.ditm_date_of_delivery IS NOT NULL	AND "
 			+ "ditm.ditm_lc_claim_sent_date IS NOT NULL AND "
-			+ "ditm.DITM_LC_FILM_PULL_DATE is NULL AND "
+			+ "ditm.ditm_lc_film_pull_date is NULL AND "
 			+ "ditm.ditm_id = dath.ditm_id AND "
 			+ "dath.dath_sequence_number = 1 ";
 
@@ -69,8 +69,8 @@ public class LocReportMetaDataQuery {
 			+ "         where diaf.ditm_id = di.ditm_id"
 			+ "               and dvf_code in ('MFC','MFL') ) and"
 			+ " diaf.dvf_code = dvf.dvf_code and"
-		//	+ " di.ditm_lc_claim_sent_date is null and"
-		//	+ " di.ditm_lc_film_pull_date is null and"
+			+ " di.ditm_lc_claim_sent_date is null and"
+			+ " di.ditm_lc_film_pull_date is null and"
 			+ " da.dvc_code = dvc.dvc_code(+) and" 
 			+ " da.dvc_code like \'US\'";
 	
@@ -136,8 +136,7 @@ public class LocReportMetaDataQuery {
 
 	public List<LocReportPubMetaData> getLOCReportPubsForNonCopyright(String formatType)
 			throws Exception {
-		List<LocReportPubMetaData> locReportPubMetaDataList = Lists
-				.newArrayList();
+		List<LocReportPubMetaData> locReportPubMetaDataList = Lists.newArrayList();
 		ResultSet cursor = null;
 		String sql = "";
 		try {
