@@ -12,18 +12,21 @@
       <param-value>dismetadata.local.properties</param-value>
    </context-param>  
    
-   <!--<filter>
+  <filter>
    		<filter-name>CorsFilter</filter-name>
    		<filter-class>com.proquest.mtg.dismetadataservice.dashboard.guice.CorsFilter</filter-class>
    </filter>
-   <filter-mapping>
-  		<filter-name>CorsFilter</filter-name>
-  		<url-pattern>/*</url-pattern>
-	</filter-mapping>-->
+   
     <filter>
       <filter-name>guiceFilter</filter-name>
       <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
    </filter>
+   
+   <filter-mapping>
+  		<filter-name>CorsFilter</filter-name>
+  		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
    <filter-mapping>
       <filter-name>guiceFilter</filter-name>
       <url-pattern>/*</url-pattern>
