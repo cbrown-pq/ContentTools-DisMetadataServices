@@ -1,6 +1,5 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
-import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,8 +17,8 @@ public class LocReportMetaDataQuery {
 
 	private static final String kColumnPubId = "PubNumber";
 	private static final String kColumnAuthorFullName = "AuthorFullName";
-	private static final String kFormatTypeFilm35MM = "\'MP\',\'MN\'";
-	private static final String kFormatTypeFiche105MM = "\'RFP\',\'RFN\'";
+	private static final String kFormatTypeFilm35MM = "\'RFP\',\'RFN\'";
+	private static final String kFormatTypeFiche105MM = "\'MP\',\'MN\'"; 
 	
 	public static final int kMaxNumberOfValuesForUpdate = 5;
 
