@@ -32,7 +32,6 @@ public class LocReportMetaDataQuery {
 			+ "ditm.diw_id = dwo.diw_id AND "
 			+ "ditm.ditm_copyright_year IS NOT NULL AND "
 			+ "ditm.DITM_LC_COPYRIGHT_SENT_DATE IS NOT NULL AND "
-			+ "ditm.ditm_date_of_delivery IS NOT NULL	AND "
 			+ "ditm.ditm_lc_claim_sent_date IS NOT NULL AND "
 			+ "ditm.ditm_lc_film_pull_date is NULL AND "
 			+ "ditm.ditm_id = dath.ditm_id AND "
