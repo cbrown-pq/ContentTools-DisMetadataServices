@@ -17,8 +17,8 @@ public class LocReportMetaDataQuery {
 
 	private static final String kColumnPubId = "PubNumber";
 	private static final String kColumnAuthorFullName = "AuthorFullName";
-	private static final String kFormatTypeFilm35MM = "\'RFP\',\'RFN\'";
-	private static final String kFormatTypeFiche105MM = "\'MP\',\'MN\'"; 
+	private static final String kFormatTypeFilm35MM = "\'MFL\'";
+	private static final String kFormatTypeFiche105MM = "\'MFC\'"; 
 	
 	public static final int kMaxNumberOfValuesForUpdate = 5;
 
@@ -63,10 +63,7 @@ public class LocReportMetaDataQuery {
 			+ " di.dvi_id = dvi.dvi_id and"
 			+ " dvi.ddt_code not in('MAI') and"
 			+ " dvi.ddt_code = ddt.ddt_code and"
-			+ " dwo.dvwo_code = 'V' and"
-			+ " exists (select ditm_id from dis_item_available_formats diaf"
-			+ "         where diaf.ditm_id = di.ditm_id"
-			+ "               and dvf_code in ('MFC','MFL') ) and"
+			+ " dwo.dvwo_code = 'V' and"		
 			+ " diaf.dvf_code = dvf.dvf_code and"
 			+ " di.ditm_lc_claim_sent_date is null and"
 			+ " di.ditm_lc_film_pull_date is null and"
