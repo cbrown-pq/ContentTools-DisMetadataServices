@@ -191,6 +191,7 @@ public class LocReportMetaDataQuery {
 				locFilmPullDateStatement = getConnection().prepareStatement(sql);
 				locFilmPullDateStatement.setString(1, currentDate);
 				locFilmPullDateStatement.executeUpdate();
+				locFilmPullDateStatement.close();
 			}
 			getConnection().commit();
 		} catch (SQLException e) {
