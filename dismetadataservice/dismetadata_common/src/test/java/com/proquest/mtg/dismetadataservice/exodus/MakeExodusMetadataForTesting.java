@@ -382,7 +382,7 @@ public class MakeExodusMetadataForTesting {
 		DisPubMetaData x = new DisPubMetaData();
 		x.setPubNumber(pubId3);
 		x.setPageCount("1");
-		x.setExternalURL("http://www.theses.com/idx/registered_users/etd/78a.asp");
+		x.setExternalURL("http://eprints.soton.ac.uk/15468/");
 		x.setBLNumber("DXN074035");
 		x.setAdvisors(null);
 		x.setPqOpenURL(makePqOpenUrlFor(pubId3));
