@@ -9,16 +9,16 @@ import org.apache.commons.io.FileUtils;
 
 public class DownloadMarcResult {
 	static final String outDirPath = "C:\\temp\\Marc";
-	static final String kBaseUrl = "http://localhost:8080/";
+	static final String kBaseUrl = "http://localhost:8081/";
 	//static final String kBaseUrl = "http://mfg.preprodservices.aa1.pqe";
 	static final int timeoutMs = 1200000;
 	static final String userAgent = "DisOut";
 	public static final String kHttpHeaderUserAgentPropertyName = "User-Agent";
 		
 	public static void main(String[] args) throws Exception {
-		String pubId = "1496919";
-		String format = "USMARC";
-		String url = kBaseUrl + "dismetadata_service/dispubmetadata" + "/" + pubId + "/" + format;
+		String pubId = "H006920";
+		String format = "MARCXML";
+		String url = kBaseUrl + "dismetadata_service/disout/metadata" + "/" + pubId + "/" + format;
 		int statusCode = doDownload(new URL(url), new File(outDirPath, pubId + ".mrc"));
 		System.out.println("Return Status code: " + statusCode);
 	}
