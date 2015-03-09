@@ -17,21 +17,29 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.proquest.mtg.dismetadataservice.exodus.IMarcProvider;
 import com.proquest.mtg.dismetadataservice.marc.MarcParser;
+import com.proquest.mtg.dismetadataservice.utils.MarcXMLSchemaValidator;
 
 
 public class MarcXmlFormat implements IMetaDataFormats {
 
 	private final IMarcProvider marcDataProvider;
+	private final MarcXMLSchemaValidator marcXMLSchemaValidator;
 	public static final String kMarcRecordDelim = Character.toString(
 			MarcParser.kMarcRecordDelimChar);
 	
 	@Inject
-	public MarcXmlFormat(IMarcProvider marcDataProvider) {
+	public MarcXmlFormat(IMarcProvider marcDataProvider,
+			MarcXMLSchemaValidator marcXMLSchemaValidator) {
 		this.marcDataProvider = marcDataProvider;
+		this.marcXMLSchemaValidator = marcXMLSchemaValidator;
 	}
 
 	public IMarcProvider getMarcDataProvider() {
 		return marcDataProvider;
+	}
+	
+	public MarcXMLSchemaValidator getMarcXMLSchemaValidator() {
+		return marcXMLSchemaValidator;
 	}
 
 	@Override
@@ -56,6 +64,13 @@ public class MarcXmlFormat implements IMetaDataFormats {
             writer.write(record);
         }
         writer.close();
-        return new String(baos.toByteArray(), Charset.forName("UTF-8"));
+        String marcXmlStr = new String(baos.toByteArray(), Charset.forName("UTF-8"));
+        try {
+        	getMarcXMLSchemaValidator().validateXml(marcXmlStr);
+        } catch (Exception e) {
+        	e.printStackTrace();
+        	throw new Exception ("Failed to generate a valid MARC XML");
+        }
+        return marcXmlStr;
 	}
 }
