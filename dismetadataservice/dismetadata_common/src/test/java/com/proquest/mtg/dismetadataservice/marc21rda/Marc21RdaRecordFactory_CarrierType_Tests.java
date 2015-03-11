@@ -30,8 +30,8 @@ public class Marc21RdaRecordFactory_CarrierType_Tests extends
 	@Test
 	public void withSuppFilesNotSet() {
 		metaData.setSuppFiles(suppFileList);
-		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "aunspecified"
-				+ MarcCharSet.kSubFieldIndicator + "bzu"
+		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "aonline resource"
+				+ MarcCharSet.kSubFieldIndicator + "bcr"
 				+ MarcCharSet.kSubFieldIndicator + "2rdacarrier";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
 	}
@@ -40,8 +40,8 @@ public class Marc21RdaRecordFactory_CarrierType_Tests extends
 	public void withNoSuppFiles() {
 		suppFileList = new ArrayList<SuppFile>();
 		metaData.setSuppFiles(suppFileList);
-		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "aunspecified"
-				+ MarcCharSet.kSubFieldIndicator + "bzu"
+		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "aonline resource"
+				+ MarcCharSet.kSubFieldIndicator + "bcr"
 				+ MarcCharSet.kSubFieldIndicator + "2rdacarrier";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
 	}

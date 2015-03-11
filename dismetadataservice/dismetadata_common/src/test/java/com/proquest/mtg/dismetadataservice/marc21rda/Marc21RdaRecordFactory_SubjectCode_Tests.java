@@ -20,7 +20,6 @@ import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
-import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 
 public class Marc21RdaRecordFactory_SubjectCode_Tests {
@@ -34,9 +33,7 @@ public class Marc21RdaRecordFactory_SubjectCode_Tests {
 		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(connectionPool);
 		Injector injector = Guice.createInjector(
 				new DisMetadataServiceGuiceModule("dismetadata.local.properties"));
-		PDFVaultAvailableStatusProvider pdfVaultAvailableStatusProvider = 
-				injector.getInstance(PDFVaultAvailableStatusProvider.class);
-		factory = new Marc21RdaRecordFactory(disGenMappingProvider, pdfVaultAvailableStatusProvider);
+		factory = new Marc21RdaRecordFactory(disGenMappingProvider);
 	}
 	
 	@Test

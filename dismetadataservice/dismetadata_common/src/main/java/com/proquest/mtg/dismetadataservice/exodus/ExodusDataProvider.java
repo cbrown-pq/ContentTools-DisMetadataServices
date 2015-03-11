@@ -55,8 +55,8 @@ public class ExodusDataProvider implements IMarcProvider,ICSVProvider {
 	
 	@Override
 	public MarcRecord getMarc21RDAResultFor(String pubNum) throws Exception {
-		Marc21RdaRecordFactory marc21RdaFactory = new Marc21RdaRecordFactory(getDisGenMappingProvider(),
-				getPDFVaultAvailableStatusProvider());
+		Marc21RdaRecordFactory marc21RdaFactory = new Marc21RdaRecordFactory(
+				getDisGenMappingProvider());
 		MarcRecord marcRecord = marc21RdaFactory.makeFrom(
 				getPubMetaDataProvider().getPubMetaDataFor(pubNum));
 		applyPlainTextNormalizerTo(marcRecord);

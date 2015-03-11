@@ -29,8 +29,8 @@ public class Marc21RdaRecordFactory_MediaType_Tests extends
 	
 	@Test
 	public void withSuppFilesNotSet() {
-		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "aunspecified"
-				+ MarcCharSet.kSubFieldIndicator + "bz"
+		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "acomputer"
+				+ MarcCharSet.kSubFieldIndicator + "bc"
 				+ MarcCharSet.kSubFieldIndicator + "2rdamedia";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
 	}
@@ -39,8 +39,8 @@ public class Marc21RdaRecordFactory_MediaType_Tests extends
 	public void withNoSuppFiles() {
 		suppFileList = new ArrayList<SuppFile>();
 		metaData.setSuppFiles(suppFileList);
-		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "aunspecified"
-				+ MarcCharSet.kSubFieldIndicator + "bz"
+		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "acomputer"
+				+ MarcCharSet.kSubFieldIndicator + "bc"
 				+ MarcCharSet.kSubFieldIndicator + "2rdamedia";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
 	}

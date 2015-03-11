@@ -24,8 +24,8 @@ public class Marc21RdaRecordFactory_ContentType_Tests extends
 	
 	@Test
 	public void withNull() throws Exception {
-		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "aunspecified"
-				+ MarcCharSet.kSubFieldIndicator + "bzzz"
+		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "atext"
+				+ MarcCharSet.kSubFieldIndicator + "btxt"
 				+ MarcCharSet.kSubFieldIndicator + "2rdacontent";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
 	}
@@ -33,8 +33,8 @@ public class Marc21RdaRecordFactory_ContentType_Tests extends
 	@Test
 	public void withNoPdfStatus() throws Exception {
 		metaData.setPdfStatus(pdfStatus);
-		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "aunspecified"
-				+ MarcCharSet.kSubFieldIndicator + "bzzz"
+		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "atext"
+				+ MarcCharSet.kSubFieldIndicator + "btxt"
 				+ MarcCharSet.kSubFieldIndicator + "2rdacontent";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
 	}
@@ -55,8 +55,8 @@ public class Marc21RdaRecordFactory_ContentType_Tests extends
 	public void withPdfStatusNotAvailable() throws Exception {
 		metaData.setPdfStatus(pdfStatus);
 		metaData.setPubNumber(Marc21RdaRecordFactory_Test_Helper.kPubForPdfNotAvailable);
-		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "aunspecified"
-				+ MarcCharSet.kSubFieldIndicator + "bzzz"
+		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "atext"
+				+ MarcCharSet.kSubFieldIndicator + "btxt"
 				+ MarcCharSet.kSubFieldIndicator + "2rdacontent";
 		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 1);
 

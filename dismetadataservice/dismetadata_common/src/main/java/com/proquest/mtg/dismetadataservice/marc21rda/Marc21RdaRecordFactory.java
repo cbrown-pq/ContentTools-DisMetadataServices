@@ -41,18 +41,11 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	private DisPubMetaData curMetaData = null;
 	private MarcRecord curRecord = null;
 	private final DisGenMappingProvider disGenMappingProvider;
-	private boolean pdfAvailable;
-	private final PDFVaultAvailableStatusProvider pdfVaultAvailableStatus;
 
-	public Marc21RdaRecordFactory(DisGenMappingProvider disGenMappingProvider,
-			PDFVaultAvailableStatusProvider pdfAvailableStatus) {
+	public Marc21RdaRecordFactory(DisGenMappingProvider disGenMappingProvider) {
 		this.disGenMappingProvider = disGenMappingProvider;
-		this.pdfVaultAvailableStatus = pdfAvailableStatus;
 	}
 
-	public PDFVaultAvailableStatusProvider getPDFVaultAvailableStatusProvider() {
-		return pdfVaultAvailableStatus;
-	}
 	
 	public MarcRecord makeFrom(DisPubMetaData metaData) {
 
@@ -61,20 +54,9 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		}
 
 		curMetaData = metaData;
-		try {
-			pdfAvailable = getPDFVaultAvailableStatusProvider().
-					isPdfAvailableInVaultFor(metaData.getPubNumber());
-		} catch (Exception e) {
-			pdfAvailable = false;
-		}
 				
-		if (pdfAvailable) {
-			curRecord = new MarcRecord('a', kEncodingLevel,
-					kDescriptiveCataloging);
-		} else {
-			curRecord = new MarcRecord(' ', kEncodingLevel,
-					kDescriptiveCataloging);
-		}
+		curRecord = new MarcRecord('a', kEncodingLevel, kDescriptiveCataloging);
+		
 		handleRecordId(); /* 001 */
 		handleTimeStamp(); /* 005 */
 		handleFixedLengthElements(); /* 008 */
@@ -561,54 +543,22 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	}
 
 	private void handleContentType() {
-		if (pdfAvailable) {
-			addField(
-					MarcTags.kContentType,
-					makeFieldDataFrom(' ', ' ', 'a', "text"
-							+ makeFieldDataFrom('b', "txt")
-							+ makeFieldDataFrom('2', "rdacontent")));
-		} else {
-			addField(
-					MarcTags.kContentType,
-					makeFieldDataFrom(' ', ' ', 'a', "unspecified"
-							+ makeFieldDataFrom('b', "zzz")
-							+ makeFieldDataFrom('2', "rdacontent")));
-		}
-
+		addField(MarcTags.kContentType,	makeFieldDataFrom(' ', ' ', 'a', "text"
+											+ makeFieldDataFrom('b', "txt")
+											+ makeFieldDataFrom('2', "rdacontent")));
 	}
 
 	private void handleMediaType() {
-		if (null != curMetaData.getSuppFiles()
-				&& !curMetaData.getSuppFiles().isEmpty()) {
-			addField(
-					MarcTags.kMediaType,
-					makeFieldDataFrom(' ', ' ', 'a',
-							"computer" + makeFieldDataFrom('b', "c")
-									+ makeFieldDataFrom('2', "rdamedia")));
-		} else {
-			addField(
-					MarcTags.kMediaType,
-					makeFieldDataFrom(' ', ' ', 'a',
-							"unspecified" + makeFieldDataFrom('b', "z")
-									+ makeFieldDataFrom('2', "rdamedia")));
-		}
+		addField(MarcTags.kMediaType, makeFieldDataFrom(' ', ' ', 'a',
+										"computer" + makeFieldDataFrom('b', "c")
+										+ makeFieldDataFrom('2', "rdamedia")));
 	}
 
 	private void handleCarrierType() {
-		if (null != curMetaData.getSuppFiles()
-				&& !curMetaData.getSuppFiles().isEmpty()) {
-			addField(
-					MarcTags.kCarrierType,
-					makeFieldDataFrom(' ', ' ', 'a',
-							"online resource" + makeFieldDataFrom('b', "cr")
-									+ makeFieldDataFrom('2', "rdacarrier")));
-		} else {
-			addField(
-					MarcTags.kCarrierType,
-					makeFieldDataFrom(' ', ' ', 'a',
-							"unspecified" + makeFieldDataFrom('b', "zu")
-									+ makeFieldDataFrom('2', "rdacarrier")));
-		}
+		addField(MarcTags.kCarrierType, makeFieldDataFrom(' ', ' ', 'a',
+										"online resource" 
+											+ makeFieldDataFrom('b', "cr")
+											+ makeFieldDataFrom('2', "rdacarrier")));
 	}
 
 	private void handleMultipleAuthors() {
