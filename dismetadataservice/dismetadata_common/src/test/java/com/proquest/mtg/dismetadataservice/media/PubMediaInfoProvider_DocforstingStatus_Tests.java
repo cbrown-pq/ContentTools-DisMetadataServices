@@ -76,7 +76,7 @@ public class PubMediaInfoProvider_DocforstingStatus_Tests extends EasyMockSuppor
 				PubMediaInfoProvider.kDissertationRelatedIdType,
 				pubName)).andReturn(relatedIds).once();
 		
-		expect(docFrostingResource.get(goid1, null, restrictionIncluded, null)).andReturn(docFrosting1).once();		
+		expect(docFrostingResource.get(goid1, null, restrictionIncluded, null, false)).andReturn(docFrosting1).once();		
 		expect(docFrosting1.getStatus()).andReturn(new String("NORMAL")).once();
 		expect(pdfMediaInfoFactory.makeFrom(docFrosting1)).andReturn(
 				Lists.newArrayList(pdfMediaInfo1A)).once();
@@ -100,8 +100,8 @@ public class PubMediaInfoProvider_DocforstingStatus_Tests extends EasyMockSuppor
 				PubMediaInfoProvider.kDissertationRelatedIdType,
 				pubName)).andReturn(relatedIds).once();
 		
-		expect(docFrostingResource.get(goid1, null, restrictionIncluded, null)).andReturn(docFrosting1).once();		
-		expect(docFrostingResource.get(goid2, null, restrictionIncluded, null)).andReturn(docFrosting2).once();
+		expect(docFrostingResource.get(goid1, null, restrictionIncluded, null, false)).andReturn(docFrosting1).once();		
+		expect(docFrostingResource.get(goid2, null, restrictionIncluded, null, false)).andReturn(docFrosting2).once();
 
 		expect(docFrosting1.getStatus()).andReturn(new String("NORMAL")).once();
 		expect(docFrosting2.getStatus()).andReturn(new String("NORMAL")).once();
@@ -132,8 +132,8 @@ public class PubMediaInfoProvider_DocforstingStatus_Tests extends EasyMockSuppor
 				PubMediaInfoProvider.kDissertationRelatedIdType,
 				pubName)).andReturn(relatedIds).once();
 		
-		expect(docFrostingResource.get(goid1, null, restrictionIncluded, null)).andReturn(docFrosting1).once();		
-		expect(docFrostingResource.get(goid2, null, restrictionIncluded, null)).andReturn(docFrosting2).once();
+		expect(docFrostingResource.get(goid1, null, restrictionIncluded, null, false)).andReturn(docFrosting1).once();		
+		expect(docFrostingResource.get(goid2, null, restrictionIncluded, null, false)).andReturn(docFrosting2).once();
 
 		expect(docFrosting1.getStatus()).andReturn(new String("DELETE")).atLeastOnce();
 		expect(docFrosting2.getStatus()).andReturn(new String("DELETE")).atLeastOnce();
@@ -158,8 +158,8 @@ public class PubMediaInfoProvider_DocforstingStatus_Tests extends EasyMockSuppor
 				PubMediaInfoProvider.kDissertationRelatedIdType,
 				pubName)).andReturn(relatedIds).once();
 		
-		expect(docFrostingResource.get(goid1, null, restrictionIncluded, null)).andReturn(docFrosting1).once();		
-		expect(docFrostingResource.get(goid2, null, restrictionIncluded, null)).andReturn(docFrosting2).once();
+		expect(docFrostingResource.get(goid1, null, restrictionIncluded, null, false)).andReturn(docFrosting1).once();		
+		expect(docFrostingResource.get(goid2, null, restrictionIncluded, null, false)).andReturn(docFrosting2).once();
 
 		expect(docFrosting1.getStatus()).andReturn(new String("DELETE")).atLeastOnce();
 		expect(docFrosting2.getStatus()).andReturn(new String("NORMAL")).atLeastOnce();
@@ -188,9 +188,9 @@ public class PubMediaInfoProvider_DocforstingStatus_Tests extends EasyMockSuppor
 				PubMediaInfoProvider.kDissertationRelatedIdType,
 				pubName)).andReturn(relatedIds).once();
 		
-		expect(docFrostingResource.get(goid1, null, restrictionIncluded, null)).andReturn(docFrosting1).once();		
-		expect(docFrostingResource.get(goid2, null, restrictionIncluded, null)).andReturn(docFrosting2).once();
-		expect(docFrostingResource.get(goid3, null, restrictionIncluded, null)).andReturn(docFrosting3).once();
+		expect(docFrostingResource.get(goid1, null, restrictionIncluded, null, false)).andReturn(docFrosting1).once();		
+		expect(docFrostingResource.get(goid2, null, restrictionIncluded, null, false)).andReturn(docFrosting2).once();
+		expect(docFrostingResource.get(goid3, null, restrictionIncluded, null, false)).andReturn(docFrosting3).once();
 
 		expect(docFrosting1.getStatus()).andReturn(new String("DELETE")).atLeastOnce();
 		expect(docFrosting2.getStatus()).andReturn(new String("DELETE")).atLeastOnce();
@@ -220,9 +220,9 @@ public class PubMediaInfoProvider_DocforstingStatus_Tests extends EasyMockSuppor
 				PubMediaInfoProvider.kDissertationRelatedIdType,
 				pubName)).andReturn(relatedIds).once();
 		
-		expect(docFrostingResource.get(goid1, null, restrictionIncluded, null)).andReturn(docFrosting1).once();		
-		expect(docFrostingResource.get(goid2, null, restrictionIncluded, null)).andReturn(docFrosting2).once();
-		expect(docFrostingResource.get(goid3, null, restrictionIncluded, null)).andReturn(docFrosting3).once();
+		expect(docFrostingResource.get(goid1, null, restrictionIncluded, null, false)).andReturn(docFrosting1).once();		
+		expect(docFrostingResource.get(goid2, null, restrictionIncluded, null, false)).andReturn(docFrosting2).once();
+		expect(docFrostingResource.get(goid3, null, restrictionIncluded, null, false)).andReturn(docFrosting3).once();
 
 		expect(docFrosting1.getStatus()).andReturn(new String("DELETE")).once();
 		expect(docFrosting2.getStatus()).andReturn(new String("HOLD")).once();

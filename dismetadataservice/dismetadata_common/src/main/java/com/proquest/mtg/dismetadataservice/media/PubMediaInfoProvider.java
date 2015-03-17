@@ -14,6 +14,7 @@ import com.proquest.mtg.services.gossamer.relatedids.RelatedidsGoidIdtypeIdResou
 
 public class PubMediaInfoProvider implements IPubMediaInfoProvider {
 	public final static String kDissertationRelatedIdType = "DISSNUM";
+	public final static boolean kDuplicateForDocfrosting = false;
 	
 	private final boolean restrictionIncluded;
 	private final RelatedidsGoidIdtypeIdResource relatedIdsResource;
@@ -70,11 +71,13 @@ public class PubMediaInfoProvider implements IPubMediaInfoProvider {
 	private DocFrosting getDocFrostingFor(String curGoid) throws MethodFault,
 			EncodingDecodingException, CommunicationsException,
 			ClientTimeoutException {
-		return getDocFrostingResource().get(curGoid, null, isRestrictionIncluded(), null);
+		return getDocFrostingResource().get(curGoid, null, 
+				isRestrictionIncluded(), null, kDuplicateForDocfrosting);
 	}
 
 	private List<String> getGoidsFor(String pubId) 
-			throws ClientTimeoutException, MethodFault, EncodingDecodingException, CommunicationsException {
+			throws ClientTimeoutException, MethodFault, EncodingDecodingException,
+			CommunicationsException {
 		List<String> goids = Lists.newArrayList();
 		RelatedId[] relatedIds = 
 				getRelatedIdsResource().get(kDissertationRelatedIdType, pubId).getRelatedId();

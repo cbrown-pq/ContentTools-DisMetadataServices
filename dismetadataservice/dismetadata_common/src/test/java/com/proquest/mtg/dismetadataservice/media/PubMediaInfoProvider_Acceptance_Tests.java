@@ -71,9 +71,9 @@ public class PubMediaInfoProvider_Acceptance_Tests extends EasyMockSupport {
 				PubMediaInfoProvider.kDissertationRelatedIdType,
 				pubName)).andReturn(relatedIds).once();
 		
-		expect(docFrostingResource.get(goid1, null, restrictionIncluded, null)).andReturn(docFrosting1).once();
+		expect(docFrostingResource.get(goid1, null, restrictionIncluded, null, false)).andReturn(docFrosting1).once();
 		
-		expect(docFrostingResource.get(goid2, null, restrictionIncluded, null)).andReturn(docFrosting2).once();
+		expect(docFrostingResource.get(goid2, null, restrictionIncluded, null, false)).andReturn(docFrosting2).once();
 		
 		expect(pdfMediaInfoFactory.makeFrom(docFrosting1)).andReturn(
 				Lists.newArrayList(pdfMediaInfo1A)).once();
