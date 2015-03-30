@@ -181,6 +181,8 @@ public class CSVRecordFactory {
 				.getDeclaredMethod("handleSchoolLocCountry"));
 		kAllHeaders.put(CSVHeaders.kAuthorLocCitizenship, CSVRecordFactory.class
 				.getDeclaredMethod("handleAuthorLocCitizenship"));
+		kAllHeaders.put(CSVHeaders.kDciRefsFlag, CSVRecordFactory.class
+				.getDeclaredMethod("handleDCIRefs"));
 	}
 
 	public LinkedHashMap<String, Method> getTagMappings() {
@@ -1103,6 +1105,14 @@ public class CSVRecordFactory {
 				schoolLocCountry = school.getSchoolLocCountry();
 		}
 		addField(schoolLocCountry);
+	}
+	
+	private void handleDCIRefs() {
+		String dciRefs = "";
+			if(null != curMetaData.getDciRefExistsFlag() && !curMetaData.getDciRefExistsFlag().isEmpty()) {
+				dciRefs = curMetaData.getDciRefExistsFlag();
+		}
+		addField(dciRefs);		
 	}
 
 

@@ -33,7 +33,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 	public void makeTitleWithEmpty() throws Exception {
 		metadata.setTitle(title);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -47,7 +47,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		metadata.setTitle(title);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
 				+ "\"ForeignTitle.\"" + "," + "\"ElectronicTitle.\"" + ","
-				+ "\"OverwriteTitle\"" + ",,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,";
+				+ "\"OverwriteTitle\"" + ",,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -61,7 +61,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		metadata.setTitle(title);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
 				+ "\"ForeignTitle.\"" + ",," + "\"OverwriteTitle\""
-				+ ",,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,";
+				+ ",,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -75,7 +75,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		metadata.setTitle(title);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
 				+ "\"ElectronicTitle.\""
-				+ ",,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,";
+				+ ",,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -89,7 +89,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		metadata.setTitle(title);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
 				+ "\"MasterTitle.\",\"ElectronicTitle.\",\"OverwriteTitle\""
-				+ ",,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,";
+				+ ",,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -109,7 +109,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 				+ "\"Utilization of an articulation index procedure in the evaluation of hearing-aid efficiency.\""
 				+ ","
 				+ "\"Adsorption kinetics at the air-water interface.  \\lbrack Dutch text\\rbrack\""
-				+ ",,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,";
+				+ ",,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -123,7 +123,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
-				+ "\"Master title with \"\"quotes\"\".\",,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,";
+				+ "\"Master title with \"\"quotes\"\".\",,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -136,7 +136,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
-				+ "\"Master title with \"\" and Lambda and \"\".\",,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,";
+				+ "\"Master title with \"\" and Lambda and \"\".\",,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

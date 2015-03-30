@@ -46,7 +46,7 @@ public class MakeCSVRecordFactory_Degree_Tests extends EasyMockSupport {
 		authors.add(author);
 		metadata.setAuthors(authors);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,\"NONE\",,,,\"NONE\",";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,\"NONE\",,,,\"NONE\",,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -59,7 +59,7 @@ public class MakeCSVRecordFactory_Degree_Tests extends EasyMockSupport {
 		authors.add(author);
 		metadata.setAuthors(authors);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,\"NONE\",,,,\"NONE\",";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,\"NONE\",,,,\"NONE\",,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -72,7 +72,7 @@ public class MakeCSVRecordFactory_Degree_Tests extends EasyMockSupport {
 		authors.add(author);
 		metadata.setAuthors(authors);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,\"NONE\",,,,\"NONE\",";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,\"NONE\",,,,\"NONE\",,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -87,7 +87,7 @@ public class MakeCSVRecordFactory_Degree_Tests extends EasyMockSupport {
 		authors.add(author);
 		metadata.setAuthors(authors);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,\"NONE\",,,,\"NONE\",";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,\"NONE\",,,,\"NONE\",,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -103,7 +103,7 @@ public class MakeCSVRecordFactory_Degree_Tests extends EasyMockSupport {
 		metadata.setAuthors(authors);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,"
 				+ "\"D.N.Sc.\"" + ",\"Doctor of Nursing Science\""
-				+ ",\"1987\"" + ",,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,\"NONE\",,,,\"NONE\",";
+				+ ",\"1987\"" + ",,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,\"NONE\",,,,\"NONE\",,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

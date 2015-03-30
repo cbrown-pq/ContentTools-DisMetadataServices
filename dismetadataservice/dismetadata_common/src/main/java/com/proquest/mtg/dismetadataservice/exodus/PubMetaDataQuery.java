@@ -131,6 +131,8 @@ public class PubMetaDataQuery {
 	private static final String kColumnSchoolLocCountry = "SchoolLocCountry";
 	private static final String kColumnAuthorLocCitizenship = "LocAuthorCitizenship";
 	
+	private static final String kColumnDCIRefFlag = "DCIRefsFlag";
+	
 	private static final String kSelectSchoolId = 
 			"( " +
 				"SELECT dish_id FROM dis_schools WHERE dish_id = ditm.dish_id " +
@@ -416,6 +418,17 @@ public class PubMetaDataQuery {
 				"di.ditm_id = ? " + 
 				"AND di.dvmm_code = dvmm.dvmm_code";
 	
+	private static final String kCheckIfDCIRefsExistQuery = 
+			"SELECT " +
+				"diaf.dvf_code " +  kColumnDCIRefFlag + " " + 
+			"FROM " + 
+				"dis_items ditm,dis_item_available_formats diaf,dis_valid_formats dvf " +
+				"WHERE " + 
+				"ditm.ditm_id = ? and " + 
+				"ditm.ditm_id = diaf.ditm_id and " +
+				"diaf.dvf_code = dvf.dvf_code and " +
+				"diaf.DVF_CODE = \'DCF\'";
+	
 	private PreparedStatement authorsStatement;
 	private PreparedStatement claimantsStatement;
 	private PreparedStatement mainPubDataStatement;
@@ -436,6 +449,7 @@ public class PubMetaDataQuery {
 	private PreparedStatement schoolStatement;
 	private PreparedStatement pdfStatusStatement;
 	private PreparedStatement manuscriptMediaStatement;
+	private PreparedStatement dciRefsStatement;
 	
 	private final String pqOpenUrlBase;
 	
@@ -463,6 +477,7 @@ public class PubMetaDataQuery {
 		this.schoolStatement = connection.prepareStatement(kSelectSchool);
 		this.pdfStatusStatement = connection.prepareStatement(kSelectPdfStatus);
 		this.manuscriptMediaStatement = connection.prepareStatement(kSelectManuscriptMedia);
+		this.dciRefsStatement = connection.prepareStatement(kCheckIfDCIRefsExistQuery);
 	}
 	
 	public String getPqOpenUrlBase() {
@@ -537,6 +552,7 @@ public class PubMetaDataQuery {
 		result.setPubDate(cursor.getString(kColumnPubDate));
 		result.setExternalId(cursor.getString(kColumnExternalId));
 		result.setManuscriptMedia(getManuscriptMediaFor(itemId));
+		result.setDciRefExistsFlag(getDCIRefsFor(itemId));
 		return result;
 	}
 	
@@ -997,6 +1013,27 @@ public class PubMetaDataQuery {
 				if (cursor.next()) {
 					result.setManuscriptMediaCode(required(cursor.getString(kColumnManuscriptMediaCode)));
 					result.setManuscriptMediaDesc(required(cursor.getString(kColumnManuscriptMediaDesc)));
+				}
+			}
+			finally {
+				if (null != cursor) {
+					cursor.close();
+				}
+			}
+		}
+		return result;
+	}
+	
+	private String getDCIRefsFor(String itemId) throws SQLException {
+		String result = "N";
+		if (null != itemId) {
+			ResultSet cursor = null;
+			try {
+				dciRefsStatement.setString(1, itemId);
+				cursor = dciRefsStatement.executeQuery();
+				if (cursor.next()) {
+					if (cursor.getString(kColumnDCIRefFlag).equalsIgnoreCase("DCF"));
+					 result = "Y";
 				}
 			}
 			finally {

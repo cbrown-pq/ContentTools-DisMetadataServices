@@ -31,7 +31,7 @@ public class MakeCSVRecordFactory_PageNumber_Tests extends EasyMockSupport {
 		String pageNumber = null;
 		metadata.setPubPageNum(pageNumber);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -40,7 +40,7 @@ public class MakeCSVRecordFactory_PageNumber_Tests extends EasyMockSupport {
 	public void withOnlyPubPageNumber() throws Exception {
 		metadata.setPubPageNum("152");
 		String expectedCSVData = header
-				+ "\r\n,,,,\"152\",,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,";
+				+ "\r\n,,,,\"152\",,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

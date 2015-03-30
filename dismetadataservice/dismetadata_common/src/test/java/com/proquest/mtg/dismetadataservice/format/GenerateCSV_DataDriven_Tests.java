@@ -63,7 +63,7 @@ public class GenerateCSV_DataDriven_Tests {
 		initExpectedCSVRecords();
 	}
 
-	/*@Test
+	@Test
 	public void dataDrivenTest() throws Exception {
 		for (PubAndCSVRecord expectedCsv : expectedCsvRecords) {
 			PubAndCSVRecord actualCsv = PubAndCSVRecord.makeFor(csvProvider,
@@ -71,7 +71,7 @@ public class GenerateCSV_DataDriven_Tests {
 			assertEquals(actualCsv.getPubId(), expectedCsv.getPubId());
 			assertEquals("Pub ID: " + actualCsv.getPubId(), actualCsv.getCSVRecord(), expectedCsv.getCSVRecord());
 		}
-	}*/
+	}
 
 	private void initCSVProvider() throws Exception {
 		JdbcConnectionPool connectionPool = JdbcHelper

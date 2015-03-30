@@ -58,5 +58,6 @@ public class CSVHeaders {
 	public static final String kManuscriptMediaDesc = "MANUSCRIPTMEDIA DESC";
 	public static final String kSchoolLocCountry = "LOC SCHOOL COUNTRY";
 	public static final String kAuthorLocCitizenship = "LOC AUTHOR CITIZENSHIP";
+	public static final String kDciRefsFlag = "DCI REFS";
 
 }

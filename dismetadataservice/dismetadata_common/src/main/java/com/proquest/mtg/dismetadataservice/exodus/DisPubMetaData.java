@@ -40,6 +40,8 @@ public class DisPubMetaData {
 	private String externalId;
 	private ManuscriptMedia manuscriptMedia;
 	private String firstPublicationDate;
+	private String dciRefExistsFlag;
+
 
 	public BigInteger getDateOfExtraction() {
 		return dateOfExtraction;
@@ -334,14 +336,36 @@ public class DisPubMetaData {
 		this.manuscriptMedia = manuscriptMedia;
 	}
 	
+	public String getDciRefExistsFlag() {
+		return dciRefExistsFlag;
+	}
+	
+	public void setDciRefExistsFlag(String dciRefExistsFlag) {
+		this.dciRefExistsFlag = dciRefExistsFlag;
+	}
 	@Override
 	public String toString() {
-		return "DisPubMetaData [pubNumber=" + pubNumber + ", itemId=" + itemId
-				+ ", isbn=" + isbn + ", pubPageNum=" + pubPageNum
-				+ ", pageCount=" + pageCount + ", blNumber=" + blNumber
+		return "DisPubMetaData [dateOfExtraction=" + dateOfExtraction
+				+ ", pubNumber=" + pubNumber + ", itemId=" + itemId + ", isbn="
+				+ isbn + ", pubPageNum=" + pubPageNum + ", pageCount="
+				+ pageCount + ", publisher=" + publisher + ", manuscriptYear="
+				+ manuscriptYear + ", blNumber=" + blNumber
 				+ ", referenceLocation=" + referenceLocation + ", externalURL="
-				+ externalURL + ", authors=" + authors + ", language="
-				+ dissLanguages + "]";
+				+ externalURL + ", authors=" + authors + ", dissLanguages="
+				+ dissLanguages + ", cmteMembers=" + cmteMembers
+				+ ", subjects=" + subjects + ", suppFiles=" + suppFiles
+				+ ", departments=" + departments + ", keywords=" + keywords
+				+ ", salesRestrictions=" + salesRestrictions
+				+ ", formatRestrictions=" + formatRestrictions
+				+ ", dissAbstract=" + dissAbstract + ", batch=" + batch
+				+ ", alternateTitle=" + alternateTitle + ", advisors="
+				+ advisors + ", title=" + title + ", school=" + school
+				+ ", pdfStatus=" + pdfStatus + ", pqOpenURL=" + pqOpenURL
+				+ ", openAccessFlag=" + openAccessFlag + ", pubDate=" + pubDate
+				+ ", externalId=" + externalId + ", manuscriptMedia="
+				+ manuscriptMedia + ", firstPublicationDate="
+				+ firstPublicationDate + ", dciRefExistsFlag="
+				+ dciRefExistsFlag + "]";
 	}
 
 	public static class DissLanguage {

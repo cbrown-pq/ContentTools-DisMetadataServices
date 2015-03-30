@@ -36,7 +36,7 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests extends EasyMockSupport
 		salesRestrictions = Lists.newArrayList();
 		metadata.setSalesRestrictions(salesRestrictions);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -51,7 +51,7 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests extends EasyMockSupport
 		metadata.setSalesRestrictions(salesRestrictions);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,," + ",\"" + "SalesRestrictionCode" + "\""
-				+ ",,,\"NONE\",,,,\"N\",,,,,,,,,,,,,,";
+				+ ",,,\"NONE\",,,,\"N\",,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -66,7 +66,7 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests extends EasyMockSupport
 		metadata.setSalesRestrictions(salesRestrictions);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,," + ",,\"" + "SalesRestrictionDescription"
-				+ "\"" + ",,\"NONE\",,,,\"N\",,,,,,,,,,,,,,";
+				+ "\"" + ",,\"NONE\",,,,\"N\",,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -85,7 +85,7 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests extends EasyMockSupport
 		metadata.setSalesRestrictions(salesRestrictions);
 		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
 				+ ",\"N\"" + ",,,,,," + ",\"" + "1|2" + "\"" + ",\""
-				+ "Not Available For Sale|Available" + "\"" + ",,\"NONE|NONE\",,,,\"N\",,,,,,,,,,,,,,";
+				+ "Not Available For Sale|Available" + "\"" + ",,\"NONE|NONE\",,,,\"N\",,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
