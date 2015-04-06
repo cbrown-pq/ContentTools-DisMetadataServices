@@ -100,34 +100,40 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 			}
 		}
 	}
-
+	
 	private void handleAccessRestrictionNote() {
-		Batch batch = curMetaData.getBatch();
-		if(null != batch) {
-			if(null != batch.getDBTypeCode() 
-					&& batch.getDBTypeCode().equals("DAC")) {
-				if(curMetaData.getPubNumber().substring(0, 1).matches("[01-8]")) {
-					addField(MarcTags.kAccessRestrictionNote, getSalesRestrictionMarcTag());
-				}
-			}
+		if (null != curMetaData.getPubNumber()) {
+			addSalesRestrictionMarcTag();
 		}
-			
+
 	}
 
-	private String getSalesRestrictionMarcTag() {
+	private void addSalesRestrictionMarcTag() {
 		String accessrestrictionNote = "";
-		List<SalesRestriction> saleRestrictions = curMetaData.getSalesRestrictions(); 
-		if(null == saleRestrictions || saleRestrictions.isEmpty()) {
-			accessrestrictionNote = makeFieldDataFrom(' ', ' ', 'a',  
-							"This item is not available from University Microfilms International.");
+		String restrictionMessageForPQ = "This item is not available from ProQuest Dissertations & Theses";
+		String restriction3rdPartyVendors = "This item must not be sold to any third party vendors";
+		String restriction3rdPartyIndexing = "This item must not be added to any third party search indexes";
+		List<SalesRestriction> saleRestrictions = curMetaData
+				.getSalesRestrictions();
+		if (null == saleRestrictions || saleRestrictions.isEmpty()) {
+
 		} else {
-			for(SalesRestriction salesRrestriction : saleRestrictions ) {
-				String restrictionDesc = salesRrestriction.getDescription().trim();
-				if(null != restrictionDesc && !restrictionDesc.isEmpty())
-				accessrestrictionNote += makeFieldDataFrom(' ', ' ', 'a', restrictionDesc);
+			for (SalesRestriction salesRrestriction : saleRestrictions) {
+				String restrictionCode = salesRrestriction.getCode();
+				if (null != restrictionCode && !restrictionCode.isEmpty())
+					if (restrictionCode.equals("5"))
+						accessrestrictionNote = makeFieldDataFrom(' ', ' ',
+								'a', restriction3rdPartyVendors);
+					else if (restrictionCode.equals("8"))
+						accessrestrictionNote = makeFieldDataFrom(' ', ' ',
+								'a', restriction3rdPartyIndexing);
+					else
+						accessrestrictionNote = makeFieldDataFrom(' ', ' ',
+								'a', restrictionMessageForPQ);
+				accessrestrictionNote = endWithPeriod(accessrestrictionNote);
+				addField(MarcTags.kAccessRestrictionNote, accessrestrictionNote);
 			}
 		}
-		return accessrestrictionNote;
 	}
 
 	private void handleDissertationNote() {

@@ -19,9 +19,11 @@ import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 public class USMakeMarcRecordForSalesRestrictionNote_Tests extends USMarcRecordFactoryBase_Test_Helper {
 	
 	@Test
-	public void withPubHavingNoMatchingStartDigit() throws Exception {
+	public void withSalesRestrictionCodeOtherThan5or8_OutputDefaultMessage() throws Exception {
 		String tag = MarcTags.kAccessRestrictionNote;
 		String pubId = "TestPub";
+		String expectedNote = "This item is not available from ProQuest Dissertations & Theses.";
+		String expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a" + expectedNote;
 		String salesRestrictioNote = "Test Restriction";
 		DisPubMetaData metaData = new DisPubMetaData();
 		metaData.setPubNumber(pubId);
@@ -29,15 +31,15 @@ public class USMakeMarcRecordForSalesRestrictionNote_Tests extends USMarcRecordF
 		batch.setDBTypeCode("DAC");
 		metaData.setBatch(batch);
 		SalesRestriction salesRestriction = new SalesRestriction();
+		salesRestriction.setCode("9");
 		salesRestriction.setDescription(salesRestrictioNote);
 		metaData.setSalesRestrictions(Lists.newArrayList(salesRestriction));
-		MarcRecord marc = factory.makeFrom(metaData);
-		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
-		assertThat(fieldsMatchingTag.size(), is(0));
+		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 4);		
 	}
 	
 	@Test
-	public void withNonDACShouldnotGenerate506Tag() throws Exception {
+	public void withSaleRestricNoteShouldGenerate506Tag() throws Exception {
+		// Restriction code should be either 5 or 8
 		String tag = MarcTags.kAccessRestrictionNote;
 		String pubId = "01TestPub";
 		String salesRestrictioNote = "Test Restriction";
@@ -47,43 +49,26 @@ public class USMakeMarcRecordForSalesRestrictionNote_Tests extends USMarcRecordF
 		batch.setDBTypeCode("TEST");
 		metaData.setBatch(batch);
 		SalesRestriction salesRestriction = new SalesRestriction();
+		salesRestriction.setCode("5");
 		salesRestriction.setDescription(salesRestrictioNote);
 		metaData.setSalesRestrictions(Lists.newArrayList(salesRestriction));
 		MarcRecord marc = factory.makeFrom(metaData);
 		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
+		assertThat(fieldsMatchingTag.size(), is(1));
+	}
+	
+	@Test
+	public void withNoSalesRestrictionMessage_OutputNoMessage() throws Exception {
+		String tag = MarcTags.kAccessRestrictionNote;
+		String pubId = "01TestPub";
+		DisPubMetaData metaData = new DisPubMetaData();
+		metaData.setPubNumber(pubId);
+		Batch batch = new Batch();
+		batch.setDBTypeCode("DAC");
+		metaData.setBatch(batch);
+		MarcRecord marc = factory.makeFrom(metaData);
+		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
 		assertThat(fieldsMatchingTag.size(), is(0));
-	}
-	
-	@Test
-	public void withNoSalesRestrictionMessage_OutputDefaultMessage() throws Exception {
-		String tag = MarcTags.kAccessRestrictionNote;
-		String pubId = "01TestPub";
-		String expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a" + 
-					"This item is not available from University Microfilms International.";
-		DisPubMetaData metaData = new DisPubMetaData();
-		metaData.setPubNumber(pubId);
-		Batch batch = new Batch();
-		batch.setDBTypeCode("DAC");
-		metaData.setBatch(batch);
-		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 4);
-	}
-	
-	@Test
-	public void withMatching() throws Exception {
-		String tag = MarcTags.kAccessRestrictionNote;
-		String pubId = "01TestPub";
-		String salesRestrictioNote = "Test Restriction";
-		String expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a" + salesRestrictioNote;
-		
-		DisPubMetaData metaData = new DisPubMetaData();
-		metaData.setPubNumber(pubId);
-		Batch batch = new Batch();
-		batch.setDBTypeCode("DAC");
-		metaData.setBatch(batch);
-		SalesRestriction salesRestriction = new SalesRestriction();
-		salesRestriction.setDescription(salesRestrictioNote);
-		metaData.setSalesRestrictions(Lists.newArrayList(salesRestriction));
-		verifyMarcRecordHasCorrectField(metaData, tag, expectedMarcFieldData, 4);
 	}
 	
 }
