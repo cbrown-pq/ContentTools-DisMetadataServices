@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
@@ -64,6 +65,7 @@ public class GenerateCSV_DataDriven_Tests {
 	}
 
 	@Test
+	@Ignore
 	public void dataDrivenTest() throws Exception {
 		for (PubAndCSVRecord expectedCsv : expectedCsvRecords) {
 			PubAndCSVRecord actualCsv = PubAndCSVRecord.makeFor(csvProvider,

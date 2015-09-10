@@ -509,7 +509,7 @@ public class MakeExodusMetadataForTesting {
 		SalesRestriction salesRestriction = new SalesRestriction();
 		salesRestriction.setCode("9");
 		salesRestriction.setDescription("Do not Sell");
-		salesRestriction.setRestrictionStartDate("11-NOV-2014");
+		salesRestriction.setRestrictionStartDate("24-NOV-2014");
 		x.setSalesRestrictions(Lists.newArrayList(salesRestriction));
 		x.setFormatRestrictions(null);
 

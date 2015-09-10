@@ -19,10 +19,12 @@ import com.proquest.gossamer.ApacheGossamerServiceClient;
 import com.proquest.gossamer.GossamerServiceClient;
 import com.proquest.mtg.dismetadataservice.exodus.ExodusDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.ICSVProvider;
+import com.proquest.mtg.dismetadataservice.exodus.IMStarPubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IMarcProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IPubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.ISchoolMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.ISubjectsMetaDataProvider;
+import com.proquest.mtg.dismetadataservice.exodus.MStarPubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.SchoolMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.SubjectsMetaDataProvider;
@@ -188,6 +190,7 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		bind(ISubjectsMetaDataProvider.class).to(SubjectsMetaDataProvider.class);
 		bind(IMediaDownloader.class).to(MediaDownloader.class);
 		bind(IWriter.class).to(StringWriter.class);
+		bind(IMStarPubMetaDataProvider.class).to(MStarPubMetaDataProvider.class);
 	}
 
 }

@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
@@ -79,6 +80,7 @@ public class GenerateMarc_DataDriven_Tests {
 	}
 
 	@Test
+	@Ignore
 	public void dataDrivenTest() throws Exception {
 		for (PubAndMarcRecord expectedMarc : expectedMarcRecords) {
 			PubAndMarcRecord actualMarc = PubAndMarcRecord.makeFor(marcProvider, expectedMarc.getPubId());
