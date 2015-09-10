@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.proquest.mtg.dismetadataservice.exodus.MStarPubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.format.IMetaDataFormats;
 import com.proquest.mtg.dismetadataservice.format.MetaDataFormatFactory;
 import com.proquest.mtg.dismetadataservice.rest.helper.MockServiceTestHelper;
@@ -29,6 +30,7 @@ public class DisMetadataServiceProvider_Tests extends EasyMockSupport {
 	PdfDownloadServiceProvider pdfDownload;
 	LocReportServiceProvider locReport;
 	IMetaDataFormats metaDataFormats;
+	MStarPubMetaDataProvider mstarMetadata;
 	MockServiceTestHelper serviceTestHelper;
 	WebResource service;
 	String result;
@@ -46,9 +48,11 @@ public class DisMetadataServiceProvider_Tests extends EasyMockSupport {
 		locMetadata = createMock(LocMetaDataServiceProvider.class);
 		locReport = createMock(LocReportServiceProvider.class);
 		pdfDownload = createMock(PdfDownloadServiceProvider.class);
+		mstarMetadata = createMock(MStarPubMetaDataProvider.class);
 
 		serviceTestHelper = new MockServiceTestHelper(metaDataFormatFactory, 
-				schoolMetadata, subjectsMetadata, locMetadata, locReport, pdfDownload);
+				schoolMetadata, subjectsMetadata, locMetadata, 
+				locReport, pdfDownload, mstarMetadata);
 		serviceTestHelper.startHTTPServer();
 		Client client = Client.create(new DefaultClientConfig());
 		service = client.resource(kBASE_URI);
