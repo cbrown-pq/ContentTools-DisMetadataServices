@@ -54,7 +54,8 @@ public class MStarPubMetaDataProvider implements IMStarPubMetaDataProvider {
 		return result;
 	}
 	public Dissertation getFakePubMetaDataFor(String pubId) throws SQLException {
-		Dissertation result = null;
+		Dissertation result = new Dissertation();
+		result.setPubNumber(pubId);
 		return result;
 	}
 }

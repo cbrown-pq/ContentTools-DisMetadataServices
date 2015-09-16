@@ -30,7 +30,7 @@ public class DisMetadataServiceProvider_Tests extends EasyMockSupport {
 	PdfDownloadServiceProvider pdfDownload;
 	LocReportServiceProvider locReport;
 	IMetaDataFormats metaDataFormats;
-	MStarPubMetaDataProvider mstarMetadata;
+	MStarXmlMetadataServiceProvider mstarMetadata;
 	MockServiceTestHelper serviceTestHelper;
 	WebResource service;
 	String result;
@@ -48,7 +48,7 @@ public class DisMetadataServiceProvider_Tests extends EasyMockSupport {
 		locMetadata = createMock(LocMetaDataServiceProvider.class);
 		locReport = createMock(LocReportServiceProvider.class);
 		pdfDownload = createMock(PdfDownloadServiceProvider.class);
-		mstarMetadata = createMock(MStarPubMetaDataProvider.class);
+		mstarMetadata = createMock(MStarXmlMetadataServiceProvider.class);
 
 		serviceTestHelper = new MockServiceTestHelper(metaDataFormatFactory, 
 				schoolMetadata, subjectsMetadata, locMetadata, 

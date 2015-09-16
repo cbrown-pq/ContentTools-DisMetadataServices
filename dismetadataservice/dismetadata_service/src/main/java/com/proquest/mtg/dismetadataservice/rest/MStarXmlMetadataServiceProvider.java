@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 import com.google.inject.Inject;
 import com.proquest.mtg.dismetadataservice.format.MStarMetaDataFormatFactory;
 import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation;
+import com.proquest.mtg.dismetadataservice.utils.DisoutMetadaException;
 
 
 @Path("/mstar/")
@@ -29,19 +30,20 @@ public class MStarXmlMetadataServiceProvider {
 	@GET
 	@Path("/dissinfo/{pubNum}")
 	@Produces(MediaType.APPLICATION_XML)
-	public Dissertation getMstarMetaData(@PathParam("pubNum") String pubNum)
+	public Response getMstarMetaData(@PathParam("pubNum") String pubNum)
 			throws WebApplicationException {
-		Dissertation result;
+		String result;
 		try {
 			result = getMStarMetaDataFormatFactory().create()
 					.makeForDissertation(pubNum);
-		} catch (IllegalArgumentException e) {
-			throw new DisServiceException(Response.Status.NO_CONTENT);
+		} catch (DisoutMetadaException e) {
+			//throw new DisServiceException(Response.Status.NO_CONTENT,e.getMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DisServiceException(
 					Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
-		return result;
+		return Response.status(Response.Status.OK).entity(result).build();
 	}
 }
