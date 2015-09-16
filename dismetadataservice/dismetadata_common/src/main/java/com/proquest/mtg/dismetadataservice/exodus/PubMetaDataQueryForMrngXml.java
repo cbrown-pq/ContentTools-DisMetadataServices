@@ -8,14 +8,15 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.metadata.SplitAuthorNames;
 import com.proquest.mtg.dismetadataservice.metadata.TextNormalizer;
+import com.proquest.mtg.dismetadataservice.mrngxml.Degrees;
+import com.proquest.mtg.dismetadataservice.mrngxml.Degrees.Degree;
 import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation;
 import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation.Advisors.Advisor;
 import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation.Advisors.Advisor.AltAdvisorFullName;
 import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation.AlternateTitles.AlternateTitle;
-import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation.Authors.Author;
-import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation.Authors.Author.AltAuthorFullName;
-import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation.Authors.Author.Degrees;
-import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation.Authors.Author.Degrees.Degree;
+import com.proquest.mtg.dismetadataservice.mrngxml.PrimaryAuthor;
+import com.proquest.mtg.dismetadataservice.mrngxml.SecondaryAuthor;
+
 import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation.CmteMembers.CmteMember;
 import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation.Keywords.Keyword;
 
@@ -400,38 +401,65 @@ public class PubMetaDataQueryForMrngXml {
 			throws SQLException {
 		Authors result = new Authors();
 		ResultSet cursor = null;
+		int sequenceNumber = 0;
 
 		try {
 			authorsStatement.setString(1, itemId);
 			cursor = authorsStatement.executeQuery();
-			while (cursor.next()) {
-				Author author = new Author();
+
+			if (cursor.next()) {
+				PrimaryAuthor primaryAuthor = new PrimaryAuthor();
 				SplitAuthorNames splitNames = new SplitAuthorNames(
 						cursor.getString(kColumnAuthorFullName));
-				author.setAuthorFullName(required(splitNames.getFull()));
-				author.setLastName(required(splitNames.getLast()));
-				author.setFirstName(splitNames.getFirst());
-				author.setMiddleName(splitNames.getMiddle());
+				primaryAuthor.setAuthorFullName(required(splitNames.getFull()));
+				primaryAuthor.setLastName(required(splitNames.getLast()));
+				primaryAuthor.setFirstName(splitNames.getFirst());
+				primaryAuthor.setMiddleName(splitNames.getMiddle());
 				String authorOrcId = cursor.getString(kColumnAuthorOrcId);
 				if (null != authorOrcId) {
-					author.setORCID(authorOrcId);
+					primaryAuthor.setORCID(authorOrcId);
 				}
-				author.setSequenceNumber(cursor
-						.getInt(kColumnAuthorSequenceNumber));
 				String alternateFullName = cursor
 						.getString(kColumnAuthorAlternateFullName);
 				if (null != alternateFullName) {
-					AltAuthorFullName alternateAuthor = new AltAuthorFullName();
+					PrimaryAuthor.AltAuthorFullName alternateAuthor = new PrimaryAuthor.AltAuthorFullName();
 					alternateAuthor.setValue(alternateFullName);
 					alternateAuthor.setLanguage(language);
-					author.setAltAuthorFullName(alternateAuthor);
+					primaryAuthor.setAltAuthorFullName(alternateAuthor);
 				}
-				Degrees authDegrees = new Degrees();
-				authDegrees.getDegree().addAll(
+				primaryAuthor.getDegrees().add(
 						getDegreesFor(cursor.getString(kColumnAuthorId)));
-				author.setDegrees(authDegrees);
+				result.setPrimaryAuthor(primaryAuthor);
+			}
 
-				result.getAuthor().add(author);
+			while (cursor.next()) {
+				sequenceNumber++;
+				SecondaryAuthor secondaryAuthor = new SecondaryAuthor();
+				SplitAuthorNames splitNames = new SplitAuthorNames(
+						cursor.getString(kColumnAuthorFullName));
+				secondaryAuthor
+						.setAuthorFullName(required(splitNames.getFull()));
+				secondaryAuthor.setLastName(required(splitNames.getLast()));
+				secondaryAuthor.setFirstName(splitNames.getFirst());
+				secondaryAuthor.setMiddleName(splitNames.getMiddle());
+				String authorOrcId = cursor.getString(kColumnAuthorOrcId);
+				if (null != authorOrcId) {
+					secondaryAuthor.setORCID(authorOrcId);
+				}
+				secondaryAuthor.setSequenceNumber(sequenceNumber);
+				String alternateFullName = cursor
+						.getString(kColumnAuthorAlternateFullName);
+				if (null != alternateFullName) {
+					SecondaryAuthor.AltAuthorFullName alternateAuthor = new SecondaryAuthor.AltAuthorFullName();
+					alternateAuthor.setValue(alternateFullName);
+					alternateAuthor.setLanguage(language);
+					secondaryAuthor.setAltAuthorFullName(alternateAuthor);
+				}
+				Degrees degrees = getDegreesFor(cursor.getString(kColumnAuthorId));
+				if (!degrees.getDegree().isEmpty()){
+					secondaryAuthor.getDegrees().add(degrees);
+				}				
+				result.getSecondaryAuthor().add(secondaryAuthor);
 			}
 		} finally {
 			if (null != cursor) {
@@ -441,8 +469,8 @@ public class PubMetaDataQueryForMrngXml {
 		return result;
 	}
 
-	private List<Degree> getDegreesFor(String authorId) throws SQLException {
-		List<Degree> result = Lists.newArrayList();
+	private Degrees getDegreesFor(String authorId) throws SQLException {
+		Degrees result = new Degrees();
 		if (null != authorId) {
 			ResultSet cursor = null;
 			try {
@@ -457,7 +485,7 @@ public class PubMetaDataQueryForMrngXml {
 					degree.setDegreeYear(cursor.getShort(kColumnDegreeYear));
 					degree.setSequenceNumber(cursor
 							.getInt(kColumnDegreeSequenceNumber));
-					result.add(degree);
+					result.getDegree().add(degree);
 				}
 			} finally {
 				if (null != cursor) {

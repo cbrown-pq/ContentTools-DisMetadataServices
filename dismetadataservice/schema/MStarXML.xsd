@@ -8,43 +8,8 @@
         <xs:element name="Authors">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="Author" maxOccurs="unbounded">
-                <xs:complexType>
-                  <xs:sequence>
-                    <xs:element type="xs:string" name="AuthorFullName"/>
-                    <xs:element type="xs:string" name="FirstName" minOccurs="0"/>
-                    <xs:element type="xs:string" name="LastName" minOccurs="0"/>
-					<xs:element type="xs:string" name="MiddleName" minOccurs="0"/>
-                    <xs:element name="AltAuthorFullName" minOccurs="0">
-                      <xs:complexType>
-                        <xs:simpleContent>
-                          <xs:extension base="xs:string">
-                            <xs:attribute type="xs:string" name="Language"/>
-                          </xs:extension>
-                        </xs:simpleContent>
-                      </xs:complexType>
-                    </xs:element>
-                    <xs:element type="xs:string" name="ORCID" minOccurs="0"/>
-                    <xs:element name="Degrees">
-                      <xs:complexType>
-                        <xs:sequence>
-                          <xs:element name="Degree" maxOccurs="unbounded">
-                            <xs:complexType>
-                              <xs:sequence>
-                                <xs:element type="xs:string" name="DegreeCode"/>
-                                <xs:element type="xs:string" name="DegreeDescription"/>
-                                <xs:element type="xs:short" name="DegreeYear"/>
-                              </xs:sequence>
-                              <xs:attribute type="xs:int" name="sequence_number" use="optional"/>
-                            </xs:complexType>
-                          </xs:element>
-                        </xs:sequence>
-                      </xs:complexType>
-                    </xs:element>
-                  </xs:sequence>
-                  <xs:attribute type="xs:int" name="sequence_number"/>
-                </xs:complexType>
-              </xs:element>
+				<xs:element name="PrimaryAuthor" type="primaryAuthor" />
+				<xs:element name="SecondaryAuthor" type="secondaryAuthor" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -175,4 +140,57 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:complexType name="primaryAuthor">
+	<xs:sequence>
+		<xs:element type="xs:string" name="AuthorFullName"/>
+        <xs:element type="xs:string" name="FirstName" minOccurs="0"/>
+        <xs:element type="xs:string" name="LastName" minOccurs="0"/>
+		<xs:element type="xs:string" name="MiddleName" minOccurs="0"/>
+        <xs:element name="AltAuthorFullName" minOccurs="0">
+			<xs:complexType>
+				<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute type="xs:string" name="Language"/>
+				</xs:extension>
+				</xs:simpleContent>
+			</xs:complexType>
+        </xs:element>
+        <xs:element type="xs:string" name="ORCID" minOccurs="0"/>
+		<xs:element name="Degrees" type="degrees" maxOccurs="unbounded"/>
+	</xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="secondaryAuthor">
+	<xs:sequence>
+		<xs:element type="xs:string" name="AuthorFullName"/>
+        <xs:element type="xs:string" name="FirstName" minOccurs="0"/>
+        <xs:element type="xs:string" name="LastName" minOccurs="0"/>
+		<xs:element type="xs:string" name="MiddleName" minOccurs="0"/>
+        <xs:element name="AltAuthorFullName" minOccurs="0">
+			<xs:complexType>
+				<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute type="xs:string" name="Language"/>
+				</xs:extension>
+				</xs:simpleContent>
+			</xs:complexType>
+        </xs:element>
+        <xs:element type="xs:string" name="ORCID" minOccurs="0"/>
+        <xs:element name="Degrees" type="degrees" minOccurs="0" maxOccurs="unbounded"/>
+	</xs:sequence>
+    <xs:attribute type="xs:int" name="sequence_number"/>
+  </xs:complexType>
+  <xs:complexType name="degrees">
+	<xs:sequence>
+		<xs:element name="Degree" maxOccurs="unbounded">
+			<xs:complexType>
+            <xs:sequence>
+				<xs:element type="xs:string" name="DegreeCode"/>
+                <xs:element type="xs:string" name="DegreeDescription"/>
+                <xs:element type="xs:short" name="DegreeYear"/>
+            </xs:sequence>
+			<xs:attribute type="xs:int" name="sequence_number" use="optional"/>
+			</xs:complexType>
+		</xs:element>
+    </xs:sequence>
+  </xs:complexType>
 </xs:schema>

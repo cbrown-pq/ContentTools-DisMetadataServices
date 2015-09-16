@@ -37,7 +37,6 @@ public class MStarXmlMetadataServiceProvider {
 			result = getMStarMetaDataFormatFactory().create()
 					.makeForDissertation(pubNum);
 		} catch (DisoutMetadaException e) {
-			//throw new DisServiceException(Response.Status.NO_CONTENT,e.getMessage());
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		} catch (Exception e) {
 			e.printStackTrace();
