@@ -35,5 +35,13 @@ public class TextNormalizer {
 	public String replaceParagraphIndicatorsWithTag(String x) {
 		return x.replaceAll("\\^|\n", kParaGraphTag);
 	}
-
+	
+	public String addCdataTags(String x) {
+		if ((x.startsWith(kCdataStartTag)) && (x.endsWith(kCdataEndTag))) {
+			return x;
+		} else {
+			String result = kCdataStartTag + x + kCdataEndTag;
+			return result.trim();
+		}
+	}
 }
