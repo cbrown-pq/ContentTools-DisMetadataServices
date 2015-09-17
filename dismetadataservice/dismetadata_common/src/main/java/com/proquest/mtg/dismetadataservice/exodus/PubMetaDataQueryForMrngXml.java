@@ -401,10 +401,10 @@ public class PubMetaDataQueryForMrngXml {
 				PrimaryAuthor primaryAuthor = new PrimaryAuthor();
 				SplitAuthorNames splitNames = new SplitAuthorNames(
 						cursor.getString(kColumnAuthorFullName));
-				primaryAuthor.setAuthorFullName(required(splitNames.getFull()));
-				primaryAuthor.setLastName(required(splitNames.getLast()));
-				primaryAuthor.setFirstName(splitNames.getFirst());
-				primaryAuthor.setMiddleName(splitNames.getMiddle());
+				primaryAuthor.setAuthorFullName(processTextForPlatform(required(splitNames.getFull())));
+				primaryAuthor.setLastName(processTextForPlatform(required(splitNames.getLast())));
+				primaryAuthor.setFirstName(processTextForPlatform(splitNames.getFirst()));
+				primaryAuthor.setMiddleName(processTextForPlatform(splitNames.getMiddle()));
 				String authorOrcId = cursor.getString(kColumnAuthorOrcId);
 				if (null != authorOrcId) {
 					primaryAuthor.setORCID(authorOrcId);
@@ -413,7 +413,7 @@ public class PubMetaDataQueryForMrngXml {
 						.getString(kColumnAuthorAlternateFullName);
 				if (null != alternateFullName) {
 					PrimaryAuthor.AltAuthorFullName alternateAuthor = new PrimaryAuthor.AltAuthorFullName();
-					alternateAuthor.setValue(alternateFullName);
+					alternateAuthor.setValue(processTextForPlatform(alternateFullName));
 					alternateAuthor.setLanguage(language);
 					primaryAuthor.setAltAuthorFullName(alternateAuthor);
 				}
@@ -428,10 +428,10 @@ public class PubMetaDataQueryForMrngXml {
 				SplitAuthorNames splitNames = new SplitAuthorNames(
 						cursor.getString(kColumnAuthorFullName));
 				secondaryAuthor
-						.setAuthorFullName(required(splitNames.getFull()));
-				secondaryAuthor.setLastName(required(splitNames.getLast()));
-				secondaryAuthor.setFirstName(splitNames.getFirst());
-				secondaryAuthor.setMiddleName(splitNames.getMiddle());
+						.setAuthorFullName(processTextForPlatform(required(splitNames.getFull())));
+				secondaryAuthor.setLastName(processTextForPlatform(required(splitNames.getLast())));
+				secondaryAuthor.setFirstName(processTextForPlatform(splitNames.getFirst()));
+				secondaryAuthor.setMiddleName(processTextForPlatform(splitNames.getMiddle()));
 				String authorOrcId = cursor.getString(kColumnAuthorOrcId);
 				if (null != authorOrcId) {
 					secondaryAuthor.setORCID(authorOrcId);
@@ -441,7 +441,7 @@ public class PubMetaDataQueryForMrngXml {
 						.getString(kColumnAuthorAlternateFullName);
 				if (null != alternateFullName) {
 					SecondaryAuthor.AltAuthorFullName alternateAuthor = new SecondaryAuthor.AltAuthorFullName();
-					alternateAuthor.setValue(alternateFullName);
+					alternateAuthor.setValue(processTextForPlatform(alternateFullName));
 					alternateAuthor.setLanguage(language);
 					secondaryAuthor.setAltAuthorFullName(alternateAuthor);
 				}

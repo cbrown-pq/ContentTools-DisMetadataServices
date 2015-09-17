@@ -49,8 +49,7 @@ public class MStarMetaDataFormat implements IMStarMetaDataFormat {
 				addError(err);
 			}			
 			if (errors.size() > 0) {
-				String str = convertObjectToString(this.errorMsgXml);
-				//str += convertObjectToString(pubMetaData);
+				String str = convertObjectToString(this.errorMsgXml);			
 				throw new DisoutMetadaException(str);
 			}
 		}
