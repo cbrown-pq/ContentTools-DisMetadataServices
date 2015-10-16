@@ -369,7 +369,10 @@ public class PubMetaDataQueryForMrngXml {
 			}
 
 			result.setDepartments(getDepartmentsFor(itemId));
-			result.setKeywords(getKeywordsFor(itemId));
+			Keywords resultKeyword = getKeywordsFor(itemId);
+			if (null != resultKeyword){
+				result.setKeywords(getKeywordsFor(itemId));
+			}			
 			result.setAuthors(getAuthorsFor(itemId, language));
 			result.setAlternateTitles(getAlternateTitlesFor(itemId));
 			result.setCmteMembers(getCommitteeMembersFor(itemId));
@@ -471,8 +474,11 @@ public class PubMetaDataQueryForMrngXml {
 					Degree degree = new Degree();
 					degree.setDegreeCode(required(cursor
 							.getString(kColumnDegreeCode)));
-					degree.setDegreeDescription(required(cursor
-							.getString(kColumnDegreeDescription)));
+					String desc = cursor.getString(kColumnDegreeDescription);
+					if (desc != null){
+						degree.setDegreeDescription(desc);
+					}
+					
 					degree.setDegreeYear(cursor.getShort(kColumnDegreeYear));
 					degree.setSequenceNumber(cursor
 							.getInt(kColumnDegreeSequenceNumber));
