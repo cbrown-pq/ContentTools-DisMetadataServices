@@ -5,6 +5,7 @@
       <xs:sequence>
         <xs:element type="xs:string" name="PubNumber"/>
         <xs:element type="xs:string" name="ISBN" minOccurs="0"/>
+        <xs:element type="xs:string" name="PublisherNote" minOccurs="0"/>
         <xs:element name="Authors">
           <xs:complexType>
             <xs:sequence>
