@@ -24,8 +24,8 @@ public class JdbcConnectionPool implements IJdbcConnectionPool {
 		poolDataSource.setConnectionFactoryClassName(config.getDbClassType());
 		poolDataSource.setMaxConnectionReuseTime(5 * 60);
 		poolDataSource.setMaxConnectionReuseCount(100);
-		poolDataSource.setAbandonedConnectionTimeout(1 * 60);
-		poolDataSource.setInactiveConnectionTimeout(1 * 60);
+		poolDataSource.setAbandonedConnectionTimeout(5 * 60);
+		poolDataSource.setInactiveConnectionTimeout(5 * 60);
 		
 		poolDataSource.setConnectionPoolName("JdbcConnectionPool - " + (++poolCount));
 		
