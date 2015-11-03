@@ -8,6 +8,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.metadata.SplitAuthorNames;
 import com.proquest.mtg.dismetadataservice.metadata.TextNormalizer;
+import com.proquest.mtg.dismetadataservice.mrngxml.CharSubstitution;
 import com.proquest.mtg.dismetadataservice.mrngxml.Degrees;
 import com.proquest.mtg.dismetadataservice.mrngxml.Degrees.Degree;
 import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation;
@@ -376,7 +377,8 @@ public class PubMetaDataQueryForMrngXml {
 			result.setAuthors(getAuthorsFor(itemId, language));
 			result.setAlternateTitles(getAlternateTitlesFor(itemId));
 			result.setCmteMembers(getCommitteeMembersFor(itemId));
-			String delimitedAdvisorStr = cursor.getString(kColumnAdvisors);
+			String delimitedAdvisorStr = CharSubstitution.applyAllTo(cursor.getString(kColumnAdvisors));
+					
 			if (null != delimitedAdvisorStr) {
 				result.setAdvisors(getAdvisorsFor(itemId, delimitedAdvisorStr,
 						language));
@@ -402,8 +404,8 @@ public class PubMetaDataQueryForMrngXml {
 
 			if (cursor.next()) {
 				PrimaryAuthor primaryAuthor = new PrimaryAuthor();
-				SplitAuthorNames splitNames = new SplitAuthorNames(
-						cursor.getString(kColumnAuthorFullName));
+				SplitAuthorNames splitNames = new SplitAuthorNames(CharSubstitution.applyAllTo(
+						cursor.getString(kColumnAuthorFullName)));
 				primaryAuthor.setAuthorFullName(processTextForPlatform(required(splitNames.getFull())));
 				primaryAuthor.setLastName(processTextForPlatform(required(splitNames.getLast())));
 				primaryAuthor.setFirstName(processTextForPlatform(splitNames.getFirst()));
@@ -412,8 +414,9 @@ public class PubMetaDataQueryForMrngXml {
 				if (null != authorOrcId) {
 					primaryAuthor.setORCID(authorOrcId);
 				}
-				String alternateFullName = cursor
-						.getString(kColumnAuthorAlternateFullName);
+				String alternateFullName = CharSubstitution.applyAllTo(cursor
+						.getString(kColumnAuthorAlternateFullName));
+				
 				if (null != alternateFullName) {
 					PrimaryAuthor.AltAuthorFullName alternateAuthor = new PrimaryAuthor.AltAuthorFullName();
 					alternateAuthor.setValue(processTextForPlatform(alternateFullName));
@@ -428,8 +431,8 @@ public class PubMetaDataQueryForMrngXml {
 			while (cursor.next()) {
 				sequenceNumber++;
 				SecondaryAuthor secondaryAuthor = new SecondaryAuthor();
-				SplitAuthorNames splitNames = new SplitAuthorNames(
-						cursor.getString(kColumnAuthorFullName));
+				SplitAuthorNames splitNames = new SplitAuthorNames(CharSubstitution.applyAllTo(
+						cursor.getString(kColumnAuthorFullName)));
 				secondaryAuthor
 						.setAuthorFullName(processTextForPlatform(required(splitNames.getFull())));
 				secondaryAuthor.setLastName(processTextForPlatform(required(splitNames.getLast())));
@@ -440,8 +443,9 @@ public class PubMetaDataQueryForMrngXml {
 					secondaryAuthor.setORCID(authorOrcId);
 				}
 				secondaryAuthor.setSequenceNumber(sequenceNumber);
-				String alternateFullName = cursor
-						.getString(kColumnAuthorAlternateFullName);
+				String alternateFullName = CharSubstitution.applyAllTo(cursor
+						.getString(kColumnAuthorAlternateFullName));
+								
 				if (null != alternateFullName) {
 					SecondaryAuthor.AltAuthorFullName alternateAuthor = new SecondaryAuthor.AltAuthorFullName();
 					alternateAuthor.setValue(processTextForPlatform(alternateFullName));
@@ -566,9 +570,8 @@ public class PubMetaDataQueryForMrngXml {
 			abstractStatement.setString(1, itemId);
 			cursor = abstractStatement.executeQuery();
 			if (cursor.next()) {
-				result = new Abstract();
-				result.setValue(processTextForPlatform((cursor
-						.getString(kColumnAbstract))));
+				result = new Abstract();					
+				result.setValue(processTextForPlatform((cursor.getString(kColumnAbstract))));
 				result.setLanguage(language);
 			}
 		} finally {
@@ -683,12 +686,12 @@ public class PubMetaDataQueryForMrngXml {
 					result = new CmteMembers();
 				}
 				CmteMember item = new CmteMember();
-				item.setFirstName(required(cursor
-						.getString(kColumnCommitteeFirstName)));
-				item.setMiddleName(trimmed(cursor
-						.getString(kColumnCommitteeMiddleName)));
-				item.setLastName(required(cursor
-						.getString(kColumnCommitteeLastName)));
+				item.setFirstName(CharSubstitution.applyAllTo(required(cursor
+						.getString(kColumnCommitteeFirstName))));
+				item.setMiddleName(CharSubstitution.applyAllTo(trimmed(cursor
+						.getString(kColumnCommitteeMiddleName))));
+				item.setLastName(CharSubstitution.applyAllTo(required(cursor
+						.getString(kColumnCommitteeLastName))));
 				item.setSuffix(trimmed(cursor.getString(kColumnCommitteeSuffix)));
 				result.getCmteMember().add(item);
 			}
@@ -702,7 +705,7 @@ public class PubMetaDataQueryForMrngXml {
 
 	private Advisors getAdvisorsFor(String itemId, String delimitedAdvisorStr,
 			String language) throws SQLException {
-		Advisors result = null;
+		Advisors result = null;		
 		List<String> advisors = SplitAdvisors.split(delimitedAdvisorStr);
 		List<AltAdvisorFullName> altAdvisors = getAlternateAdvisorsFor(itemId,
 				language);
@@ -729,7 +732,7 @@ public class PubMetaDataQueryForMrngXml {
 			cursor = alternateAdvisorsStatement.executeQuery();
 			while (cursor.next()) {
 				AltAdvisorFullName item = new AltAdvisorFullName();
-				item.setValue(cursor.getString(kColumnAlternateAdvisorName));
+				item.setValue(CharSubstitution.applyAllTo(cursor.getString(kColumnAlternateAdvisorName)));
 				item.setLanguage(language);
 				result.add(item);
 			}
