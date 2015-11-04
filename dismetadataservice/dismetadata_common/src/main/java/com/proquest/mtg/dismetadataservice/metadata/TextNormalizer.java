@@ -4,6 +4,7 @@ public class TextNormalizer {
 	private static final String kCdataStartTag = "<![CDATA[";
 	private static final String kCdataEndTag = "]]>";
 	private static final String kParaGraphTag = "<p>";
+	private static final String kCloseParaGraphTag = "</p>";
 
 	public String applyTo(String x) {
 		if (null != x) {
@@ -42,6 +43,32 @@ public class TextNormalizer {
 		} else {
 			String result = kCdataStartTag + x + kCdataEndTag;
 			return result.trim();
+		}
+	}
+	
+	public String replaceCRTagwithPara(String text) {
+		if (text == null) {
+			return text;
+		}
+		if (!text.contains("^")) {
+			return text;
+		} else {
+			text = text.replaceFirst("\\^", kParaGraphTag);
+			if (!text.contains("^")) {
+				return text + kCloseParaGraphTag;
+			}
+			do {
+				if (text.indexOf("^") == text.lastIndexOf("^")) {
+					text = text.replaceFirst("\\^", kCloseParaGraphTag);
+					break;
+				} else {
+					text = text.replaceFirst("\\^", kCloseParaGraphTag
+							+ kParaGraphTag);
+				}
+
+			} while (text.contains("^"));
+
+			return text;
 		}
 	}
 }
