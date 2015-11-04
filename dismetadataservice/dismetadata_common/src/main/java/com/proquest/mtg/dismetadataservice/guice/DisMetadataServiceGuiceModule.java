@@ -18,7 +18,9 @@ import org.slf4j.LoggerFactory;
 import com.proquest.gossamer.ApacheGossamerServiceClient;
 import com.proquest.gossamer.GossamerServiceClient;
 import com.proquest.mtg.dismetadataservice.exodus.ExodusDataProvider;
+import com.proquest.mtg.dismetadataservice.exodus.ExternalUrlDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.ICSVProvider;
+import com.proquest.mtg.dismetadataservice.exodus.IExternalUrlDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IMStarPubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IMarcProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IPubMetaDataProvider;
@@ -191,6 +193,7 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		bind(IMediaDownloader.class).to(MediaDownloader.class);
 		bind(IWriter.class).to(StringWriter.class);
 		bind(IMStarPubMetaDataProvider.class).to(MStarPubMetaDataProvider.class);
+		bind(IExternalUrlDataProvider.class).to(ExternalUrlDataProvider.class);
 	}
 
 }

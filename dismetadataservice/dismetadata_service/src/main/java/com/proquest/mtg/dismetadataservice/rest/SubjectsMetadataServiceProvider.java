@@ -1,19 +1,14 @@
 package com.proquest.mtg.dismetadataservice.rest;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.inject.Inject;
-import com.proquest.mtg.dismetadataservice.format.MetaDataFormatFactory;
-import com.proquest.mtg.dismetadataservice.format.SchoolMetaDataFormatFactory;
 import com.proquest.mtg.dismetadataservice.format.SubjectsMetaDataFormatFactory;
-import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools;
 import com.proquest.mtg.dismetadataservice.subjects.xml.Subjects;
 
 @Path("/subjectsmetadata/")
