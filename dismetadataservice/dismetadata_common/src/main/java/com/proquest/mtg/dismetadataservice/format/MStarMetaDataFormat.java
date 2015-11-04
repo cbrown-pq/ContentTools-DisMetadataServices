@@ -72,9 +72,8 @@ public class MStarMetaDataFormat implements IMStarMetaDataFormat {
 		//String str = result.toString().replace("&amp;","&").replace("&lt;","<")
 		//		.replace("&gt;",">").replace("&apos;","'")
 		//		.replace("&quot;","\"");
-		
-		return result.toString();
-		
+				
+		return result.toString();		
 	}
 
 }

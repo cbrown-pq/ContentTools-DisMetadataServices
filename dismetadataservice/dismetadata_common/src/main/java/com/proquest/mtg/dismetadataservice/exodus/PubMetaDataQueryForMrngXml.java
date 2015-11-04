@@ -570,8 +570,10 @@ public class PubMetaDataQueryForMrngXml {
 			abstractStatement.setString(1, itemId);
 			cursor = abstractStatement.executeQuery();
 			if (cursor.next()) {
-				result = new Abstract();					
-				result.setValue(processTextForPlatform((cursor.getString(kColumnAbstract))));
+				result = new Abstract();
+				String abs = cursor.getString(kColumnAbstract);			
+				abs = textNormalizer.replaceCRTagwithPara(abs);				
+				result.setValue(processTextForPlatform(abs));
 				result.setLanguage(language);
 			}
 		} finally {
@@ -581,7 +583,8 @@ public class PubMetaDataQueryForMrngXml {
 		}
 		return result;
 	}
-
+	
+	
 	private AlternateAbstract getAlternateAbstractFor(String itemId,
 			String language) throws SQLException {
 		AlternateAbstract result = null;
@@ -592,8 +595,9 @@ public class PubMetaDataQueryForMrngXml {
 			cursor = alternateAbstractStatement.executeQuery();
 			if (cursor.next()) {
 				result = new AlternateAbstract();
-				result.setValue(processTextForPlatform((cursor
-						.getString(kColumnAlternateAbstract))));
+				String abs = cursor.getString(kColumnAlternateAbstract);		
+				abs = textNormalizer.replaceCRTagwithPara(abs);
+				result.setValue(processTextForPlatform(abs));
 				result.setLanguage(language);
 			}
 		} finally {
@@ -767,5 +771,4 @@ public class PubMetaDataQueryForMrngXml {
 		}
 		return result;
 	}
-
 }
