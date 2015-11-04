@@ -69,11 +69,11 @@ public class MStarMetaDataFormat implements IMStarMetaDataFormat {
 		StringWriter result = new StringWriter();
 		marshaller.marshal(object, result);
 		
-		//String str = result.toString().replace("&amp;","&").replace("&lt;","<")
-		//		.replace("&gt;",">").replace("&apos;","'")
-		//		.replace("&quot;","\"");
+		String str = result.toString().replace("&amp;","&").replace("&lt;","<")
+				.replace("&gt;",">").replace("&apos;","'")
+				.replace("&quot;","\"");		
 				
-		return result.toString();		
+		return str;		
 	}
 
 }
