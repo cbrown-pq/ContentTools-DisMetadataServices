@@ -6,6 +6,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.proquest.mtg.dismetadataservice.format.MetaDataFormatFactory;
+import com.proquest.mtg.dismetadataservice.rest.ExternalUrlXmlServiceProvider;
 import com.proquest.mtg.dismetadataservice.rest.LocMetaDataServiceProvider;
 import com.proquest.mtg.dismetadataservice.rest.LocReportServiceProvider;
 import com.proquest.mtg.dismetadataservice.rest.MStarXmlMetadataServiceProvider;
@@ -21,7 +22,8 @@ public class MockServiceTestHelper extends ServiceTestHelperBase {
 			final LocMetaDataServiceProvider locMetadata,
 			final LocReportServiceProvider locReport,
 			final PdfDownloadServiceProvider pdfDownload,
-			final MStarXmlMetadataServiceProvider mstarMetadata) 
+			final MStarXmlMetadataServiceProvider mstarMetadata,
+			final ExternalUrlXmlServiceProvider externalUrlData)
 			throws IllegalArgumentException, IOException {
 		
 		Injector injector = Guice.createInjector( new AbstractModule() {
@@ -34,6 +36,7 @@ public class MockServiceTestHelper extends ServiceTestHelperBase {
 										 bind(LocReportServiceProvider.class).toInstance(locReport);
 										 bind(PdfDownloadServiceProvider.class).toInstance(pdfDownload);
 										 bind(MStarXmlMetadataServiceProvider.class).toInstance(mstarMetadata);
+										 bind(ExternalUrlXmlServiceProvider.class).toInstance(externalUrlData);
 									 }
 		 	 					});
 		
