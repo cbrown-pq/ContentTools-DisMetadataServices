@@ -17,8 +17,8 @@ public class USMarcFormat implements IMetaDataFormats {
 	}
 
 	@Override
-	public String makeFor(String pubNum) throws Exception {
-		return getMarcDataProvider().getMarcResultFor(pubNum).toMarcString();
+	public String makeFor(String pubNum, int excludeRestriction) throws Exception {
+		return getMarcDataProvider().getMarcResultFor(pubNum, excludeRestriction).toMarcString();
 	}
 
 }

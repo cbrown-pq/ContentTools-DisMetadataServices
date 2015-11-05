@@ -45,20 +45,20 @@ public class ExodusDataProvider implements IMarcProvider,ICSVProvider {
 	}
 	
 	@Override
-	public MarcRecord getMarcResultFor(String pubNum) throws Exception {
+	public MarcRecord getMarcResultFor(String pubNum, int excludeRestriction) throws Exception {
 		USMarcRecordFactory marcFactory = new USMarcRecordFactory(getDisGenMappingProvider());
 		MarcRecord marcRecord = marcFactory.makeFrom(
-				getPubMetaDataProvider().getPubMetaDataFor(pubNum));
+				getPubMetaDataProvider().getPubMetaDataFor(pubNum, excludeRestriction));
 		applyPlainTextNormalizerTo(marcRecord);
 		return marcRecord;
 	}
 	
 	@Override
-	public MarcRecord getMarc21RDAResultFor(String pubNum) throws Exception {
+	public MarcRecord getMarc21RDAResultFor(String pubNum, int excludeRestriction) throws Exception {
 		Marc21RdaRecordFactory marc21RdaFactory = new Marc21RdaRecordFactory(
 				getDisGenMappingProvider());
 		MarcRecord marcRecord = marc21RdaFactory.makeFrom(
-				getPubMetaDataProvider().getPubMetaDataFor(pubNum));
+				getPubMetaDataProvider().getPubMetaDataFor(pubNum, excludeRestriction));
 		applyPlainTextNormalizerTo(marcRecord);
 		return marcRecord;
 	}
@@ -69,10 +69,10 @@ public class ExodusDataProvider implements IMarcProvider,ICSVProvider {
 
 
 	@Override
-	public String getCSVResultFor(String pubNum) throws Exception {
+	public String getCSVResultFor(String pubNum, int excludeRestriction) throws Exception {
 		CSVRecordFactory csvFactory = new CSVRecordFactory(getPDFVaultAvailableStatusProvider());
 		String csvRecord = csvFactory.makeFrom(
-				getPubMetaDataProvider().getPubMetaDataFor(pubNum));
+				getPubMetaDataProvider().getPubMetaDataFor(pubNum, excludeRestriction));
 		return csvRecord;
 	}
 }

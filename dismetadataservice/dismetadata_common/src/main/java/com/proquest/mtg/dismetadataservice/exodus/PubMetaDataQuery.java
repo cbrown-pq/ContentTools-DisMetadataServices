@@ -488,7 +488,7 @@ public class PubMetaDataQuery {
 		return getPqOpenUrlBase() + pubId.trim();
 	}
 	
-	public DisPubMetaData getFor(String pubId) throws SQLException {
+	public DisPubMetaData getFor(String pubId, int excludeRestriction) throws SQLException {
 		DisPubMetaData result = null;
 		ResultSet cursor = null;
 		try {
@@ -496,7 +496,7 @@ public class PubMetaDataQuery {
 			mainPubDataStatement.setString(2, pubId);
 			cursor = mainPubDataStatement.executeQuery();
 			if (cursor.next()) {
-				result = makeDisPubMetaDataFrom(cursor);
+				result = makeDisPubMetaDataFrom(cursor, excludeRestriction);
 			}
 		}
 		finally {
@@ -507,7 +507,7 @@ public class PubMetaDataQuery {
 		return result;
 	}
 		
-	private DisPubMetaData makeDisPubMetaDataFrom(ResultSet cursor) throws SQLException {
+	private DisPubMetaData makeDisPubMetaDataFrom(ResultSet cursor, int excludeRestriction) throws SQLException {
 		DisPubMetaData result = new DisPubMetaData();
 		String itemId = cursor.getString(kColumnItemId);
 		String pubId = cursor.getString(kColumnPubId);
@@ -531,7 +531,7 @@ public class PubMetaDataQuery {
 			result.setAbstract(required(getAbstractFor(itemId)));
 			result.setDepartments(getDepartmentsFor(itemId));
 			result.setKeywords(getKeywordsFor(itemId));
-			result.setSalesRestrictions(getSalesRestrictionsFor(itemId));
+			result.setSalesRestrictions(getSalesRestrictionsFor(itemId, excludeRestriction));
 			result.setFormatRestrictions(getFormatRestrictionsFor(itemId));
 			result.setSuppFiles(getSupplementalFilesFor(itemId));
 			result.setAuthors(getAuthorsFor(itemId));
@@ -817,7 +817,7 @@ public class PubMetaDataQuery {
 		return result;
 	}
 
-	private List<SalesRestriction> getSalesRestrictionsFor(String itemId) throws SQLException {
+	private List<SalesRestriction> getSalesRestrictionsFor(String itemId, int excludeRestriction) throws SQLException {
 		List<SalesRestriction> result = null;
 		ResultSet cursor = null;
 		try {
@@ -827,12 +827,24 @@ public class PubMetaDataQuery {
 				if (null == result) {
 					result = Lists.newArrayList();
 				}
-				SalesRestriction item = new SalesRestriction();
-				item.setCode(trimmed(cursor.getString(kColumnSalesRestrctionCode)));
-				item.setRestrictionStartDate(cursor.getString(kColumnSalesRestrctionStartDate));
-				item.setRestrictionEndDate(cursor.getString(kColumnSalesRestrctionEndDate));
-				item.setDescription(trimmed(cursor.getString(kColumnSalesRestrctionDescription)));
-				result.add(item);
+				if(excludeRestriction==1){
+					if(!(trimmed(cursor.getString(kColumnSalesRestrctionCode))).equals("5") && !(trimmed(cursor.getString(kColumnSalesRestrctionCode))).equals("8")){
+						SalesRestriction item = new SalesRestriction();
+						item.setCode(trimmed(cursor.getString(kColumnSalesRestrctionCode)));
+						item.setRestrictionStartDate(cursor.getString(kColumnSalesRestrctionStartDate));
+						item.setRestrictionEndDate(cursor.getString(kColumnSalesRestrctionEndDate));
+						item.setDescription(trimmed(cursor.getString(kColumnSalesRestrctionDescription)));
+						result.add(item);
+					}
+				}
+				else{
+					SalesRestriction item = new SalesRestriction();
+					item.setCode(trimmed(cursor.getString(kColumnSalesRestrctionCode)));
+					item.setRestrictionStartDate(cursor.getString(kColumnSalesRestrctionStartDate));
+					item.setRestrictionEndDate(cursor.getString(kColumnSalesRestrctionEndDate));
+					item.setDescription(trimmed(cursor.getString(kColumnSalesRestrctionDescription)));
+					result.add(item);
+				}
 			}
 		}
 		finally {

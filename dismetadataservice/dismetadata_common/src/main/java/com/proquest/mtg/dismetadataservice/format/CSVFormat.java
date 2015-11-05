@@ -16,8 +16,8 @@ public class CSVFormat implements IMetaDataFormats {
 	}
 
 	@Override
-	public String makeFor(String pubNum) throws Exception {
-		return getCsvDataProvider().getCSVResultFor(pubNum);
+	public String makeFor(String pubNum, int excludeRestriction) throws Exception {
+		return getCsvDataProvider().getCSVResultFor(pubNum, excludeRestriction);
 	}
 
 }

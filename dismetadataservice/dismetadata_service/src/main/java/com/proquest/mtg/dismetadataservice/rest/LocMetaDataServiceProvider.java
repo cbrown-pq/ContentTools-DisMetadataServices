@@ -34,7 +34,7 @@ public class LocMetaDataServiceProvider {
 	public CreateNewClaimInput getLOCDataForAllEligiblePubs() throws WebApplicationException {
 		CreateNewClaimInput result = null;
 		try {
-			result = getLocFormat().makeForEligiblePubs();
+			result = getLocFormat().makeForEligiblePubs(0);
 		} catch(IllegalArgumentException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -52,7 +52,7 @@ public class LocMetaDataServiceProvider {
 	public CreateNewClaimInput getLOCDataFor(@PathParam("pubNumber") String pubNumber) throws WebApplicationException {
 		CreateNewClaimInput result = null;
 		try {
-			result = getLocFormat().makeFor(pubNumber);
+			result = getLocFormat().makeFor(pubNumber,0);
 		} catch(IllegalArgumentException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());

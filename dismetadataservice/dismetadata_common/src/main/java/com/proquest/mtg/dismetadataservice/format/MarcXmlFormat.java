@@ -43,9 +43,9 @@ public class MarcXmlFormat implements IMetaDataFormats {
 	}
 
 	@Override
-	public String makeFor(String pubNum) throws Exception {
+	public String makeFor(String pubNum, int excludeRestriction) throws Exception {
 		String marc21String =  getMarcDataProvider().
-				getMarc21RDAResultFor(pubNum).toMarcString();
+				getMarc21RDAResultFor(pubNum, excludeRestriction).toMarcString();
 		if (null == marc21String || marc21String.isEmpty()) {
 			throw new MarcException("Failed  to generate MARC21RDA for " +
 					"publication :" + pubNum);
