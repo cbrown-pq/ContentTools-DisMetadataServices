@@ -28,6 +28,7 @@ public class PubMetaDataQueryForMrngXml {
 	private static final String kColumnItemId = "ItemId";
 	private static final String kColumnVolumeIssueId = "VolumeIssueId";
 	private static final String kColumnPubId = "PubNumber";
+	private static final String kColumnDvrId = "DvrId";
 	private static final String kColumnAdvisors = "Advisors";
 	private static final String kColumnIsbn = "Isbn";
 	private static final String kColumnPageNumber = "PageNumber";
@@ -86,6 +87,8 @@ public class PubMetaDataQueryForMrngXml {
 	private static final String kColumnDegreeDescription = "DegreeDescription";
 	private static final String kColumnDegreeYear = "DegreeYear";
 	private static final String kColumnDegreeSequenceNumber = "DegreeSequenceNumber";
+	
+	private static final String kColumnPublisherNote = "PublisherNote";
 
 	private static final String kSelectSchoolId = "( "
 			+ "SELECT dish_id FROM dis_schools WHERE dish_id = ditm.dish_id "
@@ -107,6 +110,9 @@ public class PubMetaDataQueryForMrngXml {
 			+ ", "
 			+ "ditm_pub_number "
 			+ kColumnPubId
+			+ ", "
+			+ "dvr_id "
+			+ kColumnDvrId
 			+ ", "
 			+ "ditm_adviser "
 			+ kColumnAdvisors
@@ -263,6 +269,10 @@ public class PubMetaDataQueryForMrngXml {
 			+ "dath.dath_id = dad.dath_id " + "AND "
 			+ "dad.dad_code = dvde.dvde_code "
 			+ "ORDER BY dad_sequence_number ";
+	
+	private static final String kSelectPublisherNote = "SELECT "
+			+ "DVR_PUBLISHER_NOTE " + kColumnPublisherNote + " " + "FROM "
+			+ "dis.dis_valid_repositories " + "WHERE " + "dvr_id = ? ";
 
 	private final TextNormalizer textNormalizer;
 	private PreparedStatement mainPubDataStatement;
@@ -279,7 +289,8 @@ public class PubMetaDataQueryForMrngXml {
 	private PreparedStatement committeeMembersStatement;
 	private PreparedStatement alternateAdvisorsStatement;
 	private PreparedStatement degreeStatement;
-
+	private PreparedStatement pubNoteStatement;
+	
 	public PubMetaDataQueryForMrngXml(Connection connection,
 			String pqOpenUrlBase) throws SQLException {
 
@@ -305,6 +316,7 @@ public class PubMetaDataQueryForMrngXml {
 		this.alternateAdvisorsStatement = connection
 				.prepareStatement(kSelectAlternateAdvisors);
 		this.degreeStatement = connection.prepareStatement(kSelectDegree);
+		this.pubNoteStatement = connection.prepareStatement(kSelectPublisherNote);
 	}
 
 	public void close() throws SQLException {
@@ -322,6 +334,7 @@ public class PubMetaDataQueryForMrngXml {
 		closeStatement(supplementalFilesStatement);
 		closeStatement(committeeMembersStatement);
 		closeStatement(alternateAdvisorsStatement);
+		closeStatement(pubNoteStatement);
 	}
 
 	private void closeStatement(PreparedStatement statment) throws SQLException {
@@ -357,7 +370,11 @@ public class PubMetaDataQueryForMrngXml {
 		String language = trimmed(cursor.getString(kColumnLanguage));
 		result.setDissLanguage(language);
 		result.setTitle(makeTitleFrom(cursor, language));
-
+		String pubNote = getPubNote(cursor.getInt(kColumnDvrId));
+		if (null != pubNote){
+			result.setPublisherNote(trimmed(pubNote));
+		}
+			
 		String itemId = cursor.getString(kColumnItemId);
 		if (null != itemId) {
 
@@ -368,7 +385,7 @@ public class PubMetaDataQueryForMrngXml {
 			if (null != altAbstract) {
 				result.setAlternateAbstract(altAbstract);
 			}
-
+			
 			result.setDepartments(getDepartmentsFor(itemId));
 			Keywords resultKeyword = getKeywordsFor(itemId);
 			if (null != resultKeyword){
@@ -389,6 +406,26 @@ public class PubMetaDataQueryForMrngXml {
 			result.setBatch(getBatchFor(volumeIssueId));
 		}
 		result.setSchool(getSchoolFor(cursor.getString(kColumnSchoolId)));
+		return result;
+	}
+	
+	private String getPubNote(int dvrId) throws SQLException {
+		String result = null;
+		ResultSet cursor = null;
+		if (dvrId == 0){
+			return result;
+		}
+		try {
+			pubNoteStatement.setInt(1, dvrId);
+			cursor = pubNoteStatement.executeQuery();
+			while (cursor.next()) {
+				result = trimmed(cursor.getString(kColumnPublisherNote));
+			}
+		} finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+		}
 		return result;
 	}
 
