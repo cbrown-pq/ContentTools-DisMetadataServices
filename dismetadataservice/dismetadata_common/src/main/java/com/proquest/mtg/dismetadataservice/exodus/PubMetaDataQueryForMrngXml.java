@@ -6,14 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import com.google.common.collect.Lists;
+import com.proquest.mtg.dismetadataservice.metadata.SplitAdvisorName;
 import com.proquest.mtg.dismetadataservice.metadata.SplitAuthorNames;
 import com.proquest.mtg.dismetadataservice.metadata.TextNormalizer;
+import com.proquest.mtg.dismetadataservice.mrngxml.Advisor;
+import com.proquest.mtg.dismetadataservice.mrngxml.Advisor.AltAdvisorFullName;
 import com.proquest.mtg.dismetadataservice.mrngxml.CharSubstitution;
 import com.proquest.mtg.dismetadataservice.mrngxml.Degrees;
 import com.proquest.mtg.dismetadataservice.mrngxml.Degrees.Degree;
 import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation;
-import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation.Advisors.Advisor;
-import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation.Advisors.Advisor.AltAdvisorFullName;
 import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation.AlternateTitles.AlternateTitle;
 import com.proquest.mtg.dismetadataservice.mrngxml.PrimaryAuthor;
 import com.proquest.mtg.dismetadataservice.mrngxml.SecondaryAuthor;
@@ -447,6 +448,7 @@ public class PubMetaDataQueryForMrngXml {
 				primaryAuthor.setLastName(processTextForPlatform(required(splitNames.getLast())));
 				primaryAuthor.setFirstName(processTextForPlatform(splitNames.getFirst()));
 				primaryAuthor.setMiddleName(processTextForPlatform(splitNames.getMiddle()));
+				primaryAuthor.setSuffix(processTextForPlatform(splitNames.getSuffix()));
 				String authorOrcId = cursor.getString(kColumnAuthorOrcId);
 				if (null != authorOrcId) {
 					primaryAuthor.setORCID(authorOrcId);
@@ -475,6 +477,7 @@ public class PubMetaDataQueryForMrngXml {
 				secondaryAuthor.setLastName(processTextForPlatform(required(splitNames.getLast())));
 				secondaryAuthor.setFirstName(processTextForPlatform(splitNames.getFirst()));
 				secondaryAuthor.setMiddleName(processTextForPlatform(splitNames.getMiddle()));
+				secondaryAuthor.setSuffix(processTextForPlatform(splitNames.getSuffix()));
 				String authorOrcId = cursor.getString(kColumnAuthorOrcId);
 				if (null != authorOrcId) {
 					secondaryAuthor.setORCID(authorOrcId);
@@ -746,13 +749,18 @@ public class PubMetaDataQueryForMrngXml {
 
 	private Advisors getAdvisorsFor(String itemId, String delimitedAdvisorStr,
 			String language) throws SQLException {
-		Advisors result = null;		
+		Advisors result = null;
+		
 		List<String> advisors = SplitAdvisors.split(delimitedAdvisorStr);
 		List<AltAdvisorFullName> altAdvisors = getAlternateAdvisorsFor(itemId,
 				language);
 		for (int i = 0; i < advisors.size(); ++i) {
 			Advisor item = new Advisor();
-			item.setAdvisorFullName(advisors.get(i));
+			SplitAdvisorName splitAdvisor = new SplitAdvisorName(advisors.get(i));
+			item.setAdvisorFullName(splitAdvisor.getFull());
+			item.setFirstName(splitAdvisor.getFirst());
+			item.setLastName(splitAdvisor.getLast());
+			item.setSuffix(splitAdvisor.getSuffix());			
 			if (altAdvisors.size() >= i + 1) {
 				item.setAltAdvisorFullName(altAdvisors.get(i));
 			}
