@@ -27,7 +27,7 @@ public class CharSubstitution {
 	}
 	
 	public static final List<CharSubstitution> 
-			kCharSubstitution = ImmutableList.of(				
+			kCharSubstitutionAll = ImmutableList.of(				
                 new CharSubstitution("@\\?", ""),
                 new CharSubstitution("\\*@", ""),
                 new CharSubstitution("@\\*", ""),
@@ -38,7 +38,21 @@ public class CharSubstitution {
 				new CharSubstitution("@", " ")
 				);
 	
+	public static final List<CharSubstitution> 
+	kCharSubstitution = ImmutableList.of(        
+		new CharSubstitution("@", " ")
+		);
+	
 	public static String applyAllTo(String x) {
+		if (x == null) {
+			return x;
+		}
+		for (CharSubstitution s : kCharSubstitutionAll) {
+			x = s.applyTo(x);
+		}
+		return x;
+	}
+	public static String applyForAdvisor(String x) {
 		if (x == null) {
 			return x;
 		}

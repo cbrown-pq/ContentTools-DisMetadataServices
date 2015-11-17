@@ -395,8 +395,9 @@ public class PubMetaDataQueryForMrngXml {
 			result.setAuthors(getAuthorsFor(itemId, language));
 			result.setAlternateTitles(getAlternateTitlesFor(itemId));
 			result.setCmteMembers(getCommitteeMembersFor(itemId));
-			String delimitedAdvisorStr = CharSubstitution.applyAllTo(cursor.getString(kColumnAdvisors));
-					
+			//String delimitedAdvisorStr = CharSubstitution.applyAllTo(cursor.getString(kColumnAdvisors));
+			String delimitedAdvisorStr = cursor.getString(kColumnAdvisors);
+			
 			if (null != delimitedAdvisorStr) {
 				result.setAdvisors(getAdvisorsFor(itemId, delimitedAdvisorStr,
 						language));

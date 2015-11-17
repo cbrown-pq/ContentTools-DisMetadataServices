@@ -3,6 +3,7 @@ package com.proquest.mtg.dismetadataservice.metadata;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.proquest.mtg.dismetadataservice.mrngxml.CharSubstitution;
 
 public class SplitAdvisorName {
 
@@ -14,16 +15,16 @@ public class SplitAdvisorName {
 	// Format: FirstName . . MiddleName LastName, Suffix
 
 	public SplitAdvisorName(String source) {
-		if (null != source) {
+		if (null != source) {			
 			source = source.trim();
 			if (!source.isEmpty()) {
-				this.full = source;
+				this.full = CharSubstitution.applyForAdvisor(source);
 				List<String> parts = Lists.newArrayList(source.split(","));
 
 				String firstPart = parts.get(0).trim();
 				int lastSpaceIndex = firstPart.lastIndexOf(" ");
 				if (lastSpaceIndex > 0) {
-					last = firstPart.substring(lastSpaceIndex + 1).trim();
+					last = CharSubstitution.applyForAdvisor(firstPart.substring(lastSpaceIndex + 1).trim());
 					first = firstPart.substring(0, lastSpaceIndex + 1).trim();
 				} else {
 					first = firstPart;
