@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
+import org.unbescape.html.HtmlEscape;
+
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.metadata.SplitAdvisorName;
 import com.proquest.mtg.dismetadataservice.metadata.SplitAuthorNames;
@@ -812,6 +815,7 @@ public class PubMetaDataQueryForMrngXml {
 	private String processTextForPlatform(String x) {
 		String result = x;
 		if (null != x) {
+			result = HtmlEscape.unescapeHtml(result);
 			result = textNormalizer.removeAdeptTags(result);
 			result = textNormalizer.addCdataTags(result);
 		}

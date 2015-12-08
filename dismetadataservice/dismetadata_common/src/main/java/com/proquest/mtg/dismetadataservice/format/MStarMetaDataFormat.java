@@ -68,12 +68,14 @@ public class MStarMetaDataFormat implements IMStarMetaDataFormat {
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);		
 		StringWriter result = new StringWriter();
 		marshaller.marshal(object, result);
-		
+		/*
 		String str = result.toString().replace("&amp;","&").replace("&lt;","<")
 				.replace("&gt;",">").replace("&apos;","'")
 				.replace("&quot;","\"");		
-				
-		return str;		
+			
+		return str;
+		*/
+		return result.toString();
 	}
 
 }
