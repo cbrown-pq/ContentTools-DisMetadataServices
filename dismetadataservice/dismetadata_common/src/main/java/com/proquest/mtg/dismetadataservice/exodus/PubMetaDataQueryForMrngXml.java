@@ -816,6 +816,8 @@ public class PubMetaDataQueryForMrngXml {
 		String result = x;
 		if (null != x) {
 			result = HtmlEscape.unescapeHtml(result);
+			// Call 2nd time to Handle character like &amp;Aring;
+			result = HtmlEscape.unescapeHtml(result);
 			result = textNormalizer.removeAdeptTags(result);
 			result = textNormalizer.addCdataTags(result);
 		}
