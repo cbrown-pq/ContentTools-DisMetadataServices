@@ -223,10 +223,11 @@ public class PubMetaDataQueryForMrngXml {
 			+ "dis.dis_item_departments " + "WHERE " + "ditm_id = ? "
 			+ "ORDER BY did_department ";
 
+	// This Query also filter out the keyword for source DATRIX 
 	private static final String kSelectKeywords = "SELECT " + "dik_keyword "
 			+ kColumnKeyword + ", " + "rv_abbreviation " + kColumnKeywordSource
 			+ " " + "FROM " + "dis_keywords dik, " + "cg_ref_codes rv "
-			+ "WHERE " + "dik.dik_source = rv.rv_low_value(+) " + "AND "
+			+ "WHERE dik.dik_source != 'X' AND " + "dik.dik_source = rv.rv_low_value(+) " + "AND "
 			+ "rv.rv_domain(+) = 'KEYWORD SOURCE' " + "AND " + "ditm_id = ? "
 			+ "ORDER BY dik_keyword ";
 
