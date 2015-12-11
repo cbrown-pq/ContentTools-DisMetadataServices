@@ -816,9 +816,7 @@ public class PubMetaDataQueryForMrngXml {
 	private String processTextForPlatform(String x) {
 		String result = x;
 		if (null != x) {
-			result = result.replaceAll("&(amp;)+", "&amp;");
-			result = HtmlEscape.unescapeHtml(result);
-			// Call 2nd time to Handle character like &amp;Aring;
+			result = result.replaceAll("&(amp;)*", "&");
 			result = HtmlEscape.unescapeHtml(result);
 			result = textNormalizer.removeAdeptTags(result);
 			result = textNormalizer.addCdataTags(result);
