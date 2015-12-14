@@ -46,16 +46,29 @@ public class TextNormalizer {
 		}
 	}
 	
+		
 	public String replaceCRTagwithPara(String text) {
+		boolean cdataExist = false;
 		if (text == null) {
 			return text;
 		}
+
 		if (!text.contains("^")) {
 			return text;
 		} else {
+			if ((text.startsWith(kCdataStartTag)) && (text.endsWith(kCdataEndTag))) {
+				text = removeCdataTags(text);
+				cdataExist = true;		
+			}
+
 			text = text.replaceFirst("\\^", kParaGraphTag);
 			if (!text.contains("^")) {
-				return text + kCloseParaGraphTag;
+				text = text + kCloseParaGraphTag;
+				if (cdataExist){
+					return kCdataStartTag + text + kCdataEndTag;
+				} else {
+					return text;
+				}				
 			}
 			do {
 				if (text.indexOf("^") == text.lastIndexOf("^")) {
@@ -68,7 +81,11 @@ public class TextNormalizer {
 
 			} while (text.contains("^"));
 
-			return text;
+			if (cdataExist){
+				return kCdataStartTag + text + kCdataEndTag;
+			} else {
+				return text;
+			}
 		}
 	}
 }
