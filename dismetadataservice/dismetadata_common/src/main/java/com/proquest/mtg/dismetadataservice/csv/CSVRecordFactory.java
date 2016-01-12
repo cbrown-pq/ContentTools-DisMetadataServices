@@ -237,12 +237,12 @@ public class CSVRecordFactory {
 		String adviserName = "";
 		if (dissAdvisors != null && !dissAdvisors.isEmpty()) {
 			for (Advisor curAdvisor : dissAdvisors) {
-				String formattedAdviserName = "";
+				String tempAdviserName = "";
 				if (null != curAdvisor.getAdvisorFullName()
 						&& !curAdvisor.getAdvisorFullName().isEmpty()) {
-					formattedAdviserName = SGMLEntitySubstitution
+					tempAdviserName = SGMLEntitySubstitution
 							.applyAllTo(curAdvisor.getAdvisorFullName().trim());
-					adviserName += endWithPipes(formattedAdviserName);
+					adviserName += endWithPipes(tempAdviserName);
 				}
 			}
 			if (adviserName.endsWith(DELIMITER)) {
