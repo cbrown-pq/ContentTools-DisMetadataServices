@@ -75,7 +75,12 @@ public class MStarMetaDataFormat implements IMStarMetaDataFormat {
 			
 		return str;
 		*/
-		return result.toString();
+		String xml = result.toString();
+		xml= xml.replaceAll("&lt;", "<").replaceAll("&gt;", ">");
+		xml = xml.replaceAll("(>)(>)+", "&gt;&gt;").replaceAll("(<)(<)+", "&lt;&lt;");                 
+		xml = xml.replaceAll("(<)([^a-zA-Z/?!])", "&lt;$2").replaceAll("([^a-zA-Z/?\"\\]])(>)", "$1&gt;");
+
+		return xml;
 	}
 
 }
