@@ -52,10 +52,11 @@ public class LocReportMetaDataQuery {
 			+ " where"
 			+ " di.ditm_id = diaf.ditm_id and"
 			+ " di.ditm_id = da.ditm_id and"
-			+ " ditm_pub_number not like ('EP%') and"
+			+ " ditm_source != 'D' and"
+			/*+ " ditm_pub_number not like ('EP%') and"
 			+ " ditm_pub_number not like ('DP%') and"
 			+ " ditm_pub_number not like ('EC%') and"
-			+ " ditm_pub_number not like ('DC%') and"
+			+ " ditm_pub_number not like ('DC%') and"*/
 			+ " di.diw_id = dwo.diw_id and"
 			+ " di.ditm_copyright_year is null and"
 			+ " da.dath_sequence_number = 1 and"
