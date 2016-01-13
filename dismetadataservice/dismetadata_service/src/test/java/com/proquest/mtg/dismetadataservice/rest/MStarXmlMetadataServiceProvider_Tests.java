@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.rest.helper.RealServiceTestHelper;
@@ -33,7 +34,7 @@ public class MStarXmlMetadataServiceProvider_Tests {
 		serviceTestHelper.stopHTTPServer();
 	}
 
-	@Test
+	@Ignore
 	public void whenValidPubExist() {
 		ClientResponse resp = service.path("mstar")
 				.path("dissinfo/U598835").get(ClientResponse.class);
