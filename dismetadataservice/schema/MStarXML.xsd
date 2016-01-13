@@ -106,7 +106,7 @@
                   </xs:complexType>
                 </xs:element>
                 <xs:element type="xs:string" name="DissLanguage"/>
-                <xs:element name="Abstract">
+                <xs:element name="Abstract" minOccurs="0">
                   <xs:complexType>
                         <xs:simpleContent>
                           <xs:extension base="xs:string">
