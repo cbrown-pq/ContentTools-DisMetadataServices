@@ -3,6 +3,9 @@ package com.proquest.mtg.dismetadataservice.format;
 
 import java.io.StringWriter;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import com.proquest.mtg.dismetadataservice.error.Errors;
@@ -75,12 +78,18 @@ public class MStarMetaDataFormat implements IMStarMetaDataFormat {
 			
 		return str;
 		*/
-		String xml = result.toString();
-		xml= xml.replaceAll("&lt;", "<").replaceAll("&gt;", ">");
-		xml = xml.replaceAll("(>)(>)+", "&gt;&gt;").replaceAll("(<)(<)+", "&lt;&lt;");                 
-		xml = xml.replaceAll("(<)([^a-zA-Z/?!])", "&lt;$2").replaceAll("([^a-zA-Z/?\"\\]])(>)", "$1&gt;");
-
-		return xml;
+		return handleHtmlTag(result.toString());
+	}
+	
+	private String handleHtmlTag(String str){
+		Pattern tagPattern = Pattern.compile("&lt;([^<]{1,50}?)&gt;");
+		Matcher m2 = tagPattern.matcher(str);
+		while (m2.find()){
+			String rep = "<"+m2.group(1)+">";	
+			str = str.replaceAll(m2.group(0),rep);			
+			m2 = tagPattern.matcher(str);
+		}		
+		return str;
 	}
 
 }
