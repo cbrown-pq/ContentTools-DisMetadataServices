@@ -86,7 +86,7 @@ public class MStarMetaDataFormat implements IMStarMetaDataFormat {
 		Matcher m2 = tagPattern.matcher(str);
 		while (m2.find()){
 			String rep = "<"+m2.group(1)+">";	
-			str = str.replaceAll(m2.group(0),rep);			
+			str = str.replace(m2.group(0),rep);			
 			m2 = tagPattern.matcher(str);
 		}		
 		return str;
