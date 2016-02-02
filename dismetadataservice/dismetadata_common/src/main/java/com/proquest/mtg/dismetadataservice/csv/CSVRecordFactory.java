@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
@@ -183,6 +184,8 @@ public class CSVRecordFactory {
 				.getDeclaredMethod("handleAuthorLocCitizenship"));
 		kAllHeaders.put(CSVHeaders.kDciRefsFlag, CSVRecordFactory.class
 				.getDeclaredMethod("handleDCIRefs"));
+		kAllHeaders.put(CSVHeaders.kCmteMember, CSVRecordFactory.class
+				.getDeclaredMethod("handleCmteMember"));
 	}
 
 	public LinkedHashMap<String, Method> getTagMappings() {
@@ -1115,7 +1118,32 @@ public class CSVRecordFactory {
 		addField(dciRefs);		
 	}
 
-
+	private void handleCmteMember() {
+		List<CmteMember> cmteMembers = curMetaData.getCmteMembers();
+		String cmteMember = "";
+		if (null != cmteMembers && !cmteMembers.isEmpty()) {
+			for (CmteMember curMember : cmteMembers) {
+				if (!curMember.getFirstName().isEmpty() 
+						&& !curMember.getLastName().isEmpty())
+				{
+					if(curMember.getMiddleName()==null)
+						cmteMember += endWithPipes(curMember
+							.getFirstName()+" "+curMember.getLastName());
+					else
+						cmteMember += endWithPipes(curMember
+								.getFirstName()+" "+curMember
+								.getMiddleName()+" "+curMember.getLastName());
+				}
+			}//for End
+			
+			if (null != cmteMember && !cmteMember.isEmpty()) {
+				cmteMember = cmteMember.substring(0,
+						cmteMember.length() - 1);
+			}
+		}
+		addField(cmteMember);
+	}
+	
 	private void addField(String data) {
 		if (data.trim() != "")
 			curRecord = curRecord + "\"" + data + "\"" + ",";

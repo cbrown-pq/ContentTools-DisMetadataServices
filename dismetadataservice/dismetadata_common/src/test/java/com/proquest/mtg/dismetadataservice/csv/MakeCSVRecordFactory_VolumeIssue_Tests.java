@@ -34,7 +34,7 @@ public class MakeCSVRecordFactory_VolumeIssue_Tests extends EasyMockSupport {
 		String volumeIssue = null;
 		batch.setVolumeIssue(volumeIssue);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,";
+				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -44,7 +44,7 @@ public class MakeCSVRecordFactory_VolumeIssue_Tests extends EasyMockSupport {
 		batch.setVolumeIssue("74-08(E)");
 		metadata.setBatch(batch);
 		String expectedCSVData = header
-				+ "\r\n,\"74-08(E)\",,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,";
+				+ "\r\n,\"74-08(E)\",,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
