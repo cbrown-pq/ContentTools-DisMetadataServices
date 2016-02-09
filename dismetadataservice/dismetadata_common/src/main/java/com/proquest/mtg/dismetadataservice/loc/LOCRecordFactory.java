@@ -190,7 +190,7 @@ public class LOCRecordFactory {
 		pqLocAuthor.setMiddleName(author.getMiddleName());
 		pqLocAuthor.setLastName(author.getLastName());
 		if (null != author.getAuthorCitizenship() 
-				&& author.getAuthorCitizenship().isEmpty()) {
+				&& !author.getAuthorCitizenship().isEmpty()) {
 			pqLocAuthor.setCitizenShip(author.getAuthorLocCitizenship());
 		} else {
 			pqLocAuthor.setCitizenShip(kUnknownLocCitizenship);
