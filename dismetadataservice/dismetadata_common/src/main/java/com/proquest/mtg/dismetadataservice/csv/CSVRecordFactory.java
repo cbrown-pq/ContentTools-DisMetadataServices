@@ -2,13 +2,13 @@ package com.proquest.mtg.dismetadataservice.csv;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
@@ -21,12 +21,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestrictio
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
-import com.proquest.mtg.dismetadataservice.media.IPubMediaInfoProvider;
 import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider;
-import com.proquest.mtg.dismetadataservice.media.PdfMediaInfo;
-import com.proquest.mtg.dismetadataservice.media.PdfType;
-import com.proquest.mtg.dismetadataservice.media.PubMediaInfo;
-import com.proquest.mtg.dismetadataservice.media.PubMediaInfoProviderFactory;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 import com.proquest.mtg.dismetadataservice.metadata.SGMLEntitySubstitution;
@@ -58,79 +53,78 @@ public class CSVRecordFactory {
 			SecurityException, ClassNotFoundException {
 		kAllHeaders.put(CSVHeaders.kPubNumber,
 				CSVRecordFactory.class.getDeclaredMethod("handlePubNumber"));
-		kAllHeaders.put(CSVHeaders.kVolumeIssue,
-				CSVRecordFactory.class.getDeclaredMethod("handleVolumneIssue"));
-		kAllHeaders.put(CSVHeaders.kAdvisors,
-				CSVRecordFactory.class.getDeclaredMethod("handleAdvisors"));
-		kAllHeaders.put(CSVHeaders.kIsbn,
-				CSVRecordFactory.class.getDeclaredMethod("handleISBN"));
-		kAllHeaders.put(CSVHeaders.kPageNumber,
-				CSVRecordFactory.class.getDeclaredMethod("handlePageNumber"));
-		kAllHeaders.put(CSVHeaders.kPageCount,
-				CSVRecordFactory.class.getDeclaredMethod("handlePageCount"));
-		kAllHeaders.put(CSVHeaders.kPublisher,
-				CSVRecordFactory.class.getDeclaredMethod("handlePublisher"));
-		kAllHeaders.put(CSVHeaders.kReferenceLocation, CSVRecordFactory.class
-				.getDeclaredMethod("handleReferenceLocation"));
-		kAllHeaders.put(CSVHeaders.kBritishLibraryNumber,
-				CSVRecordFactory.class
-						.getDeclaredMethod("handleBritishLibrary"));
-		kAllHeaders.put(CSVHeaders.kPqOpenUrl,
-				CSVRecordFactory.class.getDeclaredMethod("handlePqOpenUrl"));
-		kAllHeaders.put(CSVHeaders.kExternalUrl,
-				CSVRecordFactory.class.getDeclaredMethod("handleExternalUrl"));
-		kAllHeaders.put(CSVHeaders.kDissLangDesc, CSVRecordFactory.class
-				.getDeclaredMethod("handleDissLanguageDesc"));
-		kAllHeaders.put(CSVHeaders.kDissLangCode, CSVRecordFactory.class
-				.getDeclaredMethod("handleDissLanguageCode"));
-		kAllHeaders.put(CSVHeaders.kSchoolCode,
-				CSVRecordFactory.class.getDeclaredMethod("handleSchoolCode"));
-		kAllHeaders.put(CSVHeaders.kSchoolName,
-				CSVRecordFactory.class.getDeclaredMethod("handleSchoolName"));
-		kAllHeaders
-				.put(CSVHeaders.kSchoolCountry, CSVRecordFactory.class
-						.getDeclaredMethod("handleSchoolCountry"));
-		kAllHeaders.put(CSVHeaders.kSchoolState,
-				CSVRecordFactory.class.getDeclaredMethod("handleSchoolState"));
 		kAllHeaders.put(CSVHeaders.kTitle,
 				CSVRecordFactory.class.getDeclaredMethod("handleTitle"));
-		kAllHeaders.put(CSVHeaders.kEnglishTranslationOfTitle,
-				CSVRecordFactory.class
-						.getDeclaredMethod("handleEnglishTranslationOfTitle"));
-		kAllHeaders.put(CSVHeaders.kVariantTitle,
-				CSVRecordFactory.class.getDeclaredMethod("handleVariantTitle"));
 		kAllHeaders.put(CSVHeaders.kAuthors, CSVRecordFactory.class
 				.getDeclaredMethod("handleMultipleAuthors"));
-		kAllHeaders.put(CSVHeaders.kDegreeCode, CSVRecordFactory.class
-				.getDeclaredMethod("handleDegreeCodeForFirstAuthor"));
-		kAllHeaders.put(CSVHeaders.kDegreeDesc, CSVRecordFactory.class
-				.getDeclaredMethod("handleDegreeDescForFirstAuthor"));
-		kAllHeaders.put(CSVHeaders.kDegreeYear, CSVRecordFactory.class
-				.getDeclaredMethod("handleDegreeYearForFirstAuthor"));
-		kAllHeaders.put(CSVHeaders.kAbstract,
-				CSVRecordFactory.class.getDeclaredMethod("handleAbstract"));
-		kAllHeaders.put(CSVHeaders.kSubjectDesc,
-				CSVRecordFactory.class.getDeclaredMethod("handleSubjectDesc"));
-		kAllHeaders.put(CSVHeaders.kSubjectCode,
-				CSVRecordFactory.class.getDeclaredMethod("handleSubjectCode"));
-		kAllHeaders.put(CSVHeaders.kSubjectGroupDesc, CSVRecordFactory.class
-				.getDeclaredMethod("handleSubjectGroupDesc"));
+		kAllHeaders.put(CSVHeaders.kHasPDF,
+				CSVRecordFactory.class.getDeclaredMethod("hasPDF"));
+		kAllHeaders.put(CSVHeaders.kPDFAvailableDate, CSVRecordFactory.class
+				.getDeclaredMethod("handlePDFAvailableDate"));
 		kAllHeaders.put(CSVHeaders.kHasSupplementalFiles,
 				CSVRecordFactory.class
 						.getDeclaredMethod("hasSupplementalFiles"));
-		kAllHeaders.put(CSVHeaders.kSuppFileNames, CSVRecordFactory.class
-				.getDeclaredMethod("handleSupplemetalFileName"));
-		kAllHeaders.put(CSVHeaders.kSuppFileDescription, CSVRecordFactory.class
-				.getDeclaredMethod("handleSupplemetalFileDesc"));
-		kAllHeaders.put(CSVHeaders.kSuppFileCategory, CSVRecordFactory.class
-				.getDeclaredMethod("handleSupplemetalFilesCategory"));
-		kAllHeaders.put(CSVHeaders.kDepartmentName, CSVRecordFactory.class
-				.getDeclaredMethod("handleDepartmentName"));
+		kAllHeaders.put(CSVHeaders.kVolumeIssue,
+				CSVRecordFactory.class.getDeclaredMethod("handleVolumneIssue"));
+		kAllHeaders.put(CSVHeaders.kPageCount,
+				CSVRecordFactory.class.getDeclaredMethod("handlePageCount"));
+		kAllHeaders.put(CSVHeaders.kActiveSalesRestrictionCode,
+				CSVRecordFactory.class.getDeclaredMethod("handleActiveSalesRestrictionCode"));
+		kAllHeaders.put(CSVHeaders.kActiveFormatRestrictionCode,
+				CSVRecordFactory.class.getDeclaredMethod("handleActiveFormatRestrictionCode"));
+		kAllHeaders.put(CSVHeaders.kDegreeYear, CSVRecordFactory.class
+				.getDeclaredMethod("handleDegreeYearForFirstAuthor"));
+		kAllHeaders.put(CSVHeaders.kSchoolName,
+				CSVRecordFactory.class.getDeclaredMethod("handleSchoolName"));
+		kAllHeaders.put(CSVHeaders.kDegreeCode, CSVRecordFactory.class
+				.getDeclaredMethod("handleDegreeCodeForFirstAuthor"));
+		kAllHeaders.put(CSVHeaders.kSubjectDesc,
+				CSVRecordFactory.class.getDeclaredMethod("handleSubjectDesc"));
+		kAllHeaders.put(CSVHeaders.kDissertationTypeCode,
+				CSVRecordFactory.class
+						.getDeclaredMethod("handleDissertationTypeCode"));
+		kAllHeaders.put(CSVHeaders.kIsbn,
+				CSVRecordFactory.class.getDeclaredMethod("handleISBN"));
+		kAllHeaders.put(CSVHeaders.kOpenAccessFlag, CSVRecordFactory.class
+				.getDeclaredMethod("handleOpenAccessFlag"));
+		kAllHeaders.put(CSVHeaders.kAbstract,
+				CSVRecordFactory.class.getDeclaredMethod("handleAbstract"));
+		kAllHeaders.put(CSVHeaders.kPubDate, CSVRecordFactory.class
+				.getDeclaredMethod("handlePubDate"));
 		kAllHeaders.put(CSVHeaders.kKeyword,
 				CSVRecordFactory.class.getDeclaredMethod("handleKeyWords"));
-		kAllHeaders
-				.put(CSVHeaders.kKeywordSource, CSVRecordFactory.class
-						.getDeclaredMethod("handleKeyWordSource"));
+		kAllHeaders.put(CSVHeaders.kDissLangDesc, CSVRecordFactory.class
+				.getDeclaredMethod("handleDissLanguageDesc"));
+		kAllHeaders.put(CSVHeaders.kAuthorCitizenship, CSVRecordFactory.class
+				.getDeclaredMethod("handleAuthorCitizenship"));
+		kAllHeaders.put(CSVHeaders.kDepartmentName, CSVRecordFactory.class
+				.getDeclaredMethod("handleDepartmentName"));
+		kAllHeaders.put(CSVHeaders.kAdvisors,
+				CSVRecordFactory.class.getDeclaredMethod("handleAdvisors"));
+		kAllHeaders.put(CSVHeaders.kCmteMember, CSVRecordFactory.class
+				.getDeclaredMethod("handleCmteMember"));
+		kAllHeaders.put(CSVHeaders.kExternalId,
+				CSVRecordFactory.class.getDeclaredMethod("handleExternalId"));
+		kAllHeaders.put(CSVHeaders.kSubjectGroupDesc, CSVRecordFactory.class
+				.getDeclaredMethod("handleSubjectGroupDesc"));
+		kAllHeaders.put(CSVHeaders.kSubjectCode,
+				CSVRecordFactory.class.getDeclaredMethod("handleSubjectCode"));
+		kAllHeaders.put(CSVHeaders.kSchoolCode,
+				CSVRecordFactory.class.getDeclaredMethod("handleSchoolCode"));
+		kAllHeaders.put(CSVHeaders.kSchoolCountry, CSVRecordFactory.class
+				.getDeclaredMethod("handleSchoolCountry"));
+		kAllHeaders.put(CSVHeaders.kSchoolState,
+				CSVRecordFactory.class.getDeclaredMethod("handleSchoolState"));
+		kAllHeaders.put(CSVHeaders.kSchoolLocCountry, CSVRecordFactory.class
+				.getDeclaredMethod("handleSchoolLocCountry"));
+		kAllHeaders.put(CSVHeaders.kAuthorLocCitizenship, CSVRecordFactory.class
+				.getDeclaredMethod("handleAuthorLocCitizenship"));
+		kAllHeaders.put(CSVHeaders.kDissLangCode, CSVRecordFactory.class
+				.getDeclaredMethod("handleDissLanguageCode"));
+		kAllHeaders.put(CSVHeaders.kEnglishTranslationOfTitle,
+				CSVRecordFactory.class.getDeclaredMethod("handleEnglishTranslationOfTitle"));
+		kAllHeaders.put(CSVHeaders.kVariantTitle,
+				CSVRecordFactory.class.getDeclaredMethod("handleVariantTitle"));
 		kAllHeaders.put(CSVHeaders.kSalesRestrictionCode,
 				CSVRecordFactory.class
 						.getDeclaredMethod("handleSalesRestrictionCode"));
@@ -143,17 +137,6 @@ public class CSVRecordFactory {
 		kAllHeaders.put(CSVHeaders.kSalesRestrictionEndDate,
 				CSVRecordFactory.class
 						.getDeclaredMethod("handleSalesRestrictionEndDate"));
-		kAllHeaders.put(CSVHeaders.kDissertationTypeCode,
-				CSVRecordFactory.class
-						.getDeclaredMethod("handleDissertationTypeCode"));
-		kAllHeaders.put(CSVHeaders.kDissertationCode, CSVRecordFactory.class
-				.getDeclaredMethod("handleDissertationCode"));
-		kAllHeaders.put(CSVHeaders.kDAISectionCode, CSVRecordFactory.class
-				.getDeclaredMethod("handleDAISectionCode"));
-		kAllHeaders.put(CSVHeaders.kHasPDF,
-				CSVRecordFactory.class.getDeclaredMethod("hasPDF"));
-		kAllHeaders.put(CSVHeaders.kPDFAvailableDate, CSVRecordFactory.class
-				.getDeclaredMethod("handlePDFAvailableDate"));
 		kAllHeaders.put(CSVHeaders.kFormatRestrictionCode,
 				CSVRecordFactory.class
 						.getDeclaredMethod("handleFormatRestrictionCode"));
@@ -166,26 +149,39 @@ public class CSVRecordFactory {
 		kAllHeaders.put(CSVHeaders.kFormatRestrictionEndDt,
 				CSVRecordFactory.class
 						.getDeclaredMethod("handleFormatRestrictionEndDt"));
-		kAllHeaders.put(CSVHeaders.kExternalId,
-				CSVRecordFactory.class.getDeclaredMethod("handleExternalId"));
-		kAllHeaders.put(CSVHeaders.kOpenAccessFlag, CSVRecordFactory.class
-				.getDeclaredMethod("handleOpenAccessFlag"));
-		kAllHeaders.put(CSVHeaders.kPubDate, CSVRecordFactory.class
-				.getDeclaredMethod("handlePubDate"));
-		kAllHeaders.put(CSVHeaders.kAuthorCitizenship, CSVRecordFactory.class
-				.getDeclaredMethod("handleAuthorCitizenship"));
+		kAllHeaders.put(CSVHeaders.kDAISectionCode, CSVRecordFactory.class
+				.getDeclaredMethod("handleDAISectionCode"));
 		kAllHeaders.put(CSVHeaders.kManuscriptMediaCode, CSVRecordFactory.class
 				.getDeclaredMethod("handleManuscriptMediaCode"));
 		kAllHeaders.put(CSVHeaders.kManuscriptMediaDesc, CSVRecordFactory.class
 				.getDeclaredMethod("handleManuscriptMediaDesc"));
-		kAllHeaders.put(CSVHeaders.kSchoolLocCountry, CSVRecordFactory.class
-				.getDeclaredMethod("handleSchoolLocCountry"));
-		kAllHeaders.put(CSVHeaders.kAuthorLocCitizenship, CSVRecordFactory.class
-				.getDeclaredMethod("handleAuthorLocCitizenship"));
+		kAllHeaders.put(CSVHeaders.kSuppFileNames, CSVRecordFactory.class
+				.getDeclaredMethod("handleSupplemetalFileName"));
+		kAllHeaders.put(CSVHeaders.kSuppFileDescription, CSVRecordFactory.class
+				.getDeclaredMethod("handleSupplemetalFileDesc"));
+		kAllHeaders.put(CSVHeaders.kSuppFileCategory, CSVRecordFactory.class
+				.getDeclaredMethod("handleSupplemetalFilesCategory"));
+		kAllHeaders.put(CSVHeaders.kPageNumber,
+				CSVRecordFactory.class.getDeclaredMethod("handlePageNumber"));
+		kAllHeaders.put(CSVHeaders.kPublisher,
+				CSVRecordFactory.class.getDeclaredMethod("handlePublisher"));
+		kAllHeaders.put(CSVHeaders.kExternalUrl,
+				CSVRecordFactory.class.getDeclaredMethod("handleExternalUrl"));
+		kAllHeaders.put(CSVHeaders.kDissertationCode, CSVRecordFactory.class
+				.getDeclaredMethod("handleDissertationCode"));
+		kAllHeaders.put(CSVHeaders.kBritishLibraryNumber,
+				CSVRecordFactory.class
+						.getDeclaredMethod("handleBritishLibrary"));
+		kAllHeaders.put(CSVHeaders.kPqOpenUrl,
+				CSVRecordFactory.class.getDeclaredMethod("handlePqOpenUrl"));
+		kAllHeaders.put(CSVHeaders.kDegreeDesc, CSVRecordFactory.class
+				.getDeclaredMethod("handleDegreeDescForFirstAuthor"));
+		kAllHeaders.put(CSVHeaders.kKeywordSource, CSVRecordFactory.class
+				.getDeclaredMethod("handleKeyWordSource"));
 		kAllHeaders.put(CSVHeaders.kDciRefsFlag, CSVRecordFactory.class
 				.getDeclaredMethod("handleDCIRefs"));
-		kAllHeaders.put(CSVHeaders.kCmteMember, CSVRecordFactory.class
-				.getDeclaredMethod("handleCmteMember"));
+		kAllHeaders.put(CSVHeaders.kReferenceLocation, CSVRecordFactory.class
+				.getDeclaredMethod("handleReferenceLocation"));
 	}
 
 	public LinkedHashMap<String, Method> getTagMappings() {
@@ -758,6 +754,53 @@ public class CSVRecordFactory {
 		addField(keywordSource);
 	}
 
+	private void handleActiveSalesRestrictionCode() {
+		List<SalesRestriction> salesRestrictions = curMetaData
+				.getSalesRestrictions();
+		String activeSalesRestrictionCode = "";
+		try {
+			if (null != salesRestrictions && !salesRestrictions.isEmpty()) {
+				for (SalesRestriction currSalesRestriction : salesRestrictions) {
+					if (null != currSalesRestriction.getCode()
+							&& !currSalesRestriction.getCode().isEmpty()) {
+						if(!currSalesRestriction.getCode().equals("5") && !currSalesRestriction.getCode().equals("8")){
+							String strtDt = currSalesRestriction.getRestrictionStartDate();
+							SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy");
+							String endDt = currSalesRestriction.getRestrictionEndDate();
+							Date today = new Date();
+							if(strtDt!=null){
+								Date strtDate = format.parse(strtDt);
+								if(strtDate.before(today)){
+									if(endDt!=null){
+										Date endDate = format.parse(endDt);
+										if(endDate.after(today))
+											activeSalesRestrictionCode += endWithPipes(currSalesRestriction
+												.getCode());
+									}
+									else{
+										activeSalesRestrictionCode += endWithPipes(currSalesRestriction
+												.getCode());
+									}
+								}
+							}
+						}
+					}
+				}
+				if (activeSalesRestrictionCode.endsWith(DELIMITER)) {
+					activeSalesRestrictionCode = activeSalesRestrictionCode.substring(0,
+							activeSalesRestrictionCode.length() - 1);
+				}
+			}
+		} catch (ParseException e) {
+			System.out.println("Parse Exception pe="+e);
+			e.printStackTrace();
+		} catch(Exception e){
+			System.out.println("Exception e="+e);
+			e.printStackTrace();
+		}
+		addField(activeSalesRestrictionCode);
+	}
+	
 	private void handleSalesRestrictionCode() {
 		List<SalesRestriction> salesRestrictions = curMetaData
 				.getSalesRestrictions();
@@ -900,6 +943,57 @@ public class CSVRecordFactory {
 		addField(pdfAvailableDate);
 	}
 
+	private void handleActiveFormatRestrictionCode() {
+		String activeFormatRestrictionCode = "";
+		try {
+			if (null != curMetaData.getFormatRestrictions()
+					&& !curMetaData.getFormatRestrictions().isEmpty()) {
+				List<FormatRestriction> formatRestrictions = curMetaData
+						.getFormatRestrictions();
+				for (FormatRestriction curFormatRestriction : formatRestrictions) {
+					if (null != curFormatRestriction.getCode()
+							&& !curFormatRestriction.getCode().isEmpty()) {
+						if(curFormatRestriction.getCode().contains("E")){
+							String strtDt = curFormatRestriction.getFormatRestrictionStartDt();
+							SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy");
+							String endDt = curFormatRestriction.getFormatRestrictionEndDt();
+							Date today = new Date();
+							if(strtDt!=null){
+								Date strtDate = format.parse(strtDt);
+								if(strtDate.before(today)){
+									if(endDt!=null){
+										Date endDate = format.parse(endDt);
+										if(endDate.after(today))
+											activeFormatRestrictionCode = activeFormatRestrictionCode
+												+ endWithPipes(curFormatRestriction.getCode());
+									}
+									else{
+										activeFormatRestrictionCode += endWithPipes(curFormatRestriction.getCode());
+									}
+								}
+							}
+						}
+					} else {
+						activeFormatRestrictionCode += endWithPipes("NONE");
+					}
+				}
+	
+				if (activeFormatRestrictionCode.endsWith(DELIMITER)) {
+					activeFormatRestrictionCode = activeFormatRestrictionCode.substring(0,
+							activeFormatRestrictionCode.length() - 1);
+				}
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Parse Exception pe="+e);
+			e.printStackTrace();
+		}catch(Exception e){
+			System.out.println("Exception e="+e);
+			e.printStackTrace();
+		}
+		addField(activeFormatRestrictionCode);
+	}
+	
 	private void handleFormatRestrictionCode() {
 		String formatRestrictionCode = "";
 		if (null != curMetaData.getFormatRestrictions()

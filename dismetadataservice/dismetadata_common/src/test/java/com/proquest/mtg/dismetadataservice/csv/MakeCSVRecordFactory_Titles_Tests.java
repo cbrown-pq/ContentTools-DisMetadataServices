@@ -33,7 +33,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 	public void makeTitleWithEmpty() throws Exception {
 		metadata.setTitle(title);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -45,9 +45,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		title.setForeignTitle("ForeignTitle");
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
-				+ "\"ForeignTitle.\"" + "," + "\"ElectronicTitle.\"" + ","
-				+ "\"OverwriteTitle\"" + ",,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n,\"ForeignTitle.\",,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"ElectronicTitle.\",\"OverwriteTitle\",,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -59,9 +57,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		title.setForeignTitle("ForeignTitle");
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
-				+ "\"ForeignTitle.\"" + ",," + "\"OverwriteTitle\""
-				+ ",,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n,\"ForeignTitle.\",,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"OverwriteTitle\",,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -73,9 +69,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		title.setForeignTitle("ForeignTitle");
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
-				+ "\"ElectronicTitle.\""
-				+ ",,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n,\"ElectronicTitle.\",,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -87,9 +81,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		title.setElectronicTitle("ElectronicTitle");
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
-				+ "\"MasterTitle.\",\"ElectronicTitle.\",\"OverwriteTitle\""
-				+ ",,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n,\"MasterTitle.\",,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"ElectronicTitle.\",\"OverwriteTitle\",,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -102,14 +94,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		title.setForeignTitle("NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text)");
 		metadata.setTitle(title);
 		String expectedCSVData = header
-				+ "\r\n"
-				+ ",,,,,,,,,,,,,,,,,"
-				+ "\"NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text).\""
-				+ ","
-				+ "\"Utilization of an articulation index procedure in the evaluation of hearing-aid efficiency.\""
-				+ ","
-				+ "\"Adsorption kinetics at the air-water interface.  \\lbrack Dutch text\\rbrack\""
-				+ ",,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+				+ "\r\n,\"NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text).\",,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"Utilization of an articulation index procedure in the evaluation of hearing-aid efficiency.\",\"Adsorption kinetics at the air-water interface.  \\lbrack Dutch text\\rbrack\",,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -122,8 +107,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
-				+ "\"Master title with \"\"quotes\"\".\",,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n,\"Master title with \"\"quotes\"\".\",,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -135,8 +119,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,"
-				+ "\"Master title with \"\" and Lambda and \"\".\",,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n,\"Master title with \"\" and Lambda and \"\".\",,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

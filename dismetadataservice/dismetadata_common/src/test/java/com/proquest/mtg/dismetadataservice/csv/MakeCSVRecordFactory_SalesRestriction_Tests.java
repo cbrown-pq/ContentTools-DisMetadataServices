@@ -36,7 +36,7 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests extends EasyMockSupport
 		salesRestrictions = Lists.newArrayList();
 		metadata.setSalesRestrictions(salesRestrictions);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -49,9 +49,7 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests extends EasyMockSupport
 		salesRestriction.setCode("SalesRestrictionCode");
 		salesRestrictions.add(salesRestriction);
 		metadata.setSalesRestrictions(salesRestrictions);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"N\"" + ",,,,,," + ",\"" + "SalesRestrictionCode" + "\""
-				+ ",,,\"NONE\",,,,\"N\",,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n" + ",,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"SalesRestrictionCode\",,,\"NONE\",,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -64,9 +62,7 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests extends EasyMockSupport
 		salesRestriction.setDescription("SalesRestrictionDescription");
 		salesRestrictions.add(salesRestriction);
 		metadata.setSalesRestrictions(salesRestrictions);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"N\"" + ",,,,,," + ",,\"" + "SalesRestrictionDescription"
-				+ "\"" + ",,\"NONE\",,,,\"N\",,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n" + ",,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"SalesRestrictionDescription\",,\"NONE\",,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -83,9 +79,7 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests extends EasyMockSupport
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
 				salesRestriction1, salesRestriction2);
 		metadata.setSalesRestrictions(salesRestrictions);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"N\"" + ",,,,,," + ",\"" + "1|2" + "\"" + ",\""
-				+ "Not Available For Sale|Available" + "\"" + ",,\"NONE|NONE\",,,,\"N\",,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n" + ",,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"1|2\",\"Not Available For Sale|Available\",,\"NONE|NONE\",,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

@@ -333,8 +333,8 @@ public class PubMetaDataQuery {
 			"SELECT " + 
 				"dfr.dvfr_code " + kColumnFormatRestrictionCode + ", " +
 				"dvfr.dvfr_description " + kColumnFormatRestrictionDesc + ", " +
-				"dfr.dfr_res_start_date " + kColumnFormatRestrictionStartDt + ", " +
-				"dfr.dfr_res_lift_date " + kColumnFormatRestrictionEndDt + " " +
+				"TO_CHAR(dfr.dfr_res_start_date, 'DD-MON-YYYY') " + kColumnFormatRestrictionStartDt + ", " +
+				"TO_CHAR(dfr.dfr_res_lift_date, 'DD-MON-YYYY') " + kColumnFormatRestrictionEndDt + " " +
 			"FROM " + 
 				"dis.dis_format_restrictions dfr " + ", " + 
 				"dis_valid_format_rstcns dvfr " +

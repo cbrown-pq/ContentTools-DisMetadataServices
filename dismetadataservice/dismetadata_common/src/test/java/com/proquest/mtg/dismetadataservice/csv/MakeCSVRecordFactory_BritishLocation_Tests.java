@@ -31,7 +31,7 @@ public class MakeCSVRecordFactory_BritishLocation_Tests extends EasyMockSupport 
 		String blNumber = null;
 		metadata.setBLNumber(blNumber);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -41,7 +41,7 @@ public class MakeCSVRecordFactory_BritishLocation_Tests extends EasyMockSupport 
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setBLNumber("BLNumber");
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,\"BLNumber\",,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"BLNumber\",,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

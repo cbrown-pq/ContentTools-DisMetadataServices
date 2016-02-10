@@ -34,7 +34,7 @@ public class MakeCSVRecordFactory_DissertationCode_Tests extends EasyMockSupport
 
 		metadata.setBatch(batch);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -45,9 +45,7 @@ public class MakeCSVRecordFactory_DissertationCode_Tests extends EasyMockSupport
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAC");
 		metadata.setBatch(batch);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"N\"" + ",,,,,,,,,," + ",\"" + "DAC" + "\""
-				+ ",,,\"N\",,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n,,,\"N\",,\"N\",,,,,,,,,\"DAC\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -58,9 +56,7 @@ public class MakeCSVRecordFactory_DissertationCode_Tests extends EasyMockSupport
 		Batch batch = new Batch();
 		batch.setDBTypeDesc("Dissertation Abstracts International");
 		metadata.setBatch(batch);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"N\"" + ",,,,,,,,,,," + ",\""
-				+ "Dissertation Abstracts International" + "\"" + ",,\"N\",,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"Dissertation Abstracts International\",,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -71,8 +67,7 @@ public class MakeCSVRecordFactory_DissertationCode_Tests extends EasyMockSupport
 		Batch batch = new Batch();
 		batch.setDAISectionCode("B");
 		metadata.setBatch(batch);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"N\"" + ",,,,,,,,,,,," + ",\"" + "B" + "\"" + ",\"N\",,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"B\",,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

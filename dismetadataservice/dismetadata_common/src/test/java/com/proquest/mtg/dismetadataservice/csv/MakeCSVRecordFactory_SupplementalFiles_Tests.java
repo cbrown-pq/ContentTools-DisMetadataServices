@@ -40,7 +40,7 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests extends EasyMockSuppor
 		metadata = new DisPubMetaData();
 		metadata.setSuppFiles(suppFiles);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -53,9 +53,7 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests extends EasyMockSuppor
 		suppFile.setSuppFileCategory(suppFileCategory);
 		suppFiles.add(suppFile);
 		metadata.setSuppFiles(suppFiles);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"Y\"" + ",,\"" + suppFileDesc + "\"" + ",\""
-				+ suppFileCategory + "\"" + ",,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n" + ",,,\"N\",,\"Y\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\""+suppFileDesc+"\",\""+suppFileCategory+"\",,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -68,9 +66,7 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests extends EasyMockSuppor
 		suppFile.setSuppFileCategory(suppFileCategory);
 		suppFiles.add(suppFile);
 		metadata.setSuppFiles(suppFiles);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"Y\"" + ",\"" + suppFileName + "\"" + ",,\""
-				+ suppFileCategory + "\"" + ",,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n" + ",,,\"N\",,\"Y\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\""+suppFileName+"\",,\""+suppFileCategory+"\",,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -83,9 +79,7 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests extends EasyMockSuppor
 		suppFile.setSuppFilename(suppFileName);
 		suppFiles.add(suppFile);
 		metadata.setSuppFiles(suppFiles);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"Y\"" + ",\"" + suppFileName + "\"" + ",\"" + suppFileDesc
-				+ "\"" + "," + ",,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n" + ",,,\"N\",,\"Y\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\""+suppFileName+"\",\""+suppFileDesc+"\",,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -102,10 +96,7 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests extends EasyMockSuppor
 		List<SuppFile> suppFiles = new ArrayList<SuppFile>();
 		suppFiles.add(suppFile);
 		metadata.setSuppFiles(suppFiles);
-		String expectedCSVData = header + "\r\n" + ",,,,,,,,,,,,,,,,,,,,,,,,,,,"
-				+ ",\"Y\"" + ",\"" + suppFileName + "\"" + ",\"" + suppFileDesc
-				+ "\"" + ",\"" + suppFileCategory + "\""
-				+ ",,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n" + ",,,\"N\",,\"Y\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\""+suppFileName+"\",\""+suppFileDesc+"\",\""+suppFileCategory+"\",,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

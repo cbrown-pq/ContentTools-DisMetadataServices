@@ -33,7 +33,7 @@ public class MakeCSVRecordFactory_Schools_Tests extends EasyMockSupport {
 	public void makeSchoolWithEmpty() throws Exception {
 		metadata.setSchool(school);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -45,7 +45,7 @@ public class MakeCSVRecordFactory_Schools_Tests extends EasyMockSupport {
 		school.setSchoolState("SchoolState");
 		metadata.setSchool(school);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,,\"SchoolName\",\"SchoolCountry\",\"SchoolState\",,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,\"SchoolName\",,,,,,,,,,,,,,,,,,\"SchoolCountry\",\"SchoolState\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -57,7 +57,7 @@ public class MakeCSVRecordFactory_Schools_Tests extends EasyMockSupport {
 		school.setSchoolState("SchoolState");
 		metadata.setSchool(school);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,\"SchoolCode\",,\"SchoolCountry\",\"SchoolState\",,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,\"SchoolCode\",\"SchoolCountry\",\"SchoolState\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -69,7 +69,7 @@ public class MakeCSVRecordFactory_Schools_Tests extends EasyMockSupport {
 		school.setSchoolState("SchoolState");
 		metadata.setSchool(school);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,\"SchoolCode\",\"SchoolName\",,\"SchoolState\",,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,\"SchoolName\",,,,,,,,,,,,,,,,,\"SchoolCode\",,\"SchoolState\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -82,7 +82,7 @@ public class MakeCSVRecordFactory_Schools_Tests extends EasyMockSupport {
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setSchool(school);
 		String expectedCSVData = header
-				+ "\r\n,,,,,,,,,,,,,\"SchoolCode\",\"SchoolName\",\"SchoolCountry\",,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,\"SchoolName\",,,,,,,,,,,,,,,,,\"SchoolCode\",\"SchoolCountry\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -94,7 +94,7 @@ public class MakeCSVRecordFactory_Schools_Tests extends EasyMockSupport {
 		school.setSchoolCountry("UNITED STATES");
 		school.setSchoolState("Massachusetts");
 		metadata.setSchool(school);
-		String expectedCSVData = header + "\r\n,,,,,,,,,,,,,\"0753\",\"Massachusetts Institute of Technology\",\"UNITED STATES\",\"Massachusetts\",,,,,,,,,,,,\"N\",,,,,,,,,,,,,,\"N\",,,,,,,,,,,,,,,,";	
+		String expectedCSVData = header + "\r\n,,,\"N\",,\"N\",,,,,,\"Massachusetts Institute of Technology\",,,,,,,,,,,,,,,,,\"0753\",\"UNITED STATES\",\"Massachusetts\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";	
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

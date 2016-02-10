@@ -51,7 +51,7 @@ public class CSVHeaders {
 	public static final String kFormatRestrictionStartDt = "FORMAT RESTRICTION STARTDT";
 	public static final String kFormatRestrictionEndDt = "FORMAT RESTRICTION ENDDT";
 	public static final String kExternalId = "EXTERNAL ID";
-	public static final String kOpenAccessFlag = "OPEN ACCESS FLAG";
+	public static final String kOpenAccessFlag = "OPEN ACCESS";
 	public static final String kAuthorCitizenship = "AUTHOR CITIZENSHIP";
 	public static final String kPubDate = "PUB DATE";
 	public static final String kManuscriptMediaCode = "MANUSCRIPTMEDIA CODE";
@@ -60,5 +60,7 @@ public class CSVHeaders {
 	public static final String kAuthorLocCitizenship = "LOC AUTHOR CITIZENSHIP";
 	public static final String kDciRefsFlag = "DCI REFS";
 	public static final String kCmteMember = "COMMITTEE MEMBERS";
+	public static final String kActiveSalesRestrictionCode = "ACTIVE SALES RESTRICTION CODE";
+	public static final String kActiveFormatRestrictionCode = "ACTIVE FORMAT RESTRICTION CODE";
 
 }
