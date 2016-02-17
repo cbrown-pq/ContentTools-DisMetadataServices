@@ -438,8 +438,7 @@ public class CSVRecordFactory {
 	private void handleTitle() {
 		String title = getTitleToInclude();
 		if (null != title && !title.isEmpty()) {
-			title = SGMLEntitySubstitution.applyAllTo(title);
-			title = title.replaceAll("\"", "\"\"");
+			title = SGMLEntitySubstitution.applyAllTo(title);		
 			title = endsWithPunctuationMark(title);
 		}
 		addField(title);
@@ -578,8 +577,7 @@ public class CSVRecordFactory {
 				&& !curMetaData.getAbstract().isEmpty()) {
 			abstractText = abstractNormalizer
 					.applyTo(curMetaData.getAbstract());
-			abstractText = SGMLEntitySubstitution.applyAllTo(abstractText);
-			abstractText = abstractText.replaceAll("\"", "\"\"");
+			abstractText = SGMLEntitySubstitution.applyAllTo(abstractText);			
 		}
 		addField(abstractText);
 	}
@@ -1239,10 +1237,12 @@ public class CSVRecordFactory {
 	}
 	
 	private void addField(String data) {
-		if (data.trim() != "")
+		if (data.trim() != ""){
+			data = data.replaceAll("\"", "\"\"");
 			curRecord = curRecord + "\"" + data + "\"" + ",";
-		else
+		} else{
 			curRecord = curRecord + data + ",";
+		}
 	}
 
 	private String endWithPipes(String x) {
