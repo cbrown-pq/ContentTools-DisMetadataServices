@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:simpleType name="NotemptyString">
+    <xs:restriction base="xs:string">
+        <xs:minLength  value="1" />
+    </xs:restriction>
+</xs:simpleType>
   <xs:element name="Dissertation">
         <xs:complexType>
           <xs:sequence>
-                <xs:element type="xs:string" name="PubNumber"/>
+                <xs:element type="NotemptyString" name="PubNumber"/>
                 <xs:element type="xs:string" name="ISBN" minOccurs="0"/>
                 <xs:element type="xs:string" name="PublisherNote" minOccurs="0"/>
                 <xs:element name="Authors">
@@ -28,7 +33,7 @@
                 <xs:element name="Title">
                   <xs:complexType>
                         <xs:simpleContent>
-                          <xs:extension base="xs:string">
+                          <xs:extension base="NotemptyString">
                                 <xs:attribute type="xs:string" name="Language"/>
                           </xs:extension>
                         </xs:simpleContent>
@@ -52,9 +57,9 @@
                 <xs:element name="School">
                   <xs:complexType>
                         <xs:sequence>
-                          <xs:element type="xs:string" name="SchoolCode"/>
-                          <xs:element type="xs:string" name="SchoolName"/>
-                          <xs:element type="xs:string" name="SchoolCountry"/>
+                          <xs:element type="NotemptyString" name="SchoolCode"/>
+                          <xs:element type="NotemptyString" name="SchoolName"/>
+                          <xs:element type="NotemptyString" name="SchoolCountry"/>
                           <xs:element type="xs:string" name="SchoolState" minOccurs="0"/>
                         </xs:sequence>
                   </xs:complexType>
@@ -105,11 +110,11 @@
                         </xs:sequence>
                   </xs:complexType>
                 </xs:element>
-                <xs:element type="xs:string" name="DissLanguage"/>
+                <xs:element type="NotemptyString" name="DissLanguage"/>
                 <xs:element name="Abstract" minOccurs="0">
                   <xs:complexType>
                         <xs:simpleContent>
-                          <xs:extension base="xs:string">
+                          <xs:extension base="NotemptyString">
                                 <xs:attribute type="xs:string" name="Language"/>
                           </xs:extension>
                         </xs:simpleContent>
@@ -118,7 +123,7 @@
                 <xs:element name="AlternateAbstract" minOccurs="0">
                   <xs:complexType>
                         <xs:simpleContent>
-                          <xs:extension base="xs:string">
+                          <xs:extension base="NotemptyString">
                                 <xs:attribute type="xs:string" name="Language"/>
                           </xs:extension>
                         </xs:simpleContent>
@@ -129,7 +134,7 @@
   </xs:element>
   <xs:complexType name="primaryAuthor">
         <xs:sequence>
-                <xs:element type="xs:string" name="AuthorFullName"/>
+                <xs:element type="NotemptyString" name="AuthorFullName"/>
                 <xs:element type="xs:string" name="FirstName" minOccurs="0"/>
                 <xs:element type="xs:string" name="LastName" minOccurs="0"/>
                 <xs:element type="xs:string" name="MiddleName" minOccurs="0"/>
@@ -137,7 +142,7 @@
                 <xs:element name="AltAuthorFullName" minOccurs="0">
                         <xs:complexType>
                                 <xs:simpleContent>
-                                <xs:extension base="xs:string">
+                                <xs:extension base="NotemptyString">
                                         <xs:attribute type="xs:string" name="Language"/>
                                 </xs:extension>
                                 </xs:simpleContent>
@@ -149,7 +154,7 @@
   </xs:complexType>
   <xs:complexType name="secondaryAuthor">
         <xs:sequence>
-                <xs:element type="xs:string" name="AuthorFullName"/>
+                <xs:element type="NotemptyString" name="AuthorFullName"/>
                 <xs:element type="xs:string" name="FirstName" minOccurs="0"/>
                 <xs:element type="xs:string" name="LastName" minOccurs="0"/>
                 <xs:element type="xs:string" name="MiddleName" minOccurs="0"/>
@@ -157,7 +162,7 @@
                 <xs:element name="AltAuthorFullName" minOccurs="0">
                         <xs:complexType>
                                 <xs:simpleContent>
-                                <xs:extension base="xs:string">
+                                <xs:extension base="NotemptyString">
                                         <xs:attribute type="xs:string" name="Language"/>
                                 </xs:extension>
                                 </xs:simpleContent>
@@ -170,14 +175,14 @@
   </xs:complexType>
   <xs:complexType name="advisor">
         <xs:sequence>
-                <xs:element type="xs:string" name="AdvisorFullName"/>
+                <xs:element type="NotemptyString" name="AdvisorFullName"/>
                 <xs:element type="xs:string" name="FirstName" minOccurs="0"/>
                 <xs:element type="xs:string" name="LastName" minOccurs="0"/>              
                 <xs:element type="xs:string" name="Suffix" minOccurs="0"/>
                 <xs:element name="AltAdvisorFullName" minOccurs="0">
 			<xs:complexType>
 				<xs:simpleContent>
-				  <xs:extension base="xs:string">
+				  <xs:extension base="NotemptyString">
 					<xs:attribute type="xs:string" name="Language"/>
 				  </xs:extension>
 				</xs:simpleContent>
@@ -190,7 +195,7 @@
                 <xs:element name="Degree" maxOccurs="unbounded">
                         <xs:complexType>
                         <xs:sequence>
-                                <xs:element type="xs:string" name="DegreeCode"/>
+                                <xs:element type="NotemptyString" name="DegreeCode"/>
                                 <xs:element type="xs:string" name="DegreeDescription" minOccurs="0"/>
                                 <xs:element type="xs:short" name="DegreeYear"/>
                         </xs:sequence>
