@@ -488,7 +488,7 @@ public class PubMetaDataQuery {
 		return getPqOpenUrlBase() + pubId.trim();
 	}
 	
-	public DisPubMetaData getFor(String pubId, int excludeRestriction) throws SQLException {
+	public DisPubMetaData getFor(String pubId, int excludeRestriction, int excludeAbstract) throws SQLException {
 		DisPubMetaData result = null;
 		ResultSet cursor = null;
 		try {
@@ -496,7 +496,7 @@ public class PubMetaDataQuery {
 			mainPubDataStatement.setString(2, pubId);
 			cursor = mainPubDataStatement.executeQuery();
 			if (cursor.next()) {
-				result = makeDisPubMetaDataFrom(cursor, excludeRestriction);
+				result = makeDisPubMetaDataFrom(cursor, excludeRestriction, excludeAbstract);
 			}
 		}
 		finally {
@@ -507,7 +507,7 @@ public class PubMetaDataQuery {
 		return result;
 	}
 		
-	private DisPubMetaData makeDisPubMetaDataFrom(ResultSet cursor, int excludeRestriction) throws SQLException {
+	private DisPubMetaData makeDisPubMetaDataFrom(ResultSet cursor, int excludeRestriction, int excludeAbstract) throws SQLException {
 		DisPubMetaData result = new DisPubMetaData();
 		String itemId = cursor.getString(kColumnItemId);
 		String pubId = cursor.getString(kColumnPubId);
@@ -528,7 +528,9 @@ public class PubMetaDataQuery {
 		if (null != itemId) {
 			result.setDissLanguages(getLanguagesFor(itemId));
 			result.setSubjects(getSubjectsFor(itemId));
-			result.setAbstract(required(getAbstractFor(itemId)));
+			if (excludeAbstract == 0){
+				result.setAbstract(required(getAbstractFor(itemId)));
+			}
 			result.setDepartments(getDepartmentsFor(itemId));
 			result.setKeywords(getKeywordsFor(itemId));
 			result.setSalesRestrictions(getSalesRestrictionsFor(itemId, excludeRestriction));

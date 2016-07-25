@@ -32,14 +32,16 @@ public class CSVRecordFactory {
 	private static final String DELIMITER = "|";
 	private DisPubMetaData curMetaData = null;
 	private String curRecord = "";
+	private int excludeAbstract = 0;
 	private final TextNormalizer abstractNormalizer = new TextNormalizer();
 	private final PDFVaultAvailableStatusProvider pdfAvailableStatus;
 
 	private final LinkedHashMap<String, Method> kAllHeaders = new LinkedHashMap<String, Method>();
 
 	
-	public CSVRecordFactory(PDFVaultAvailableStatusProvider pdfVaultAvailableStatus) 
+	public CSVRecordFactory(PDFVaultAvailableStatusProvider pdfVaultAvailableStatus, int excludeAbstract) 
 			throws NoSuchMethodException, SecurityException, ClassNotFoundException {
+		this.excludeAbstract = excludeAbstract;
 		initTagMapping();
 		this.pdfAvailableStatus = pdfVaultAvailableStatus;
 		
@@ -87,8 +89,11 @@ public class CSVRecordFactory {
 				CSVRecordFactory.class.getDeclaredMethod("handleISBN"));
 		kAllHeaders.put(CSVHeaders.kOpenAccessFlag, CSVRecordFactory.class
 				.getDeclaredMethod("handleOpenAccessFlag"));
-		kAllHeaders.put(CSVHeaders.kAbstract,
-				CSVRecordFactory.class.getDeclaredMethod("handleAbstract"));
+		if (this.excludeAbstract == 0){
+			kAllHeaders.put(CSVHeaders.kAbstract,
+					CSVRecordFactory.class.getDeclaredMethod("handleAbstract"));
+		}
+		
 		kAllHeaders.put(CSVHeaders.kPubDate, CSVRecordFactory.class
 				.getDeclaredMethod("handlePubDate"));
 		kAllHeaders.put(CSVHeaders.kKeyword,

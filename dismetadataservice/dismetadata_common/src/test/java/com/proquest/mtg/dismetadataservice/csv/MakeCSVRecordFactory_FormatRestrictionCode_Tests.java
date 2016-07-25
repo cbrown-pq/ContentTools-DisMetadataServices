@@ -24,7 +24,7 @@ public class MakeCSVRecordFactory_FormatRestrictionCode_Tests extends EasyMockSu
 	@Before
 	public void setUp() throws Exception {
 		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
-		factory = new CSVRecordFactory(pdfVaultAvailableStatus);
+		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0);
 		metadata = new DisPubMetaData();
 		metadata = new DisPubMetaData();
 		for (String curheader : factory.getHeaders()) {

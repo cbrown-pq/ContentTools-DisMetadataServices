@@ -81,7 +81,7 @@ public class LOCMetaDataProvider {
 	}
 	
 	private Claim getDataFor(String pubId, int excludeRestriction) throws Exception {
-		DisPubMetaData disPubMetaData = getPubMetaDataProvider().getPubMetaDataFor(pubId, excludeRestriction);
+		DisPubMetaData disPubMetaData = getPubMetaDataProvider().getPubMetaDataFor(pubId, excludeRestriction, 0);
 		return getLOCRecordFactory().getLOCRecordFor(disPubMetaData);
 	}
 
