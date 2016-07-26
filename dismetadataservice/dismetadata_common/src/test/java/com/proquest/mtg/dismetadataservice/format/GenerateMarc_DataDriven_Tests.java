@@ -65,7 +65,7 @@ public class GenerateMarc_DataDriven_Tests {
 		}
 		
 		public static PubAndMarcRecord makeFor(IMarcProvider marcProvider, String pubId) throws Exception {
-			MarcRecord marcRecord = marcProvider.getMarcResultFor(pubId,0);
+			MarcRecord marcRecord = marcProvider.getMarcResultFor(pubId,0,0);
 			return new PubAndMarcRecord(pubId, marcRecord);
 		}
 	}

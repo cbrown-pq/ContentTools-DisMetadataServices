@@ -31,10 +31,11 @@ public class DisMetadataServiceProvider {
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response getDisMetaData(@PathParam("pubNumber") String pubNumber,
 			@PathParam("formatType") String formatType,
-			@DefaultValue("0") @QueryParam("er") int excludeRestriction) throws WebApplicationException {
+			@DefaultValue("0") @QueryParam("er") int excludeRestriction,
+			@DefaultValue("0") @QueryParam("ea") int excludeAbstract) throws WebApplicationException {
 		String result = null;
 		try {
-			result = getMetaDataFormatFactory().getFor(formatType).makeFor(pubNumber, excludeRestriction);
+			result = getMetaDataFormatFactory().getFor(formatType).makeFor(pubNumber, excludeRestriction,excludeAbstract);
 		} catch(IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */

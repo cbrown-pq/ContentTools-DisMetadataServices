@@ -17,8 +17,8 @@ public class Marc21RdaFormat implements IMetaDataFormats {
 	}
 
 	@Override
-	public String makeFor(String pubNum, int excludeRestriction) throws Exception {
-		return getMarc21RdaDataProvider().getMarc21RDAResultFor(pubNum, excludeRestriction).toMarcString();
+	public String makeFor(String pubNum, int excludeRestriction, int excludeAbstract) throws Exception {
+		return getMarc21RdaDataProvider().getMarc21RDAResultFor(pubNum, excludeRestriction, excludeAbstract).toMarcString();
 	}
 
 }

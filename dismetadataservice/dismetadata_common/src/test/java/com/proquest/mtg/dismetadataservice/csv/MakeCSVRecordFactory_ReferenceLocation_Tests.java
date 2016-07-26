@@ -19,7 +19,7 @@ public class MakeCSVRecordFactory_ReferenceLocation_Tests extends EasyMockSuppor
 	@Before
 	public void setUp() throws Exception {
 		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
-		factory = new CSVRecordFactory(pdfVaultAvailableStatus);
+		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0);
 		metadata = new DisPubMetaData();
 		for (String curheader : factory.getHeaders()) {
 			header += curheader + ",";

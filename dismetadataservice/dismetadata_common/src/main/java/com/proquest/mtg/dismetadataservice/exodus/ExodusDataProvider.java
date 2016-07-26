@@ -45,20 +45,20 @@ public class ExodusDataProvider implements IMarcProvider,ICSVProvider {
 	}
 	
 	@Override
-	public MarcRecord getMarcResultFor(String pubNum, int excludeRestriction) throws Exception {
+	public MarcRecord getMarcResultFor(String pubNum, int excludeRestriction, int excludeAbstract) throws Exception {
 		USMarcRecordFactory marcFactory = new USMarcRecordFactory(getDisGenMappingProvider());
 		MarcRecord marcRecord = marcFactory.makeFrom(
-				getPubMetaDataProvider().getPubMetaDataFor(pubNum, excludeRestriction));
+				getPubMetaDataProvider().getPubMetaDataFor(pubNum, excludeRestriction, excludeAbstract));
 		applyPlainTextNormalizerTo(marcRecord);
 		return marcRecord;
 	}
 	
 	@Override
-	public MarcRecord getMarc21RDAResultFor(String pubNum, int excludeRestriction) throws Exception {
+	public MarcRecord getMarc21RDAResultFor(String pubNum, int excludeRestriction, int excludeAbstract) throws Exception {
 		Marc21RdaRecordFactory marc21RdaFactory = new Marc21RdaRecordFactory(
 				getDisGenMappingProvider());
 		MarcRecord marcRecord = marc21RdaFactory.makeFrom(
-				getPubMetaDataProvider().getPubMetaDataFor(pubNum, excludeRestriction));
+				getPubMetaDataProvider().getPubMetaDataFor(pubNum, excludeRestriction, excludeAbstract));
 		applyPlainTextNormalizerTo(marcRecord);
 		return marcRecord;
 	}
@@ -69,10 +69,10 @@ public class ExodusDataProvider implements IMarcProvider,ICSVProvider {
 
 
 	@Override
-	public String getCSVResultFor(String pubNum, int excludeRestriction) throws Exception {
-		CSVRecordFactory csvFactory = new CSVRecordFactory(getPDFVaultAvailableStatusProvider());
+	public String getCSVResultFor(String pubNum, int excludeRestriction, int excludeAbstract) throws Exception {
+		CSVRecordFactory csvFactory = new CSVRecordFactory(getPDFVaultAvailableStatusProvider(), excludeAbstract);
 		String csvRecord = csvFactory.makeFrom(
-				getPubMetaDataProvider().getPubMetaDataFor(pubNum, excludeRestriction));
+				getPubMetaDataProvider().getPubMetaDataFor(pubNum, excludeRestriction, excludeAbstract));
 		return csvRecord;
 	}
 }

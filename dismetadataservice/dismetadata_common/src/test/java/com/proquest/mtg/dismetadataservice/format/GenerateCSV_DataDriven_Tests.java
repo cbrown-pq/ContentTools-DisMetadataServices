@@ -52,7 +52,7 @@ public class GenerateCSV_DataDriven_Tests {
 
 		public static PubAndCSVRecord makeFor(ICSVProvider csvProvider,
 				String pubId) throws Exception {
-			String csvRecord = csvProvider.getCSVResultFor(pubId,0);
+			String csvRecord = csvProvider.getCSVResultFor(pubId,0,0);
 			return new PubAndCSVRecord(pubId, csvRecord);
 		}
 
