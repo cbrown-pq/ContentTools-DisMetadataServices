@@ -37,7 +37,7 @@ public enum PdfType {
     
         
     public static final ImmutableSet<PdfType> kPriorityOrderForDistribution = ImmutableSet.of(
-			PdfType.IMAGE_300DPI, PdfType.IMAGE_600DPI, PdfType.SEARCHABLE);
+			PdfType.NATIVE, PdfType.IMAGE_300DPI, PdfType.IMAGE_600DPI, PdfType.SEARCHABLE);
     
     public static final ImmutableSet<PdfType> kPriorityOrderForPrint = ImmutableSet.of(
 			PdfType.NATIVE, PdfType.IMAGE_300DPI, PdfType.IMAGE_600DPI);
