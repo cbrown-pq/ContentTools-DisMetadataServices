@@ -39,7 +39,7 @@ public class PdfMediaInfoFactory {
 			if (null != mediaIndex) {
 				for (Comp curComponent : mediaIndex.getComp()) {
 					if (isFullText(curComponent)) {
-						for (Rep curRepresentation :curComponent.getRep()) {
+					for (Rep curRepresentation :curComponent.getRep()) {
 							if (isFullTextPdf(curRepresentation)) {
 									result.add(makeFrom(curComponent, curRepresentation));
 								}

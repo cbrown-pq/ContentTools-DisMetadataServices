@@ -33,4 +33,13 @@ public class PdfType_Tests {
 		assertThat(target.getValue(), is(value));
 		assertThat(target.toString(), is(value));
 	}
+	
+	@Test
+	public void imageNative_enum() throws Exception {
+		String value = "NPDF";
+		PdfType target = PdfType.fromString(value);
+		assertThat(target, is(PdfType.NATIVE));
+		assertThat(target.getValue(), is(value));
+		assertThat(target.toString(), is(value));
+	}
 }

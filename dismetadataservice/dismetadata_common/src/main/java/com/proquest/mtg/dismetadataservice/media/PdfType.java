@@ -5,9 +5,10 @@ import com.google.common.collect.ImmutableSet;
 public enum PdfType {
 	SEARCHABLE("SPDF"),
 	IMAGE_300DPI("300PDF"), 
-	IMAGE_600DPI("600PDF"); 
+	IMAGE_600DPI("600PDF"), 
+	NATIVE("NPDF");
 	
-    private String value;
+	private String value;
 
     PdfType(String value) {
         this.value = value;
@@ -39,7 +40,7 @@ public enum PdfType {
 			PdfType.IMAGE_300DPI, PdfType.IMAGE_600DPI, PdfType.SEARCHABLE);
     
     public static final ImmutableSet<PdfType> kPriorityOrderForPrint = ImmutableSet.of(
-			PdfType.IMAGE_300DPI, PdfType.IMAGE_600DPI);
+			PdfType.NATIVE, PdfType.IMAGE_300DPI, PdfType.IMAGE_600DPI);
     
     public static final ImmutableSet<PdfType> kPriorityOrderFor300PDF = ImmutableSet.of(
 			PdfType.IMAGE_300DPI);
