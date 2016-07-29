@@ -65,13 +65,13 @@ public class PubMediaInfo_GetPreferredPdfForDistribution_Tests extends EasyMockS
 		expect(goidMedaiInfo2.getFirstKindOfPdf(PdfType.SEARCHABLE)).andStubReturn(null);
 		expect(goidMedaiInfo2.getFirstKindOfPdf(PdfType.IMAGE_300DPI)).andStubReturn(null);
 		expect(goidMedaiInfo2.getFirstKindOfPdf(PdfType.IMAGE_600DPI)).andStubReturn(null);
-		expect(goidMedaiInfo1.getFirstKindOfPdf(PdfType.NATIVE)).andStubReturn(null);
+		expect(goidMedaiInfo2.getFirstKindOfPdf(PdfType.NATIVE)).andStubReturn(null);
 		
 		expect(goidMedaiInfo3.hasPdf()).andStubReturn(false);
 		expect(goidMedaiInfo3.getFirstKindOfPdf(PdfType.SEARCHABLE)).andStubReturn(null);
 		expect(goidMedaiInfo3.getFirstKindOfPdf(PdfType.IMAGE_300DPI)).andStubReturn(null);
 		expect(goidMedaiInfo3.getFirstKindOfPdf(PdfType.IMAGE_600DPI)).andStubReturn(null);
-		expect(goidMedaiInfo1.getFirstKindOfPdf(PdfType.NATIVE)).andStubReturn(null);
+		expect(goidMedaiInfo3.getFirstKindOfPdf(PdfType.NATIVE)).andStubReturn(null);
 		
 		goidMediaInfoList = Lists.newArrayList(goidMedaiInfo1, goidMedaiInfo2, goidMedaiInfo3);
 		
@@ -95,13 +95,13 @@ public class PubMediaInfo_GetPreferredPdfForDistribution_Tests extends EasyMockS
 		expect(goidMedaiInfo2.getFirstKindOfPdf(PdfType.SEARCHABLE)).andStubReturn(null);
 		expect(goidMedaiInfo2.getFirstKindOfPdf(PdfType.IMAGE_300DPI)).andStubReturn(imagePdf1);
 		expect(goidMedaiInfo2.getFirstKindOfPdf(PdfType.IMAGE_600DPI)).andStubReturn(null);
-		expect(goidMedaiInfo1.getFirstKindOfPdf(PdfType.NATIVE)).andStubReturn(null);
+		expect(goidMedaiInfo2.getFirstKindOfPdf(PdfType.NATIVE)).andStubReturn(null);
 
 		expect(goidMedaiInfo3.hasPdf()).andStubReturn(true);
 		expect(goidMedaiInfo3.getFirstKindOfPdf(PdfType.SEARCHABLE)).andStubReturn(null);
 		expect(goidMedaiInfo3.getFirstKindOfPdf(PdfType.IMAGE_300DPI)).andStubReturn(imagePdf2);
-		expect(goidMedaiInfo2.getFirstKindOfPdf(PdfType.IMAGE_600DPI)).andStubReturn(null);
-		expect(goidMedaiInfo1.getFirstKindOfPdf(PdfType.NATIVE)).andStubReturn(null);
+		expect(goidMedaiInfo3.getFirstKindOfPdf(PdfType.IMAGE_600DPI)).andStubReturn(null);
+		expect(goidMedaiInfo3.getFirstKindOfPdf(PdfType.NATIVE)).andStubReturn(null);
 		
 		goidMediaInfoList = Lists.newArrayList(goidMedaiInfo1, goidMedaiInfo2, goidMedaiInfo3);
 		
