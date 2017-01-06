@@ -172,7 +172,7 @@ public class PubMetaDataQuery {
                   "FROM dis_work_order_stations dwos " +                 
                   "WHERE dvwo_code = 'S'" + 
                   "AND dwos.diw_id = ditm.diw_id) " + kColumnPubDate + ", " +
-                  "(SELECT MAX (to_char(dwos_received_date,'MM/DD/YYYY')) " +
+                  "(SELECT MAX (dwos_received_date) " +
                   "FROM dis_work_order_stations dwos, dis_work_orders dwo " +                 
                   "WHERE dwo.diw_id = dwos.diw_id and dwos.diw_id = ditm.diw_id) " + kColumnDwosReceiveDate + " " +
                   "FROM dis.dis_items ditm, " +
