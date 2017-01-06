@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -172,7 +173,7 @@ public class PubMetaDataQuery {
                   "FROM dis_work_order_stations dwos " +                 
                   "WHERE dvwo_code = 'S'" + 
                   "AND dwos.diw_id = ditm.diw_id) " + kColumnPubDate + ", " +
-                  "(SELECT  MAX (to_date(to_char(dwos_received_date,'MM/DD/YYYY'),'MM/DD/YYYY')) " +
+                  "(SELECT  MAX (dwos_received_date) " +
                   "FROM dis_work_order_stations dwos, dis_work_orders dwo " +                 
                   "WHERE dwo.diw_id = dwos.diw_id and dwos.diw_id = ditm.diw_id) " + kColumnDwosReceiveDate + " " +
                   "FROM dis.dis_items ditm, " +
@@ -520,7 +521,17 @@ public class PubMetaDataQuery {
 		result.setBLNumber(trimmed(cursor.getString(kColumnBritishLibraryNumber)));
 		result.setReferenceLocation(trimmed(cursor.getString(kColumnReferenceLocation)));
 		result.setTitle(makeTitleFrom(cursor));
-		result.setFirstPublicationDate(cursor.getString(kColumnDwosReceiveDate));
+		
+		
+		DateFormat df = new SimpleDateFormat("DD/MM/YYYY");
+		String dwoReceiveDate = null;
+		if(null != cursor.getDate(kColumnDwosReceiveDate))
+		{
+			dwoReceiveDate = df.format(cursor.getDate(kColumnDwosReceiveDate));
+		}
+		result.setFirstPublicationDate(dwoReceiveDate);
+		
+		
 		String source = trimmed(cursor.getString(kColumnSource));
 		if (null != source && source.equalsIgnoreCase("I")) {
 			result.setExternalURL(trimmed(cursor.getString(kColumnExternalUrl)));
