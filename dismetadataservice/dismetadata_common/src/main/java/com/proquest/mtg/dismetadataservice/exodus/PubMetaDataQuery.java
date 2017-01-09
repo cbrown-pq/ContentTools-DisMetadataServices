@@ -6,9 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
@@ -173,6 +175,7 @@ public class PubMetaDataQuery {
                   "FROM dis_work_order_stations dwos " +                 
                   "WHERE dvwo_code = 'S'" + 
                   "AND dwos.diw_id = ditm.diw_id) " + kColumnPubDate + ", " +
+            //      "(SELECT  MAX (to_date(to_char(dwos_received_date,'mm/dd/yyyy'),'mm/dd/yyyy')) " +
                   "(SELECT  MAX (dwos_received_date) " +
                   "FROM dis_work_order_stations dwos, dis_work_orders dwo " +                 
                   "WHERE dwo.diw_id = dwos.diw_id and dwos.diw_id = ditm.diw_id) " + kColumnDwosReceiveDate + " " +
@@ -489,7 +492,7 @@ public class PubMetaDataQuery {
 		return getPqOpenUrlBase() + pubId.trim();
 	}
 	
-	public DisPubMetaData getFor(String pubId, int excludeRestriction, int excludeAbstract) throws SQLException {
+	public DisPubMetaData getFor(String pubId, int excludeRestriction, int excludeAbstract) throws SQLException, ParseException {
 		DisPubMetaData result = null;
 		ResultSet cursor = null;
 		try {
@@ -508,7 +511,7 @@ public class PubMetaDataQuery {
 		return result;
 	}
 		
-	private DisPubMetaData makeDisPubMetaDataFrom(ResultSet cursor, int excludeRestriction, int excludeAbstract) throws SQLException {
+	private DisPubMetaData makeDisPubMetaDataFrom(ResultSet cursor, int excludeRestriction, int excludeAbstract) throws SQLException, ParseException {
 		DisPubMetaData result = new DisPubMetaData();
 		String itemId = cursor.getString(kColumnItemId);
 		String pubId = cursor.getString(kColumnPubId);
@@ -523,11 +526,14 @@ public class PubMetaDataQuery {
 		result.setTitle(makeTitleFrom(cursor));
 		
 		
-		DateFormat df = new SimpleDateFormat("DD/MM/YYYY");
+		SimpleDateFormat dayFormat = new SimpleDateFormat("MM/dd/yyyy");
 		String dwoReceiveDate = null;
+		System.out.println(cursor.getString(kColumnDwosReceiveDate));
+
 		if(null != cursor.getDate(kColumnDwosReceiveDate))
 		{
-			dwoReceiveDate = df.format(cursor.getDate(kColumnDwosReceiveDate));
+			System.out.println(dayFormat.format(cursor.getDate(kColumnDwosReceiveDate)));
+			dwoReceiveDate = dayFormat.format(cursor.getDate(kColumnDwosReceiveDate));
 		}
 		result.setFirstPublicationDate(dwoReceiveDate);
 		
