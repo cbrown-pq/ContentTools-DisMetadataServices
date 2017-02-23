@@ -18,6 +18,7 @@ import com.proquest.mtg.dismetadataservice.mrngxml.CharSubstitution;
 import com.proquest.mtg.dismetadataservice.mrngxml.Degrees;
 import com.proquest.mtg.dismetadataservice.mrngxml.Degrees.Degree;
 import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation;
+import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation.AlternateAbstracts.AlternateAbstract;
 import com.proquest.mtg.dismetadataservice.mrngxml.Dissertation.AlternateTitles.AlternateTitle;
 import com.proquest.mtg.dismetadataservice.mrngxml.PrimaryAuthor;
 import com.proquest.mtg.dismetadataservice.mrngxml.SecondaryAuthor;
@@ -207,9 +208,13 @@ public class PubMetaDataQueryForMrngXml {
 			+ "dis.dis_abstracts " + "WHERE " + "ditm_id = ? ";
 
 	private static final String kSelectAlternateAbstract = "SELECT "
-			+ "dsab_abstract_text " + kColumnAlternateAbstract + " " + "FROM "
-			+ "dis.dis_supp_abstracts " + "WHERE " + "ditm_id = ? ";
-
+			+ "dst.dsab_abstract_text " + kColumnAlternateAbstract + ", " 
+			+ "dvl.dvl_description " + kColumnAlternateTitleLanguage + " "
+			+ "FROM dis.dis_supp_abstracts dst , " 
+			+ "dis.dis_valid_languages dvl WHERE dst.ditm_id = ? "
+			+ "AND dst.dvl_code = dvl.dvl_code "
+			+ "ORDER BY dst.DSAB_SNO";
+			
 	private static final String kSelectAlternateTitles = "SELECT "
 			+ "dst.dst_supp_title " + kColumnAlternateTitle + ", "
 			+ "dvl.dvl_description " + kColumnAlternateTitleLanguage + " "
@@ -352,9 +357,9 @@ public class PubMetaDataQueryForMrngXml {
 		Dissertation result = null;
 		ResultSet cursor = null;
 		try {
-			mainPubDataStatement.setString(1, pubId);
+			mainPubDataStatement.setString(1, pubId);			
 			cursor = mainPubDataStatement.executeQuery();
-			if (cursor.next()) {
+			if (cursor.next()) {				
 				result = makePubMetaDataFrom(cursor);
 			}
 		} finally {
@@ -380,17 +385,15 @@ public class PubMetaDataQueryForMrngXml {
 			result.setPublisherNote(trimmed(pubNote));
 		}
 			
-		String itemId = cursor.getString(kColumnItemId);
+		String itemId = cursor.getString(kColumnItemId);		
 		if (null != itemId) {
 
 			result.setAbstract(getAbstractFor(itemId, language));
 
-			AlternateAbstract altAbstract = getAlternateAbstractFor(itemId,
-					language);
+			AlternateAbstracts altAbstract = getAlternateAbstractFor(itemId);
 			if (null != altAbstract) {
-				result.setAlternateAbstract(altAbstract);
-			}
-			
+				result.setAlternateAbstracts(altAbstract);
+			}			
 			result.setDepartments(getDepartmentsFor(itemId));
 			Keywords resultKeyword = getKeywordsFor(itemId);
 			if (null != resultKeyword){
@@ -400,8 +403,7 @@ public class PubMetaDataQueryForMrngXml {
 			result.setAlternateTitles(getAlternateTitlesFor(itemId));
 			result.setCmteMembers(getCommitteeMembersFor(itemId));
 			//String delimitedAdvisorStr = CharSubstitution.applyAllTo(cursor.getString(kColumnAdvisors));
-			String delimitedAdvisorStr = cursor.getString(kColumnAdvisors);
-			
+			String delimitedAdvisorStr = cursor.getString(kColumnAdvisors);			
 			if (null != delimitedAdvisorStr) {
 				result.setAdvisors(getAdvisorsFor(itemId, delimitedAdvisorStr,
 						language));
@@ -630,20 +632,25 @@ public class PubMetaDataQueryForMrngXml {
 	}
 	
 	
-	private AlternateAbstract getAlternateAbstractFor(String itemId,
-			String language) throws SQLException {
-		AlternateAbstract result = null;
+	private AlternateAbstracts getAlternateAbstractFor(String itemId)
+			throws SQLException {
+		AlternateAbstracts result = null;
 
 		ResultSet cursor = null;
-		try {
+		try {			
 			alternateAbstractStatement.setString(1, itemId);
 			cursor = alternateAbstractStatement.executeQuery();
-			if (cursor.next()) {
-				result = new AlternateAbstract();
-				String abs = cursor.getString(kColumnAlternateAbstract);		
+			while (cursor.next()) {
+				if (null == result) {
+					result = new AlternateAbstracts();
+				}
+				String abs = cursor.getString(kColumnAlternateAbstract);
+				String language = cursor.getString(kColumnAlternateTitleLanguage); 
 				abs = textNormalizer.replaceCRTagwithPara(abs);
-				result.setValue(processTextForPlatform(abs));
-				result.setLanguage(language);
+				AlternateAbstract altabs = new AlternateAbstract();
+				altabs.setLanguage(language);
+				altabs.setValue(processTextForPlatform(abs));
+				result.getAlternateAbstract().add(altabs);
 			}
 		} finally {
 			if (null != cursor) {
@@ -664,13 +671,15 @@ public class PubMetaDataQueryForMrngXml {
 				if (null == result) {
 					result = new AlternateTitles();
 				}
+				
 				AlternateTitle item = new AlternateTitle();
 				item.setValue(processTextForPlatform(cursor
 						.getString(kColumnAlternateTitle)));
 				item.setLanguage(trimmed(cursor
 						.getString(kColumnAlternateTitleLanguage)));
-				result.setAlternateTitle(item);
+				result.getAlternateTitle().add(item);				
 			}
+		
 		} finally {
 			if (null != cursor) {
 				cursor.close();
