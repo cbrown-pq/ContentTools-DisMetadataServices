@@ -37,7 +37,24 @@ public class MediaDownloader implements IMediaDownloader {
 
 	@Override
 	public byte[] download(URL url) throws Exception {
-		return doDownload(url);
+		byte[] content = null;
+		for (int i = 1; i <= 5; i++) {
+			try {
+				content = doDownload(url);
+			} catch (IOException | MediaDownloadException e1) {
+				try {
+					Thread.sleep(10000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				continue;
+			}
+			break;
+		}
+		if (content == null) {
+			throw new MediaDownloadException("Failed to download the PDF.");
+		}
+		return content;
 	}
 	
 	private byte[] doDownload(URL url) throws IOException, 
