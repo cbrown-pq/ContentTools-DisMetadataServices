@@ -19,13 +19,22 @@ public class Author {
     private List<AddressMetaData> addresses;
     private int sequenceNumber;
     private String authorCitizenship;
+    private String orcID;
     private String authorLocCitizenship;
 
     public String getAuthorId() {
     	return authorId;
     }
     
-    public void setAuthorId(String kcolumnauthorid) {
+    public String getOrcID() {
+		return orcID;
+	}
+
+	public void setOrcID(String orcID) {
+		this.orcID = orcID;
+	}
+
+	public void setAuthorId(String kcolumnauthorid) {
     	this.authorId = kcolumnauthorid;
     }
     

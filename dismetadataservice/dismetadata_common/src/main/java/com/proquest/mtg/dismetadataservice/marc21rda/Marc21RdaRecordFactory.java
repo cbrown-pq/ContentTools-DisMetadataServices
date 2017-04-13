@@ -137,20 +137,34 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 
 	private void handleAuthor() {
 		String authorFullname = null;
+		String orcID = null;
 		List<Author> authors = curMetaData.getAuthors();
 		if (null != authors && !authors.isEmpty()) {
+			orcID = authors.get(0).getOrcID();
 			authorFullname = authors.get(0).getAuthorFullName();
 			if (null != authorFullname && !authorFullname.isEmpty()) {
+				if (null != orcID && !orcID.isEmpty()){
 				authorFullname = SGMLEntitySubstitution
 						.applyAllTo(authorFullname);
 				addField(
 						MarcTags.kAuthor,
 						makeFieldDataFrom('1', ' ', 'a',
 								endWithPeriod(authorFullname + ","
-										+ makeFieldDataFrom('e', "author"))));
+										+ makeFieldDataFrom('e', "author")))
+										+ makeFieldDataFrom('0', "(orcid)" + orcID));
+				}else{
+					authorFullname = SGMLEntitySubstitution
+							.applyAllTo(authorFullname);
+					addField(
+							MarcTags.kAuthor,
+							makeFieldDataFrom('1', ' ', 'a',
+									endWithPeriod(authorFullname + ","
+											+ makeFieldDataFrom('e', "author"))));
+				}
 			}
 		}
 	}
+	
 
 	private void handleAccessRestrictionNote() {
 		if (null != curMetaData.getPubNumber()) {
@@ -225,16 +239,24 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 
 	private void handleAbstract() {
 		String abstractText = curMetaData.getAbstract();
-		if (null != abstractText && !abstractText.isEmpty()) {
+		String alternateAbstractText = curMetaData.getAlternateAbstracts();
+		int index = 0;
+		if (null != abstractText && !abstractText.isEmpty() && null != alternateAbstractText && !alternateAbstractText.isEmpty()) {
 			abstractText = abstractNormalizer.applyTo(abstractText);
 			for (String curParagraph : makeAbstractParagraphsFrom(abstractText)) {
+				String curAltParagraph = makeAbstractParagraphsFrom(alternateAbstractText).get(index);
 				curParagraph = endsWithPunctuationMark(curParagraph);
 				curParagraph = SGMLEntitySubstitution.applyAllTo(curParagraph);
+				curAltParagraph = endsWithPunctuationMark(curAltParagraph);
+				curAltParagraph = SGMLEntitySubstitution.applyAllTo(curAltParagraph);
 				addField(MarcTags.kAbstract,
-						makeFieldDataFrom(' ', ' ', 'a', curParagraph));
+					makeFieldDataFrom(' ', ' ', 'a', curParagraph)
+					    + makeFieldDataFrom('=',curAltParagraph));
+				index++;
 			}
 		}
 	}
+
 
 	private List<String> makeAbstractParagraphsFrom(String abstractText) {
 		List<String> result = Lists.newArrayList();
@@ -812,6 +834,10 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	private void handleTitle() {
 		String title = getTitleToInclude(curMetaData);
 		String additionalAuthors = "";
+		String alternateTitle = null;
+		if ((null != getAlternateTitleToInclude(curMetaData)) && (getAlternateTitleToInclude(curMetaData).size() > 0)) {
+			alternateTitle = getAlternateTitleToInclude(curMetaData).get(0).getAltTitle();
+		}
 		if (null != title && !title.isEmpty()) {
 			// title = endsWithPunctuationMark(title);
 			title = SGMLEntitySubstitution.applyAllTo(title);
@@ -834,8 +860,15 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 							+ makeFieldDataFrom('c', additionalAuthors);
 				}
 			}
+			if (null != alternateTitle){
 			addField(MarcTags.kTitle,
-					makeFieldDataFrom('1', secondFieldIndicator, 'a', title));
+					makeFieldDataFrom('1', secondFieldIndicator, 'a', title)
+					+ makeFieldDataFrom('/', alternateTitle));
+			}
+			else {
+				addField(MarcTags.kTitle,
+						makeFieldDataFrom('1', secondFieldIndicator, 'a', title));
+			}
 		}
 	}
 

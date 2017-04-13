@@ -3,6 +3,7 @@ package com.proquest.mtg.dismetadataservice.marc;
 import java.util.List;
 
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.metadata.DisGeneralMapping;
 
@@ -132,6 +133,10 @@ public class MarcRecordFactoryBase {
 			}
 		}
 		return title;
+	}
+	
+	protected List<AlternateTitle> getAlternateTitleToInclude(DisPubMetaData disPubMetaData) {
+		return disPubMetaData.getAlternateTitles();          
 	}
 
 }

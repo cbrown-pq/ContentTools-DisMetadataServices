@@ -61,6 +61,7 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 		handleAuthor(); /*100*/ 
 		handleEnglishTranslationOfTitle(); /*242*/
 		handleTitle(); /*245*/
+		handlePublisher();  /*260*/
 		handlePageCount(); /*300*/
 		handleGeneralNoteForSource(); /*500 */
 		handleGeneralNoteForPublisher(); /*500 */
@@ -90,13 +91,23 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 
 	private void handleAuthor() {
 		String authorFullname = null;
-		List<Author> authors = curMetaData.getAuthors();
+		String orcID = null;
+		List<Author> authors = curMetaData.getAuthors();		
 		if(null != authors && ! authors.isEmpty()) {
 			authorFullname = authors.get(0).getAuthorFullName();
+			orcID = authors.get(0).getOrcID();
 			if(null != authorFullname) {
+				if (null != orcID && !orcID.isEmpty()){
 				authorFullname = SGMLEntitySubstitution.applyAllTo(authorFullname);			
 				addField(MarcTags.kAuthor, 
+						makeFieldDataFrom('1', ' ', 'a',  endWithPeriod(authorFullname))
+						  + makeFieldDataFrom('0', "(orcid)" + orcID));
+				}else{
+					authorFullname = SGMLEntitySubstitution.applyAllTo(authorFullname);			
+				    addField(MarcTags.kAuthor, 
 						makeFieldDataFrom('1', ' ', 'a',  endWithPeriod(authorFullname)));
+						
+				}			
 			}
 		}
 	}
@@ -173,13 +184,22 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 
 	private void handleAbstract() {
 		String abstractText = curMetaData.getAbstract();
-		if (null != abstractText && !abstractText.isEmpty()) {
+		String alternateAbstractText = curMetaData.getAlternateAbstracts();
+
+
+		if (null != abstractText && !abstractText.isEmpty() && null != alternateAbstractText && !alternateAbstractText.isEmpty()) {
 			abstractText = abstractNormalizer.applyTo(abstractText);
+			int index = 0;
 			for (String curParagraph : makeAbstractParagraphsFrom(abstractText)) {
-				curParagraph = endsWithPunctuationMark(curParagraph);
-				curParagraph = SGMLEntitySubstitution.applyAllTo(curParagraph);
-				addField(MarcTags.kAbstract,
-						makeFieldDataFrom(' ', ' ', 'a', curParagraph));
+				String curAltParagraph = makeAbstractParagraphsFrom(alternateAbstractText).get(index);
+					curParagraph = endsWithPunctuationMark(curParagraph);
+					curParagraph = SGMLEntitySubstitution.applyAllTo(curParagraph);
+					curAltParagraph = endsWithPunctuationMark(curAltParagraph);
+					curAltParagraph = SGMLEntitySubstitution.applyAllTo(curAltParagraph);
+					addField(MarcTags.kAbstract,
+						makeFieldDataFrom(' ', ' ', 'a', curParagraph)
+						    + makeFieldDataFrom('=',curAltParagraph));
+					index++;
 			}
 		}
 	}
@@ -600,12 +620,66 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 
 	private void handleTitle() {
 		String title = getTitleToInclude(curMetaData);
+		String alternateTitle = null;
+		if ((null != getAlternateTitleToInclude(curMetaData)) && (getAlternateTitleToInclude(curMetaData).size() > 0)) {
+			alternateTitle = getAlternateTitleToInclude(curMetaData).get(0).getAltTitle();
+		}
+		
 		if (null != title) {
 			title = endsWithPunctuationMark(title);
 			title = SGMLEntitySubstitution.applyAllTo(title);
 			char secondFieldIndicator = getSecondFieldIndicator(disGenMappingProvider,title,kMarcMapping);
-			addField(MarcTags.kTitle, makeFieldDataFrom('1', secondFieldIndicator, 'a', title));
+			if (null != alternateTitle){
+			addField(MarcTags.kTitle, makeFieldDataFrom('1', secondFieldIndicator, 'b', title)
+			        + makeFieldDataFrom('c', alternateTitle));
+			}
+			else {
+				addField(MarcTags.kTitle, makeFieldDataFrom('1', secondFieldIndicator, 'b', title));
+			}
 		}
+	}
+	
+	private void handlePublisher() {
+		List<Author> authors = curMetaData.getAuthors();
+		String degreeYear = "";
+		if (null != authors && !authors.isEmpty()) {
+			degreeYear = authors.get(0).getDegrees() != null ? authors.get(0)
+					.getDegrees().get(0).getDegreeYear() : null;
+			if (null != degreeYear && !degreeYear.isEmpty()) {
+				addField(
+						MarcTags.kPublisher,
+						makeFieldDataFrom(
+								' ',
+								'1',
+								'a',
+								"Ann Arbor : "
+										+ endWithComma(makeFieldDataFrom('b',
+												"ProQuest Dissertations & Theses"))
+										+ ' '
+										+ makeFieldDataFrom('c', degreeYear)));
+			} else {
+				addField(
+						MarcTags.kPublisher,
+						makeFieldDataFrom(
+								' ',
+								'1',
+								'a',
+								"Ann Arbor : "
+										+ endWithPeriod(makeFieldDataFrom('b',
+												"ProQuest Dissertations & Theses"))));
+			}
+		} else {
+			addField(
+					MarcTags.kPublisher,
+					makeFieldDataFrom(
+							' ',
+							'1',
+							'a',
+							"Ann Arbor : "
+									+ endWithPeriod(makeFieldDataFrom('b',
+											"ProQuest Dissertations & Theses"))));
+		}
+
 	}
 
 	

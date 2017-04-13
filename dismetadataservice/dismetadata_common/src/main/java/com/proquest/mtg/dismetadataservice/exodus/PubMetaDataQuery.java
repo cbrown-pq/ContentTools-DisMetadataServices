@@ -33,6 +33,7 @@ import com.proquest.mtg.dismetadataservice.metadata.Author.Claimant;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 import com.proquest.mtg.dismetadataservice.metadata.SplitAuthorNames;
 
+
 public class PubMetaDataQuery {
 	public static final String kEmptyValue = "";
 	
@@ -66,6 +67,7 @@ public class PubMetaDataQuery {
 	private static final String kColumnAuthorAlternateFullName = "AuthorAlternateFullName";
 	private static final String kColumnClaimantAddFlag = "ClaimantAddFlag";
 	private static final String kColumnAuthorCitizenship = "AuthorCitizenship"; 
+	private static final String kColumnAuthorOrcId = "AuthorOrcId";
 	
 	private static final String kColumnClaimantId = "AuthorId"; 
 	private static final String kColumnClaimantSequenceNumber = "AuthorSequenceNumber"; 
@@ -77,6 +79,7 @@ public class PubMetaDataQuery {
 	private static final String kColumnDegreeSequenceNumber = "DegreeSequenceNumber";
 	
 	private static final String kColumnAbstract = "Abstract";
+	private static final String kColumnAlternateAbstract = "AlternateAbstract";
 	
 	private static final String kColumnCommitteeFirstName = "CommitteeFirstName";
 	private static final String kColumnCommitteeMiddleName = "CommitteeMiddleName";
@@ -200,6 +203,7 @@ public class PubMetaDataQuery {
 	private static final String kSelectAuthors = 
 			"SELECT " +
 				"dath.dath_id " + kColumnAuthorId + ", " +
+				"dath.dath_orc_id " + kColumnAuthorOrcId + ", "+
 				"dath_sequence_number " + kColumnAuthorSequenceNumber + ", " +
 				"dath_fullname " + kColumnAuthorFullName + ", " + 
 				"dsa_fullname " + kColumnAuthorAlternateFullName + ", " + 
@@ -253,6 +257,15 @@ public class PubMetaDataQuery {
 				"dis.dis_abstracts " +
 			"WHERE " +
 				"ditm_id = ? ";
+	
+	
+	private static final String kSelectAlternateAbstract = "SELECT "
+			+ "dst.dsab_abstract_text " + kColumnAlternateAbstract + ", " 
+			+ "dvl.dvl_description " + kColumnAlternateTitleLanguage + " "
+			+ "FROM dis.dis_supp_abstracts dst , " 
+			+ "dis.dis_valid_languages dvl WHERE dst.ditm_id = ? "
+			+ "AND dst.dvl_code = dvl.dvl_code "
+			+ "ORDER BY dst.DSAB_SNO";
 	
 	private static final String kSelectSubjects = 
 			"SELECT " +
@@ -381,7 +394,6 @@ public class PubMetaDataQuery {
 			"WHERE " +
 				"ditm_id = ? ";
 
-	
 	private static final String kSelectSchool = 
 			"SELECT " + 
 				"dish_code " + kColumnSchoolCode + ", " + 
@@ -440,6 +452,7 @@ public class PubMetaDataQuery {
 	private PreparedStatement languageStatement;
 	private PreparedStatement degreeStatement;
 	private PreparedStatement abstractStatement;
+	private PreparedStatement alternateAbstractStatement;
 	private PreparedStatement subjectsStatement;
 	private PreparedStatement committeeMembersStatement;
 	private PreparedStatement supplementalFilesStatement;
@@ -468,6 +481,8 @@ public class PubMetaDataQuery {
 		this.languageStatement = connection.prepareStatement(kSelectLanguage);
 		this.degreeStatement = connection.prepareStatement(kSelectDegree);
 		this.abstractStatement = connection.prepareStatement(kSelectAbstract);
+		this.alternateAbstractStatement = connection
+				.prepareStatement(kSelectAlternateAbstract);
 		this.subjectsStatement = connection.prepareStatement(kSelectSubjects);
 		this.committeeMembersStatement = connection.prepareStatement(kSelectCommitteeMembers);
 		this.supplementalFilesStatement = connection.prepareStatement(kSelectSupplementalFiles);
@@ -548,6 +563,7 @@ public class PubMetaDataQuery {
 			if (excludeAbstract == 0){
 				result.setAbstract(required(getAbstractFor(itemId)));
 			}
+		    result.setAlternateAbstracts(getAlternateAbstractFor(itemId));
 			result.setDepartments(getDepartmentsFor(itemId));
 			result.setKeywords(getKeywordsFor(itemId));
 			result.setSalesRestrictions(getSalesRestrictionsFor(itemId, excludeRestriction));
@@ -635,6 +651,15 @@ public class PubMetaDataQuery {
 					author.setAuthorLocCitizenship(cursor
 							.getString(kColumnAuthorCitizenship));
 				}
+				if (null != cursor.getString(kColumnAuthorOrcId)
+						&& !cursor.getString(kColumnAuthorOrcId)
+								.isEmpty()) {
+					author.setOrcID(cursor
+							.getString(kColumnAuthorOrcId));
+				} else {
+					author.setOrcID(cursor
+							.getString(kColumnAuthorOrcId));
+				}
 				result.add(author);
 			}
 		}
@@ -716,6 +741,25 @@ public class PubMetaDataQuery {
 		}
 		return result;
 	}
+	
+	private String getAlternateAbstractFor(String itemId) throws SQLException {
+        String abs = null;
+        ResultSet cursor = null;
+        try {
+               alternateAbstractStatement.setString(1, itemId);
+               cursor = alternateAbstractStatement.executeQuery();
+               while (cursor.next()) {
+                     abs = cursor.getString(kColumnAlternateAbstract);
+                     break;
+               }
+        } finally {
+               if (null != cursor) {
+                     cursor.close();
+               }
+        }
+        return abs;
+ }
+
 	
 	private List<Subject> getSubjectsFor(String itemId) throws SQLException {
 		List<Subject> result = Lists.newArrayList();
@@ -1083,6 +1127,7 @@ public class PubMetaDataQuery {
 		closeStatement(languageStatement);
 		closeStatement(degreeStatement);
 		closeStatement(abstractStatement);
+		closeStatement(alternateAbstractStatement);
 		closeStatement(subjectsStatement);
 		closeStatement(committeeMembersStatement);
 		closeStatement(supplementalFilesStatement);

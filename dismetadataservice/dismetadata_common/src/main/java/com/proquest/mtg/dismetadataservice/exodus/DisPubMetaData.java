@@ -28,6 +28,7 @@ public class DisPubMetaData {
 	private List<SalesRestriction> salesRestrictions;
 	private List<FormatRestriction> formatRestrictions;
 	private String dissAbstract;
+	private String dissAlternateAbstract;
 	private Batch batch;
 	private List<AlternateTitle> alternateTitle;
 	private Advisors advisors;
@@ -149,6 +150,14 @@ public class DisPubMetaData {
 	
 	public void setAbstract(String value) {
 		this.dissAbstract = value;
+	}
+	
+	public String getAlternateAbstracts() {
+		return dissAlternateAbstract;
+	}
+	
+	public void setAlternateAbstracts(String value) {
+		this.dissAlternateAbstract = value;
 	}
 	
 	public void setCmteMembers(Iterable<CmteMember> value) {
@@ -358,6 +367,7 @@ public class DisPubMetaData {
 				+ ", salesRestrictions=" + salesRestrictions
 				+ ", formatRestrictions=" + formatRestrictions
 				+ ", dissAbstract=" + dissAbstract + ", batch=" + batch
+				+ ", dissAlternateAbstract=" + dissAlternateAbstract
 				+ ", alternateTitle=" + alternateTitle + ", advisors="
 				+ advisors + ", title=" + title + ", school=" + school
 				+ ", pdfStatus=" + pdfStatus + ", pqOpenURL=" + pqOpenURL
