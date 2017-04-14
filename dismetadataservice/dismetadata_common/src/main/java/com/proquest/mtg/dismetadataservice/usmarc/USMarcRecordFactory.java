@@ -186,20 +186,34 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 		String abstractText = curMetaData.getAbstract();
 		String alternateAbstractText = curMetaData.getAlternateAbstracts();
 
-
-		if (null != abstractText && !abstractText.isEmpty() && null != alternateAbstractText && !alternateAbstractText.isEmpty()) {
+		if (null != abstractText && !abstractText.isEmpty()
+				&& null != alternateAbstractText
+				&& !alternateAbstractText.isEmpty()) {
 			abstractText = abstractNormalizer.applyTo(abstractText);
 			int index = 0;
 			for (String curParagraph : makeAbstractParagraphsFrom(abstractText)) {
-				String curAltParagraph = makeAbstractParagraphsFrom(alternateAbstractText).get(index);
-					curParagraph = endsWithPunctuationMark(curParagraph);
-					curParagraph = SGMLEntitySubstitution.applyAllTo(curParagraph);
-					curAltParagraph = endsWithPunctuationMark(curAltParagraph);
-					curAltParagraph = SGMLEntitySubstitution.applyAllTo(curAltParagraph);
-					addField(MarcTags.kAbstract,
+				String curAltParagraph = makeAbstractParagraphsFrom(
+						alternateAbstractText).get(index);
+				curParagraph = endsWithPunctuationMark(curParagraph);
+				curParagraph = SGMLEntitySubstitution.applyAllTo(curParagraph);
+				curAltParagraph = endsWithPunctuationMark(curAltParagraph);
+				curAltParagraph = SGMLEntitySubstitution
+						.applyAllTo(curAltParagraph);
+				addField(MarcTags.kAbstract,
 						makeFieldDataFrom(' ', ' ', 'a', curParagraph)
-						    + makeFieldDataFrom('=',curAltParagraph));
-					index++;
+								+ makeFieldDataFrom('=', curAltParagraph));
+				index++;
+			}
+		} else {
+			if (null != abstractText && !abstractText.isEmpty()) {
+				abstractText = abstractNormalizer.applyTo(abstractText);
+				for (String curParagraph : makeAbstractParagraphsFrom(abstractText)) {
+					curParagraph = endsWithPunctuationMark(curParagraph);
+					curParagraph = SGMLEntitySubstitution
+							.applyAllTo(curParagraph);
+					addField(MarcTags.kAbstract,
+							makeFieldDataFrom(' ', ' ', 'a', curParagraph));
+				}
 			}
 		}
 	}
@@ -630,11 +644,11 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 			title = SGMLEntitySubstitution.applyAllTo(title);
 			char secondFieldIndicator = getSecondFieldIndicator(disGenMappingProvider,title,kMarcMapping);
 			if (null != alternateTitle){
-			addField(MarcTags.kTitle, makeFieldDataFrom('1', secondFieldIndicator, 'b', title)
+			addField(MarcTags.kTitle, makeFieldDataFrom('1', secondFieldIndicator, 'a', title)
 			        + makeFieldDataFrom('c', alternateTitle));
 			}
 			else {
-				addField(MarcTags.kTitle, makeFieldDataFrom('1', secondFieldIndicator, 'b', title));
+				addField(MarcTags.kTitle, makeFieldDataFrom('1', secondFieldIndicator, 'a', title));
 			}
 		}
 	}

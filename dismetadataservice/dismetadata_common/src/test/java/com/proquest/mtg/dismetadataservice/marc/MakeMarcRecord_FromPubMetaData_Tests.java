@@ -19,7 +19,7 @@ import com.proquest.mtg.dismetadataservice.usmarc.USMarcRecordFactory;
 
 public class MakeMarcRecord_FromPubMetaData_Tests {
 
-	static int kDataIndependentFieldCount = 3;
+	static int kDataIndependentFieldCount = 4;
 	IJdbcConnectionPool connectionPool;
 	DisGenMappingProvider disGenMappingProvider;
 

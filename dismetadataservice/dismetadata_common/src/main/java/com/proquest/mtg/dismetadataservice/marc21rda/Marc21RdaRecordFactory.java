@@ -255,6 +255,17 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 				index++;
 			}
 		}
+		else {
+			if (null != abstractText && !abstractText.isEmpty()) {
+				abstractText = abstractNormalizer.applyTo(abstractText);
+				for (String curParagraph : makeAbstractParagraphsFrom(abstractText)) {
+					curParagraph = endsWithPunctuationMark(curParagraph);
+					curParagraph = SGMLEntitySubstitution.applyAllTo(curParagraph);
+					addField(MarcTags.kAbstract,
+						makeFieldDataFrom(' ', ' ', 'a', curParagraph));
+				}
+			}
+		}
 	}
 
 
