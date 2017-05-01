@@ -10,7 +10,6 @@ import javax.xml.bind.Marshaller;
 import com.proquest.mtg.dismetadataservice.error.Errors;
 import com.proquest.mtg.dismetadataservice.exodus.IExternalUrlDataProvider;
 import com.proquest.mtg.dismetadataservice.externalurl.xml.DissertationList;
-import com.proquest.mtg.dismetadataservice.externalurl.xml.DissertationList.Dissertation;
 import com.proquest.mtg.dismetadataservice.utils.DisoutMetadaException;
 import com.proquest.mtg.dismetadataservice.utils.XmlSchemaValidator;
 public class ExternalUrlDataFormat implements IExternalUrlDataFormat {
@@ -25,8 +24,12 @@ public class ExternalUrlDataFormat implements IExternalUrlDataFormat {
 		this.schemaValidator = schemaValidator;
 		this.errorMsgXml = new Errors();
 	}
-
-
+	
+	public ExternalUrlDataFormat(IExternalUrlDataProvider externalUrlDataProvider){
+		this.externalUrlDataProvider = externalUrlDataProvider;
+		this.schemaValidator = null;
+		this.errorMsgXml = new Errors();
+	}
 
 	public XmlSchemaValidator<DissertationList> getSchemaValidator() {
 		return schemaValidator;
@@ -37,8 +40,8 @@ public class ExternalUrlDataFormat implements IExternalUrlDataFormat {
 	}
 
 	@Override
-	public DissertationList makeFor() throws Exception {
-		DissertationList dissertationList = getExternalUrlDataProvider().geDataFor();
+	public DissertationList getExtUrlData(String lastRunDate) throws Exception {
+		DissertationList dissertationList = getExternalUrlDataProvider().geDataFor(lastRunDate);
 		if (null == dissertationList) {
 			String msg = "No data found ";
 			addError(msg);
@@ -55,6 +58,18 @@ public class ExternalUrlDataFormat implements IExternalUrlDataFormat {
 			}
 		}
 		return dissertationList;
+	}
+	
+	@Override
+	public String updateExtUrlStatus(String pubid, String status) throws Exception {
+		String result = getExternalUrlDataProvider().updateUrlStatus(pubid, status);
+		if (result.matches("Error")) {
+			String msg = "External url update operation failed ["+result+"]";
+			addError(msg);
+			throw new DisoutMetadaException(
+					convertObjectToString(this.errorMsgXml));
+		}
+		return result;
 	}
 
 	private void addError(String errorMessage) {
@@ -77,7 +92,4 @@ public class ExternalUrlDataFormat implements IExternalUrlDataFormat {
 		return str;
 		
 	}
-
-
-
 }

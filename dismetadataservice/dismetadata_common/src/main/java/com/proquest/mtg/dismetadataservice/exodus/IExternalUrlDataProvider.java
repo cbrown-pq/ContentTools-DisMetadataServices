@@ -6,5 +6,6 @@ import com.proquest.mtg.dismetadataservice.externalurl.xml.DissertationList;
 import com.proquest.mtg.dismetadataservice.externalurl.xml.DissertationList.Dissertation;
 
 public interface IExternalUrlDataProvider {
-	DissertationList geDataFor() throws Exception;
+	DissertationList geDataFor(String lastRunDate) throws Exception;
+	String updateUrlStatus(String pubid, String status) throws Exception;
 }

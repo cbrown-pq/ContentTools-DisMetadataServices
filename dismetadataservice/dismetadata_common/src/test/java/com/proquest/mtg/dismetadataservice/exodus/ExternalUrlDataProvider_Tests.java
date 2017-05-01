@@ -2,8 +2,7 @@ package com.proquest.mtg.dismetadataservice.exodus;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
-
-import java.util.List;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -11,7 +10,6 @@ import org.junit.Test;
 import com.proquest.mtg.dismetadataservice.externalurl.xml.DissertationList;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
-import com.proquest.mtg.dismetadataservice.subjects.xml.Subjects.Subject;
 
 public class ExternalUrlDataProvider_Tests {
 	
@@ -26,8 +24,21 @@ public class ExternalUrlDataProvider_Tests {
 	@Test
 	public void getAllSubjectsReturnNotNullValue() throws Exception {
 		DissertationList dissertationList;
-		dissertationList = target.geDataFor();
+		dissertationList = target.geDataFor("20170427");
 		assertThat( dissertationList, notNullValue());
 	}
-
+	
+	@Test
+	public void updateExternalUrlReturnsSuccess() throws Exception {
+		String expectedUpdateReturnVal = "Update successful"; 
+		String actualUpdateReturnVal = target.updateUrlStatus("10062892", "Valid");
+		assertEquals( actualUpdateReturnVal, expectedUpdateReturnVal);
+	}
+	
+	@Test
+	public void updateExternalUrlReturnsPubNotFoundError() throws Exception {
+		String expectedUpdateReturnVal = "Error! Pub not found"; 
+		String actualUpdateReturnVal = target.updateUrlStatus("9999999999", "Valid");
+		assertEquals( actualUpdateReturnVal, expectedUpdateReturnVal);
+	}
 }
