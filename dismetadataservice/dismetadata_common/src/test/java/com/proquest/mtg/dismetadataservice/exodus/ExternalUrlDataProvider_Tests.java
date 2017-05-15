@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.externalurl.xml.DissertationList;
@@ -29,6 +30,7 @@ public class ExternalUrlDataProvider_Tests {
 	}
 	
 	@Test
+	@Ignore
 	public void updateExternalUrlReturnsSuccess() throws Exception {
 		String expectedUpdateReturnVal = "Update successful"; 
 		String actualUpdateReturnVal = target.updateUrlStatus("10062892", "Valid");
@@ -36,6 +38,7 @@ public class ExternalUrlDataProvider_Tests {
 	}
 	
 	@Test
+	@Ignore
 	public void updateExternalUrlReturnsPubNotFoundError() throws Exception {
 		String expectedUpdateReturnVal = "Error! Pub not found"; 
 		String actualUpdateReturnVal = target.updateUrlStatus("9999999999", "Valid");
