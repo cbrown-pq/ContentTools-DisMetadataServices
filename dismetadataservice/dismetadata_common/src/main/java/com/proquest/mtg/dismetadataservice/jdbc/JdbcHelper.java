@@ -18,7 +18,7 @@ public class JdbcHelper {
 		String user = "dos_prod";
 		String password = "dos_prod";
 		String dbClassType = kConnectionFactoryClass_OracleThin;
-		int maxPoolSize = 5;
+		int maxPoolSize = 1;
 		return new JdbcConfig(url, user, password, dbClassType, maxPoolSize);
 	}
 	
