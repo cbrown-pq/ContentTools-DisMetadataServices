@@ -14,7 +14,7 @@ public class JdbcHelper {
 	}
 	
 	public static JdbcConfig makeConfigForExodusPreProd() {
-		String url = "jdbc:oracle:thin:@shrdb302.aa1.pqe:1521:expep";
+		String url = "jdbc:oracle:thin:@sharedb202.aa1.pqe:1521:expep";
 		String user = "dos_prod";
 		String password = "dos_prod";
 		String dbClassType = kConnectionFactoryClass_OracleThin;
