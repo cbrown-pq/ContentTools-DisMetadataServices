@@ -18,7 +18,7 @@ public class JdbcHelper {
 		String user = "dos_prod";
 		String password = "dos_prod";
 		String dbClassType = kConnectionFactoryClass_OracleThin;
-		int maxPoolSize = 1;
+		int maxPoolSize = 5;
 		return new JdbcConfig(url, user, password, dbClassType, maxPoolSize);
 	}
 	
@@ -45,7 +45,6 @@ public class JdbcHelper {
 	}
 	
 	public static JdbcConnectionPool makePoolForExodusUnitTest() throws Exception {		
-		//return new JdbcConnectionPool(makeConfigForExodusProd());
 		return new JdbcConnectionPool(makeConfigForExodusPreProd());
 	}	
 
