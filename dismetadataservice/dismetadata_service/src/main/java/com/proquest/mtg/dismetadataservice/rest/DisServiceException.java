@@ -1,7 +1,9 @@
 package com.proquest.mtg.dismetadataservice.rest;
 
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 
 @SuppressWarnings("serial")
@@ -16,6 +18,11 @@ public class DisServiceException extends WebApplicationException {
 	}
 	
 	private static Response createResponse(Response.Status statusCode, String message) {
-		return Response.status(statusCode).entity(message).build();
+		if(message==null)
+		{
+			message="Internal Server Error";
+			statusCode= Status.INTERNAL_SERVER_ERROR;		
+		}
+		return Response.status(statusCode).entity(message).type(MediaType.TEXT_PLAIN).build();
 	}
 }
