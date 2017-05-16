@@ -37,7 +37,7 @@ public class DisMetadataServiceProvider_Service_Tests {
 	public void whenPubDoesNotExist() {
 		ClientResponse resp = service.path("metadata")
 				.path("testpub/USMARC").get(ClientResponse.class);
-		assertThat(resp.getStatus(), is(204));		
+		assertThat(resp.getStatus(), is(404));		
 	}
 	
 	@Test
