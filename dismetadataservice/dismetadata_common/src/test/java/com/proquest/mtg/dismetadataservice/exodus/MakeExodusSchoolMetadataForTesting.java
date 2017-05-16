@@ -79,7 +79,7 @@ public class MakeExodusSchoolMetadataForTesting {
 				null, "US", "23-dec-1999", null, null, null, null, address2_uses);
 		
 		
-		addressses.getAddress().addAll(Lists.newArrayList(address1, address2));		
+		addressses.getAddress().addAll(Lists.newArrayList(address2, address1));		
 		x.setAddresses(addressses);
 		
 		return x;
