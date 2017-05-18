@@ -639,16 +639,19 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 		if ((null != getAlternateTitleToInclude(curMetaData)) && (getAlternateTitleToInclude(curMetaData).size() > 0)) {
 			alternateTitle = getAlternateTitleToInclude(curMetaData).get(0).getAltTitle();
 		}
-		
+
 		if (null != title) {
+			/*
+			 * title = endsWithPunctuationMark(title); title =
+			 * SGMLEntitySubstitution.applyAllTo(title);
+			 */
+			char secondFieldIndicator = getSecondFieldIndicator(disGenMappingProvider, title, kMarcMapping);
+			if (null != alternateTitle) {
+				title = title + " =" + makeFieldDataFrom('b', alternateTitle);
+			}
 			title = endsWithPunctuationMark(title);
 			title = SGMLEntitySubstitution.applyAllTo(title);
-			char secondFieldIndicator = getSecondFieldIndicator(disGenMappingProvider,title,kMarcMapping);
-				if (null != alternateTitle) {
-					title = title + " ="
-							+ makeFieldDataFrom('b', alternateTitle);
-				}
-				addField(MarcTags.kTitle, makeFieldDataFrom('1', secondFieldIndicator, 'a', title));
+			addField(MarcTags.kTitle, makeFieldDataFrom('1', secondFieldIndicator, 'a', title));
 		}
 	}
 	
