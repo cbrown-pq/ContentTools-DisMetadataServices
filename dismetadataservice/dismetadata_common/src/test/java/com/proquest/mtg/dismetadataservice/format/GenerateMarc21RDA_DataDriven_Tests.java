@@ -127,7 +127,7 @@ public class GenerateMarc21RDA_DataDriven_Tests {
 		PubAndMarcRecord actualMarc, 
 		PubAndMarcRecord expectedMarc) { 
 		verifyMarcRecordTags(message, actualMarc, expectedMarc);
-		verifyMarcFields(message, actualMarc, expectedMarc);
+		verifyMarcFields(message, expectedMarc, actualMarc);
 	}
 
 	private void verifyMarcRecordTags(
