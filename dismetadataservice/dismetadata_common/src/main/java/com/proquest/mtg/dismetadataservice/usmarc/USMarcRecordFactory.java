@@ -91,12 +91,15 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 
 	private void handleAuthor() {
 		String authorFullname = null;
+		/*String authorFirstName = null;
+		String authorMiddleName = null;
+		String authorLastName = null;*/
 		String orcID = null;
 		List<Author> authors = curMetaData.getAuthors();		
 		if(null != authors && ! authors.isEmpty()) {
 			authorFullname = authors.get(0).getAuthorFullName();
 			orcID = authors.get(0).getOrcID();
-			if(null != authorFullname) {
+			if(null != authorFullname) {			
 				if (null != orcID && !orcID.isEmpty()){
 				authorFullname = SGMLEntitySubstitution.applyAllTo(authorFullname);			
 				addField(MarcTags.kAuthor, 
@@ -181,6 +184,19 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 			addField(MarcTags.kRecId, kRecordIdPrefix + pubId.trim());
 		}
 	}
+	
+	/*  9999 byte limit on abstracts */
+	private String handleRecordSize(String x) {
+		if (null != x) {
+			if (x.length() > 9999) {
+				return x.substring(0,9999);
+		}
+		else {
+			return x;
+		}
+		}
+		return x;
+	}
 
 	private void handleAbstract() {
 		String abstractText = curMetaData.getAbstract();
@@ -190,6 +206,8 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 				&& null != alternateAbstractText
 				&& !alternateAbstractText.isEmpty()) {
 			abstractText = abstractNormalizer.applyTo(abstractText);
+			abstractText = handleRecordSize(abstractText);
+			alternateAbstractText = handleRecordSize(abstractText);
 			int index = 0;
 			for (String curParagraph : makeAbstractParagraphsFrom(abstractText)) {
 				String curAltParagraph = makeAbstractParagraphsFrom(
@@ -207,6 +225,7 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 		} else {
 			if (null != abstractText && !abstractText.isEmpty()) {
 				abstractText = abstractNormalizer.applyTo(abstractText);
+				abstractText = handleRecordSize(abstractText);
 				for (String curParagraph : makeAbstractParagraphsFrom(abstractText)) {
 					curParagraph = endsWithPunctuationMark(curParagraph);
 					curParagraph = SGMLEntitySubstitution
@@ -639,19 +658,18 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 		if ((null != getAlternateTitleToInclude(curMetaData)) && (getAlternateTitleToInclude(curMetaData).size() > 0)) {
 			alternateTitle = getAlternateTitleToInclude(curMetaData).get(0).getAltTitle();
 		}
-
+		
 		if (null != title) {
-			/*
-			 * title = endsWithPunctuationMark(title); title =
-			 * SGMLEntitySubstitution.applyAllTo(title);
-			 */
-			char secondFieldIndicator = getSecondFieldIndicator(disGenMappingProvider, title, kMarcMapping);
-			if (null != alternateTitle) {
-				title = title + " =" + makeFieldDataFrom('b', alternateTitle);
-			}
-			title = endsWithPunctuationMark(title);
-			title = SGMLEntitySubstitution.applyAllTo(title);
-			addField(MarcTags.kTitle, makeFieldDataFrom('1', secondFieldIndicator, 'a', title));
+/*			title = endsWithPunctuationMark(title);
+			title = SGMLEntitySubstitution.applyAllTo(title);*/
+			char secondFieldIndicator = getSecondFieldIndicator(disGenMappingProvider,title,kMarcMapping);
+				if (null != alternateTitle) {
+					title = title + " ="
+							+ makeFieldDataFrom('b', alternateTitle);
+				}
+				title = endsWithPunctuationMark(title);
+				title = SGMLEntitySubstitution.applyAllTo(title);
+				addField(MarcTags.kTitle, makeFieldDataFrom('1', secondFieldIndicator, 'a', title));
 		}
 	}
 	

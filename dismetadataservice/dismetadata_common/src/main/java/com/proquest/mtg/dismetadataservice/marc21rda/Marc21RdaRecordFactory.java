@@ -25,6 +25,7 @@ import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
+import com.proquest.mtg.dismetadataservice.metadata.SGMLAngluarBracesEntitySubstitution;
 import com.proquest.mtg.dismetadataservice.metadata.SGMLEntitySubstitution;
 import com.proquest.mtg.dismetadataservice.metadata.TextNormalizer;
 
@@ -236,6 +237,21 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 			addField(MarcTags.kRecId, kRecordIdPrefix + pubId.trim());
 		}
 	}
+	
+	/*  9999 byte limit on abstracts */
+	private String handleRecordSize(String x) {
+		if (null != x) {
+			if (x.length() > 9999) {
+				return x.substring(0,9999);
+		}
+		else {
+			return x;
+		}
+		}
+		return x;
+	}
+	
+	/*  Rearrange authors from lastname-middle-firstname to firstname-middle-lastname */
 
 	private void handleAbstract() {
 		String abstractText = curMetaData.getAbstract();
@@ -243,6 +259,8 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		int index = 0;
 		if (null != abstractText && !abstractText.isEmpty() && null != alternateAbstractText && !alternateAbstractText.isEmpty()) {
 			abstractText = abstractNormalizer.applyTo(abstractText);
+			abstractText = handleRecordSize(abstractText);
+			alternateAbstractText = handleRecordSize(abstractText);
 			for (String curParagraph : makeAbstractParagraphsFrom(abstractText)) {
 				String curAltParagraph = makeAbstractParagraphsFrom(alternateAbstractText).get(index);
 				curParagraph = endsWithPunctuationMark(curParagraph);
@@ -258,6 +276,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		else {
 			if (null != abstractText && !abstractText.isEmpty()) {
 				abstractText = abstractNormalizer.applyTo(abstractText);
+				abstractText = handleRecordSize(abstractText);
 				for (String curParagraph : makeAbstractParagraphsFrom(abstractText)) {
 					curParagraph = endsWithPunctuationMark(curParagraph);
 					curParagraph = SGMLEntitySubstitution.applyAllTo(curParagraph);
@@ -872,6 +891,71 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 			if (null != additionalAuthors && !additionalAuthors.isEmpty()) {
 					additionalAuthors = additionalAuthors.substring(0,
 							additionalAuthors.length() - 3);
+					String authorLastName = null;
+					String authorFirstGroup = null;
+					String authorMisc = null;
+					String allAuthorsCombined = null;
+					if (additionalAuthors.contains(";")){
+						/* Multiple authors */
+						String[] authorArray = additionalAuthors.split(";");
+						for (String o : authorArray){
+							System.out.println("AUTHOR PARTS =" + o);
+							String[] parts = o.split(",");
+							authorLastName = parts[0];
+							authorLastName = authorLastName.trim();
+							authorFirstGroup = parts[1];
+							authorFirstGroup = authorFirstGroup.trim();
+							if (authorFirstGroup.endsWith(".")){
+								authorFirstGroup = authorFirstGroup.substring(0, authorFirstGroup.length() -1);
+							}
+		                    int authorLen = parts.length;
+		                    System.out.println("Array Length = " + authorLen);
+		                    if (authorLen > 2){
+		                    	authorMisc = parts[2];
+		                    	additionalAuthors = authorFirstGroup + " " + authorLastName + authorMisc;
+		                    	/*System.out.println("AUTHOR PARTS =" + authorFirstGroup + " " + authorLastName + " " + authorMisc);*/
+		                    }
+		                    else {
+		                    	additionalAuthors = authorFirstGroup + " " + authorLastName + ".";
+		                    	/*System.out.println("AUTHOR PARTS =" + authorFirstGroup + " " + authorLastName + ".");*/
+		                    }
+		                    if (additionalAuthors.endsWith(".")){
+								additionalAuthors = additionalAuthors.substring(0, additionalAuthors.length() -1);
+		                    }
+		                    if (null != allAuthorsCombined){
+		                       allAuthorsCombined = allAuthorsCombined + ", " + additionalAuthors;
+		                    }
+		                    else {
+		                    	allAuthorsCombined = additionalAuthors;
+		                    }
+		                    /*System.out.println("AUTHOR STRING: " + allAuthorsCombined);*/
+						}
+						additionalAuthors = allAuthorsCombined;
+						additionalAuthors = additionalAuthors + ".";
+					}
+					else {
+						/* Single author */
+						String[] parts = additionalAuthors.split(",");
+						authorLastName = parts[0];
+						authorLastName = authorLastName.trim();
+						authorFirstGroup = parts[1];
+						if (authorFirstGroup.endsWith(".")){
+							authorFirstGroup = authorFirstGroup.substring(0, authorFirstGroup.length() -1);
+						}
+	                    int authorLen = parts.length;
+	                    /*System.out.println("Array Length = " + authorLen);*/
+	                    authorFirstGroup = authorFirstGroup.trim();
+	                    if (authorLen > 2){
+	                    	authorMisc = parts[2];
+	                    	additionalAuthors = authorFirstGroup + " " + authorLastName + authorMisc;
+	                    	/*System.out.println("AUTHOR PARTS (single multiparts) =" + authorFirstGroup + " " + authorLastName + " " + authorMisc);*/
+	                    }
+	                    else {
+	                    	/*authorFirstGroup = authorFirstGroup.trim();*/
+	                    	additionalAuthors = authorFirstGroup + " " + authorLastName + ".";
+	                    	/*System.out.println("AUTHOR PARTS (single onepart) =" + authorFirstGroup + " " + authorLastName + ".");*/
+	                    }
+					}
 			        addField(MarcTags.kTitle,
 					        makeFieldDataFrom('1', secondFieldIndicator, 'a', title + " /")
 					        + makeFieldDataFrom('c', additionalAuthors));
