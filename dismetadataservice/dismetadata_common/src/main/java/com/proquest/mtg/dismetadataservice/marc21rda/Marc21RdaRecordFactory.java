@@ -899,7 +899,8 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 						/* Multiple authors */
 						String[] authorArray = additionalAuthors.split(";");
 						for (String o : authorArray){
-							System.out.println("AUTHOR PARTS =" + o);
+							/*System.out.println("AUTHOR PARTS =" + o);*/
+							if (o.contains(",")){
 							String[] parts = o.split(",");
 							authorLastName = parts[0];
 							authorLastName = authorLastName.trim();
@@ -909,7 +910,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 								authorFirstGroup = authorFirstGroup.substring(0, authorFirstGroup.length() -1);
 							}
 		                    int authorLen = parts.length;
-		                    System.out.println("Array Length = " + authorLen);
+		                    /*System.out.println("Array Length = " + authorLen);*/
 		                    if (authorLen > 2){
 		                    	authorMisc = parts[2];
 		                    	additionalAuthors = authorFirstGroup + " " + authorLastName + authorMisc;
@@ -928,6 +929,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		                    else {
 		                    	allAuthorsCombined = additionalAuthors;
 		                    }
+							}
 		                    /*System.out.println("AUTHOR STRING: " + allAuthorsCombined);*/
 						}
 						additionalAuthors = allAuthorsCombined;
@@ -935,6 +937,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 					}
 					else {
 						/* Single author */
+						if (additionalAuthors.contains(",")){
 						String[] parts = additionalAuthors.split(",");
 						authorLastName = parts[0];
 						authorLastName = authorLastName.trim();
@@ -955,6 +958,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	                    	additionalAuthors = authorFirstGroup + " " + authorLastName + ".";
 	                    	/*System.out.println("AUTHOR PARTS (single onepart) =" + authorFirstGroup + " " + authorLastName + ".");*/
 	                    }
+						}
 					}
 			        addField(MarcTags.kTitle,
 					        makeFieldDataFrom('1', secondFieldIndicator, 'a', title + " /")
