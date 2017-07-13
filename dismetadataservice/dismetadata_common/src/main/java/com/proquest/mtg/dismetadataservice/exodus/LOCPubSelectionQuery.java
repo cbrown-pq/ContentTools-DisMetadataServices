@@ -21,7 +21,7 @@ public class LOCPubSelectionQuery {
     + " AND ditm.ditm_copyright_year IS NOT NULL"
     + " AND ditm.ditm_lc_copyright_sent_date IS NULL"
     + " AND ditm.ditm_lc_claim_sent_date IS NULL"
-    + " ORDER BY ditm.ditm_pub_number";
+    + " ORDER BY ditm.ditm_pub_number DESC";
 
 
 	public LOCPubSelectionQuery(Connection connection) throws SQLException {
