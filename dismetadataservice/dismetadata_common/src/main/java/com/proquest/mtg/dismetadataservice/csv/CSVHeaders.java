@@ -62,5 +62,7 @@ public class CSVHeaders {
 	public static final String kCmteMember = "COMMITTEE MEMBERS";
 	public static final String kActiveSalesRestrictionCode = "ACTIVE SALES RESTRICTION CODE";
 	public static final String kActiveFormatRestrictionCode = "ACTIVE FORMAT RESTRICTION CODE";
-
+	public static final String kDisValidSource = "FOP_Diss_Valid_Source";
+	public static final String kDisAvailableFormats = "FOP_Available_Formats";
+	public static final String kFopQuantity = "FOP_Quantity";
 }

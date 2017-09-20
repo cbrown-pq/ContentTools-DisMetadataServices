@@ -139,6 +139,38 @@ public class PubMetaDataQuery {
 	
 	private static final String kColumnDCIRefFlag = "DCIRefsFlag";
 	
+	private static final String kColumnDisValidSource = "DisValidSource"; 
+	private static final String kColumnDisAvailableFormat = "DisAvailableFormat"; 
+	private static final String kColumnFOPFormatCode = "FOPFormatCode"; 
+	private static final String kColumnFOPFormatQuantity = "FormatQuantity"; 
+	
+	
+	private static final String kSelectDisValidSource = 
+			"SELECT " +
+				"dvs.dvs_description " + kColumnDisValidSource + " " +
+			"FROM " + 
+				"dis_valid_sources dvs " +
+			"WHERE " + 
+				"dvs.dvs_code = ?  " ;
+	
+	
+	private static final String kSelectDisAvailableFormat = "SELECT " + "dvf.dvf_code " + kColumnDisAvailableFormat
+			+ " " + "FROM " + "dis_item_available_formats dvf " + "WHERE " + "dvf.ditm_id = ?  ";
+	
+	
+	private static final String kSelectFOPFormatQuantity = 
+			"SELECT " +
+				"dfu.dvf_code " + kColumnFOPFormatCode + ", " +
+				"doi.doi_quantity " + kColumnFOPFormatQuantity + " " +
+			"FROM " + 
+				"dis_order_items doi, " + " " +
+				"dis_format_uses dfu " +
+			"WHERE " +
+				"doi.ditm_id = ? " +
+				"AND dfu.dfu_id = doi.dfu_id " +
+				"AND dfu.dvf_code in ('MP', 'MN', 'RFP', 'RFN', 'MFL', 'MFC')" +
+				"AND dfu.dot_code = 'ST'";
+	
 	private static final String kSelectSchoolId = 
 			"( " +
 				"SELECT dish_id FROM dis_schools WHERE dish_id = ditm.dish_id " +
@@ -467,6 +499,9 @@ public class PubMetaDataQuery {
 	private PreparedStatement pdfStatusStatement;
 	private PreparedStatement manuscriptMediaStatement;
 	private PreparedStatement dciRefsStatement;
+	private PreparedStatement disValidSourceStatement; 
+	private PreparedStatement disAvailableFormatStatement; 
+	private PreparedStatement fopQuantityStatement; 
 	
 	private final String pqOpenUrlBase;
 	
@@ -497,6 +532,9 @@ public class PubMetaDataQuery {
 		this.pdfStatusStatement = connection.prepareStatement(kSelectPdfStatus);
 		this.manuscriptMediaStatement = connection.prepareStatement(kSelectManuscriptMedia);
 		this.dciRefsStatement = connection.prepareStatement(kCheckIfDCIRefsExistQuery);
+		this.disValidSourceStatement = connection.prepareStatement(kSelectDisValidSource); 
+		this.disAvailableFormatStatement = connection.prepareStatement(kSelectDisAvailableFormat); 
+		this.fopQuantityStatement = connection.prepareStatement(kSelectFOPFormatQuantity); 
 	}
 	
 	public String getPqOpenUrlBase() {
@@ -575,6 +613,8 @@ public class PubMetaDataQuery {
 			String delimitedAdvisorStr = cursor.getString(kColumnAdvisors);
 			result.setAdvisors(getAdvisorsFor(itemId, delimitedAdvisorStr));
 			result.setPdfStatus(getPdfStatusFor(itemId));
+			result.setDisAvailableFormats(getDisAvailableFormats(itemId));
+			result.setFOPQuantity(getFOPQuantities(itemId));
 		}
 		String volumeIssueId = cursor.getString(kColumnVolumeIssueId);
 		if (null != volumeIssueId) {
@@ -588,9 +628,72 @@ public class PubMetaDataQuery {
 		result.setExternalId(cursor.getString(kColumnExternalId));
 		result.setManuscriptMedia(getManuscriptMediaFor(itemId));
 		result.setDciRefExistsFlag(getDCIRefsFor(itemId));
+		
+		if (null != source) {
+			result.setDisValidSource(getDisValidSourceFor(source));
+		}
+			
 		return result;
 	}
 	
+	private String getDisValidSourceFor(String source) throws SQLException {
+		String result = null;
+		ResultSet cursor = null;
+		
+		try {
+			disValidSourceStatement.setString(1, source);
+			cursor = disValidSourceStatement.executeQuery();
+			while (cursor.next()) {
+				result = cursor.getString(kColumnDisValidSource);
+			}
+		}
+		finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+		}
+		return result;
+	}
+	
+	private List<String> getDisAvailableFormats(String itemid) throws SQLException {
+		List<String> result = Lists.newArrayList();
+		ResultSet cursor = null;
+
+		try {
+			disAvailableFormatStatement.setString(1, itemid);
+			cursor = disAvailableFormatStatement.executeQuery();
+			while (cursor.next()) {
+				String availableFormat = trimmed(cursor.getString(kColumnDisAvailableFormat));
+				result.add(availableFormat);
+			}
+		} finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+		}
+		return result;
+	}
+	
+	private List<String> getFOPQuantities(String itemid) throws SQLException {
+		List<String> result = Lists.newArrayList();
+		ResultSet cursor = null;
+
+		try {
+			fopQuantityStatement.setString(1, itemid);
+			cursor = fopQuantityStatement.executeQuery();
+			while (cursor.next()) {
+				String fopQuantity = trimmed(
+						cursor.getString(kColumnFOPFormatCode) + "," + cursor.getString(kColumnFOPFormatQuantity));
+				result.add(fopQuantity);
+			}
+		} finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+		}
+		return result;
+	}
+		
 	private List<DissLanguage> getLanguagesFor(String itemId) throws SQLException {
 		List<DissLanguage> result = Lists.newArrayList();
 		ResultSet cursor = null;
