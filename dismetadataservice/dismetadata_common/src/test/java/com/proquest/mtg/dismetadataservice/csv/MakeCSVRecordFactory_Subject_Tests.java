@@ -38,7 +38,7 @@ public class MakeCSVRecordFactory_Subject_Tests extends EasyMockSupport {
 	public void makeWithEmptySubjects() throws Exception {
 		metadata.setSubjects(subjects);
 		String expectedCSVData = header
-				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -51,7 +51,7 @@ public class MakeCSVRecordFactory_Subject_Tests extends EasyMockSupport {
 		subject.setSubjectGroupDesc(subjGroupDesc);
 		subjects.add(subject);
 		metadata.setSubjects(subjects);
-		String expectedCSVData = header + "\r\n" + ",,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,\""+subjGroupDesc+"\",\""+subjCode+"\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n" + ",,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,\""+subjGroupDesc+"\",\""+subjCode+"\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -64,7 +64,7 @@ public class MakeCSVRecordFactory_Subject_Tests extends EasyMockSupport {
 		subject.setSubjectGroupDesc(subjGroupDesc);
 		subjects.add(subject);
 		metadata.setSubjects(subjects);
-		String expectedCSVData = header + "\r\n" + ",,,\"N\",,\"N\",,,,,,,,\""+subjDesc+"\",,,,,,,,,,,,,\""+subjGroupDesc+"\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n" + ",,,\"N\",,\"N\",,,,,,,,\""+subjDesc+"\",,,,,,,,,,,,,\""+subjGroupDesc+"\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -77,7 +77,7 @@ public class MakeCSVRecordFactory_Subject_Tests extends EasyMockSupport {
 		subject.setSubjectDesc(subjDesc);
 		subjects.add(subject);
 		metadata.setSubjects(subjects);
-		String expectedCSVData = header + "\r\n" + ",,,\"N\",,\"N\",,,,,,,,\""+subjDesc+"\",,,,,,,,,,,,,,\""+subjCode+"\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n" + ",,,\"N\",,\"N\",,,,,,,,\""+subjDesc+"\",,,,,,,,,,,,,,\""+subjCode+"\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -92,7 +92,7 @@ public class MakeCSVRecordFactory_Subject_Tests extends EasyMockSupport {
 		subject.setSubjectGroupDesc(subjGroupDesc);
 		subjects.add(subject);
 		metadata.setSubjects(subjects);
-		String expectedCSVData = header + "\r\n" + ",,,\"N\",,\"N\",,,,,,,,\""+subjDesc+"\",,,,,,,,,,,,,\""+subjGroupDesc+"\",\""+subjCode+"\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n" + ",,,\"N\",,\"N\",,,,,,,,\""+subjDesc+"\",,,,,,,,,,,,,\""+subjGroupDesc+"\",\""+subjCode+"\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

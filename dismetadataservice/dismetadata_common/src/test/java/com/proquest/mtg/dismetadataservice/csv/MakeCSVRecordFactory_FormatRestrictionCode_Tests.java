@@ -39,7 +39,7 @@ public class MakeCSVRecordFactory_FormatRestrictionCode_Tests extends EasyMockSu
 		formatRestrictions.add(formatRestriction);
 		metadata.setFormatRestrictions(formatRestrictions);
 		String expectedCSVData = header
-				+ "\r\n,,,\"N\",,\"N\",,,,\"NONE\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"NONE\",\"NONE\",\"NONE\",\"NONE\",,,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,\"NONE\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"NONE\",\"NONE\",\"NONE\",\"NONE\",,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -55,7 +55,7 @@ public class MakeCSVRecordFactory_FormatRestrictionCode_Tests extends EasyMockSu
 		formatRestrictions.add(formatRestriction1);
 		formatRestrictions.add(formatRestriction2);
 		metadata.setFormatRestrictions(formatRestrictions);
-		String expectedCSVData = header + "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"C|CE\",\"NONE|NONE\",\"NONE|NONE\",\"NONE|NONE\",,,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"C|CE\",\"NONE|NONE\",\"NONE|NONE\",\"NONE|NONE\",,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

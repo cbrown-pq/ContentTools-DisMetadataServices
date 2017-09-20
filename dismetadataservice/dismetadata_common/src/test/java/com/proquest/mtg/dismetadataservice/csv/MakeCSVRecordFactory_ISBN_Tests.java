@@ -31,7 +31,7 @@ public class MakeCSVRecordFactory_ISBN_Tests extends EasyMockSupport {
 		String isbn = null;
 		metadata.setISBN(isbn);
 		String expectedCSVData = header
-				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -40,7 +40,7 @@ public class MakeCSVRecordFactory_ISBN_Tests extends EasyMockSupport {
 	public void withOnlyISBN() throws Exception {
 		metadata.setISBN("978-1-303-03106-9");
 		String expectedCSVData = header
-				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,\"978-1-303-03106-9\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,\"978-1-303-03106-9\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
