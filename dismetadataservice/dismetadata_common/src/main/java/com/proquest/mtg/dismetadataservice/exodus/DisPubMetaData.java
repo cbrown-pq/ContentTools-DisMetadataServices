@@ -42,7 +42,41 @@ public class DisPubMetaData {
 	private ManuscriptMedia manuscriptMedia;
 	private String firstPublicationDate;
 	private String dciRefExistsFlag;
+	private String disValidSource; 
+	private List<String> disAvailableFormats; 
+	private List<String> fopQuantity; 
 
+	public String getDisValidSource () { 
+		return disValidSource;
+	}
+	
+	public void setDisValidSource (String disValidSource) { 
+		this.disValidSource = disValidSource;
+	}
+	
+	public List<String> getDisAvailableFormats () { 
+		return disAvailableFormats;
+	}
+	
+	public void setDisAvailableFormats(Iterable<String> value) { 
+		if (null == value) {
+			this.disAvailableFormats = Lists.newArrayList();
+		} else {
+			this.disAvailableFormats = Lists.newArrayList(value);
+		}
+	}
+	
+	public List<String> getFOPQuantity () { 
+		return fopQuantity;
+	}
+	
+	public void setFOPQuantity(Iterable<String> value) { 
+		if (null == value) {
+			this.fopQuantity = Lists.newArrayList();
+		} else {
+			this.fopQuantity = Lists.newArrayList(value);
+		}
+	}
 
 	public BigInteger getDateOfExtraction() {
 		return dateOfExtraction;

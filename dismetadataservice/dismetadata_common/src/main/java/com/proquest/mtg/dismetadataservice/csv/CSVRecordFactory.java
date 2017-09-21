@@ -187,6 +187,9 @@ public class CSVRecordFactory {
 				.getDeclaredMethod("handleDCIRefs"));
 		kAllHeaders.put(CSVHeaders.kReferenceLocation, CSVRecordFactory.class
 				.getDeclaredMethod("handleReferenceLocation"));
+		kAllHeaders.put(CSVHeaders.kDisValidSource, CSVRecordFactory.class.getDeclaredMethod("handleDisValidSource")); 
+		kAllHeaders.put(CSVHeaders.kDisAvailableFormats, CSVRecordFactory.class.getDeclaredMethod("handleDisAvailableFormats")); 
+		kAllHeaders.put(CSVHeaders.kFopQuantity, CSVRecordFactory.class.getDeclaredMethod("handleFOPQuantity")); 
 	}
 
 	public LinkedHashMap<String, Method> getTagMappings() {
@@ -216,6 +219,47 @@ public class CSVRecordFactory {
 			curRecord += key + ",";
 		}
 		curRecord += "\r\n";
+	}
+	
+	private void handleDisValidSource() {
+		String disValidSource = "";
+		if (null != curMetaData.getDisValidSource()
+				&& !curMetaData.getDisValidSource().isEmpty()) {
+			disValidSource = curMetaData.getDisValidSource();
+		}
+		addField(disValidSource);
+	}
+	
+	private void handleDisAvailableFormats() {
+		List<String> avlFormats = curMetaData.getDisAvailableFormats();
+		String avlFormat = "";
+		if (avlFormats != null && !avlFormats.isEmpty()) {
+			for (String curAvlFormat : avlFormats) {
+				if (null != curAvlFormat && !curAvlFormat.isEmpty()) {
+					avlFormat = avlFormat + endWithPipes(curAvlFormat.trim());
+				}
+			}
+			if (avlFormat.endsWith(DELIMITER)) {
+				avlFormat = avlFormat.substring(0, avlFormat.length() - 1);
+			}
+		}
+		addField(avlFormat);
+	}
+	
+	private void handleFOPQuantity() {
+		List<String> fopQuantities = curMetaData.getFOPQuantity();
+		String fopQuantity = "";
+		if (fopQuantities != null && !fopQuantities.isEmpty()) {
+			for (String curFOPQuantity : fopQuantities) {
+				if (null != curFOPQuantity && !curFOPQuantity.isEmpty()) {
+					fopQuantity = fopQuantity + endWithPipes(curFOPQuantity.trim());
+				}
+			}
+			if (fopQuantity.endsWith(DELIMITER)) {
+				fopQuantity = fopQuantity.substring(0, fopQuantity.length() - 1);
+			}
+		}
+		addField(fopQuantity);
 	}
 
 	private void handlePubNumber() {
