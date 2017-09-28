@@ -5,7 +5,7 @@ public class JdbcHelper {
 	public static final String kConnectionFactoryClass_OracleThin = "oracle.jdbc.pool.OracleDataSource";
 	
 	public static JdbcConfig makeConfigForExodusDevelopment() {
-		String url = "jdbc:oracle:thin:@shrdb304.aa1.pqe:1521:exdvl";
+		String url = "jdbc:oracle:thin:@sharedb202.aa1.pqe:1521:exdvl";
 		String user = "dos_devl";
 		String password = "dos_devl";
 		String dbClassType = kConnectionFactoryClass_OracleThin;
