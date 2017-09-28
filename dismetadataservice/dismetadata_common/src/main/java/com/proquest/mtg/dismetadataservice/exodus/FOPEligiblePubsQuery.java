@@ -39,7 +39,7 @@ public class FOPEligiblePubsQuery {
 				"AND diaf.dvf_code in('RFP','RFN','MP','MN','MFC','MFL') " +
 				"AND di.ditm_pub_number = film_fiche_availability_date.ditm_pub_number " +
 				"AND di.ditm_pub_number = pdf_availability_date.ditm_pub_number " +
-				"AND pdf_availability_date.dt > film_fiche_availability_date.dt and ROWNUM < 10";
+				"AND pdf_availability_date.dt > film_fiche_availability_date.dt";
 			
 	private static final String kUpdateFFInProgressStatus = "UPDATE dis_items set ditm_film_fiche_in_progress = ? where ditm_pub_number = ?"; 
 	
