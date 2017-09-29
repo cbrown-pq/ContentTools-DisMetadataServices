@@ -49,5 +49,17 @@ public class DisMetadataProperties_Invalid_Tests {
 		props.remove(DisMetadataProperties.EXODUS_DB_CLASSTYPE);
 		new DisMetadataProperties(props);
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void throws_WhenMissing_FopExodusUserName() throws Exception {
+		props.remove(DisMetadataProperties.FOP_EXODUS_USER_NAME);
+		new DisMetadataProperties(props);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void throws_WhenMissing_FopExodusPassword() throws Exception {
+		props.remove(DisMetadataProperties.FOP_EXODUS_PASSWORD);
+		new DisMetadataProperties(props);
+	}
 
 }

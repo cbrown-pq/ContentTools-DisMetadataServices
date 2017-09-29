@@ -58,6 +58,8 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 	
 	private final AppConfigReader appConfigReader;
 	private IJdbcConnectionPool exodusConnectionPool;
+	private IJdbcConnectionPool exodusFopConnectionPool;
+	
 	private ThreadSafeClientConnManager httpClientConnectionManager;
 	
 	private final Logger logger = LoggerFactory.getLogger(DisMetadataServiceGuiceModule.class);
@@ -75,6 +77,18 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 	
 	public void shutdown() {
 		shutdownExodusConnectionPool();
+		shutdownFopExodusConnectionPool();
+	}
+
+	private void shutdownFopExodusConnectionPool() {
+		if (null != exodusFopConnectionPool) {
+			try {
+				exodusFopConnectionPool.destroy();
+			} catch (Exception e) {
+				logger.error("Failed to destory Exodus JDBC Connection Pool, because: " + e.getMessage(), e);
+			}
+		}
+		
 	}
 
 	private void shutdownExodusConnectionPool() {
@@ -126,6 +140,17 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		IJdbcConnectionPool result = null;
 		try {
 			return new JdbcConnectionPool(props.getExodusJdbcConfig());
+		} catch (Exception e) {
+			logger.error("Failed to initialize Exodus JDBC Connection Pool, because: " + e.getMessage(), e);
+		}
+		return result;
+	}
+	
+	@Provides @Singleton @Named(IJdbcConnectionPool.kFopExodusConnectionPool)
+	protected IJdbcConnectionPool fopExodusConnectionPool(DisMetadataProperties props) {
+		IJdbcConnectionPool result = null;
+		try {
+			return new JdbcConnectionPool(props.getFopExodusConfig());
 		} catch (Exception e) {
 			logger.error("Failed to initialize Exodus JDBC Connection Pool, because: " + e.getMessage(), e);
 		}

@@ -19,6 +19,8 @@ public class DisMetadataProperties {
 	public final static String PQ_SERVICE_URL_BASE = "pq.service.url.base";
 	public final static String PQ_SERVICE_TIMEOUT_MS = "pq.service.timeout.ms";
 	public final static String PQ_SERVICE_USER_AGENT = "pq.service.user.agent";
+	public final static String FOP_EXODUS_USER_NAME = "fop.exodus.db.username";
+	public final static String FOP_EXODUS_PASSWORD = "fop.exodus.db.password";
 
 	public final static ArrayList<String> kRequiredProps = Lists
 			.newArrayList(
@@ -31,7 +33,9 @@ public class DisMetadataProperties {
 					SCHOOL_BATCH_SIZE,
 					PQ_SERVICE_URL_BASE,
 					PQ_SERVICE_TIMEOUT_MS,
-					PQ_SERVICE_USER_AGENT);
+					PQ_SERVICE_USER_AGENT,
+					FOP_EXODUS_USER_NAME,
+					FOP_EXODUS_PASSWORD);
 	
 	
 	private final JdbcConfig exodusConfig;
@@ -40,6 +44,7 @@ public class DisMetadataProperties {
 	private final String pqServiceURL;
 	private final int pqServiceTimeoutMS;
 	private final String pqServiceUserAgent;
+	private final JdbcConfig fopExodusConfig;
 
 	@Inject
 	public DisMetadataProperties(IAppConfigReader appConfigReader) throws Exception {
@@ -56,6 +61,13 @@ public class DisMetadataProperties {
 				props.getProperty(EXODUS_DB_CLASSTYPE),
 				getIntValueFrom(props, EXODUS_POOL_SIZE));
 		
+		this.fopExodusConfig = new JdbcConfig(
+				props.getProperty(EXODUS_DB_URL),
+				props.getProperty(FOP_EXODUS_USER_NAME),
+				props.getProperty(FOP_EXODUS_PASSWORD),
+				props.getProperty(EXODUS_DB_CLASSTYPE),
+				getIntValueFrom(props, EXODUS_POOL_SIZE));
+		
 		this.pqOpenUrlBase = props.getProperty(PQ_OPEN_URL_BASE);
 		this.schoolBatchSize = getIntValueFrom(props, SCHOOL_BATCH_SIZE);
 		this.pqServiceURL = props.getProperty(PQ_SERVICE_URL_BASE);
@@ -67,6 +79,10 @@ public class DisMetadataProperties {
 		return exodusConfig;
 	}
 	
+	public JdbcConfig getFopExodusConfig() {
+		return fopExodusConfig;
+	}
+
 	public String getPqOpenUrlBase() {
 		return pqOpenUrlBase;
 	}

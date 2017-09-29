@@ -22,6 +22,8 @@ public class DisMetadataProperties_Tests {
 	static final String kServiceUrlBase = "www.service.proquest.com/base/url:fake";
 	static final String kPqserviceTimeout = "30";
 	static final String kUserAgent = "fakeAgent";
+	static final String kFopExodusUserName = "FakeFopUserName";
+	static final String kFopExodusUserPassword = "FakeFopUserPassword";
 	
 	
 	public static Properties makePropertyMapForTesting() {
@@ -36,6 +38,8 @@ public class DisMetadataProperties_Tests {
 		props.setProperty(DisMetadataProperties.PQ_SERVICE_URL_BASE, kServiceUrlBase);
 		props.setProperty(DisMetadataProperties.PQ_SERVICE_TIMEOUT_MS, kPqserviceTimeout);
 		props.setProperty(DisMetadataProperties.PQ_SERVICE_USER_AGENT, kUserAgent);
+		props.setProperty(DisMetadataProperties.FOP_EXODUS_USER_NAME, kFopExodusUserName);
+		props.setProperty(DisMetadataProperties.FOP_EXODUS_PASSWORD, kFopExodusUserPassword);
 		return props;
 	}
 	
@@ -54,6 +58,15 @@ public class DisMetadataProperties_Tests {
 				kExodusDbClassType, Integer.parseInt(kExodusPoolSize));
 		
 		MyAsserts.assertEqual(target.getExodusJdbcConfig(), expectedConnectionConfig);
+	}
+	
+	@Test
+	public void hasCorrect_FopExodusJdbcConfig() throws Exception{
+		JdbcConfig expectedFopConnectionConfig = new JdbcConfig(
+				kExodusDbUrl, kFopExodusUserName, kFopExodusUserPassword, 
+				kExodusDbClassType, Integer.parseInt(kExodusPoolSize));
+		
+		MyAsserts.assertEqual(target.getFopExodusConfig(), expectedFopConnectionConfig);
 	}
 	
 	@Test
