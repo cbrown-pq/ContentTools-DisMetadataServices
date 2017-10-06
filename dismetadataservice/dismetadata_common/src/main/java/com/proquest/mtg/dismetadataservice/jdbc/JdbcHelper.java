@@ -45,7 +45,8 @@ public class JdbcHelper {
 	}
 	
 	public static JdbcConnectionPool makePoolForExodusUnitTest() throws Exception {		
-		return new JdbcConnectionPool(makeConfigForExodusPreProd());
+		//return new JdbcConnectionPool(makeConfigForExodusPreProd());
+		return new JdbcConnectionPool(makeConfigForExodusDevelopment());
 	}	
 
 }
