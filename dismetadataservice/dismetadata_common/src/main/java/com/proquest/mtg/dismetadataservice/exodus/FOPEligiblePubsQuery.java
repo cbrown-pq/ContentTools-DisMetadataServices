@@ -19,27 +19,16 @@ public class FOPEligiblePubsQuery {
 	private static final String kPubId = "PubNumber";
 	private static final String kPubSource = "PubSource";
 	
-	private static final String kSelectFOPEligiblePubs = "SELECT " +
+	private static final String kSelectFOPEligiblePubs = "SELECT DISTINCT" +
 			"di.ditm_pub_number " + kPubId + ", " +
 			"nvl(di.ditm_source,'null')" + kPubSource + " " +
 			"from dis_items di, " +
-			"dis_item_available_formats diaf, " +
-			"(select ditm_pub_number, max(nvl(diaf_date_modified,diaf_date_created)) dt " +
-				"from dis_items di,dis_item_available_formats diaf " +
-				"where di.ditm_id = diaf.ditm_id " +
-				"and diaf.dvf_code in('RFP','RFN','MP','MN','MFC','MFL') group by ditm_pub_number) film_fiche_availability_date, " +
-			"(select ditm_pub_number,max(nvl(diaf_date_modified,diaf_date_created)) dt " + 
-				"from dis_items di,dis_item_available_formats diaf " + 
-				"where di.ditm_id = diaf.ditm_id " + 
-				"and diaf.dvf_code in('PDF') group by ditm_pub_number) pdf_availability_date " +
+			"dis_item_available_formats diaf " +
 			"WHERE " +
 				"ditm_status = 'Z' " +
 				"AND di.ditm_id = diaf.ditm_id " +
 				"AND nvl(ditm_film_fiche_in_progress,'N') != 'Y' " +
-				"AND diaf.dvf_code in('RFP','RFN','MP','MN','MFC','MFL') " +
-				"AND di.ditm_pub_number = film_fiche_availability_date.ditm_pub_number " +
-				"AND di.ditm_pub_number = pdf_availability_date.ditm_pub_number " +
-				"AND pdf_availability_date.dt > film_fiche_availability_date.dt";
+				"AND diaf.dvf_code not in('MFC','MFL') ";
 			
 	private static final String kUpdateFFInProgressStatus = "UPDATE dis_items set ditm_film_fiche_in_progress = ? where ditm_pub_number = ?"; 
 	
