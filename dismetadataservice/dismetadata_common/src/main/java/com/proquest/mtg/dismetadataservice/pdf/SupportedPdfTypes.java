@@ -13,6 +13,8 @@ public class SupportedPdfTypes {
 			SupportedPdfTypes.kPODPdfType,
 			SupportedPdfTypes.kPrintPdfType,
 			SupportedPdfTypes.k300PdfType,
-			SupportedPdfTypes.kPrintPdfType);
+			SupportedPdfTypes.kPrintPdfType,
+			SupportedPdfTypes.kSearchablePdfType
+			);
 	
 }
