@@ -26,7 +26,7 @@ public class FOPEligiblePubsQuery {
 			"WHERE " +
 				"ditm_status = 'Z' " +
 				"AND ditm_film_fiche_in_progress = 'N' " +
-				"AND exists (select 1 from dis_item_available_formats where ditm_id = di.ditm_id and dvf_code in ('MFC','MFL')) " +
+				"AND not exists (select 1 from dis_item_available_formats where ditm_id = di.ditm_id and dvf_code in ('MFC','MFL')) " +
 				"AND ROWNUM < 100";
 			
 	private static final String kUpdateFFInProgressStatus = "UPDATE dis_items set ditm_film_fiche_in_progress = ? where ditm_pub_number = ?"; 
