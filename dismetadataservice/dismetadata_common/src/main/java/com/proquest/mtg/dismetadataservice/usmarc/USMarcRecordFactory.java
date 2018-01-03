@@ -11,10 +11,10 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLOCLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
-import com.proquest.mtg.dismetadataservice.marc.LanguageCodeToPartialLanguageName;
 import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
@@ -39,6 +39,7 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 	private final char kEncoding = 'a';
 	public  final char kEncodingLevel = ' ';
 	public  final char kDescriptiveCataloging = ' ';
+	public static final String kSystemCatalogingSourceLanguage = "eng";
 	
 	public USMarcRecordFactory(DisGenMappingProvider disGenMappingProvider) {
 		this.disGenMappingProvider = disGenMappingProvider;
@@ -79,7 +80,7 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 		handleHostItemEntry(); /*773*/
 		handleSchoolCode(); /*590 and 790*/
 		handleDegrees(); /*791 792*/
-		handleDisserationLanguage(); /*793*/
+		handleDissertationLanguage(); /*793*/
 		handlePqOpenUrl(); /*856*/
 		return curRecord;
 	}
@@ -325,12 +326,19 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 		}
 		
 		fixedLengthElement += "    ||||||||||||||||| ||";
-		String LanguageCode = null;
+		/*String LanguageCode = null;
 		if (null != curMetaData.getDissLanguages()) {
 			LanguageCode = curMetaData.getDissLanguages().get(0).getLanguageCode();
 		}
 		fixedLengthElement += LanguageCodeToPartialLanguageName
 				.getLanguageFor(LanguageCode) + " d";
+		addField(MarcTags.kFiexedLengthDataElements, fixedLengthElement);
+		
+		String LOCLanguageCode = null;
+		if (null != curMetaData.getDissLOCLanguages()) {
+			LOCLanguageCode = curMetaData.getDissLOCLanguages().get(0).getLOCLanguageCode();
+		}*/
+		fixedLengthElement += kSystemCatalogingSourceLanguage + " d";
 		addField(MarcTags.kFiexedLengthDataElements, fixedLengthElement);
 	}
 
@@ -629,17 +637,17 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 
 	}
 
-	private void handleDisserationLanguage() {
-		List<DissLanguage> dissLanguages = curMetaData.getDissLanguages();
-		String languageDescription = "";
-		if (dissLanguages != null && !dissLanguages.isEmpty()) {
-			for (DissLanguage curDissLanguage : dissLanguages) {
-				 languageDescription = languageDescription + curDissLanguage.getLanguageDescription() + ";" ;
+	private void handleDissertationLanguage() {
+		List<DissLOCLanguage> dissLOCLanguages = curMetaData.getDissLOCLanguages();
+		String LOClanguageDescription = "";
+		if (dissLOCLanguages != null && !dissLOCLanguages.isEmpty()) {
+			for (DissLOCLanguage curDissLOCLanguage : dissLOCLanguages) {
+				 LOClanguageDescription = LOClanguageDescription + curDissLOCLanguage.getLOCLanguageDescription() + ";" ;
 			}
 				addField(
 						MarcTags.kDissertationLanguage,
 						makeFieldDataFrom(' ', ' ', 'a',
-								languageDescription.substring(0,languageDescription.length()-1)));
+								LOClanguageDescription.substring(0,LOClanguageDescription.length()-1)));
 		}
 	}
 

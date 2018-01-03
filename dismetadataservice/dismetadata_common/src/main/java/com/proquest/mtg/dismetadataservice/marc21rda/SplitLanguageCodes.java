@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 
 public class SplitLanguageCodes {
 
-	private static final String kDelimiter = ";";
+	private static final String kDelimiter = " ";
 	
 	public static List<String> split(String delimitedLanguageCodes) {
 		List<String> result = Lists.newArrayList();

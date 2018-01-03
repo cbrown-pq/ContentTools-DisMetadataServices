@@ -19,6 +19,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLOCLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.ManuscriptMedia;
@@ -54,6 +55,8 @@ public class PubMetaDataQuery {
 	private static final String kColumnExternalUrl = "ExternalUrl";
 	private static final String kColumnLanguageDescription = "LanguageDescription";
 	private static final String kColumnLanguageCode = "LanguageCode";
+	private static final String kColumnLOCLanguageDescription = "LOCLanguageDescription";
+	private static final String kColumnLOCLanguageCode = "LOCLanguageCode";
 	private static final String kColumnMasterTitle = "MasterTitle";
 	private static final String kColumnElectronicTitle = "ElectronicTitle";
 	private static final String kColumnEngOverwriteTitle = "EnglishOevrwriteTitle";
@@ -225,6 +228,17 @@ public class PubMetaDataQuery {
 			"SELECT " +
 				"dil.dvl_code " + kColumnLanguageCode + "," +
 				"dvl.dvl_description " + kColumnLanguageDescription   + " " + 
+			"FROM " + 
+				"dis_items_languages dil, " +
+				"dis_valid_languages dvl " +
+			"WHERE " + 
+				"dil.ditm_id = ?  AND " + 
+				"dil.dvl_code = dvl.dvl_code";
+	
+	private static final String kSelectLOCLanguage = 
+			"SELECT " +
+				"dvl.dvl_loc_code " + kColumnLOCLanguageCode + "," +
+				"dvl.dvl_description " + kColumnLOCLanguageDescription   + " " + 
 			"FROM " + 
 				"dis_items_languages dil, " +
 				"dis_valid_languages dvl " +
@@ -482,6 +496,7 @@ public class PubMetaDataQuery {
 	private PreparedStatement mainPubDataStatement;
 	//private PreparedStatement dwsoReceivedDataStatement;
 	private PreparedStatement languageStatement;
+	private PreparedStatement LOClanguageStatement;
 	private PreparedStatement degreeStatement;
 	private PreparedStatement abstractStatement;
 	private PreparedStatement alternateAbstractStatement;
@@ -514,6 +529,7 @@ public class PubMetaDataQuery {
 		this.mainPubDataStatement = connection.prepareStatement(kSelectMainPubData);
 		//this.dwsoReceivedDataStatement = connection.prepareStatement(kSelectDwosReceiveDate);
 		this.languageStatement = connection.prepareStatement(kSelectLanguage);
+		this.LOClanguageStatement = connection.prepareStatement(kSelectLOCLanguage);
 		this.degreeStatement = connection.prepareStatement(kSelectDegree);
 		this.abstractStatement = connection.prepareStatement(kSelectAbstract);
 		this.alternateAbstractStatement = connection
@@ -554,6 +570,7 @@ public class PubMetaDataQuery {
 			cursor = mainPubDataStatement.executeQuery();
 			if (cursor.next()) {
 				result = makeDisPubMetaDataFrom(cursor, excludeRestriction, excludeAbstract);
+				System.out.println("result:" + result);
 			}
 		}
 		finally {
@@ -597,6 +614,7 @@ public class PubMetaDataQuery {
 		}
 		if (null != itemId) {
 			result.setDissLanguages(getLanguagesFor(itemId));
+			result.setDissLOCLanguages(getLOCLanguagesFor(itemId));
 			result.setSubjects(getSubjectsFor(itemId));
 			if (excludeAbstract == 0){
 				result.setAbstract(required(getAbstractFor(itemId)));
@@ -704,6 +722,27 @@ public class PubMetaDataQuery {
 				String languageDescription = trimmed(cursor.getString(kColumnLanguageDescription));
 				String languageCode = trimmed(cursor.getString(kColumnLanguageCode));
 				DissLanguage language = new DissLanguage(required(languageDescription), required(languageCode));
+				result.add(language);
+			}
+		}
+		finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+		}
+		return result;
+	}
+	
+	private List<DissLOCLanguage> getLOCLanguagesFor(String itemId) throws SQLException {
+		List<DissLOCLanguage> result = Lists.newArrayList();
+		ResultSet cursor = null;
+		try {
+			LOClanguageStatement.setString(1, itemId);
+			cursor = LOClanguageStatement.executeQuery();
+			while (cursor.next()) {
+				String LOClanguageDescription = trimmed(cursor.getString(kColumnLOCLanguageDescription));
+				String LOClanguageCode = trimmed(cursor.getString(kColumnLOCLanguageCode));
+				DissLOCLanguage language = new DissLOCLanguage(required(LOClanguageDescription), required(LOClanguageCode));
 				result.add(language);
 			}
 		}
@@ -1228,6 +1267,7 @@ public class PubMetaDataQuery {
 		closeStatement(claimantsStatement);
 		closeStatement(mainPubDataStatement);
 		closeStatement(languageStatement);
+		closeStatement(LOClanguageStatement);
 		closeStatement(degreeStatement);
 		closeStatement(abstractStatement);
 		closeStatement(alternateAbstractStatement);

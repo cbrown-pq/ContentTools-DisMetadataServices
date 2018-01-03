@@ -12,11 +12,11 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLOCLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
 import com.proquest.mtg.dismetadataservice.exodus.SplitAdvisors;
-import com.proquest.mtg.dismetadataservice.marc.LanguageCodeToPartialLanguageName;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecordFactoryBase;
@@ -105,17 +105,15 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	}
 
 	private void handleLanguageCode() {
-		List<DissLanguage> languages = curMetaData.getDissLanguages();
-		if (languages != null && !languages.isEmpty()) {
+		List<DissLOCLanguage> LOClanguages = curMetaData.getDissLOCLanguages();
+		if (LOClanguages != null && !LOClanguages.isEmpty()) {
 
-			for (DissLanguage curLanguage : languages) {
+			for (DissLOCLanguage curLanguage : LOClanguages) {
 				String threeLetterLangCode = "";
-				if (null != curLanguage.getLanguageCode()
-						&& !curLanguage.getLanguageCode().isEmpty()) {
+				if (null != curLanguage.getLOCLanguageCode()
+						&& !curLanguage.getLOCLanguageCode().isEmpty()) {
 					List<String> threeLetterLangCodes = SplitLanguageCodes
-							.split(LanguageCodeToPartialLanguageName
-									.getLanguageFor(curLanguage
-											.getLanguageCode()));
+							.split(curLanguage.getLOCLanguageCode());
 					if (threeLetterLangCodes.size() > 1) {
 						for (int i = 0; i < threeLetterLangCodes.size(); ++i) {
 							{
@@ -390,22 +388,17 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		}
 
 		fixedLengthElement += "    miu||||||m   |||||||";
-		String LanguageCode = null;
-		DissLanguage dissLanguage = curMetaData.getDissLanguages() != null ? curMetaData
-				.getDissLanguages().get(0) : null;
-		if (null != dissLanguage) {
-
-			if (dissLanguage.getLanguageCode() != null
-					&& !dissLanguage.getLanguageCode().isEmpty()) {
-				LanguageCode = curMetaData.getDissLanguages().get(0)
-						.getLanguageCode();
+		/*List<DissLOCLanguage> LOCLanguages = curMetaData.getDissLOCLanguages() != null ? curMetaData
+				.getDissLOCLanguages() : null;
+				if (LOCLanguages != null && !LOCLanguages.isEmpty()) {
+				for (DissLOCLanguage curLanguage : LOCLanguages) {
 				List<String> threeLetterLangCodes = SplitLanguageCodes
-						.split(LanguageCodeToPartialLanguageName
-								.getLanguageFor(LanguageCode));
-				fixedLengthElement += threeLetterLangCodes.get(0) + " d";
-			}
+						.split(curLanguage.getLOCLanguageCode());*/
+				fixedLengthElement += kSystemCatalogingSourceLanguage + " d";
+				/*}
 
-		}
+
+		}*/
 		addField(MarcTags.kFiexedLengthDataElements, fixedLengthElement);
 	}
 

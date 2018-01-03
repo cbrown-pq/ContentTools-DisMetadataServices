@@ -20,6 +20,7 @@ public class DisPubMetaData {
 	private String externalURL;
 	private List<Author> authors;
 	private List<DissLanguage> dissLanguages;
+	private List<DissLOCLanguage> dissLOCLanguages;
 	private List<CmteMember> cmteMembers;
 	private List<Subject> subjects;
 	private List<SuppFile> suppFiles;
@@ -175,6 +176,18 @@ public class DisPubMetaData {
 			this.dissLanguages = Lists.newArrayList();
 		} else {
 			this.dissLanguages = Lists.newArrayList(value);
+		}
+	}
+	
+	public List<DissLOCLanguage> getDissLOCLanguages() {
+		return dissLOCLanguages;
+	}
+	
+	public void setDissLOCLanguages(Iterable<DissLOCLanguage> value) {
+		if (null == value) {
+			this.dissLOCLanguages = Lists.newArrayList();
+		} else {
+			this.dissLOCLanguages = Lists.newArrayList(value);
 		}
 	}
 
@@ -395,8 +408,8 @@ public class DisPubMetaData {
 				+ manuscriptYear + ", blNumber=" + blNumber
 				+ ", referenceLocation=" + referenceLocation + ", externalURL="
 				+ externalURL + ", authors=" + authors + ", dissLanguages="
-				+ dissLanguages + ", cmteMembers=" + cmteMembers
-				+ ", subjects=" + subjects + ", suppFiles=" + suppFiles
+				+ dissLanguages + ", cmteMembers=" + cmteMembers + ", dissLOCLanguages="
+				+ dissLOCLanguages + ", subjects=" + subjects + ", suppFiles=" + suppFiles
 				+ ", departments=" + departments + ", keywords=" + keywords
 				+ ", salesRestrictions=" + salesRestrictions
 				+ ", formatRestrictions=" + formatRestrictions
@@ -433,6 +446,31 @@ public class DisPubMetaData {
 		public String toString() {
 			return "Language [languageDescription=" + languageDescription
 					+ ", languageCode=" + languageCode + "]";
+		}
+		
+	}
+	
+	public static class DissLOCLanguage {
+		private final String LOClanguageDescription;
+		private final String LOClanguageCode;
+		
+		public DissLOCLanguage(String LOClanguageDescription, String LOClanguageCode) {
+			this.LOClanguageDescription = LOClanguageDescription;
+			this.LOClanguageCode = LOClanguageCode;
+		}
+		
+		public String getLOCLanguageCode() {
+			return LOClanguageCode;
+		}
+		
+		public String getLOCLanguageDescription() {
+			return LOClanguageDescription;
+		}
+
+		@Override
+		public String toString() {
+			return "Language [LOC LOClanguageDescription=" + LOClanguageDescription
+					+ ", LOClanguageCode=" + LOClanguageCode + "]";
 		}
 		
 	}
