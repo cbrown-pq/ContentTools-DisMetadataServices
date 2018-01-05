@@ -83,8 +83,6 @@ public class Marc21RdaRecordFactory_LanguageCode_Tests extends
 				+ MarcCharSet.kSubFieldIndicator
 				+ "a" + "eng";
 		MarcRecord marc = factory.makeFrom(metaData);
-		System.out.println(marc.getAllTags());
-		System.out.println(marc.getAllFields());
 		/* 041 tag */
 		List<MarcField> languageCodeFields = marc.getFieldsMatchingTag(tag);
 		assertThat(languageCodeFields.size(), is(0));
