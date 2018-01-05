@@ -101,7 +101,7 @@ public class USMarcRecordFactory_FixedLengthElement_Tests  {
 		metaData.setAuthors(authors);
 		DissLanguage language = new DissLanguage("EnglishTest", "ENTEST");
 		metaData.setDissLanguages(Lists.newArrayList(language));
-		String expectedData = curTime + "n" + "    ||||||||||||||||| ||" + "|||" + " d";
+		String expectedData = curTime + "n" + "    ||||||||||||||||| ||" + "eng" + " d";
 		MarcRecord marc = factory.makeFrom(metaData);
 		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag); 
 		assertThat(fieldsMatchingTag.size(), is(1));

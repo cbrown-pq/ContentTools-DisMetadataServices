@@ -174,7 +174,7 @@ public class MakeExodusMetadataForTesting {
 		List<Subject> subjects = Lists.newArrayList(
 				makeSubjectForTesting("Applied Sciences", "0796", "Operations Research", 1), 
 				makeSubjectForTesting("Applied Sciences", "0546", "Engineering, Industrial", 2),
-				makeSubjectForTesting("Social Sciences", "0454", "Business Administration, Management", 3));
+				makeSubjectForTesting("Social Sciences", "0454", "Management", 3));
 		x.setSubjects(subjects);
 
 		Title title = new Title();
@@ -248,7 +248,7 @@ public class MakeExodusMetadataForTesting {
 		x.setBatch(batch);
 		
 		List<Subject> subjects = Lists.newArrayList(
-				makeSubjectForTesting("Language, Literature and Linguistics", "0593", "Literature, English", 1));
+				makeSubjectForTesting("Language, Literature and Linguistics", "0593", "English literature", 1));
 		x.setSubjects(subjects);
 
 		Title title = new Title();

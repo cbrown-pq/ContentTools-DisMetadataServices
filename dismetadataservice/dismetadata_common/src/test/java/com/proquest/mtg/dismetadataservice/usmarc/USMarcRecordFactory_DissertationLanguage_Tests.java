@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLOCLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
@@ -38,10 +39,10 @@ public class USMarcRecordFactory_DissertationLanguage_Tests extends
 	@Test
 	public void withOnlyLanguage() {
 		metaData = new DisPubMetaData();
-		List<DissLanguage> languages = new ArrayList<DissLanguage>();
-		DissLanguage language = new DissLanguage("Description", "Code");
-		languages.add(language);
-		metaData.setDissLanguages(languages);
+		List<DissLOCLanguage> dissLOCLanguages = new ArrayList<DissLOCLanguage>();
+		DissLOCLanguage LOClanguage = new DissLOCLanguage("Description", "Code");
+		dissLOCLanguages.add(LOClanguage);
+		metaData.setDissLOCLanguages(dissLOCLanguages);
 		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a"
 				+ "Description";
 		MarcRecord marc = factory.makeFrom(metaData);
@@ -55,12 +56,12 @@ public class USMarcRecordFactory_DissertationLanguage_Tests extends
 	@Test
 	public void withMultipleLanguages() {
 		metaData = new DisPubMetaData();
-		List<DissLanguage> languages = new ArrayList<DissLanguage>();
-		DissLanguage language1 = new DissLanguage("Description1", "Code1");
-		languages.add(language1);
-		DissLanguage language2 = new DissLanguage("Description2", "Code2");
-		languages.add(language2);
-		metaData.setDissLanguages(languages);
+		List<DissLOCLanguage> dissLOCLanguages = new ArrayList<DissLOCLanguage>();
+		DissLOCLanguage language1 = new DissLOCLanguage("Description1", "Code1");
+		dissLOCLanguages.add(language1);
+		DissLOCLanguage language2 = new DissLOCLanguage("Description2", "Code2");
+		dissLOCLanguages.add(language2);
+		metaData.setDissLOCLanguages(dissLOCLanguages);
 		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a"
 				+ "Description1;Description2";
 		MarcRecord marc = factory.makeFrom(metaData);
