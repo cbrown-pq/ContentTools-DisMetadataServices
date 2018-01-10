@@ -4,11 +4,13 @@ function jobArrived( s : Switch, job : Job )
 {
 	var pubID = job.getPrivateData("PublicationID");
 	var jobID = job.getPrivateData("jobID");
+	var format = job.getPrivateData("RequestedOutput");
 	var theHTTP = new HTTP(HTTP.NoSSL);
-	var pubURL = "http://10.241.17.211:8080/fop_service/fop/manufacturing/submit/" + pubID;
+	var pubURL = "http://10.241.17.211:8080/fop_service/fop/manufacturing/submit/" + pubID + "/" + format;
+	
 
 	theHTTP.url = pubURL;
-	theHTTP.timeOut = 3600;
+	theHTTP.timeOut = 0;
 	job.log(2, "Attempting to connect to FOP Database....");
 
 	//Database: fop-workit-test-devl.c4dsldybdipr.us-east-1.rds.amazonaws.com:3306";
