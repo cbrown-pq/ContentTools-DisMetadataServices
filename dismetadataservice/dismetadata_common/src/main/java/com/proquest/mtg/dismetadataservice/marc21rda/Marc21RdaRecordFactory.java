@@ -414,11 +414,12 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	
 	private void handleUCMercEdNumber() {
 		String externalId = curMetaData.getExternalId();
-		if (null != externalId && !externalId.isEmpty()) {
+		String externalIdStr = externalId.substring(externalId.lastIndexOf("/") +1);
+		if (null != externalIdStr && !externalIdStr.isEmpty()) {
 			addField(
 					MarcTags.kSystemControlNumber,
 					makeFieldDataFrom(' ', ' ', 'a', "(" +kSystemPQPrefix + ")" 
-					       + externalId.trim()));
+					       + externalIdStr.trim()));
 		}
 	}
 
