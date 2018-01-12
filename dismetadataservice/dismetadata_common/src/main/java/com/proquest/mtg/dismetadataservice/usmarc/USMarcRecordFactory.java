@@ -354,12 +354,20 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 	
 	private void handleUCMercEdNumber() {
 		String externalId = curMetaData.getExternalId();
-		String externalIdStr = externalId.substring(externalId.lastIndexOf("/") +1);
-		if (null != externalIdStr && !externalIdStr.isEmpty()) {
+		String externalIdStr = "";
+		if (null != externalId && !externalId.isEmpty()) {
+			if (externalId.contains("http")){
+			   externalIdStr = externalId.substring(externalId.lastIndexOf("/") +1);
+			}
+			else{
+				externalIdStr = externalId;
+			}
+			if (null != externalIdStr && !externalIdStr.isEmpty()) {
 			addField(
 					MarcTags.kSystemControlNumber,
 					makeFieldDataFrom(' ', ' ', 'a', "(" +kSystemPQPrefix + ")" 
 							+ externalIdStr.trim()));
+			}
 		}
 	}
 
