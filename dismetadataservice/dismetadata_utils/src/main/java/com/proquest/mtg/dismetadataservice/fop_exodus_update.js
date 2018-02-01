@@ -21,7 +21,7 @@ function jobArrived( s : Switch, job : Job )
 	}
 
 	var theHTTP = new HTTP(HTTP.NoSSL);
-	var pubURL = "http://10.241.17.211:8080/dismetadata_service/disout/fopformats/updateAvailableFormats/" + pubID "/" + format;
+	var pubURL = "http://foputilityservice.pre.proquest.com/dismetadata_service/disout/fopformats/updateAvailableFormats/" + pubID "/" + format;
 
 	theHTTP.url = pubURL;
     theHTTP.timeOut = 0;
@@ -49,10 +49,4 @@ function jobArrived( s : Switch, job : Job )
 
 		}
 job.sendToSingle(job.getPath());
-}
-
-// Is invoked at regular intervals regardless of whether a new job arrived or not.
-// The interval can be modified with s.setTimerInterval().
-function timerFired( s : Switch )
-{
 }
