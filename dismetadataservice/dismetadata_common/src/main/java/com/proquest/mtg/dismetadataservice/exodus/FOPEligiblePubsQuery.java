@@ -27,7 +27,7 @@ public class FOPEligiblePubsQuery {
 				"ditm_status = 'Z' " +
 				"AND ditm_film_fiche_in_progress = 'N' " +
 				"AND not exists (select 1 from dis_item_available_formats where ditm_id = di.ditm_id and dvf_code in ('MFC','MFL')) " +
-				"AND di.DITM_PUB_NUMBER in ('10666320','10666321','10666322','10666301','10666300')";
+				"and to_date(ditm_date_MODIFIED,'dd-MON-yy') between '01-JAN-2017' and '31-JAN-2017' and ditm_source != 'H'";
 			
 	private static final String kUpdateFFInProgressStatus = "UPDATE dis_items set ditm_film_fiche_in_progress = ? where ditm_pub_number = ?"; 
 	
