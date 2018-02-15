@@ -66,11 +66,11 @@ function jobArrived( s : Switch, job : Job )
 	job.log(1, "EXODUS FILM FORMAT CODE: %1", format );
 	var theHTTP = new HTTP(HTTP.NoSSL);
 	var pubURL = "http://preproddiss-services.aa1.pqe/dismetadata_service/disout/fopformats/updateAvailableFormats/" + pubID + "/" + format;
-
+	var fopstatusURL = "http://preproddiss-services.aa1.pqe/dismetadata_service/disout/foppubs/updateInProgressStatus/" + pubID + "/N";
 	theHTTP.url = pubURL;
     theHTTP.timeOut = 0;
 
-	job.log(1, "http url" + theHTTP.url);
+	job.log(1, "available format url" + theHTTP.url);
    var theResponseFilePath = job.createPathWithName( job.getNameProper(), false );
    theHTTP.localFilePath = theResponseFilePath;
    theHTTP.get();
@@ -78,10 +78,27 @@ function jobArrived( s : Switch, job : Job )
    while( !theHTTP.waitForFinished( 3 ) ) { }
    if ( theHTTP.finishedStatus == HTTP.Ok && theHTTP.statusCode == 200 )
    {
-		job.log( 1, "EXPEP update successful for pubid: %1", pubID );
+		job.log( 1, "EXODUS format update successful for pubid: %1", pubID );
    }
    else {
-       job.fail( "EXPEP update failed for pubid: %1", pubID );
+       job.fail( "EXODUS format update failed for pubid: %1", pubID );
+   }
+   var theServerResponse = theHTTP.getServerResponse().toString( "UTF-8" );
+   
+	theHTTP.url = fopstatusURL;
+
+	job.log(1, "fopstatus url" + theHTTP.url);
+   var theResponseFilePath = job.createPathWithName( job.getNameProper(), false );
+   theHTTP.localFilePath = theResponseFilePath;
+   theHTTP.get();
+   //var theServerResponse = theHTTP.getServerResponse().toString( "UTF-8" )
+   while( !theHTTP.waitForFinished( 3 ) ) { }
+   if ( theHTTP.finishedStatus == HTTP.Ok && theHTTP.statusCode == 200 )
+   {
+		job.log( 1, "EXODUS status update successful for pubid: %1", pubID );
+   }
+   else {
+       job.fail( "EXODUS status update failed for pubid: %1", pubID );
    }
    var theServerResponse = theHTTP.getServerResponse().toString( "UTF-8" );
       } //do while loop
@@ -95,13 +112,13 @@ function jobArrived( s : Switch, job : Job )
 
   if( myResult ) {
 
-		job.log( 1, "FOP_WORKIT_2 DB update successful.");
+		job.log( 1, "DB update successful.");
 
 		}
 
 		else {
 
-			job.log( 3,"FOP_WORKIT_2 DB Update failed: %1", myResult );
+			job.log( 3,"DB Update failed: %1", myResult );
 
 		}
 		if (( myFopStatus == 'Fail' ) || ( !myResult)) {
