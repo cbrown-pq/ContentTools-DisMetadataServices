@@ -51,7 +51,7 @@ public class PdfDownloadServiceProvider {
 				response.header("Content-Disposition", "attachment; filename=out.pdf");
 			}
 		} catch (MediaDownloadException e) {
-			throw new DisServiceException(Response.Status.NO_CONTENT,e.getMessage());
+			throw new DisServiceException(Response.Status.NOT_FOUND,e.getMessage());
 		} catch (Exception e) {
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
