@@ -30,6 +30,7 @@ public class CSVHeaders {
 	public static final String kDegreeYear = "DEGREE YEAR";
 	public static final String kAbstract = "ABSTRACT";
 	public static final String kAltAbstract = "SUPP ABSTRACT";
+	public static final String kAltAbstractLang = "SUPP ABSTRACT LANGUAGE";
 	public static final String kSubjectDesc = "SUBJ DESC";
 	public static final String kSubjectCode = "SUBJ CODE";
 	public static final String kSubjectGroupDesc = "SUBJ GROUP DESC";

@@ -254,7 +254,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 
 	private void handleAbstract() {
 		String abstractText = curMetaData.getAbstract();
-		String alternateAbstractText = curMetaData.getAlternateAbstracts();
+		String alternateAbstractText = curMetaData.getAlternateAbstracts().getAbstractText();
 		if (null != abstractText && !abstractText.isEmpty() && null != alternateAbstractText && !alternateAbstractText.isEmpty()) {
 			abstractText = abstractNormalizer.applyTo(abstractText);
 			abstractText = handleRecordSize(abstractText);

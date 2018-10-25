@@ -102,6 +102,8 @@ public class CSVRecordFactory {
 		if (this.excludeAltAbstract == 0) {
 			kAllHeaders.put(CSVHeaders.kAltAbstract,
 					CSVRecordFactory.class.getDeclaredMethod("handleAltAbstract"));
+			kAllHeaders.put(CSVHeaders.kAltAbstractLang, 
+					CSVRecordFactory.class.getDeclaredMethod("handleAltAbstractLang"));
 		}
 		
 		kAllHeaders.put(CSVHeaders.kPubDate, CSVRecordFactory.class
@@ -672,12 +674,21 @@ public class CSVRecordFactory {
 	private void handleAltAbstract() {
 		String altAbstractText = "";
 		if (null != curMetaData.getAlternateAbstracts()
-				&& !curMetaData.getAlternateAbstracts().isEmpty()) {
+				&& StringUtils.isNotEmpty(curMetaData.getAlternateAbstracts().getAbstractText())) {
 			altAbstractText = abstractNormalizer
-					.applyTo(curMetaData.getAlternateAbstracts());
+					.applyTo(curMetaData.getAlternateAbstracts().getAbstractText());
 			altAbstractText = SGMLEntitySubstitution.applyAllTo(altAbstractText);
 		}
 		addField(altAbstractText);
+	}
+	
+	private void handleAltAbstractLang() {
+		String altAbstractLang = "";
+		if (null != curMetaData.getAlternateAbstracts()
+				&& StringUtils.isNotEmpty(curMetaData.getAlternateAbstracts().getLanguage())) {
+			altAbstractLang = curMetaData.getAlternateAbstracts().getLanguage();
+		}
+		addField(altAbstractLang);
 	}
 
 	private void handleSubjectDesc() {

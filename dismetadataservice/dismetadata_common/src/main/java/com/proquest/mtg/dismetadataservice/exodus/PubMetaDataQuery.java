@@ -5,21 +5,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateAbstract;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLOCLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.ManuscriptMedia;
@@ -886,14 +885,16 @@ public class PubMetaDataQuery {
 		return result;
 	}
 	
-	private String getAlternateAbstractFor(String itemId) throws SQLException {
-        String abs = null;
+	private AlternateAbstract getAlternateAbstractFor(String itemId) throws SQLException {
+        AlternateAbstract altAbs = null;
         ResultSet cursor = null;
         try {
+        	altAbs = new AlternateAbstract();
                alternateAbstractStatement.setString(1, itemId);
                cursor = alternateAbstractStatement.executeQuery();
                while (cursor.next()) {
-                     abs = cursor.getString(kColumnAlternateAbstract);
+                     altAbs.setAbstractText(cursor.getString(kColumnAlternateAbstract));
+                     altAbs.setLanguage(cursor.getString(kColumnAlternateTitleLanguage));
                      break;
                }
         } finally {
@@ -901,7 +902,7 @@ public class PubMetaDataQuery {
                      cursor.close();
                }
         }
-        return abs;
+        return altAbs;
  }
 
 	

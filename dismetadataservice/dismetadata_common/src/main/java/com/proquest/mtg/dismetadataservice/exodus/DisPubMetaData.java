@@ -29,7 +29,7 @@ public class DisPubMetaData {
 	private List<SalesRestriction> salesRestrictions;
 	private List<FormatRestriction> formatRestrictions;
 	private String dissAbstract;
-	private String dissAlternateAbstract;
+	private AlternateAbstract dissAlternateAbstract;
 	private Batch batch;
 	private List<AlternateTitle> alternateTitle;
 	private Advisors advisors;
@@ -199,11 +199,11 @@ public class DisPubMetaData {
 		this.dissAbstract = value;
 	}
 	
-	public String getAlternateAbstracts() {
+	public AlternateAbstract getAlternateAbstracts() {
 		return dissAlternateAbstract;
 	}
 	
-	public void setAlternateAbstracts(String value) {
+	public void setAlternateAbstracts(AlternateAbstract value) {
 		this.dissAlternateAbstract = value;
 	}
 	
@@ -904,6 +904,24 @@ public class DisPubMetaData {
 			this.manuscriptMediaDesc = manuscriptMediaDesc;
 		}
 	}
+    
+    public static class AlternateAbstract {
+    	private String abstractText;
+    	private String language;
+    	
+		public String getAbstractText() {
+			return abstractText;
+		}
+		public void setAbstractText(String abstractText) {
+			this.abstractText = abstractText;
+		}
+		public String getLanguage() {
+			return language;
+		}
+		public void setLanguage(String language) {
+			this.language = language;
+		}
+    }
 
     public String getFirstPublicationDate() {
 		return firstPublicationDate;
