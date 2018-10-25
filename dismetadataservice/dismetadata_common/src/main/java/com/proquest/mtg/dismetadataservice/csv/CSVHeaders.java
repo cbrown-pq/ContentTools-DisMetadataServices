@@ -22,11 +22,14 @@ public class CSVHeaders {
 	public static final String kTitle = "TITLE";
 	public static final String kEnglishTranslationOfTitle = "ENGLISH TITLE";
 	public static final String kVariantTitle = "VARIANT TITLE";
+	public static final String kAltTitle = "SUPP TITLE";
+	public static final String kAltTitleLang = "SUPP TITLE LANGUAGE";
 	public static final String kAuthors = "AUTHORS";
 	public static final String kDegreeCode = "DEGREE CODE";
 	public static final String kDegreeDesc = "DEGREE DESC";
 	public static final String kDegreeYear = "DEGREE YEAR";
 	public static final String kAbstract = "ABSTRACT";
+	public static final String kAltAbstract = "SUPP ABSTRACT";
 	public static final String kSubjectDesc = "SUBJ DESC";
 	public static final String kSubjectCode = "SUBJ CODE";
 	public static final String kSubjectGroupDesc = "SUBJ GROUP DESC";

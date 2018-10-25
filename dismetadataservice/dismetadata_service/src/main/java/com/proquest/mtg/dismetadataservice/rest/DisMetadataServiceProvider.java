@@ -32,10 +32,11 @@ public class DisMetadataServiceProvider {
 	public Response getDisMetaData(@PathParam("pubNumber") String pubNumber,
 			@PathParam("formatType") String formatType,
 			@DefaultValue("0") @QueryParam("er") int excludeRestriction,
-			@DefaultValue("0") @QueryParam("ea") int excludeAbstract) throws WebApplicationException {
+			@DefaultValue("0") @QueryParam("ea") int excludeAbstract,
+			@DefaultValue("0") @QueryParam("eaa") int excludeAltAbstract) throws WebApplicationException {
 		String result = null;
 		try {
-			result = getMetaDataFormatFactory().getFor(formatType).makeFor(pubNumber, excludeRestriction,excludeAbstract);
+			result = getMetaDataFormatFactory().getFor(formatType).makeFor(pubNumber, excludeRestriction, excludeAbstract, excludeAltAbstract);
 		} catch(IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 			throw new DisServiceException(Response.Status.NOT_FOUND,e.getMessage());

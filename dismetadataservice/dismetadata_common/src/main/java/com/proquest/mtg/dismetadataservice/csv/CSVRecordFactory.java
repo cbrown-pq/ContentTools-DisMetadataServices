@@ -8,9 +8,12 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.collect.ImmutableList;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
@@ -27,21 +30,24 @@ import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 import com.proquest.mtg.dismetadataservice.metadata.SGMLEntitySubstitution;
 import com.proquest.mtg.dismetadataservice.metadata.TextNormalizer;
 
+@SuppressWarnings("unused")
 public class CSVRecordFactory {
 
 	private static final String DELIMITER = "|";
 	private DisPubMetaData curMetaData = null;
 	private String curRecord = "";
 	private int excludeAbstract = 0;
+	private int excludeAltAbstract = 0;
 	private final TextNormalizer abstractNormalizer = new TextNormalizer();
 	private final PDFVaultAvailableStatusProvider pdfAvailableStatus;
 
 	private final LinkedHashMap<String, Method> kAllHeaders = new LinkedHashMap<String, Method>();
 
 	
-	public CSVRecordFactory(PDFVaultAvailableStatusProvider pdfVaultAvailableStatus, int excludeAbstract) 
+	public CSVRecordFactory(PDFVaultAvailableStatusProvider pdfVaultAvailableStatus, int excludeAbstract, int excludeAltAbstract) 
 			throws NoSuchMethodException, SecurityException, ClassNotFoundException {
 		this.excludeAbstract = excludeAbstract;
+		this.excludeAltAbstract = excludeAltAbstract;
 		initTagMapping();
 		this.pdfAvailableStatus = pdfVaultAvailableStatus;
 		
@@ -93,6 +99,10 @@ public class CSVRecordFactory {
 			kAllHeaders.put(CSVHeaders.kAbstract,
 					CSVRecordFactory.class.getDeclaredMethod("handleAbstract"));
 		}
+		if (this.excludeAltAbstract == 0) {
+			kAllHeaders.put(CSVHeaders.kAltAbstract,
+					CSVRecordFactory.class.getDeclaredMethod("handleAltAbstract"));
+		}
 		
 		kAllHeaders.put(CSVHeaders.kPubDate, CSVRecordFactory.class
 				.getDeclaredMethod("handlePubDate"));
@@ -130,6 +140,10 @@ public class CSVRecordFactory {
 				CSVRecordFactory.class.getDeclaredMethod("handleEnglishTranslationOfTitle"));
 		kAllHeaders.put(CSVHeaders.kVariantTitle,
 				CSVRecordFactory.class.getDeclaredMethod("handleVariantTitle"));
+		kAllHeaders.put(CSVHeaders.kAltTitle,
+				CSVRecordFactory.class.getDeclaredMethod("handleAltTitle"));
+		kAllHeaders.put(CSVHeaders.kAltTitleLang,
+				CSVRecordFactory.class.getDeclaredMethod("handleAltTitleLang")); //TODO
 		kAllHeaders.put(CSVHeaders.kSalesRestrictionCode,
 				CSVRecordFactory.class
 						.getDeclaredMethod("handleSalesRestrictionCode"));
@@ -483,6 +497,30 @@ public class CSVRecordFactory {
 
 		addField(title);
 	}
+	
+	private void handleAltTitle() {
+		String title = "";
+		List<AlternateTitle> altTitles = curMetaData.getAlternateTitles();
+		if (!altTitles.isEmpty()) {
+			StringBuilder altTitleSb = new StringBuilder();
+			for (AlternateTitle altTitle : altTitles) {
+				altTitleSb.append(altTitle.getAltTitle());
+			}
+			title = SGMLEntitySubstitution.applyAllTo(altTitleSb.toString());
+		}
+		
+		addField(title);
+	}
+	
+	private void handleAltTitleLang() {
+		String lang = "";
+		List<AlternateTitle> altTitles = curMetaData.getAlternateTitles();
+		if (!altTitles.isEmpty() && StringUtils.isNotBlank(altTitles.get(0).getLanguage())) {
+			lang = altTitles.get(0).getLanguage();
+		}
+		
+		addField(lang);
+	}
 
 	private void handleTitle() {
 		String title = getTitleToInclude();
@@ -629,6 +667,17 @@ public class CSVRecordFactory {
 			abstractText = SGMLEntitySubstitution.applyAllTo(abstractText);			
 		}
 		addField(abstractText);
+	}
+	
+	private void handleAltAbstract() {
+		String altAbstractText = "";
+		if (null != curMetaData.getAlternateAbstracts()
+				&& !curMetaData.getAlternateAbstracts().isEmpty()) {
+			altAbstractText = abstractNormalizer
+					.applyTo(curMetaData.getAlternateAbstracts());
+			altAbstractText = SGMLEntitySubstitution.applyAllTo(altAbstractText);
+		}
+		addField(altAbstractText);
 	}
 
 	private void handleSubjectDesc() {

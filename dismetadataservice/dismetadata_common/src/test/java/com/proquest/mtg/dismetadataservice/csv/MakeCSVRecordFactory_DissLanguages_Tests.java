@@ -24,7 +24,7 @@ public class MakeCSVRecordFactory_DissLanguages_Tests extends EasyMockSupport {
 	@Before
 	public void setUp() throws Exception {
 		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
-		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0);
+		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0,0);
 		metadata = new DisPubMetaData();
 		for (String curheader : factory.getHeaders()) {
 			header += curheader + ",";

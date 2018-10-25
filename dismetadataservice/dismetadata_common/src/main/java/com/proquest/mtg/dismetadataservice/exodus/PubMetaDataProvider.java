@@ -32,14 +32,14 @@ public class PubMetaDataProvider implements IPubMetaDataProvider {
 	}
 
 	@Override
-	public DisPubMetaData getPubMetaDataFor(String pubId, int excludeRestriction, int excludeAbstract) throws Exception {
+	public DisPubMetaData getPubMetaDataFor(String pubId, int excludeRestriction, int excludeAbstract, int excludeAltAbstract) throws Exception {
 		DisPubMetaData result = null;
 		Connection connection = null;
 		PubMetaDataQuery query = null;
 		try {
 			connection = getConnectionPool().getConnection();
 			query = new PubMetaDataQuery(connection, getPqOpenUrlBase());
-			result = query.getFor(pubId, excludeRestriction, excludeAbstract);
+			result = query.getFor(pubId, excludeRestriction, excludeAbstract, excludeAltAbstract);
 		}
 		finally {
 			if (null != query) {

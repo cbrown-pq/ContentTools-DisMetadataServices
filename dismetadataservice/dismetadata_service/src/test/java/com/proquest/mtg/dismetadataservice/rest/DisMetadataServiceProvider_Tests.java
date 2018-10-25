@@ -63,7 +63,7 @@ public class DisMetadataServiceProvider_Tests extends EasyMockSupport {
 		Client client = Client.create(new DefaultClientConfig());
 		service = client.resource(kBASE_URI);
 		expect(metaDataFormatFactory.getFor("MARC")).andReturn(metaDataFormats);
-		expect(metaDataFormats.makeFor("TESTPUB",0,0)).andReturn("MARC Test output");
+		expect(metaDataFormats.makeFor("TESTPUB",0,0,0)).andReturn("MARC Test output");
 		replayAll();
 
 	}
