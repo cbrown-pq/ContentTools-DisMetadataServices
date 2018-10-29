@@ -34,7 +34,7 @@ public class MakeCSVRecordFactory_Abstract_Tests extends EasyMockSupport {
 		String abstractString = null;
 		metadata.setAbstract(abstractString);
 		String expectedCSVData = header
-				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -48,7 +48,7 @@ public class MakeCSVRecordFactory_Abstract_Tests extends EasyMockSupport {
 		metadata.setAbstract(abstractText);
 		String expectedCSVData = header + "\r\n" + ",,,\"N\",,\"N\",,,,,,,,,,,,"
 				+ "\"" + abstractText + "\""
-				+ ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+				+ ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

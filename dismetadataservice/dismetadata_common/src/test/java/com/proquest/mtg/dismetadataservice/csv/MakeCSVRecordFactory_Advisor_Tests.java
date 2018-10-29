@@ -41,7 +41,7 @@ public class MakeCSVRecordFactory_Advisor_Tests extends EasyMockSupport {
 	public void makeWithEmptyAdvisors() throws Exception {
 		metadata.setAdvisors(advisors);
 		String expectedCSVData = header
-				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -53,7 +53,7 @@ public class MakeCSVRecordFactory_Advisor_Tests extends EasyMockSupport {
 		advisors.setAdvisor(advisorList);
 		metadata.setAdvisors(advisors);
 		String expectedCSVData = header
-				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -69,7 +69,7 @@ public class MakeCSVRecordFactory_Advisor_Tests extends EasyMockSupport {
 		advisors.setAdvisor(advisorList);
 		metadata.setAdvisors(advisors);
 		String expectedCSVData = header
-				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,\"Moriarty, Matthew D.|Kinstlinger, Gary\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,\"Moriarty, Matthew D.|Kinstlinger, Gary\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));

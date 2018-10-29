@@ -503,7 +503,7 @@ public class CSVRecordFactory {
 	private void handleAltTitle() {
 		String title = "";
 		List<AlternateTitle> altTitles = curMetaData.getAlternateTitles();
-		if (!altTitles.isEmpty()) {
+		if (altTitles != null && !altTitles.isEmpty()) {
 			StringBuilder altTitleSb = new StringBuilder();
 			for (AlternateTitle altTitle : altTitles) {
 				altTitleSb.append(altTitle.getAltTitle());
@@ -517,7 +517,8 @@ public class CSVRecordFactory {
 	private void handleAltTitleLang() {
 		String lang = "";
 		List<AlternateTitle> altTitles = curMetaData.getAlternateTitles();
-		if (!altTitles.isEmpty() && StringUtils.isNotBlank(altTitles.get(0).getLanguage())) {
+		if (altTitles != null && !altTitles.isEmpty()
+				&& StringUtils.isNotBlank(altTitles.get(0).getLanguage())) {
 			lang = altTitles.get(0).getLanguage();
 		}
 		

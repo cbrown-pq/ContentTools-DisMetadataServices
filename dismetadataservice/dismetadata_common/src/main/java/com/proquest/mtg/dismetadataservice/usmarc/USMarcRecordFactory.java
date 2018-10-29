@@ -202,7 +202,10 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 
 	private void handleAbstract() {
 		String abstractText = curMetaData.getAbstract();
-		String alternateAbstractText = curMetaData.getAlternateAbstracts().getAbstractText();
+		String alternateAbstractText = null;
+		if (curMetaData.getAlternateAbstracts() != null) {
+			alternateAbstractText = curMetaData.getAlternateAbstracts().getAbstractText();
+		}
 		System.out.println("Alt Abs: " + alternateAbstractText);
 		if (null != abstractText && !abstractText.isEmpty()
 				&& null != alternateAbstractText

@@ -35,7 +35,7 @@ public class MakeCSVRecordFactory_Department_Tests extends EasyMockSupport {
 		deparments = Lists.newArrayList();
 		metadata.setDepartments(deparments);
 		String expectedCSVData = header
-				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+				+ "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}
@@ -46,7 +46,7 @@ public class MakeCSVRecordFactory_Department_Tests extends EasyMockSupport {
 		List<String> deparments = Lists.newArrayList(
 				"Applied Behavioral Science", "Communication Studies");
 		metadata.setDepartments(deparments);
-		String expectedCSVData = header + "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,\"Applied Behavioral Science|Communication Studies\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+		String expectedCSVData = header + "\r\n,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,\"Applied Behavioral Science|Communication Studies\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
 		assertThat(csvData, is(expectedCSVData));
 	}

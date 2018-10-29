@@ -11,8 +11,8 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLOCLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
@@ -21,11 +21,9 @@ import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecordFactoryBase;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
-import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider;
 import com.proquest.mtg.dismetadataservice.metadata.Author;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
-import com.proquest.mtg.dismetadataservice.metadata.SGMLAngluarBracesEntitySubstitution;
 import com.proquest.mtg.dismetadataservice.metadata.SGMLEntitySubstitution;
 import com.proquest.mtg.dismetadataservice.metadata.TextNormalizer;
 
@@ -254,7 +252,10 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 
 	private void handleAbstract() {
 		String abstractText = curMetaData.getAbstract();
-		String alternateAbstractText = curMetaData.getAlternateAbstracts().getAbstractText();
+		String alternateAbstractText = null;
+		if (curMetaData.getAlternateAbstracts() != null) {
+			alternateAbstractText = curMetaData.getAlternateAbstracts().getAbstractText();
+		}
 		if (null != abstractText && !abstractText.isEmpty() && null != alternateAbstractText && !alternateAbstractText.isEmpty()) {
 			abstractText = abstractNormalizer.applyTo(abstractText);
 			abstractText = handleRecordSize(abstractText);
