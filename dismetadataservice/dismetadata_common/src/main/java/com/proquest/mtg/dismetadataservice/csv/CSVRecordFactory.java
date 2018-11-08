@@ -63,6 +63,10 @@ public class CSVRecordFactory {
 				CSVRecordFactory.class.getDeclaredMethod("handlePubNumber"));
 		kAllHeaders.put(CSVHeaders.kTitle,
 				CSVRecordFactory.class.getDeclaredMethod("handleTitle"));
+		kAllHeaders.put(CSVHeaders.kAltTitle,
+				CSVRecordFactory.class.getDeclaredMethod("handleAltTitle"));
+		kAllHeaders.put(CSVHeaders.kAltTitleLang,
+				CSVRecordFactory.class.getDeclaredMethod("handleAltTitleLang"));
 		kAllHeaders.put(CSVHeaders.kAuthors, CSVRecordFactory.class
 				.getDeclaredMethod("handleMultipleAuthors"));
 		kAllHeaders.put(CSVHeaders.kHasPDF,
@@ -142,10 +146,6 @@ public class CSVRecordFactory {
 				CSVRecordFactory.class.getDeclaredMethod("handleEnglishTranslationOfTitle"));
 		kAllHeaders.put(CSVHeaders.kVariantTitle,
 				CSVRecordFactory.class.getDeclaredMethod("handleVariantTitle"));
-		kAllHeaders.put(CSVHeaders.kAltTitle,
-				CSVRecordFactory.class.getDeclaredMethod("handleAltTitle"));
-		kAllHeaders.put(CSVHeaders.kAltTitleLang,
-				CSVRecordFactory.class.getDeclaredMethod("handleAltTitleLang")); //TODO
 		kAllHeaders.put(CSVHeaders.kSalesRestrictionCode,
 				CSVRecordFactory.class
 						.getDeclaredMethod("handleSalesRestrictionCode"));
