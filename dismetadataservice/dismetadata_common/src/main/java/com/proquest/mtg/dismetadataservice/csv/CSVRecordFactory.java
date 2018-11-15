@@ -61,44 +61,48 @@ public class CSVRecordFactory {
 			SecurityException, ClassNotFoundException {
 		kAllHeaders.put(CSVHeaders.kPubNumber,
 				CSVRecordFactory.class.getDeclaredMethod("handlePubNumber"));
-		kAllHeaders.put(CSVHeaders.kTitle,
-				CSVRecordFactory.class.getDeclaredMethod("handleTitle"));
-		kAllHeaders.put(CSVHeaders.kAltTitle,
-				CSVRecordFactory.class.getDeclaredMethod("handleAltTitle"));
-		kAllHeaders.put(CSVHeaders.kAltTitleLang,
-				CSVRecordFactory.class.getDeclaredMethod("handleAltTitleLang"));
 		kAllHeaders.put(CSVHeaders.kAuthors, CSVRecordFactory.class
 				.getDeclaredMethod("handleMultipleAuthors"));
+		kAllHeaders.put(CSVHeaders.kTitle,
+				CSVRecordFactory.class.getDeclaredMethod("handleTitle"));
+		kAllHeaders.put(CSVHeaders.kDegreeCode, CSVRecordFactory.class
+				.getDeclaredMethod("handleDegreeCodeForFirstAuthor"));
+		kAllHeaders.put(CSVHeaders.kDegreeYear, CSVRecordFactory.class
+				.getDeclaredMethod("handleDegreeYearForFirstAuthor"));
+		kAllHeaders.put(CSVHeaders.kSchoolName,
+				CSVRecordFactory.class.getDeclaredMethod("handleSchoolName"));
 		kAllHeaders.put(CSVHeaders.kHasPDF,
 				CSVRecordFactory.class.getDeclaredMethod("hasPDF"));
 		kAllHeaders.put(CSVHeaders.kPDFAvailableDate, CSVRecordFactory.class
 				.getDeclaredMethod("handlePDFAvailableDate"));
 		kAllHeaders.put(CSVHeaders.kHasSupplementalFiles,
-				CSVRecordFactory.class
-						.getDeclaredMethod("hasSupplementalFiles"));
-		kAllHeaders.put(CSVHeaders.kVolumeIssue,
-				CSVRecordFactory.class.getDeclaredMethod("handleVolumneIssue"));
+				CSVRecordFactory.class.getDeclaredMethod("hasSupplementalFiles"));
 		kAllHeaders.put(CSVHeaders.kPageCount,
 				CSVRecordFactory.class.getDeclaredMethod("handlePageCount"));
+		kAllHeaders.put(CSVHeaders.kDissertationTypeCode,
+				CSVRecordFactory.class.getDeclaredMethod("handleDissertationTypeCode"));
+		kAllHeaders.put(CSVHeaders.kVolumeIssue,
+				CSVRecordFactory.class.getDeclaredMethod("handleVolumneIssue"));
 		kAllHeaders.put(CSVHeaders.kActiveSalesRestrictionCode,
 				CSVRecordFactory.class.getDeclaredMethod("handleActiveSalesRestrictionCode"));
 		kAllHeaders.put(CSVHeaders.kActiveFormatRestrictionCode,
 				CSVRecordFactory.class.getDeclaredMethod("handleActiveFormatRestrictionCode"));
-		kAllHeaders.put(CSVHeaders.kDegreeYear, CSVRecordFactory.class
-				.getDeclaredMethod("handleDegreeYearForFirstAuthor"));
-		kAllHeaders.put(CSVHeaders.kSchoolName,
-				CSVRecordFactory.class.getDeclaredMethod("handleSchoolName"));
-		kAllHeaders.put(CSVHeaders.kDegreeCode, CSVRecordFactory.class
-				.getDeclaredMethod("handleDegreeCodeForFirstAuthor"));
-		kAllHeaders.put(CSVHeaders.kSubjectDesc,
-				CSVRecordFactory.class.getDeclaredMethod("handleSubjectDesc"));
-		kAllHeaders.put(CSVHeaders.kDissertationTypeCode,
-				CSVRecordFactory.class
-						.getDeclaredMethod("handleDissertationTypeCode"));
-		kAllHeaders.put(CSVHeaders.kIsbn,
-				CSVRecordFactory.class.getDeclaredMethod("handleISBN"));
-		kAllHeaders.put(CSVHeaders.kOpenAccessFlag, CSVRecordFactory.class
-				.getDeclaredMethod("handleOpenAccessFlag"));
+		kAllHeaders.put(CSVHeaders.kSalesRestrictionCode,
+				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionCode"));
+		kAllHeaders.put(CSVHeaders.kSalesRestrictionDesc,
+				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionDesc"));
+		kAllHeaders.put(CSVHeaders.kSalesRestrictionStartDate,
+				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionStartDate"));
+		kAllHeaders.put(CSVHeaders.kSalesRestrictionEndDate,
+				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionEndDate"));
+		kAllHeaders.put(CSVHeaders.kFormatRestrictionCode,
+				CSVRecordFactory.class.getDeclaredMethod("handleFormatRestrictionCode"));
+		kAllHeaders.put(CSVHeaders.kFormatRestrictionDesc,
+				CSVRecordFactory.class.getDeclaredMethod("handleFormatRestrictionDesc"));
+		kAllHeaders.put(CSVHeaders.kFormatRestrictionStartDt,
+				CSVRecordFactory.class.getDeclaredMethod("handleFormatRestrictionStartDt"));
+		kAllHeaders.put(CSVHeaders.kFormatRestrictionEndDt,
+				CSVRecordFactory.class.getDeclaredMethod("handleFormatRestrictionEndDt"));
 		if (this.excludeAbstract == 0){
 			kAllHeaders.put(CSVHeaders.kAbstract,
 					CSVRecordFactory.class.getDeclaredMethod("handleAbstract"));
@@ -109,9 +113,24 @@ public class CSVRecordFactory {
 			kAllHeaders.put(CSVHeaders.kAltAbstractLang, 
 					CSVRecordFactory.class.getDeclaredMethod("handleAltAbstractLang"));
 		}
-		
+		kAllHeaders.put(CSVHeaders.kAltTitle,
+				CSVRecordFactory.class.getDeclaredMethod("handleAltTitle"));
+		kAllHeaders.put(CSVHeaders.kAltTitleLang,
+				CSVRecordFactory.class.getDeclaredMethod("handleAltTitleLang"));
+		kAllHeaders.put(CSVHeaders.kManuscriptMediaCode, CSVRecordFactory.class
+				.getDeclaredMethod("handleManuscriptMediaCode"));
+		kAllHeaders.put(CSVHeaders.kManuscriptMediaDesc, CSVRecordFactory.class
+				.getDeclaredMethod("handleManuscriptMediaDesc"));
+		kAllHeaders.put(CSVHeaders.kExternalUrl,
+				CSVRecordFactory.class.getDeclaredMethod("handleExternalUrl"));
+		kAllHeaders.put(CSVHeaders.kIsbn,
+				CSVRecordFactory.class.getDeclaredMethod("handleISBN"));
+		kAllHeaders.put(CSVHeaders.kOpenAccessFlag, CSVRecordFactory.class
+				.getDeclaredMethod("handleOpenAccessFlag"));
 		kAllHeaders.put(CSVHeaders.kPubDate, CSVRecordFactory.class
 				.getDeclaredMethod("handlePubDate"));
+		kAllHeaders.put(CSVHeaders.kSubjectDesc,
+				CSVRecordFactory.class.getDeclaredMethod("handleSubjectDesc"));
 		kAllHeaders.put(CSVHeaders.kKeyword,
 				CSVRecordFactory.class.getDeclaredMethod("handleKeyWords"));
 		kAllHeaders.put(CSVHeaders.kDissLangDesc, CSVRecordFactory.class
@@ -146,36 +165,8 @@ public class CSVRecordFactory {
 				CSVRecordFactory.class.getDeclaredMethod("handleEnglishTranslationOfTitle"));
 		kAllHeaders.put(CSVHeaders.kVariantTitle,
 				CSVRecordFactory.class.getDeclaredMethod("handleVariantTitle"));
-		kAllHeaders.put(CSVHeaders.kSalesRestrictionCode,
-				CSVRecordFactory.class
-						.getDeclaredMethod("handleSalesRestrictionCode"));
-		kAllHeaders.put(CSVHeaders.kSalesRestrictionDesc,
-				CSVRecordFactory.class
-						.getDeclaredMethod("handleSalesRestrictionDesc"));
-		kAllHeaders.put(CSVHeaders.kSalesRestrictionStartDate,
-				CSVRecordFactory.class
-						.getDeclaredMethod("handleSalesRestrictionStartDate"));
-		kAllHeaders.put(CSVHeaders.kSalesRestrictionEndDate,
-				CSVRecordFactory.class
-						.getDeclaredMethod("handleSalesRestrictionEndDate"));
-		kAllHeaders.put(CSVHeaders.kFormatRestrictionCode,
-				CSVRecordFactory.class
-						.getDeclaredMethod("handleFormatRestrictionCode"));
-		kAllHeaders.put(CSVHeaders.kFormatRestrictionDesc,
-				CSVRecordFactory.class
-						.getDeclaredMethod("handleFormatRestrictionDesc"));
-		kAllHeaders.put(CSVHeaders.kFormatRestrictionStartDt,
-				CSVRecordFactory.class
-						.getDeclaredMethod("handleFormatRestrictionStartDt"));
-		kAllHeaders.put(CSVHeaders.kFormatRestrictionEndDt,
-				CSVRecordFactory.class
-						.getDeclaredMethod("handleFormatRestrictionEndDt"));
 		kAllHeaders.put(CSVHeaders.kDAISectionCode, CSVRecordFactory.class
 				.getDeclaredMethod("handleDAISectionCode"));
-		kAllHeaders.put(CSVHeaders.kManuscriptMediaCode, CSVRecordFactory.class
-				.getDeclaredMethod("handleManuscriptMediaCode"));
-		kAllHeaders.put(CSVHeaders.kManuscriptMediaDesc, CSVRecordFactory.class
-				.getDeclaredMethod("handleManuscriptMediaDesc"));
 		kAllHeaders.put(CSVHeaders.kSuppFileNames, CSVRecordFactory.class
 				.getDeclaredMethod("handleSupplemetalFileName"));
 		kAllHeaders.put(CSVHeaders.kSuppFileDescription, CSVRecordFactory.class
@@ -186,13 +177,10 @@ public class CSVRecordFactory {
 				CSVRecordFactory.class.getDeclaredMethod("handlePageNumber"));
 		kAllHeaders.put(CSVHeaders.kPublisher,
 				CSVRecordFactory.class.getDeclaredMethod("handlePublisher"));
-		kAllHeaders.put(CSVHeaders.kExternalUrl,
-				CSVRecordFactory.class.getDeclaredMethod("handleExternalUrl"));
 		kAllHeaders.put(CSVHeaders.kDissertationCode, CSVRecordFactory.class
 				.getDeclaredMethod("handleDissertationCode"));
 		kAllHeaders.put(CSVHeaders.kBritishLibraryNumber,
-				CSVRecordFactory.class
-						.getDeclaredMethod("handleBritishLibrary"));
+				CSVRecordFactory.class.getDeclaredMethod("handleBritishLibrary"));
 		kAllHeaders.put(CSVHeaders.kPqOpenUrl,
 				CSVRecordFactory.class.getDeclaredMethod("handlePqOpenUrl"));
 		kAllHeaders.put(CSVHeaders.kDegreeDesc, CSVRecordFactory.class
