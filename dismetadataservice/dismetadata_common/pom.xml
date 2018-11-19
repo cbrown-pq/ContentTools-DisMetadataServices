@@ -54,6 +54,11 @@
 			<version>3.1</version>
 		</dependency>
 		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-csv</artifactId>
+		    <version>1.4</version>
+		</dependency>
+		<dependency>
 			<groupId>com.pq.services</groupId>
 			<artifactId>gossamer</artifactId>
 			<version>2.13.5</version>

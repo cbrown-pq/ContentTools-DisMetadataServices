@@ -1,8 +1,5 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import java.util.List;
 
 import org.easymock.EasyMockSupport;
@@ -16,7 +13,6 @@ import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider
 
 public class MakeCSVRecordFactory_Keyword_Tests extends EasyMockSupport {
 	CSVRecordFactory factory;
-	String header = "";
 	DisPubMetaData metadata;
 	List<Keyword> keywords;
 	PDFVaultAvailableStatusProvider pdfVaultAvailableStatus;
@@ -25,9 +21,6 @@ public class MakeCSVRecordFactory_Keyword_Tests extends EasyMockSupport {
 	public void setUp() throws Exception {
 		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
 		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0,0);
-		for (String curheader : factory.getHeaders()) {
-			header += curheader + ",";
-		}
 	}
 
 	@Test
@@ -35,10 +28,9 @@ public class MakeCSVRecordFactory_Keyword_Tests extends EasyMockSupport {
 		metadata = new DisPubMetaData();
 		keywords = Lists.newArrayList();
 		metadata.setKeywords(keywords);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kKeyword, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kKeywordSource, null);
 	}
 
 	@Test
@@ -49,9 +41,9 @@ public class MakeCSVRecordFactory_Keyword_Tests extends EasyMockSupport {
 		keyword.setSource("KeywordSource");
 		keywords.add(keyword);
 		metadata.setKeywords(keywords);
-		String expectedCSVData = header + "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"KeywordSource\",,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kKeyword, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kKeywordSource, "KeywordSource");
 	}
 
 	@Test
@@ -62,9 +54,9 @@ public class MakeCSVRecordFactory_Keyword_Tests extends EasyMockSupport {
 		keyword.setValue("KeywordValue");
 		keywords.add(keyword);
 		metadata.setKeywords(keywords);
-		String expectedCSVData = header + "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,\"KeywordValue\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kKeyword, "KeywordValue");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kKeywordSource, null);
 	}
 
 	@Test
@@ -78,9 +70,9 @@ public class MakeCSVRecordFactory_Keyword_Tests extends EasyMockSupport {
 		keyword2.setSource("	  免疫");
 		List<Keyword> keywords = Lists.newArrayList(keyword1, keyword2);
 		metadata.setKeywords(keywords);
-		String expectedCSVData = header + "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,\"By Author|For Datrix\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"low temperature adsorption drying|	  免疫\",,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kKeyword, "By Author|For Datrix");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kKeywordSource, "low temperature adsorption drying|	  免疫");
 	}
 
 }

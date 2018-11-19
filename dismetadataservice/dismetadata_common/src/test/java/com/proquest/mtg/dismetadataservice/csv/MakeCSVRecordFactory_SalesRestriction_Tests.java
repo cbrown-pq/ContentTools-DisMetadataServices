@@ -1,8 +1,5 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import java.util.List;
 
 import org.easymock.EasyMockSupport;
@@ -16,7 +13,6 @@ import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider
 
 public class MakeCSVRecordFactory_SalesRestriction_Tests extends EasyMockSupport  {
 	CSVRecordFactory factory;
-	String header = "";
 	DisPubMetaData metadata;
 	List<SalesRestriction> salesRestrictions;
 	PDFVaultAvailableStatusProvider pdfVaultAvailableStatus;
@@ -25,9 +21,6 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests extends EasyMockSupport
 	public void setUp() throws Exception {
 		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
 		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0,0);
-		for (String curheader : factory.getHeaders()) {
-			header += curheader + ",";
-		}
 	}
 
 	@Test
@@ -35,10 +28,11 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests extends EasyMockSupport
 		metadata = new DisPubMetaData();
 		salesRestrictions = Lists.newArrayList();
 		metadata.setSalesRestrictions(salesRestrictions);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSalesRestrictionCode, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSalesRestrictionDesc, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSalesRestrictionStartDate, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSalesRestrictionEndDate, null);
 	}
 
 	@Test
@@ -49,9 +43,11 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests extends EasyMockSupport
 		salesRestriction.setCode("SalesRestrictionCode");
 		salesRestrictions.add(salesRestriction);
 		metadata.setSalesRestrictions(salesRestrictions);
-		String expectedCSVData = header + "\r\n" + ",,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"SalesRestrictionCode\",,,\"NONE\",,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSalesRestrictionCode, "SalesRestrictionCode");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSalesRestrictionDesc, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSalesRestrictionStartDate, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSalesRestrictionEndDate, "NONE");
 	}
 
 	@Test
@@ -62,9 +58,11 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests extends EasyMockSupport
 		salesRestriction.setDescription("SalesRestrictionDescription");
 		salesRestrictions.add(salesRestriction);
 		metadata.setSalesRestrictions(salesRestrictions);
-		String expectedCSVData = header + "\r\n" + ",,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"SalesRestrictionDescription\",,\"NONE\",,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSalesRestrictionCode, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSalesRestrictionDesc, "SalesRestrictionDescription");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSalesRestrictionStartDate, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSalesRestrictionEndDate, "NONE");
 	}
 
 	@Test
@@ -79,9 +77,11 @@ public class MakeCSVRecordFactory_SalesRestriction_Tests extends EasyMockSupport
 		List<SalesRestriction> salesRestrictions = Lists.newArrayList(
 				salesRestriction1, salesRestriction2);
 		metadata.setSalesRestrictions(salesRestrictions);
-		String expectedCSVData = header + "\r\n" + ",,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"1|2\",\"Not Available For Sale|Available\",,\"NONE|NONE\",,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSalesRestrictionCode, "1|2");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSalesRestrictionDesc, "Not Available For Sale|Available");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSalesRestrictionStartDate, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSalesRestrictionEndDate, "NONE|NONE");
 	}
 
 }

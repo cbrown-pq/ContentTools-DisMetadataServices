@@ -1,6 +1,7 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
@@ -17,7 +18,6 @@ import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider
 
 public class MakeCSVRecordFactory_Advisor_Tests extends EasyMockSupport {
 	CSVRecordFactory factory;
-	String header = "";
 	DisPubMetaData metadata;
 	Advisors advisors;
 	Advisor advisor;
@@ -29,9 +29,6 @@ public class MakeCSVRecordFactory_Advisor_Tests extends EasyMockSupport {
 		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
 		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0,0);
 		metadata = new DisPubMetaData();
-		for (String curheader : factory.getHeaders()) {
-			header += curheader + ",";
-		}
 		advisors = new Advisors();
 		advisor = new Advisor();
 		advisorList = Lists.newArrayList();
@@ -40,10 +37,9 @@ public class MakeCSVRecordFactory_Advisor_Tests extends EasyMockSupport {
 	@Test
 	public void makeWithEmptyAdvisors() throws Exception {
 		metadata.setAdvisors(advisors);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		String value = CSVTestHelper.getValueForHeader(csvData, CSVHeaders.kAdvisors);
+        assertThat(value, is(nullValue()));
 	}
 
 	@Test
@@ -52,10 +48,9 @@ public class MakeCSVRecordFactory_Advisor_Tests extends EasyMockSupport {
 		advisorList.add(advisor);
 		advisors.setAdvisor(advisorList);
 		metadata.setAdvisors(advisors);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		String value = CSVTestHelper.getValueForHeader(csvData, CSVHeaders.kAdvisors);
+		assertThat(value, is(nullValue()));
 	}
 
 	@Test
@@ -68,10 +63,9 @@ public class MakeCSVRecordFactory_Advisor_Tests extends EasyMockSupport {
 		advisorList.add(advisor2);
 		advisors.setAdvisor(advisorList);
 		metadata.setAdvisors(advisors);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,\"Moriarty, Matthew D.|Kinstlinger, Gary\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		String value = CSVTestHelper.getValueForHeader(csvData, CSVHeaders.kAdvisors);
+		assertThat(value, is("Moriarty, Matthew D.|Kinstlinger, Gary"));
 	}
 }

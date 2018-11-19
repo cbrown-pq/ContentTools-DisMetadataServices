@@ -1,8 +1,5 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +13,6 @@ import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider
 
 public class MakeCSVRecordFactory_Subject_Tests extends EasyMockSupport {
 	CSVRecordFactory factory;
-	String header = "";
 	DisPubMetaData metadata;
 	List<Subject> subjects;
 	Subject subject;
@@ -27,9 +23,6 @@ public class MakeCSVRecordFactory_Subject_Tests extends EasyMockSupport {
 		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
 		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0,0);
 		metadata = new DisPubMetaData();
-		for (String curheader : factory.getHeaders()) {
-			header += curheader + ",";
-		}
 		subjects = new ArrayList<Subject>();
 		subject = new Subject();
 	}
@@ -37,10 +30,10 @@ public class MakeCSVRecordFactory_Subject_Tests extends EasyMockSupport {
 	@Test
 	public void makeWithEmptySubjects() throws Exception {
 		metadata.setSubjects(subjects);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectDesc, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectGroupDesc, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectCode, null);
 	}
 
 	@Test
@@ -51,9 +44,10 @@ public class MakeCSVRecordFactory_Subject_Tests extends EasyMockSupport {
 		subject.setSubjectGroupDesc(subjGroupDesc);
 		subjects.add(subject);
 		metadata.setSubjects(subjects);
-		String expectedCSVData = header + "\r\n" + ",,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,\""+subjGroupDesc+"\",\""+subjCode+"\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectDesc, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectGroupDesc, subjGroupDesc);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectCode, subjCode);
 	}
 
 	@Test
@@ -64,9 +58,10 @@ public class MakeCSVRecordFactory_Subject_Tests extends EasyMockSupport {
 		subject.setSubjectGroupDesc(subjGroupDesc);
 		subjects.add(subject);
 		metadata.setSubjects(subjects);
-		String expectedCSVData = header + "\r\n" + ",,,,,\"N\",,\"N\",,,,,,,,\""+subjDesc+"\",,,,,,,,,,,,,,,\""+subjGroupDesc+"\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectDesc, subjDesc);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectGroupDesc, subjGroupDesc);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectCode, null);
 	}
 
 	@Test
@@ -77,9 +72,10 @@ public class MakeCSVRecordFactory_Subject_Tests extends EasyMockSupport {
 		subject.setSubjectDesc(subjDesc);
 		subjects.add(subject);
 		metadata.setSubjects(subjects);
-		String expectedCSVData = header + "\r\n" + ",,,,,\"N\",,\"N\",,,,,,,,\""+subjDesc+"\",,,,,,,,,,,,,,,,\""+subjCode+"\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectDesc, subjDesc);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectGroupDesc, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectCode, subjCode);
 	}
 
 	@Test
@@ -92,9 +88,10 @@ public class MakeCSVRecordFactory_Subject_Tests extends EasyMockSupport {
 		subject.setSubjectGroupDesc(subjGroupDesc);
 		subjects.add(subject);
 		metadata.setSubjects(subjects);
-		String expectedCSVData = header + "\r\n" + ",,,,,\"N\",,\"N\",,,,,,,,\""+subjDesc+"\",,,,,,,,,,,,,,,\""+subjGroupDesc+"\",\""+subjCode+"\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectDesc, subjDesc);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectGroupDesc, subjGroupDesc);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectCode, subjCode);
 	}
 
 }

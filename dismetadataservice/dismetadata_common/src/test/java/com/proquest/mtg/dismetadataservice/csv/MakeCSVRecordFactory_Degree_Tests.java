@@ -1,8 +1,5 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +14,6 @@ import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 
 public class MakeCSVRecordFactory_Degree_Tests extends EasyMockSupport {
 	CSVRecordFactory factory;
-	String header = "";
 	DisPubMetaData metadata;
 	List<Author> authors;
 	List<Degree> degrees;
@@ -30,9 +26,6 @@ public class MakeCSVRecordFactory_Degree_Tests extends EasyMockSupport {
 		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
 		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0,0);
 		metadata = new DisPubMetaData();
-		for (String curheader : factory.getHeaders()) {
-			header += curheader + ",";
-		}
 		authors = new ArrayList<Author>();
 		degrees = new ArrayList<Degree>();
 		author = new Author();
@@ -45,10 +38,12 @@ public class MakeCSVRecordFactory_Degree_Tests extends EasyMockSupport {
 		author.setDegrees(degrees);
 		authors.add(author);
 		metadata.setAuthors(authors);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,\"NONE\",,,,,,,,,,,\"NONE\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDegreeCode, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDegreeYear, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kAuthorCitizenship, "NONE");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kAuthorLocCitizenship, "NONE");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDegreeDesc, null);
 	}
 
 	@Test
@@ -58,10 +53,12 @@ public class MakeCSVRecordFactory_Degree_Tests extends EasyMockSupport {
 		degrees.add(degree);
 		authors.add(author);
 		metadata.setAuthors(authors);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,\"NONE\",,,,,,,,,,,\"NONE\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDegreeCode, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDegreeYear, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kAuthorCitizenship, "NONE");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kAuthorLocCitizenship, "NONE");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDegreeDesc, null);
 	}
 
 	@Test
@@ -71,10 +68,13 @@ public class MakeCSVRecordFactory_Degree_Tests extends EasyMockSupport {
 		degrees.add(degree);
 		authors.add(author);
 		metadata.setAuthors(authors);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,\"NONE\",,,,,,,,,,,\"NONE\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDegreeCode, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDegreeYear, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kAuthorCitizenship, "NONE");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kAuthorLocCitizenship, "NONE");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDegreeDesc, null);
+		
 	}
 
 	@Test
@@ -86,10 +86,12 @@ public class MakeCSVRecordFactory_Degree_Tests extends EasyMockSupport {
 		degrees.add(degree);
 		authors.add(author);
 		metadata.setAuthors(authors);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,\"NONE\",,,,,,,,,,,\"NONE\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDegreeCode, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDegreeYear, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kAuthorCitizenship, "NONE");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kAuthorLocCitizenship, "NONE");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDegreeDesc, null);
 	}
 
 	@Test
@@ -101,9 +103,12 @@ public class MakeCSVRecordFactory_Degree_Tests extends EasyMockSupport {
 		author.setDegrees(degrees);
 		authors.add(author);
 		metadata.setAuthors(authors);
-		String expectedCSVData = header + "\r\n,,,,,\"N\",,\"N\",,,,,\"1987\",,\"D.N.Sc.\",,,,,,,,,,,\"NONE\",,,,,,,,,,,\"NONE\",,,,,,,,,,,,,,,,,,,,,,,,\"Doctor of Nursing Science\",,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDegreeCode, "D.N.Sc.");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDegreeYear, "1987");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kAuthorCitizenship, "NONE");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kAuthorLocCitizenship, "NONE");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDegreeDesc, "Doctor of Nursing Science");
 	}
 
 }

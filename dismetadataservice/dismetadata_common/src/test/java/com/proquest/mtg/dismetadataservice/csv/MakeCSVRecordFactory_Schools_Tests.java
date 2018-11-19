@@ -1,8 +1,5 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +10,6 @@ import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider
 
 public class MakeCSVRecordFactory_Schools_Tests extends EasyMockSupport {
 	CSVRecordFactory factory;
-	String header = "";
 	School school;
 	DisPubMetaData metadata;
 	PDFVaultAvailableStatusProvider pdfVaultAvailableStatus;
@@ -23,19 +19,17 @@ public class MakeCSVRecordFactory_Schools_Tests extends EasyMockSupport {
 		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
 		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0,0);
 		metadata = new DisPubMetaData();
-		for (String curheader : factory.getHeaders()) {
-			header += curheader + ",";
-		}
 		school = new School();
 	}
 
 	@Test
 	public void makeSchoolWithEmpty() throws Exception {
 		metadata.setSchool(school);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolName, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolCode, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolCountry, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolState, null);
 	}
 
 	@Test
@@ -44,10 +38,11 @@ public class MakeCSVRecordFactory_Schools_Tests extends EasyMockSupport {
 		school.setSchoolName("SchoolName");
 		school.setSchoolState("SchoolState");
 		metadata.setSchool(school);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,\"SchoolName\",,,,,,,,,,,,,,,,,,,,\"SchoolCountry\",\"SchoolState\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolName, "SchoolName");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolCode, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolCountry, "SchoolCountry");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolState, "SchoolState");
 	}
 
 	@Test
@@ -56,10 +51,11 @@ public class MakeCSVRecordFactory_Schools_Tests extends EasyMockSupport {
 		school.setSchoolCountry("SchoolCountry");
 		school.setSchoolState("SchoolState");
 		metadata.setSchool(school);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,\"SchoolCode\",\"SchoolCountry\",\"SchoolState\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolName, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolCode, "SchoolCode");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolCountry, "SchoolCountry");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolState, "SchoolState");
 	}
 
 	@Test
@@ -68,10 +64,11 @@ public class MakeCSVRecordFactory_Schools_Tests extends EasyMockSupport {
 		school.setSchoolName("SchoolName");
 		school.setSchoolState("SchoolState");
 		metadata.setSchool(school);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,\"SchoolName\",,,,,,,,,,,,,,,,,,,\"SchoolCode\",,\"SchoolState\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolName, "SchoolName");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolCode, "SchoolCode");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolCountry, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolState, "SchoolState");
 	}
 
 	@Test
@@ -81,10 +78,11 @@ public class MakeCSVRecordFactory_Schools_Tests extends EasyMockSupport {
 		school.setSchoolCountry("SchoolCountry");
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setSchool(school);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,\"SchoolName\",,,,,,,,,,,,,,,,,,,\"SchoolCode\",\"SchoolCountry\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolName, "SchoolName");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolCode, "SchoolCode");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolCountry, "SchoolCountry");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolState, null);
 	}
 	
 	@Test
@@ -94,9 +92,11 @@ public class MakeCSVRecordFactory_Schools_Tests extends EasyMockSupport {
 		school.setSchoolCountry("UNITED STATES");
 		school.setSchoolState("Massachusetts");
 		metadata.setSchool(school);
-		String expectedCSVData = header + "\r\n,,,,,\"N\",,\"N\",,,,,,\"Massachusetts Institute of Technology\",,,,,,,,,,,,,,,,,,,\"0753\",\"UNITED STATES\",\"Massachusetts\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";	
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolName, "Massachusetts Institute of Technology");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolCode, "0753");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolCountry, "UNITED STATES");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolState, "Massachusetts");
 	}
 
 }

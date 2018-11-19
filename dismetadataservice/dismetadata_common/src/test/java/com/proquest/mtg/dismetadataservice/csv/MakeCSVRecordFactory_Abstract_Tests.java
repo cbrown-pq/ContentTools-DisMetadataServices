@@ -1,8 +1,5 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +12,6 @@ import com.proquest.mtg.dismetadataservice.metadata.TextNormalizer;
 
 public class MakeCSVRecordFactory_Abstract_Tests extends EasyMockSupport {
 	CSVRecordFactory factory;
-	String header = "";
 	DisPubMetaData metadata;
 	PDFVaultAvailableStatusProvider pdfVaultAvailableStatus;
 
@@ -24,19 +20,14 @@ public class MakeCSVRecordFactory_Abstract_Tests extends EasyMockSupport {
 		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
 		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0,0);
 		metadata = new DisPubMetaData();
-		for (String curheader : factory.getHeaders()) {
-			header += curheader + ",";
-		}
 	}
 
 	@Test
 	public void makeWithEmptyAbstract() throws Exception {
 		String abstractString = null;
 		metadata.setAbstract(abstractString);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kAbstract, null);
 	}
 
 	@Test
@@ -46,11 +37,8 @@ public class MakeCSVRecordFactory_Abstract_Tests extends EasyMockSupport {
 		abstractText = abstractNormalizer.applyTo(abstractText);
 		abstractText = SGMLEntitySubstitution.applyAllTo(abstractText);
 		metadata.setAbstract(abstractText);
-		String expectedCSVData = header + "\r\n" + ",,,,,\"N\",,\"N\",,,,,,,,,,,,"
-				+ "\"" + abstractText + "\""
-				+ ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kAbstract, abstractText);
 	}
 
 }

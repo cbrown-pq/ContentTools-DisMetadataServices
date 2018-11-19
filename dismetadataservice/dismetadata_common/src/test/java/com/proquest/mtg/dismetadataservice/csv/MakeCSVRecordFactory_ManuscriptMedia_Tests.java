@@ -1,8 +1,5 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +10,6 @@ import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider
 
 public class MakeCSVRecordFactory_ManuscriptMedia_Tests extends EasyMockSupport {
 	CSVRecordFactory factory;
-	String header = "";
 	DisPubMetaData metadata;
 	ManuscriptMedia manuscriptMedia;
 	PDFVaultAvailableStatusProvider pdfVaultAvailableStatus;
@@ -23,9 +19,6 @@ public class MakeCSVRecordFactory_ManuscriptMedia_Tests extends EasyMockSupport 
 		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
 		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0,0);
 		metadata = new DisPubMetaData();
-		for (String curheader : factory.getHeaders()) {
-			header += curheader + ",";
-		}
 		manuscriptMedia = new ManuscriptMedia();
 	}
 
@@ -34,10 +27,9 @@ public class MakeCSVRecordFactory_ManuscriptMedia_Tests extends EasyMockSupport 
 		String manuscriptMediaCode = null;
 		manuscriptMedia.setManuscriptMediaCode(manuscriptMediaCode);
 		metadata.setManuscriptMedia(manuscriptMedia);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kManuscriptMediaCode, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kManuscriptMediaDesc, null);
 	}
 	
 	@Test
@@ -45,10 +37,9 @@ public class MakeCSVRecordFactory_ManuscriptMedia_Tests extends EasyMockSupport 
 		String manuscriptMediaDesc = null;
 		manuscriptMedia.setManuscriptMediaDesc(manuscriptMediaDesc);
 		metadata.setManuscriptMedia(manuscriptMedia);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kManuscriptMediaCode, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kManuscriptMediaDesc, null);
 	}
 	
 	@Test
@@ -56,21 +47,19 @@ public class MakeCSVRecordFactory_ManuscriptMedia_Tests extends EasyMockSupport 
 		String manuscriptMediaCode = "ManuscriptMediaCode";
 		manuscriptMedia.setManuscriptMediaCode(manuscriptMediaCode);
 		metadata.setManuscriptMedia(manuscriptMedia);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"ManuscriptMediaCode\",,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kManuscriptMediaCode, manuscriptMediaCode);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kManuscriptMediaDesc, null);
 	}
 	
 	@Test
 	public void makeWithManuscriptMediaDesc() throws Exception {
 		String manuscriptMediaDesc = "ManuscriptMediaDesc";
-		manuscriptMedia.setManuscriptMediaCode(manuscriptMediaDesc);
+		manuscriptMedia.setManuscriptMediaDesc(manuscriptMediaDesc);
 		metadata.setManuscriptMedia(manuscriptMedia);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"ManuscriptMediaDesc\",,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kManuscriptMediaCode, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kManuscriptMediaDesc, manuscriptMediaDesc);
 	}
 
 

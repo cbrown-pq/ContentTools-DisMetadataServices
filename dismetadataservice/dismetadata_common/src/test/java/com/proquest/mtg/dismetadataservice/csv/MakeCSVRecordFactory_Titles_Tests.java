@@ -1,8 +1,5 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +10,6 @@ import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider
 
 public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 	CSVRecordFactory factory;
-	String header = "";
 	DisPubMetaData metadata;
 	PDFVaultAvailableStatusProvider pdfVaultAvailableStatus;
 	Title title;
@@ -23,19 +19,16 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
 		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0,0);
 		metadata = new DisPubMetaData();
-		for (String curheader : factory.getHeaders()) {
-			header += curheader + ",";
-		}
 		title = new Title();
 	}
 
 	@Test
 	public void makeTitleWithEmpty() throws Exception {
 		metadata.setTitle(title);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, null);
 	}
 
 	@Test
@@ -45,9 +38,10 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		title.setForeignTitle("ForeignTitle");
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n,\"ForeignTitle.\",,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"ElectronicTitle.\",\"OverwriteTitle\",,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "ForeignTitle.");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, "ElectronicTitle.");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, "OverwriteTitle");
 	}
 
 	@Test
@@ -57,9 +51,10 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		title.setForeignTitle("ForeignTitle");
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n,\"ForeignTitle.\",,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"OverwriteTitle\",,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "ForeignTitle.");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, "OverwriteTitle");
 	}
 
 	@Test
@@ -69,9 +64,10 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		title.setForeignTitle("ForeignTitle");
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n,\"ElectronicTitle.\",,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "ElectronicTitle.");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, null);
 	}
 
 	@Test
@@ -81,9 +77,10 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		title.setElectronicTitle("ElectronicTitle");
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n,\"MasterTitle.\",,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"ElectronicTitle.\",\"OverwriteTitle\",,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "MasterTitle.");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, "ElectronicTitle.");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, "OverwriteTitle");
 	}
 
 	@Test
@@ -93,10 +90,10 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		title.setEnglishOverwriteTitle("Adsorption kinetics at the air-water interface.  \\lbrack Dutch text\\rbrack");
 		title.setForeignTitle("NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text)");
 		metadata.setTitle(title);
-		String expectedCSVData = header
-				+ "\r\n,\"NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text).\",,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"Utilization of an articulation index procedure in the evaluation of hearing-aid efficiency.\",\"Adsorption kinetics at the air-water interface.  \\lbrack Dutch text\\rbrack\",,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text).");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, "Utilization of an articulation index procedure in the evaluation of hearing-aid efficiency.");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, "Adsorption kinetics at the air-water interface.  \\lbrack Dutch text\\rbrack");
 	}
 	
 	
@@ -107,9 +104,10 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n,\"Master title with \"\"quotes\"\".\",,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "Master title with \"quotes\".");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, null);
 	}
 	
 	@Test
@@ -119,9 +117,10 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		
 		DisPubMetaData metadata = new DisPubMetaData();
 		metadata.setTitle(title);
-		String expectedCSVData = header + "\r\n,\"Master title with \"\" and Lambda and \"\".\",,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "Master title with \" and Lambda and \".");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, null);
 	}
 
 }

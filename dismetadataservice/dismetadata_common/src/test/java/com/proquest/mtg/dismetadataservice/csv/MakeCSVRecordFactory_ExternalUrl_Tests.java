@@ -33,7 +33,7 @@ public class MakeCSVRecordFactory_ExternalUrl_Tests extends EasyMockSupport {
 		String expectedCSVData = header
 				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kExternalUrl, null);
 	}
 
 	@Test
@@ -42,6 +42,6 @@ public class MakeCSVRecordFactory_ExternalUrl_Tests extends EasyMockSupport {
 		String expectedCSVData = header
 				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"http://www.theses.com/idx/registered_users/etd/8f.asp\",,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kExternalUrl, "http://www.theses.com/idx/registered_users/etd/8f.asp");
 	}
 }

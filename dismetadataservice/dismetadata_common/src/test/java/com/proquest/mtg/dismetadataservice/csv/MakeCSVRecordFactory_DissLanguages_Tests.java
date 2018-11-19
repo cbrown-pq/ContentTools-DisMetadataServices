@@ -1,8 +1,5 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +13,6 @@ import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider
 
 public class MakeCSVRecordFactory_DissLanguages_Tests extends EasyMockSupport {
 	CSVRecordFactory factory;
-	String header = "";
 	DisPubMetaData metadata;
 	List<DissLanguage> languages;
 	PDFVaultAvailableStatusProvider pdfVaultAvailableStatus;
@@ -26,19 +22,15 @@ public class MakeCSVRecordFactory_DissLanguages_Tests extends EasyMockSupport {
 		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
 		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0,0);
 		metadata = new DisPubMetaData();
-		for (String curheader : factory.getHeaders()) {
-			header += curheader + ",";
-		}
 		languages = new ArrayList<DissLanguage>();
 	}
 
 	@Test
 	public void makeWithEmpty() throws Exception {
 		metadata.setDissLanguages(languages);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDissLangDesc, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDissLangCode, null);
 	}
 
 	@Test
@@ -48,10 +40,9 @@ public class MakeCSVRecordFactory_DissLanguages_Tests extends EasyMockSupport {
 		languages.add(lang1);
 		languages.add(lang2);
 		metadata.setDissLanguages(languages);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,\"English|French\",,,,,,,,,,,,,\"EN|FR\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDissLangDesc, "English|French");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDissLangCode, "EN|FR");
 	}
 
 }

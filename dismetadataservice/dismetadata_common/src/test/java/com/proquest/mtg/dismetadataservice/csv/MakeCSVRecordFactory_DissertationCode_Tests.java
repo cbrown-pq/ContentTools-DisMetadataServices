@@ -1,8 +1,5 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +10,6 @@ import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider
 
 public class MakeCSVRecordFactory_DissertationCode_Tests extends EasyMockSupport {
 	CSVRecordFactory factory;
-	String header = "";
 	DisPubMetaData metadata;
 	Batch batch;
 	PDFVaultAvailableStatusProvider pdfVaultAvailableStatus;
@@ -23,9 +19,6 @@ public class MakeCSVRecordFactory_DissertationCode_Tests extends EasyMockSupport
 		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
 		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0,0);
 		metadata = new DisPubMetaData();
-		for (String curheader : factory.getHeaders()) {
-			header += curheader + ",";
-		}
 		batch = new Batch();
 	}
 
@@ -33,10 +26,10 @@ public class MakeCSVRecordFactory_DissertationCode_Tests extends EasyMockSupport
 	public void makeWithEmptyBatch() throws Exception {
 
 		metadata.setBatch(batch);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDissertationTypeCode, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDissertationCode, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDAISectionCode, null);
 	}
 
 	@Test
@@ -45,9 +38,8 @@ public class MakeCSVRecordFactory_DissertationCode_Tests extends EasyMockSupport
 		Batch batch = new Batch();
 		batch.setDBTypeCode("DAC");
 		metadata.setBatch(batch);
-		String expectedCSVData = header + "\r\n,,,,,\"N\",,\"N\",,,,,,,,,\"DAC\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDissertationTypeCode, "DAC");
 	}
 
 	@Test
@@ -56,9 +48,8 @@ public class MakeCSVRecordFactory_DissertationCode_Tests extends EasyMockSupport
 		Batch batch = new Batch();
 		batch.setDBTypeDesc("Dissertation Abstracts International");
 		metadata.setBatch(batch);
-		String expectedCSVData = header + "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"Dissertation Abstracts International\",,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDissertationCode, "Dissertation Abstracts International");
 	}
 
 	@Test
@@ -67,9 +58,8 @@ public class MakeCSVRecordFactory_DissertationCode_Tests extends EasyMockSupport
 		Batch batch = new Batch();
 		batch.setDAISectionCode("B");
 		metadata.setBatch(batch);
-		String expectedCSVData = header + "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"B\",,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kDAISectionCode, "B");
 	}
 
 }

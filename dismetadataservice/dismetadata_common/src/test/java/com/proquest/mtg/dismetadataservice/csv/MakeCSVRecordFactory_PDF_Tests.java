@@ -1,8 +1,6 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.easymock.EasyMock.expect;
-import static org.junit.Assert.assertThat;
 
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
@@ -38,10 +36,10 @@ public class MakeCSVRecordFactory_PDF_Tests extends EasyMockSupport {
 	public void makeWithEmptyPdfStatus() throws Exception {
 
 		metadata.setPdfStatus(pdfAvailableDateStatus);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kPubNumber, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kHasPDF, "N");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kPDFAvailableDate, null);
 	}
 
 	@Test
@@ -51,9 +49,10 @@ public class MakeCSVRecordFactory_PDF_Tests extends EasyMockSupport {
 		expect(pdfVaultAvailableStatus.isPdfAvailableInVaultFor(pubNumber)).andStubReturn(true);
 		replayAll();
 		metadata.setPdfStatus(pdfAvailableDateStatus);
-		String expectedCSVData = header + "\r\n" + "\"" + pubNumber + "\",,,,,\"Y\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kPubNumber, pubNumber);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kHasPDF, "Y");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kPDFAvailableDate, null);
 	}
 	
 	@Test
@@ -62,9 +61,10 @@ public class MakeCSVRecordFactory_PDF_Tests extends EasyMockSupport {
 		metadata.setPubNumber(pubNumber);
 		expect(pdfVaultAvailableStatus.isPdfAvailableInVaultFor(pubNumber)).andStubReturn(false);
 		replayAll();
-		String expectedCSVData = header + "\r\n" + "\"" + pubNumber + "\",,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kPubNumber, pubNumber);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kHasPDF, "N");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kPDFAvailableDate, null);
 	}
 
 	@Test
@@ -74,9 +74,10 @@ public class MakeCSVRecordFactory_PDF_Tests extends EasyMockSupport {
 		metadata.setPubNumber(pubNumber);
 		expect(pdfVaultAvailableStatus.isPdfAvailableInVaultFor(pubNumber)).andStubReturn(false);
 		replayAll();
-		String expectedCSVData = header + "\r\n" + "\"" + pubNumber + "\",,,,,\"N\",\"PdfAvailableDate\",\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kPubNumber, pubNumber);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kHasPDF, "N");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kPDFAvailableDate, "PdfAvailableDate");
 	}
 	
 	@Test
@@ -86,8 +87,9 @@ public class MakeCSVRecordFactory_PDF_Tests extends EasyMockSupport {
 		metadata.setPubNumber(pubNumber);
 		expect(pdfVaultAvailableStatus.isPdfAvailableInVaultFor(pubNumber)).andStubReturn(true);
 		replayAll();
-		String expectedCSVData = header + "\r\n" + "\"" + pubNumber + "\",,,,,\"Y\",\"PdfAvailableDate\",\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kPubNumber, pubNumber);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kHasPDF, "Y");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kPDFAvailableDate, "PdfAvailableDate");
 	}
 }

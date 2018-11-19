@@ -1,8 +1,5 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +13,6 @@ import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider
 
 public class MakeCSVRecordFactory_SupplementalFiles_Tests extends EasyMockSupport {
 	CSVRecordFactory factory;
-	String header = "";
 	DisPubMetaData metadata;
 	SuppFile suppFile;
 	List<SuppFile> suppFiles;
@@ -27,9 +23,6 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests extends EasyMockSuppor
 		pdfVaultAvailableStatus  =  createMock(PDFVaultAvailableStatusProvider.class);
 		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0,0);
 		metadata = new DisPubMetaData();
-		for (String curheader : factory.getHeaders()) {
-			header += curheader + ",";
-		}
 
 		suppFile = new SuppFile();
 		suppFiles = new ArrayList<SuppFile>();
@@ -39,10 +32,11 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests extends EasyMockSuppor
 	public void makeWithEmptySupplemenatalFiles() throws Exception {
 		metadata = new DisPubMetaData();
 		metadata.setSuppFiles(suppFiles);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kHasSupplementalFiles, "N");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileNames, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileDescription, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileCategory, null);
 	}
 
 	@Test
@@ -53,9 +47,11 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests extends EasyMockSuppor
 		suppFile.setSuppFileCategory(suppFileCategory);
 		suppFiles.add(suppFile);
 		metadata.setSuppFiles(suppFiles);
-		String expectedCSVData = header + "\r\n" + ",,,,,\"N\",,\"Y\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\""+suppFileDesc+"\",\""+suppFileCategory+"\",,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kHasSupplementalFiles, "Y");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileNames, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileDescription, suppFileDesc);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileCategory, suppFileCategory);
 	}
 
 	@Test
@@ -66,9 +62,11 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests extends EasyMockSuppor
 		suppFile.setSuppFileCategory(suppFileCategory);
 		suppFiles.add(suppFile);
 		metadata.setSuppFiles(suppFiles);
-		String expectedCSVData = header + "\r\n" + ",,,,,\"N\",,\"Y\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\""+suppFileName+"\",,\""+suppFileCategory+"\",,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kHasSupplementalFiles, "Y");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileNames, suppFileName);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileDescription, null);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileCategory, suppFileCategory);
 	}
 
 	@Test
@@ -79,9 +77,11 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests extends EasyMockSuppor
 		suppFile.setSuppFilename(suppFileName);
 		suppFiles.add(suppFile);
 		metadata.setSuppFiles(suppFiles);
-		String expectedCSVData = header + "\r\n" + ",,,,,\"N\",,\"Y\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\""+suppFileName+"\",\""+suppFileDesc+"\",,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kHasSupplementalFiles, "Y");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileNames, suppFileName);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileDescription, suppFileDesc);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileCategory, null);
 	}
 
 	@Test
@@ -96,8 +96,10 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests extends EasyMockSuppor
 		List<SuppFile> suppFiles = new ArrayList<SuppFile>();
 		suppFiles.add(suppFile);
 		metadata.setSuppFiles(suppFiles);
-		String expectedCSVData = header + "\r\n" + ",,,,,\"N\",,\"Y\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\""+suppFileName+"\",\""+suppFileDesc+"\",\""+suppFileCategory+"\",,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kHasSupplementalFiles, "Y");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileNames, suppFileName);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileDescription, suppFileDesc);
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileCategory, suppFileCategory);
 	}
 }

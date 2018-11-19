@@ -1,8 +1,5 @@
 package com.proquest.mtg.dismetadataservice.csv;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +13,6 @@ import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider
 
 public class MakeCSVRecordFactory_FormatRestrictionCode_Tests extends EasyMockSupport {
 	CSVRecordFactory factory;
-	String header = "";
 	DisPubMetaData metadata;
 	List<FormatRestriction> formatRestrictions;
 	PDFVaultAvailableStatusProvider pdfVaultAvailableStatus;
@@ -27,9 +23,6 @@ public class MakeCSVRecordFactory_FormatRestrictionCode_Tests extends EasyMockSu
 		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0,0);
 		metadata = new DisPubMetaData();
 		metadata = new DisPubMetaData();
-		for (String curheader : factory.getHeaders()) {
-			header += curheader + ",";
-		}
 		formatRestrictions = new ArrayList<FormatRestriction>();
 	}
 
@@ -38,10 +31,11 @@ public class MakeCSVRecordFactory_FormatRestrictionCode_Tests extends EasyMockSu
 		FormatRestriction formatRestriction = new FormatRestriction();
 		formatRestrictions.add(formatRestriction);
 		metadata.setFormatRestrictions(formatRestrictions);
-		String expectedCSVData = header
-				+ "\r\n,,,,,\"N\",,\"N\",,,,\"NONE\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"NONE\",\"NONE\",\"NONE\",\"NONE\",,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kFormatRestrictionCode, "NONE");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kFormatRestrictionDesc, "NONE");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kFormatRestrictionStartDt, "NONE");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kFormatRestrictionEndDt, "NONE");
 	}
 
 	@Test
@@ -55,9 +49,11 @@ public class MakeCSVRecordFactory_FormatRestrictionCode_Tests extends EasyMockSu
 		formatRestrictions.add(formatRestriction1);
 		formatRestrictions.add(formatRestriction2);
 		metadata.setFormatRestrictions(formatRestrictions);
-		String expectedCSVData = header + "\r\n,,,,,\"N\",,\"N\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"C|CE\",\"NONE|NONE\",\"NONE|NONE\",\"NONE|NONE\",,,,,,,,,,,,,,,,,,,,";
 		String csvData = factory.makeFrom(metadata);
-		assertThat(csvData, is(expectedCSVData));
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kFormatRestrictionCode, "C|CE");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kFormatRestrictionDesc, "NONE|NONE");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kFormatRestrictionStartDt, "NONE|NONE");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kFormatRestrictionEndDt, "NONE|NONE");
 	}
 
 }
