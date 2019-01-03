@@ -19,6 +19,7 @@ public class FOPEligiblePubsQuery {
 	private static final String kPubId = "PubNumber";
 	private static final String kPubSource = "PubSource";
 	
+
 	private static final String kSelectFOPEligiblePubs = "SELECT " +
 			"di.ditm_pub_number " + kPubId + ", " +
 			"nvl(di.ditm_source,'null') " + kPubSource + " " +
@@ -26,11 +27,11 @@ public class FOPEligiblePubsQuery {
 			"WHERE " +
 				"ditm_status = 'Z' " +
 				"AND ditm_film_fiche_in_progress = 'N' " +
-				//"AND ditm_source in('E','F','R','D','P','M') " +
-				"AND ditm_source in('E') " +
+				"AND ditm_source in('E','F','R','D','P','M') " +
 				"AND di.diw_id = dwo.diw_id " +
-				"AND not exists (select 1 from dis_item_available_formats where ditm_id = di.ditm_id and dvf_code in ('MFC','MFL')) and rownum < 11 " ;
-				//"AND dwo.diw_id > 1138627 AND rownum <= 500";
+				"AND not exists (select 1 from dis_item_available_formats where ditm_id = di.ditm_id and dvf_code in ('MFC','MFL')) " +
+				"AND dwo.diw_id > 1138627 AND rownum <= 500";
+
 	
 	//production query
 	//SELECT ditm_id,di.ditm_pub_number PubNumber,to_date('01/05/2018 15:00:00','MM-DD-YYYY hh24:mi:ss'), ditm_date_created,ditm_date_modified,nvl(di.ditm_source,'null') PubSource 
