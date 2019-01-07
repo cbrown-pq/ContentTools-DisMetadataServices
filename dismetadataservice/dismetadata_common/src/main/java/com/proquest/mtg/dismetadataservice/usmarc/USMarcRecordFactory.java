@@ -10,7 +10,6 @@ import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLOCLanguage;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
@@ -206,7 +205,7 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 		if (curMetaData.getAlternateAbstracts() != null) {
 			alternateAbstractText = curMetaData.getAlternateAbstracts().getAbstractText();
 		}
-		System.out.println("Alt Abs: " + alternateAbstractText);
+//		System.out.println("Alt Abs: " + alternateAbstractText);
 		if (null != abstractText && !abstractText.isEmpty()
 				&& null != alternateAbstractText
 				&& !alternateAbstractText.isEmpty()) {

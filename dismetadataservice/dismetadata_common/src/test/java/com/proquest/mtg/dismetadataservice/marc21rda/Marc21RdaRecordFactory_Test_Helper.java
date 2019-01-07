@@ -35,6 +35,7 @@ public class Marc21RdaRecordFactory_Test_Helper extends EasyMockSupport {
 		IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
 		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(connectionPool);
 		factory = new Marc21RdaRecordFactory(disGenMappingProvider);
+		pdfVaultAvailableStatusProvider = createMock(PDFVaultAvailableStatusProvider.class);
 	}
 	
 	public void verifyMarcRecordHasCorrectCount(DisPubMetaData metaData, 
