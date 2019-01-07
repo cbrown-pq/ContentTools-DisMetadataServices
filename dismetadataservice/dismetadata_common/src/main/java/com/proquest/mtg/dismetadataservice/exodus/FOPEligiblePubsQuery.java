@@ -30,7 +30,9 @@ public class FOPEligiblePubsQuery {
 				"AND ditm_source in('E','F','R','D','P','M') " +
 				"AND di.diw_id = dwo.diw_id " +
 				"AND not exists (select 1 from dis_item_available_formats where ditm_id = di.ditm_id and dvf_code in ('MFC','MFL')) " +
-				"AND dwo.diw_id > 1138627 AND rownum <= 1000";
+			//	"AND dwo.diw_id > 1138627 "	+ 
+				"AND dwo.diw_id > 1000000 "	+ 
+				"AND rownum <= 1000";
 
 	
 	//production query
