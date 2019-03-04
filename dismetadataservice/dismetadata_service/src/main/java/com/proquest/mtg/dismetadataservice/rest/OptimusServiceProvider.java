@@ -1,0 +1,213 @@
+package com.proquest.mtg.dismetadataservice.rest;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import com.google.inject.Inject;
+import com.proquest.mtg.dismetadataservice.format.SchoolMetaDataFormatFactory;
+import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools;
+import com.proquest.optimus.security.SharedKeyAuthorization;
+import com.proquest.optimus.security.service.SharedKeyAuthorizationService;
+
+@Path("/optimusdata/")
+public class OptimusServiceProvider {
+
+	
+	@GET
+	@Path("/getReferenceCounts/{startDate}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getRejectsInfoFromOptimus(@PathParam("startDate") String startDate) throws WebApplicationException {
+		String response = null;
+		try {
+			Map<String, String[]> parameterMap = new HashMap<>();
+			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
+			        new SharedKeyAuthorizationService(
+			                "XYPC9MN8AAPP7SQR",
+			                "y88akjsAzGzULmZwJj9xa3K5ArX8TYYhWuMMzwgYeJNnLS3QZfmdLuApRKqLkVD7",
+			                "POST",
+			                "http://optimus-pipeline-service.pre.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts",
+			                parameterMap);
+			 
+			SharedKeyAuthorization sharedKeyAuthorization = sharedKeyAuthorizationService.build();
+			
+			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
+			
+			URLConnection urlConnection = buildUrlConnection("http://optimus-pipeline-service.pre.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
+
+			response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20190228\",\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
+			
+			System.out.println("response:" + response);			} catch(IllegalArgumentException e) {
+			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
+		} catch (Exception e) {
+			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		
+		return response;
+	}
+	
+	@GET
+	@Path("/getReferenceRejects/{startDate}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getReferenceRejects(@PathParam("startDate") String schoolCode) throws WebApplicationException {
+		String response = null;
+		try {
+			Map<String, String[]> parameterMap = new HashMap<>();
+			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
+			        new SharedKeyAuthorizationService(
+			                "XYPC9MN8AAPP7SQR",
+			                "y88akjsAzGzULmZwJj9xa3K5ArX8TYYhWuMMzwgYeJNnLS3QZfmdLuApRKqLkVD7",
+			                "POST",
+			                "http://optimus-pipeline-service.pre.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-rejects",
+			                parameterMap);
+			 
+			SharedKeyAuthorization sharedKeyAuthorization = sharedKeyAuthorizationService.build();
+			
+			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
+			
+			URLConnection urlConnection = buildUrlConnection("http://optimus-pipeline-service.pre.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-rejects","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
+
+			response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\",\"dateCreatedEnd\":\"20160418\",\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
+			
+			System.out.println("response:" + response);
+		} catch(IllegalArgumentException e) {
+			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
+		} catch (Exception e) {
+			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		return response;
+	}
+	
+	
+	@GET
+	@Path("/getDissertations/{startDate}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getDissertations(@PathParam("startDate") String schoolCode) throws WebApplicationException {
+		String response = null;
+		try {
+			Map<String, String[]> parameterMap = new HashMap<>();
+			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
+			        new SharedKeyAuthorizationService(
+			                "ME6K5WY83ESRX62S",
+			                "mtdRctMeKfjbNx5vTWmdnByhnZ88cykMXreQ793TpBQ8P56tBnsA5dA38nw3KUxw",
+			                "POST",
+			                "http://10.241.16.112:8080/optimus-pipeline-service/dissertations",
+			                parameterMap);
+			 
+			SharedKeyAuthorization sharedKeyAuthorization = sharedKeyAuthorizationService.build();
+			
+			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
+			
+			URLConnection urlConnection = buildUrlConnection("http://10.241.16.112:8080/optimus-pipeline-service/dissertations	","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
+
+			response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\",\"dateCreatedEnd\":\"20160418\",\"pubNumbers\":[\"10610665\",\"10195668\"]}");
+			
+			System.out.println("response:" + response);
+		} catch(IllegalArgumentException e) {
+			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
+		} catch (Exception e) {
+			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		return response;
+	}
+	
+	public static URLConnection buildUrlConnection(String path, String contentType, String accept, String computedSignature, SharedKeyAuthorization sharedKeyAuthorization)
+            throws Exception {
+
+				URL url = new URL(path);
+				URLConnection urlConnection = url.openConnection();
+				((HttpURLConnection) urlConnection).setRequestMethod(sharedKeyAuthorization.getVerb());
+				
+				urlConnection.setRequestProperty("User-Agent", "junit");
+				urlConnection.setRequestProperty("Content-Type", contentType);
+				urlConnection.setRequestProperty("Accept-Encoding", "gzip, deflate");
+				urlConnection.setRequestProperty("Accept", accept);
+				urlConnection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+				
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.append("SharedKey ");
+				stringBuilder.append("PublicAccessAPIKey=\"").append(sharedKeyAuthorization.getPublicAccessAPIKey()).append("\",");
+				stringBuilder.append("Signature=\"");
+				stringBuilder.append(computedSignature);
+				stringBuilder.append("\",");
+				stringBuilder.append("SignatureAlgorithm=\"HMAC-SHA512\",");
+				stringBuilder.append("Timestamp=\"");
+				stringBuilder.append(sharedKeyAuthorization.getEpochTimestamp());
+				stringBuilder.append("\",");
+				stringBuilder.append("Nonce=\"");
+				stringBuilder.append(sharedKeyAuthorization.getNonce());
+				stringBuilder.append("\",");
+				stringBuilder.append("Version=\"1.0\"");
+				System.out.println("STRING::" + stringBuilder.toString());
+				urlConnection.setRequestProperty("Authorization", stringBuilder.toString());
+				
+				return urlConnection;
+}
+
+	 		public static String processResponse(URLConnection urlConnection, String requestBody) {
+
+			String response;
+			
+			try {
+			        OutputStream outputStream = null;
+			        OutputStreamWriter outputStreamWriter = null;
+			        BufferedReader bufferedReader;
+			        String inputLine;
+			        StringBuffer stringBuffer = new StringBuffer();
+			        try {
+			            urlConnection.setDoInput(true);
+			            if (requestBody != null) {
+			               urlConnection.setDoOutput(true);
+			               outputStream = urlConnection.getOutputStream();
+			               outputStreamWriter = new OutputStreamWriter(outputStream);
+			               outputStreamWriter.write(requestBody);
+			               outputStreamWriter.flush();
+			            }
+			            if (urlConnection instanceof HttpsURLConnection) {
+			               bufferedReader = new BufferedReader(new InputStreamReader(((HttpsURLConnection) urlConnection).getInputStream()));
+			               } else {
+			               bufferedReader = new BufferedReader(new InputStreamReader(((HttpURLConnection) urlConnection).getInputStream()));
+			            }
+			            } catch (IOException ioException) {
+			
+			            if (urlConnection instanceof HttpsURLConnection) {
+			               bufferedReader = new BufferedReader(new InputStreamReader(((HttpsURLConnection) urlConnection).getErrorStream()));
+			            } else {
+			               bufferedReader = new BufferedReader(new InputStreamReader(((HttpURLConnection) urlConnection).getErrorStream()));
+			            }
+			           }
+			           while ((inputLine = bufferedReader.readLine()) != null) {
+			                             stringBuffer.append(inputLine);
+			             }
+			           bufferedReader.close();
+			
+			           response = stringBuffer.toString();
+			           System.out.println(response);
+			           if (outputStream != null && outputStreamWriter != null) {
+			              outputStreamWriter.close();
+			              outputStream.close();
+			           }
+			} catch(Throwable throwable) {
+			             throw new RuntimeException(throwable);
+			}
+			return response;
+}
+
+}
