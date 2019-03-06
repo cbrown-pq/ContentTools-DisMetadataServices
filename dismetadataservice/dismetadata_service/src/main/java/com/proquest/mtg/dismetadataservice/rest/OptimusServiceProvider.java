@@ -37,7 +37,7 @@ public class OptimusServiceProvider {
 	public String getRejectsInfoFromOptimus(@PathParam("startDate") String startDate) throws WebApplicationException {
 		String response = null;
 		try {
-			Map<String, String[]> parameterMap = new HashMap<>();
+			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
 			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
 			        new SharedKeyAuthorizationService(
 			                "XYPC9MN8AAPP7SQR",
@@ -52,7 +52,8 @@ public class OptimusServiceProvider {
 			
 			URLConnection urlConnection = buildUrlConnection("http://optimus-pipeline-service.pre.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
 
-			response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20190228\",\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
+			//response = processResponse(urlConnection, "{\"dateCreatedStart\":startDate,\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
+			response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20190319\"}");
 			
 			System.out.println("response:" + response);			} catch(IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
@@ -66,10 +67,10 @@ public class OptimusServiceProvider {
 	@GET
 	@Path("/getReferenceRejects/{startDate}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getReferenceRejects(@PathParam("startDate") String schoolCode) throws WebApplicationException {
+	public String getReferenceRejects(@PathParam("startDate") String startDate) throws WebApplicationException {
 		String response = null;
 		try {
-			Map<String, String[]> parameterMap = new HashMap<>();
+			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
 			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
 			        new SharedKeyAuthorizationService(
 			                "XYPC9MN8AAPP7SQR",
@@ -99,10 +100,10 @@ public class OptimusServiceProvider {
 	@GET
 	@Path("/getDissertations/{startDate}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getDissertations(@PathParam("startDate") String schoolCode) throws WebApplicationException {
+	public String getDissertations(@PathParam("startDate") String startDate) throws WebApplicationException {
 		String response = null;
 		try {
-			Map<String, String[]> parameterMap = new HashMap<>();
+			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
 			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
 			        new SharedKeyAuthorizationService(
 			                "ME6K5WY83ESRX62S",
