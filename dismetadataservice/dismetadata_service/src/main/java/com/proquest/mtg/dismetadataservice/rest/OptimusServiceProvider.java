@@ -52,8 +52,7 @@ public class OptimusServiceProvider {
 			
 			URLConnection urlConnection = buildUrlConnection("http://optimus-pipeline-service.pre.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
 
-			//response = processResponse(urlConnection, "{\"dateCreatedStart\":startDate,\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
-			response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20190319\"}");
+			response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\"}");
 			
 			System.out.println("response:" + response);			} catch(IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
