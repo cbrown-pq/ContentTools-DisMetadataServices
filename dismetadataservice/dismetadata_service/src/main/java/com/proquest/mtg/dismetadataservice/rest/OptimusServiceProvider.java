@@ -34,7 +34,7 @@ public class OptimusServiceProvider {
 	@GET
 	@Path("/getReferenceCounts/{startDate}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getRejectsInfoFromOptimus(@PathParam("startDate") String startDate) throws WebApplicationException {
+	public String getRefCountsInfoFromOptimus(@PathParam("startDate") String startDate) throws WebApplicationException {
 		String response = null;
 		try {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
@@ -51,9 +51,9 @@ public class OptimusServiceProvider {
 			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
 			
 			URLConnection urlConnection = buildUrlConnection("http://optimus-pipeline-service.pre.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
-
-			response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\"}");
-			
+			String url = "{\"dateCreatedStart\"" + ":" + "\"" + startDate + "\"}";
+			//response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\"}");
+			response = processResponse(urlConnection,url);
 			System.out.println("response:" + response);			} catch(IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
 		} catch (Exception e) {
