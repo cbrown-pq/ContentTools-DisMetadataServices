@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -17,11 +18,13 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.inject.Inject;
+import com.google.inject.servlet.RequestParameters;
 import com.proquest.mtg.dismetadataservice.format.SchoolMetaDataFormatFactory;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools;
 import com.proquest.optimus.security.SharedKeyAuthorization;
@@ -32,9 +35,9 @@ public class OptimusServiceProvider {
 
 	
 	@GET
-	@Path("/getReferenceCounts/{startDate}")
+	@Path("/getReferenceCounts")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getRefCountsInfoFromOptimus(@PathParam("startDate") String startDate) throws WebApplicationException {
+	public String getRefCountsInfoFromOptimus(@QueryParam("startDate") String startDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
 		String response = null;
 		try {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
@@ -47,13 +50,12 @@ public class OptimusServiceProvider {
 			                parameterMap);
 			 
 			SharedKeyAuthorization sharedKeyAuthorization = sharedKeyAuthorizationService.build();
-			
 			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
-			
 			URLConnection urlConnection = buildUrlConnection("http://optimus-pipeline-service.pre.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
-			String url = "{\"dateCreatedStart\"" + ":" + "\"" + startDate + "\"}";
+			String url = "{\"dateCreatedStart\"" + ":" + "\"" + startDate + "\","+ "\"pubNumbers\": "+ pubNumbers + "}";
 			//response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\"}");
-			response = processResponse(urlConnection,url);
+			//response =  processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\",\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
+			response = processResponse(urlConnection, url);
 			System.out.println("response:" + response);			} catch(IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
 		} catch (Exception e) {
@@ -64,9 +66,9 @@ public class OptimusServiceProvider {
 	}
 	
 	@GET
-	@Path("/getReferenceRejects/{startDate}")
+	@Path("/getReferenceRejects")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getReferenceRejects(@PathParam("startDate") String startDate) throws WebApplicationException {
+	public String getReferenceRejects(@QueryParam("startDate") String startDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
 		String response = null;
 		try {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
@@ -83,9 +85,9 @@ public class OptimusServiceProvider {
 			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
 			
 			URLConnection urlConnection = buildUrlConnection("http://optimus-pipeline-service.pre.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-rejects","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
-
-			response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\",\"dateCreatedEnd\":\"20160418\",\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
-			
+			String url = "{\"dateCreatedStart\"" + ":" + "\"" + startDate + "\","+ "\"pubNumbers\": "+ pubNumbers + "}";
+			//response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\",\"dateCreatedEnd\":\"20160418\",\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
+			response = processResponse(urlConnection, url);
 			System.out.println("response:" + response);
 		} catch(IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
