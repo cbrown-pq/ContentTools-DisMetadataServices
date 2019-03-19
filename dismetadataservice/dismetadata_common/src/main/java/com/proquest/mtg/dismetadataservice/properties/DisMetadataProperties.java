@@ -21,6 +21,9 @@ public class DisMetadataProperties {
 	public final static String PQ_SERVICE_USER_AGENT = "pq.service.user.agent";
 	public final static String FOP_EXODUS_USER_NAME = "fop.exodus.db.username";
 	public final static String FOP_EXODUS_PASSWORD = "fop.exodus.db.password";
+	public final static String MR3_SERVICE_URL_BASE = "mr3.service.url.base";
+	public final static String ECMS_MR3_HEADER_KEY = "ecms.mr3.header.key";
+	public final static String ECMS_MR3_HEADER_VALUE = "ecms.mr3.header.value";
 
 	public final static ArrayList<String> kRequiredProps = Lists
 			.newArrayList(
@@ -35,7 +38,10 @@ public class DisMetadataProperties {
 					PQ_SERVICE_TIMEOUT_MS,
 					PQ_SERVICE_USER_AGENT,
 					FOP_EXODUS_USER_NAME,
-					FOP_EXODUS_PASSWORD);
+					FOP_EXODUS_PASSWORD,
+					MR3_SERVICE_URL_BASE,
+					ECMS_MR3_HEADER_KEY,
+					ECMS_MR3_HEADER_VALUE);
 	
 	
 	private final JdbcConfig exodusConfig;
@@ -45,6 +51,9 @@ public class DisMetadataProperties {
 	private final int pqServiceTimeoutMS;
 	private final String pqServiceUserAgent;
 	private final JdbcConfig fopExodusConfig;
+	private final String mr3ServiceURL;
+	private final String ecmsMr3HeaderKey;
+	private final String ecmsMr3HeaderValue;
 
 	@Inject
 	public DisMetadataProperties(IAppConfigReader appConfigReader) throws Exception {
@@ -73,6 +82,9 @@ public class DisMetadataProperties {
 		this.pqServiceURL = props.getProperty(PQ_SERVICE_URL_BASE);
 		this.pqServiceUserAgent = props.getProperty(PQ_SERVICE_USER_AGENT);
 		this.pqServiceTimeoutMS = getIntValueFrom(props, PQ_SERVICE_TIMEOUT_MS);
+		this.mr3ServiceURL = props.getProperty(MR3_SERVICE_URL_BASE);
+		this.ecmsMr3HeaderKey = props.getProperty(ECMS_MR3_HEADER_KEY);
+		this.ecmsMr3HeaderValue = props.getProperty(ECMS_MR3_HEADER_VALUE);
 	}
 
 	public JdbcConfig getExodusJdbcConfig() {
@@ -120,4 +132,17 @@ public class DisMetadataProperties {
 	public String getPqServiceUserAgent() {
 		return pqServiceUserAgent;
 	}
+	
+	public String getMr3ServiceURL() {
+		return mr3ServiceURL;
+	}
+	
+	public String getECMSMr3HeaderKey() {
+		return ecmsMr3HeaderKey;
+	}
+	
+	public String getECMSMr3HeaderValue() {
+		return ecmsMr3HeaderValue;
+	}
+	
 }

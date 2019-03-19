@@ -128,6 +128,19 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		return props.getPqServiceUserAgent();
 	}
 	
+	@Provides @Named(DisMetadataProperties.MR3_SERVICE_URL_BASE)
+	protected String mr3ServiceUserAgent(DisMetadataProperties props) {
+		return props.getMr3ServiceURL();
+	}
+	
+	@Provides @Named(DisMetadataProperties.ECMS_MR3_HEADER_KEY) 
+	protected String ecmsMr3Header(DisMetadataProperties props) { 
+		return props.getECMSMr3HeaderKey();
+	}
+	@Provides @Named(DisMetadataProperties.ECMS_MR3_HEADER_VALUE) 
+	protected String ecmsMr3User(DisMetadataProperties props) { 
+		return props.getECMSMr3HeaderValue(); }
+	 
 	@Provides @Singleton
 	protected ClientConnectionManager getHttpClientConnectionManager() {
 		int workerThreadCount = 2;
