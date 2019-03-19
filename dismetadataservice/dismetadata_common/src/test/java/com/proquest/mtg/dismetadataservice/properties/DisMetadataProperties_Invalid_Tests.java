@@ -61,5 +61,23 @@ public class DisMetadataProperties_Invalid_Tests {
 		props.remove(DisMetadataProperties.FOP_EXODUS_PASSWORD);
 		new DisMetadataProperties(props);
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void throws_WhenMissing_EcmsMr3HeaderKey() throws Exception {
+		props.remove(DisMetadataProperties.ECMS_MR3_HEADER_KEY);
+		new DisMetadataProperties(props);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void throws_WhenMissing_EcmsMr3HeaderValue() throws Exception {
+		props.remove(DisMetadataProperties.ECMS_MR3_HEADER_VALUE);
+		new DisMetadataProperties(props);
+	}
+	
+	  @Test(expected = IllegalArgumentException.class)
+	  public void throws_WhenMissing_Mr3ServiceUrlBase() throws Exception {
+	  props.remove(DisMetadataProperties.MR3_SERVICE_URL_BASE);
+	  new DisMetadataProperties(props);
+	}
 
 }

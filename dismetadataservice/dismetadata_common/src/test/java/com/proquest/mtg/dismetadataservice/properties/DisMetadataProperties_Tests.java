@@ -2,11 +2,11 @@ package com.proquest.mtg.dismetadataservice.properties;
 
 import java.util.Properties;
 
+
 import org.junit.Before;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-
 import com.proquest.mtg.dismetadataservice.helper.MyAsserts;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcConfig;
 
@@ -24,7 +24,9 @@ public class DisMetadataProperties_Tests {
 	static final String kUserAgent = "fakeAgent";
 	static final String kFopExodusUserName = "FakeFopUserName";
 	static final String kFopExodusUserPassword = "FakeFopUserPassword";
-	
+	static final String kEcmsMr3HeaderKey = "fakeAgent";
+	static final String kEcmsMr3HeaderValue = "fakeAgent";
+	static final String kMr3ServiceUrlBase = "www.proquest.com/base/url:fake";
 	
 	public static Properties makePropertyMapForTesting() {
 		Properties props = new Properties();
@@ -40,6 +42,9 @@ public class DisMetadataProperties_Tests {
 		props.setProperty(DisMetadataProperties.PQ_SERVICE_USER_AGENT, kUserAgent);
 		props.setProperty(DisMetadataProperties.FOP_EXODUS_USER_NAME, kFopExodusUserName);
 		props.setProperty(DisMetadataProperties.FOP_EXODUS_PASSWORD, kFopExodusUserPassword);
+		props.setProperty(DisMetadataProperties.ECMS_MR3_HEADER_KEY,kEcmsMr3HeaderKey);
+		props.setProperty(DisMetadataProperties.ECMS_MR3_HEADER_VALUE, kEcmsMr3HeaderValue);
+		props.setProperty(DisMetadataProperties.MR3_SERVICE_URL_BASE, kMr3ServiceUrlBase);
 		return props;
 	}
 	
@@ -94,4 +99,20 @@ public class DisMetadataProperties_Tests {
 	public void hasCorrect_PqServiceUserAgent() throws Exception {
 		assertThat(target.getPqServiceUserAgent(), is(kUserAgent));
 	}
+	
+	@Test
+	public void hasCorrect_Mr3ServiceUrlBase() throws Exception{
+		assertThat(target.getPqOpenUrlBase(), is(kMr3ServiceUrlBase));
+	}
+	
+	@Test
+	public void hasCorrect_EcmsMr3HeaderKey() throws Exception {
+		assertThat(target.getPqServiceUserAgent(), is(kEcmsMr3HeaderKey));
+	}
+	
+	@Test
+	public void hasCorrect_EcmsMr3HeaderValue() throws Exception {
+		assertThat(target.getPqServiceUserAgent(), is(kEcmsMr3HeaderValue));
+	}
+	
 }
