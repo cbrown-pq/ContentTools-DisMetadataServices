@@ -54,8 +54,9 @@ public class FOPEligiblePubsServiceProvider {
 	@GET
 	@Path("/getEligiblePubsList/{date}/")
 	@Produces(MediaType.APPLICATION_XML)
-	public String getFOPEligiblePubsDataFor(@PathParam("date") String date) throws WebApplicationException {
+	public Response getFOPEligiblePubsDataFor(@PathParam("date") String date) throws WebApplicationException {
 		String jsonStr = null;
+		ClientResponse response = null;
 		Properties props = new Properties();
 		try {
             String URL = getMr3ServiceUrlBase();
@@ -63,7 +64,7 @@ public class FOPEligiblePubsServiceProvider {
 			String HEADERVALUE = getECMSMr3HeaderValue(); 
 			Client c = Client.create();
 			WebResource resource = c.resource(URL+"?date="+date);
-			ClientResponse response = resource.header("Content-Type", "application/xml")
+			response = resource.header("Content-Type", "application/xml")
                     	.header(HEADERKEY, HEADERVALUE)
                     	.get(ClientResponse.class);
 			 jsonStr = response.getEntity(String.class);
@@ -74,7 +75,7 @@ public class FOPEligiblePubsServiceProvider {
 			e.printStackTrace();
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
-		return jsonStr;
+		return Response.status(response.getStatus()).entity(jsonStr).build();
 	}
 	
 	@GET
