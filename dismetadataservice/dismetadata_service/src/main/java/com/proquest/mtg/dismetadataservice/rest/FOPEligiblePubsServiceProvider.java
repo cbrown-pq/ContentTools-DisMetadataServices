@@ -63,7 +63,7 @@ public class FOPEligiblePubsServiceProvider {
 			String HEADERVALUE = getECMSMr3HeaderValue(); 
 			Client c = Client.create();
 			WebResource resource = c.resource(URL+"?date="+date);
-			ClientResponse response = resource.header("Content-Type", "application/xml;charset=UTF-8")
+			ClientResponse response = resource.header("Content-Type", "application/xml")
                     	.header(HEADERKEY, HEADERVALUE)
                     	.get(ClientResponse.class);
 			 jsonStr = response.getEntity(String.class);
