@@ -82,7 +82,7 @@ public class CSVRecordFactory {
 		kAllHeaders.put(CSVHeaders.kDissertationTypeCode,
 				CSVRecordFactory.class.getDeclaredMethod("handleDissertationTypeCode"));
 		kAllHeaders.put(CSVHeaders.kVolumeIssue,
-				CSVRecordFactory.class.getDeclaredMethod("handleVolumneIssue"));
+				CSVRecordFactory.class.getDeclaredMethod("handleVolumeIssue"));
 		kAllHeaders.put(CSVHeaders.kActiveSalesRestrictionCode,
 				CSVRecordFactory.class.getDeclaredMethod("handleActiveSalesRestrictionCode"));
 		kAllHeaders.put(CSVHeaders.kActiveFormatRestrictionCode,
@@ -135,8 +135,8 @@ public class CSVRecordFactory {
 				CSVRecordFactory.class.getDeclaredMethod("handleKeyWords"));
 		kAllHeaders.put(CSVHeaders.kDissLangDesc, CSVRecordFactory.class
 				.getDeclaredMethod("handleDissLanguageDesc"));
-		kAllHeaders.put(CSVHeaders.kAuthorCitizenship, CSVRecordFactory.class
-				.getDeclaredMethod("handleAuthorCitizenship"));
+		//kAllHeaders.put(CSVHeaders.kAuthorCitizenship, CSVRecordFactory.class
+		//		.getDeclaredMethod("handleAuthorCitizenship"));
 		kAllHeaders.put(CSVHeaders.kDepartmentName, CSVRecordFactory.class
 				.getDeclaredMethod("handleDepartmentName"));
 		kAllHeaders.put(CSVHeaders.kAdvisors,
@@ -157,8 +157,8 @@ public class CSVRecordFactory {
 				CSVRecordFactory.class.getDeclaredMethod("handleSchoolState"));
 		kAllHeaders.put(CSVHeaders.kSchoolLocCountry, CSVRecordFactory.class
 				.getDeclaredMethod("handleSchoolLocCountry"));
-		kAllHeaders.put(CSVHeaders.kAuthorLocCitizenship, CSVRecordFactory.class
-				.getDeclaredMethod("handleAuthorLocCitizenship"));
+		//kAllHeaders.put(CSVHeaders.kAuthorLocCitizenship, CSVRecordFactory.class
+		//		.getDeclaredMethod("handleAuthorLocCitizenship"));
 		kAllHeaders.put(CSVHeaders.kDissLangCode, CSVRecordFactory.class
 				.getDeclaredMethod("handleDissLanguageCode"));
 		kAllHeaders.put(CSVHeaders.kEnglishTranslationOfTitle,
@@ -168,13 +168,13 @@ public class CSVRecordFactory {
 		kAllHeaders.put(CSVHeaders.kDAISectionCode, CSVRecordFactory.class
 				.getDeclaredMethod("handleDAISectionCode"));
 		kAllHeaders.put(CSVHeaders.kSuppFileNames, CSVRecordFactory.class
-				.getDeclaredMethod("handleSupplemetalFileName"));
+				.getDeclaredMethod("handleSupplementalFileName"));
 		kAllHeaders.put(CSVHeaders.kSuppFileDescription, CSVRecordFactory.class
-				.getDeclaredMethod("handleSupplemetalFileDesc"));
+				.getDeclaredMethod("handleSupplementalFileDesc"));
 		kAllHeaders.put(CSVHeaders.kSuppFileCategory, CSVRecordFactory.class
-				.getDeclaredMethod("handleSupplemetalFilesCategory"));
-		kAllHeaders.put(CSVHeaders.kPageNumber,
-				CSVRecordFactory.class.getDeclaredMethod("handlePageNumber"));
+				.getDeclaredMethod("handleSupplementalFilesCategory"));
+		//kAllHeaders.put(CSVHeaders.kPageNumber,
+		//		CSVRecordFactory.class.getDeclaredMethod("handlePageNumber"));
 		kAllHeaders.put(CSVHeaders.kPublisher,
 				CSVRecordFactory.class.getDeclaredMethod("handlePublisher"));
 		kAllHeaders.put(CSVHeaders.kDissertationCode, CSVRecordFactory.class
@@ -189,11 +189,11 @@ public class CSVRecordFactory {
 				.getDeclaredMethod("handleKeyWordSource"));
 		kAllHeaders.put(CSVHeaders.kDciRefsFlag, CSVRecordFactory.class
 				.getDeclaredMethod("handleDCIRefs"));
-		kAllHeaders.put(CSVHeaders.kReferenceLocation, CSVRecordFactory.class
-				.getDeclaredMethod("handleReferenceLocation"));
+		//kAllHeaders.put(CSVHeaders.kReferenceLocation, CSVRecordFactory.class
+		//		.getDeclaredMethod("handleReferenceLocation"));
 		kAllHeaders.put(CSVHeaders.kDisValidSource, CSVRecordFactory.class.getDeclaredMethod("handleDisValidSource")); 
 		kAllHeaders.put(CSVHeaders.kDisAvailableFormats, CSVRecordFactory.class.getDeclaredMethod("handleDisAvailableFormats")); 
-		kAllHeaders.put(CSVHeaders.kFopQuantity, CSVRecordFactory.class.getDeclaredMethod("handleFOPQuantity")); 
+		//kAllHeaders.put(CSVHeaders.kFopQuantity, CSVRecordFactory.class.getDeclaredMethod("handleFOPQuantity")); 
 	}
 
 	public LinkedHashMap<String, Method> getTagMappings() {
@@ -275,7 +275,7 @@ public class CSVRecordFactory {
 		addField(pub);
 	}
 
-	private void handleVolumneIssue() {
+	private void handleVolumeIssue() {
 		String dissVolume = curMetaData.getBatch() != null ? curMetaData
 				.getBatch().getVolumeIssue() : "";
 		if (null == dissVolume)
@@ -735,15 +735,19 @@ public class CSVRecordFactory {
 	}
 
 	private void hasSupplementalFiles() {
-		String hasSuppFiles = "N";
-		if (null != curMetaData.getSuppFiles()
-				&& !curMetaData.getSuppFiles().isEmpty()) {
-			hasSuppFiles = "Y";
+		String hasSuppFiles = "";
+		if (null != curMetaData.getHasSuppFiles()
+				&& !curMetaData.getHasSuppFiles().isEmpty()) {
+			hasSuppFiles = curMetaData.getHasSuppFiles();
 		}
+		//if (null != curMetaData.getHasSuppFiles()
+		//		&& !curMetaData.getHasSuppFiles().isEmpty()) {
+		//	hasSuppFiles = "Y";
+		//}
 		addField(hasSuppFiles);
 	}
 
-	private void handleSupplemetalFileName() {
+	private void handleSupplementalFileName() {
 		List<SuppFile> suppFiles = curMetaData.getSuppFiles();
 		String suppFileName = "";
 
@@ -762,7 +766,7 @@ public class CSVRecordFactory {
 		addField(suppFileName);
 	}
 
-	private void handleSupplemetalFileDesc() {
+	private void handleSupplementalFileDesc() {
 		List<SuppFile> suppFiles = curMetaData.getSuppFiles();
 		String suppFileDescription = "";
 		if (null != suppFiles && !suppFiles.isEmpty()) {
@@ -781,7 +785,7 @@ public class CSVRecordFactory {
 		addField(suppFileDescription);
 	}
 
-	private void handleSupplemetalFilesCategory() {
+	private void handleSupplementalFilesCategory() {
 		List<SuppFile> suppFiles = curMetaData.getSuppFiles();
 		String suppFileCategory = "";
 		if (null != suppFiles && !curMetaData.getSuppFiles().isEmpty()) {
@@ -1012,18 +1016,22 @@ public class CSVRecordFactory {
 	}
 
 	private void hasPDF() {
-		String hasPDF = "N";
-		String pubNumber = curMetaData.getPubNumber(); 
-		if (null != pubNumber && !pubNumber.isEmpty()) {
-			try {
-				if (getPDFVaultAvailableStatusProvider().
-						isPdfAvailableInVaultFor(pubNumber)) {
-					hasPDF = "Y";
-				}
-			} catch (Exception e) {
-				hasPDF = "N";
-			}			
+		String hasPDF = "";
+		if (null != curMetaData.getHasPDF()
+				&& !curMetaData.getHasPDF().isEmpty()) {
+			hasPDF = curMetaData.getHasPDF();
 		}
+		//String pubNumber = curMetaData.getPubNumber(); 
+		//if (null != pubNumber && !pubNumber.isEmpty()) {
+		//	try {
+		//		if (getPDFVaultAvailableStatusProvider().
+		//				isPdfAvailableInVaultFor(pubNumber)) {
+		//			hasPDF = "Y";
+		//		}
+		//	} catch (Exception e) {
+		//		hasPDF = "N";
+		//	}			
+		//}
 		addField(hasPDF);
 	}
 
@@ -1313,18 +1321,15 @@ public class CSVRecordFactory {
 		String cmteMember = "";
 		if (null != cmteMembers && !cmteMembers.isEmpty()) {
 			for (CmteMember curMember : cmteMembers) {
-				if (!curMember.getFirstName().isEmpty() 
-						&& !curMember.getLastName().isEmpty())
+				if (!curMember.getFullName().isEmpty())
 				{
-					if(curMember.getMiddleName()==null)
 						cmteMember += endWithPipes(curMember
-							.getFirstName()+" "+curMember.getLastName());
-					else
-						cmteMember += endWithPipes(curMember
-								.getFirstName()+" "+curMember
-								.getMiddleName()+" "+curMember.getLastName());
+							.getFullName());
 				}
-			}//for End
+					else {
+						cmteMember += endWithPipes("");
+				}
+			}
 			
 			if (null != cmteMember && !cmteMember.isEmpty()) {
 				cmteMember = cmteMember.substring(0,
