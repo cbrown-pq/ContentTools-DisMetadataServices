@@ -1,6 +1,7 @@
 package com.proquest.mtg.dismetadataservice.rest;
 
-import java.util.Properties;
+//CBDELETE2
+/*import java.util.Properties;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -15,6 +16,7 @@ import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import org.json.JSONObject;
 
 
 @Path("/foppubs/")
@@ -68,6 +70,8 @@ public class FOPEligiblePubsServiceProvider {
                     	.header(HEADERKEY, HEADERVALUE)
                     	.get(ClientResponse.class);
 			 jsonStr = response.getEntity(String.class);
+			 JSONObject json = new JSONObject(Response.status(response.getStatus()).entity(jsonStr).build());
+			 System.out.println("json result :" +json.toString(4));
 			//result = getFOPEligiblePubsFormatFactory().get().getFOPEligiblePubs();
 		} catch (IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);
@@ -93,4 +97,4 @@ public class FOPEligiblePubsServiceProvider {
 		return result;
 	}
 
-}
+}*/

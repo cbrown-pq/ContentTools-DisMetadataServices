@@ -1,14 +1,15 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
+//import java.sql.Connection;
+//import java.sql.PreparedStatement;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
+//import java.util.List;
 
-import com.google.common.collect.Lists;
+//import com.google.common.collect.Lists;
 
-public class LOCPubSelectionQuery {
+// CBDELETE  * No longer used
+/*public class LOCPubSelectionQuery {
 	
 	public static final String kDitmPubNum = "DitmPubNum";
 	
@@ -54,4 +55,4 @@ public class LOCPubSelectionQuery {
 		}
 	}
 
-}
+}*/

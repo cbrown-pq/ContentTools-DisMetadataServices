@@ -19,11 +19,11 @@ import com.proquest.gossamer.ApacheGossamerServiceClient;
 import com.proquest.gossamer.GossamerServiceClient;
 import com.proquest.mtg.dismetadataservice.exodus.ExodusDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.ExternalUrlDataProvider;
-import com.proquest.mtg.dismetadataservice.exodus.FOPEligiblePubsProvider;
+//import com.proquest.mtg.dismetadataservice.exodus.FOPEligiblePubsProvider;
 import com.proquest.mtg.dismetadataservice.exodus.FopFormatsDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.ICSVProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IExternalUrlDataProvider;
-import com.proquest.mtg.dismetadataservice.exodus.IFOPEligiblePubsProvider;
+//import com.proquest.mtg.dismetadataservice.exodus.IFOPEligiblePubsProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IFopFormatsDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IMStarPubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IMarcProvider;
@@ -56,12 +56,14 @@ import com.proquest.mtg.services.gossamer.relatedids.RelatedidsGoidIdtypeIdResou
 import com.proquest.mtg.utils.writer.IWriter;
 import com.proquest.mtg.utils.writer.StringWriter;
 
+@SuppressWarnings("deprecation")
 public class DisMetadataServiceGuiceModule extends AbstractModule {
 	
 	private final AppConfigReader appConfigReader;
-	private IJdbcConnectionPool exodusConnectionPool;
-	private IJdbcConnectionPool exodusFopConnectionPool;
+	//private IJdbcConnectionPool exodusConnectionPool;
+	//private IJdbcConnectionPool exodusFopConnectionPool;
 	
+	//@SuppressWarnings("deprecation")
 	private ThreadSafeClientConnManager httpClientConnectionManager;
 	
 	private final Logger logger = LoggerFactory.getLogger(DisMetadataServiceGuiceModule.class);
@@ -77,7 +79,7 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		}
 	}
 	
-	public void shutdown() {
+	/*public void shutdown() {
 		shutdownExodusConnectionPool();
 		shutdownFopExodusConnectionPool();
 	}
@@ -101,7 +103,7 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 				logger.error("Failed to destory Exodus JDBC Connection Pool, because: " + e.getMessage(), e);
 			}
 		}
-	}
+	}*/
 	
 	@Provides @Named(DisMetadataProperties.PQ_OPEN_URL_BASE)
 	protected String pqOpenUrlBase(DisMetadataProperties props) {
@@ -133,6 +135,11 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		return props.getMr3ServiceURL();
 	}
 	
+	@Provides @Named(DisMetadataProperties.ECMS_SERVICE_URL_BASE)
+	protected String ecmsServiceUserAgent(DisMetadataProperties props) {
+		return props.getECMSServiceURL();
+	}
+	
 	@Provides @Named(DisMetadataProperties.ECMS_MR3_HEADER_KEY) 
 	protected String ecmsMr3Header(DisMetadataProperties props) { 
 		return props.getECMSMr3HeaderKey();
@@ -141,6 +148,7 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 	protected String ecmsMr3User(DisMetadataProperties props) { 
 		return props.getECMSMr3HeaderValue(); }
 	 
+	//@SuppressWarnings("deprecation")
 	@Provides @Singleton
 	protected ClientConnectionManager getHttpClientConnectionManager() {
 		int workerThreadCount = 2;
@@ -172,6 +180,7 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		return result;
 	}
 	
+	//@SuppressWarnings("deprecation")
 	@Provides @Singleton GossamerServiceClient getGossamerServiceClient(
 			@Named(DisMetadataProperties.PQ_SERVICE_URL_BASE) String pqServicesUrlBase,
 			@Named(DisMetadataProperties.PQ_SERVICE_TIMEOUT_MS) int timeoutMs,
@@ -236,7 +245,7 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		bind(IWriter.class).to(StringWriter.class);
 		bind(IMStarPubMetaDataProvider.class).to(MStarPubMetaDataProvider.class);
 		bind(IExternalUrlDataProvider.class).to(ExternalUrlDataProvider.class);
-		bind(IFOPEligiblePubsProvider.class).to(FOPEligiblePubsProvider.class);
+		//bind(IFOPEligiblePubsProvider.class).to(FOPEligiblePubsProvider.class);
 		bind(IFopFormatsDataProvider.class).to(FopFormatsDataProvider.class);
 	}
 

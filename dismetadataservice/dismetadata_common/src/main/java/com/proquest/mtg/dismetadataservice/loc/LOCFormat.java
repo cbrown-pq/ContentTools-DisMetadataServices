@@ -17,13 +17,14 @@ public class LOCFormat {
 		return locDataProvider;
 	}
 	
-	public CreateNewClaimInput makeFor(String pubNum, int excludeRestriction) throws Exception {
-		return getLocDataProvider().getLOCDataFor(pubNum, excludeRestriction);
+	public CreateNewClaimInput makeFor(String pubNum, String mr3Data, int excludeRestriction) throws Exception {
+		return getLocDataProvider().getLOCDataFor(pubNum, mr3Data, excludeRestriction);
 	}
 	
-	public CreateNewClaimInput makeForEligiblePubs(int excludeRestriction) throws Exception {
+	//CBDELETE
+	/*public CreateNewClaimInput makeForEligiblePubs(int excludeRestriction) throws Exception {
 		return getLocDataProvider().getEligibleLOCData(excludeRestriction);
-	}
+	}*/
 
 	public void updateLOCClaimSubmissionFor(String pubNumber) throws Exception {
 		getLocDataProvider().updateLOCClaimSubmissionFor(pubNumber);

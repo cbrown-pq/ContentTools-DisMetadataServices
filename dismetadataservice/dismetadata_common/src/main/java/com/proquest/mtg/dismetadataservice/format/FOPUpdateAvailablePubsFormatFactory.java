@@ -26,8 +26,5 @@ public class FOPUpdateAvailablePubsFormatFactory {
 		return getFopFormatsDataProvider().updateFOPFormatsQuery(pubNumber, format);
 		
 	}
-	
-	/*public IFOPUpdateAvailableDataFormat update() throws IOException {
-		return new FOPUpdateAvailableDataFormat(getFopFormatsDataProvider());
-	}*/
+
 }

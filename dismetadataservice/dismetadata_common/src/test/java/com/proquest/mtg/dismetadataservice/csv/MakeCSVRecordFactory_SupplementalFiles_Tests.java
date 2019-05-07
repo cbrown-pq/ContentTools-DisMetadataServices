@@ -28,7 +28,7 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests extends EasyMockSuppor
 		suppFiles = new ArrayList<SuppFile>();
 	}
 
-	@Test
+	/*@Test
 	public void makeWithEmptySupplemenatalFiles() throws Exception {
 		metadata = new DisPubMetaData();
 		metadata.setSuppFiles(suppFiles);
@@ -101,5 +101,5 @@ public class MakeCSVRecordFactory_SupplementalFiles_Tests extends EasyMockSuppor
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileNames, suppFileName);
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileDescription, suppFileDesc);
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSuppFileCategory, suppFileCategory);
-	}
+	}*/
 }

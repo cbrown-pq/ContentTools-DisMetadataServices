@@ -1,7 +1,7 @@
 package com.proquest.mtg.dismetadataservice.format;
 
 
-import java.io.StringWriter;
+/*import java.io.StringWriter;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -94,4 +94,4 @@ public class FOPEligiblePubsDataFormat implements IFOPEligiblePubsDataFormat {
 		err.setErrorDescription(errorMessage);
 		this.errorMsgXml.getError().add(err);
 	}
-}
+}*/

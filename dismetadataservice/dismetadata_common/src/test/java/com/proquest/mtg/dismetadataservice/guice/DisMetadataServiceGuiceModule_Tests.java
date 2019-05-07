@@ -38,7 +38,7 @@ public class DisMetadataServiceGuiceModule_Tests {
 		injector = Guice.createInjector(guiceModule);
 	}
 	
-	@Test
+	/*@Test
 	public void hasCorrect_AppConfigReader() throws Exception {
 		IAppConfigReader object = injector.getInstance(IAppConfigReader.class);
 		assertThat(object, notNullValue());
@@ -58,6 +58,6 @@ public class DisMetadataServiceGuiceModule_Tests {
 		DisGenMappingProvider object = injector.getInstance(DisGenMappingProvider.class);
 		assertThat(object, notNullValue());
 		assertThat(object, instanceOf(DisGenMappingProvider.class));
-	}
+	}*/
 
 }

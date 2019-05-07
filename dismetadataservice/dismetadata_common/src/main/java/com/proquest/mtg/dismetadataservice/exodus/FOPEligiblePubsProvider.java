@@ -1,6 +1,6 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
-import java.sql.Connection;
+/*import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.inject.Named;
@@ -64,4 +64,4 @@ public class FOPEligiblePubsProvider implements IFOPEligiblePubsProvider {
 		}
 		return result;
 	}
-}
+}*/

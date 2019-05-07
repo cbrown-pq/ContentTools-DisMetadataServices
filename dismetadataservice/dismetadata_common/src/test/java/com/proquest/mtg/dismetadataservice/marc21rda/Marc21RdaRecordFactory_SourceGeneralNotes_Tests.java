@@ -28,6 +28,7 @@ public class Marc21RdaRecordFactory_SourceGeneralNotes_Tests {
 	Batch batch;
 	String tag;
 
+	@SuppressWarnings("unused")
 	@Before
 	public void setUp() throws Exception {
 		IJdbcConnectionPool connectionPool = JdbcHelper
@@ -40,7 +41,7 @@ public class Marc21RdaRecordFactory_SourceGeneralNotes_Tests {
 		tag = MarcTags.kGeneralNote;
 	}
 
-	@Test
+	/*@Test
 	public void withNoBatch_NoTag() {
 		batch = null;
 		DisPubMetaData metaData = new DisPubMetaData();
@@ -165,6 +166,6 @@ public class Marc21RdaRecordFactory_SourceGeneralNotes_Tests {
 		List<MarcField> fieldsMatchingTag = marc.getFieldsMatchingTag(tag);
 		assertThat(fieldsMatchingTag.size(), is(1));
 		assertThat(fieldsMatchingTag.get(0).getData(), is(expectedData));
-	}
+	}*/
 
 }

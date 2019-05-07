@@ -19,7 +19,7 @@ public class RealServiceTestHelper extends ServiceTestHelperBase {
 	}
 	
 	public void stopHTTPServer() {
-		disMetadataGuiceModule.shutdown();
+		//disMetadataGuiceModule.shutdown();
 		super.stopHTTPServer();
  }
 

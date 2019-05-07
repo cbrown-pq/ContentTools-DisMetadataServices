@@ -19,7 +19,8 @@ public class MakeCSVRecordFactory_PageNumber_Tests extends EasyMockSupport {
 		metadata = new DisPubMetaData();
 	}
 
-	@Test
+	// Page Number dropped
+	/*@Test
 	public void makeWithEmptyPageNumber() throws Exception {
 		String pageNumber = null;
 		metadata.setPubPageNum(pageNumber);
@@ -32,5 +33,5 @@ public class MakeCSVRecordFactory_PageNumber_Tests extends EasyMockSupport {
 		metadata.setPubPageNum("152");
 		String csvData = factory.makeFrom(metadata);
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kPageNumber, "152");
-	}
+	}*/
 }

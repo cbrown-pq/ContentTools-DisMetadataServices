@@ -33,7 +33,7 @@ public class DisMetadataServiceProvider_Service_Tests {
 		serviceTestHelper.stopHTTPServer();
 	}
 
-	@Test
+	/*@Test
 	public void whenPubDoesNotExist() {
 		ClientResponse resp = service.path("metadata")
 				.path("testpub/USMARC").get(ClientResponse.class);
@@ -45,7 +45,7 @@ public class DisMetadataServiceProvider_Service_Tests {
 		ClientResponse resp = service.path("metadata")
 				.path("12345/test").get(ClientResponse.class);
 		assertThat(resp.getStatus(), is(500));		
-	}
+	}*/
 	
 //	@Test
 //	public void whenPubExist() {

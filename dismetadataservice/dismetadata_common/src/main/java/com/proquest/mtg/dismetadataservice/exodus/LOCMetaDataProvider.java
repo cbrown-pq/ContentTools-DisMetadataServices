@@ -41,7 +41,8 @@ public class LOCMetaDataProvider {
 		return connectionPool;
 	}
 	
-	public CreateNewClaimInput getEligibleLOCData(int excludeRestriction) throws Exception {
+	//CBDELETE
+	/*public CreateNewClaimInput getEligibleLOCData(int excludeRestriction) throws Exception {
 		
 		List<String> pubIds;
 		Connection connection = null;
@@ -69,19 +70,19 @@ public class LOCMetaDataProvider {
 		CreateNewClaimInput createNewClaimInput = new CreateNewClaimInput();
 		createNewClaimInput.setClaims(claims);
 		return createNewClaimInput;
-	}
+	}*/
 	
-	public CreateNewClaimInput getLOCDataFor(String pubId, int excludeRestriction) throws Exception {
+	public CreateNewClaimInput getLOCDataFor(String pubId, String mr3Data, int excludeRestriction) throws Exception {
 		Claims claims = new Claims();
 		List<Claim> claimList = claims.getClaim();
-		claimList.add(getDataFor(pubId, excludeRestriction));
+		claimList.add(getDataFor(pubId, mr3Data, excludeRestriction));
 		CreateNewClaimInput createNewClaimInput = new CreateNewClaimInput();
 		createNewClaimInput.setClaims(claims);
 		return createNewClaimInput;
 	}
 	
-	private Claim getDataFor(String pubId, int excludeRestriction) throws Exception {
-		DisPubMetaData disPubMetaData = getPubMetaDataProvider().getPubMetaDataFor(pubId, excludeRestriction, 0, 0);
+	private Claim getDataFor(String pubId, String mr3Data, int excludeRestriction) throws Exception {
+		DisPubMetaData disPubMetaData = getPubMetaDataProvider().getPubMetaDataFor(pubId, mr3Data, excludeRestriction, 0, 0);
 		return getLOCRecordFactory().getLOCRecordFor(disPubMetaData);
 	}
 

@@ -41,7 +41,7 @@ public class MStarXmlMetadataServiceProvider_Tests {
 		assertThat(resp.getStatus(), is(200));		
 	}
 	
-	@Test
+	/*@Test
 	public void whenInvalidPub() {
 		ClientResponse resp = service.path("mstar")
 				.path("dissinfo/U59").get(ClientResponse.class);
@@ -53,6 +53,6 @@ public class MStarXmlMetadataServiceProvider_Tests {
 		ClientResponse resp = service.path("mstar")
 				.path("dissinfo").get(ClientResponse.class);
 		assertThat(resp.getStatus(), is(404));		
-	}	
+	}*/	
 
 }

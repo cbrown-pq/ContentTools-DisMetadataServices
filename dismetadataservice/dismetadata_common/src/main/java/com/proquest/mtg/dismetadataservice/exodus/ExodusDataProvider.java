@@ -45,20 +45,20 @@ public class ExodusDataProvider implements IMarcProvider,ICSVProvider {
 	}
 	
 	@Override
-	public MarcRecord getMarcResultFor(String pubNum, int excludeRestriction, int excludeAbstract, int excludeAltAbstract) throws Exception {
+	public MarcRecord getMarcResultFor(String pubNum, String mr3Data, int excludeRestriction, int excludeAbstract, int excludeAltAbstract) throws Exception {
 		USMarcRecordFactory marcFactory = new USMarcRecordFactory(getDisGenMappingProvider());
 		MarcRecord marcRecord = marcFactory.makeFrom(
-				getPubMetaDataProvider().getPubMetaDataFor(pubNum, excludeRestriction, excludeAbstract, excludeAltAbstract));
+				getPubMetaDataProvider().getPubMetaDataFor(pubNum, mr3Data, excludeRestriction, excludeAbstract, excludeAltAbstract));
 		applyPlainTextNormalizerTo(marcRecord);
 		return marcRecord;
 	}
 	
 	@Override
-	public MarcRecord getMarc21RDAResultFor(String pubNum, int excludeRestriction, int excludeAbstract, int excludeAltAbstract) throws Exception {
+	public MarcRecord getMarc21RDAResultFor(String pubNum, String mr3Data, int excludeRestriction, int excludeAbstract, int excludeAltAbstract) throws Exception {
 		Marc21RdaRecordFactory marc21RdaFactory = new Marc21RdaRecordFactory(
 				getDisGenMappingProvider());
 		MarcRecord marcRecord = marc21RdaFactory.makeFrom(
-				getPubMetaDataProvider().getPubMetaDataFor(pubNum, excludeRestriction, excludeAbstract, excludeAltAbstract));
+				getPubMetaDataProvider().getPubMetaDataFor(pubNum, mr3Data, excludeRestriction, excludeAbstract, excludeAltAbstract));
 		applyPlainTextNormalizerTo(marcRecord);
 		return marcRecord;
 	}
@@ -69,10 +69,10 @@ public class ExodusDataProvider implements IMarcProvider,ICSVProvider {
 
 
 	@Override
-	public String getCSVResultFor(String pubNum, int excludeRestriction, int excludeAbstract, int excludeAltAbstract) throws Exception {
+	public String getCSVResultFor(String ecmsData, String mr3Data, int excludeRestriction, int excludeAbstract, int excludeAltAbstract) throws Exception {
 		CSVRecordFactory csvFactory = new CSVRecordFactory(getPDFVaultAvailableStatusProvider(), excludeAbstract, excludeAltAbstract);
 		String csvRecord = csvFactory.makeFrom(
-				getPubMetaDataProvider().getPubMetaDataFor(pubNum, excludeRestriction, excludeAbstract, excludeAltAbstract));
+				getPubMetaDataProvider().getPubMetaDataFor(ecmsData, mr3Data, excludeRestriction, excludeAbstract, excludeAltAbstract));
 		return csvRecord;
 	}
 }

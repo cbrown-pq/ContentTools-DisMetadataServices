@@ -19,7 +19,8 @@ public class MakeCSVRecordFactory_ReferenceLocation_Tests extends EasyMockSuppor
 		metadata = new DisPubMetaData();
 	}
 
-	@Test
+	// Reference Location dropped for ECMS Metadata release.
+	/*@Test
 	public void makeWithEmptReferenceLocation() throws Exception {
 		String refLocation = null;
 		metadata.setReferenceLocation(refLocation);
@@ -33,5 +34,5 @@ public class MakeCSVRecordFactory_ReferenceLocation_Tests extends EasyMockSuppor
 		metadata.setReferenceLocation(refLocation);
 		String csvData = factory.makeFrom(metadata);
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kReferenceLocation, refLocation);
-	}
+	}*/
 }

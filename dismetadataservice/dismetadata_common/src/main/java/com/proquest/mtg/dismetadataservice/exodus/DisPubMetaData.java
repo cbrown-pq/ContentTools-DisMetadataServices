@@ -18,6 +18,8 @@ public class DisPubMetaData {
 	private String blNumber;
 	private String referenceLocation;
 	private String externalURL;
+	private String hasPDF;
+	private String hasSuppFiles;
 	private List<Author> authors;
 	private List<DissLanguage> dissLanguages;
 	private List<DissLOCLanguage> dissLOCLanguages;
@@ -198,6 +200,24 @@ public class DisPubMetaData {
 	public void setAbstract(String value) {
 		this.dissAbstract = value;
 	}
+	
+	
+	public void setHasPDF(String value) {
+		this.hasPDF = value;
+	}
+	
+	public String getHasPDF() {
+		return hasPDF;
+	}
+	
+	public void setHasSuppFiles(String value) {
+		this.hasSuppFiles = value;
+	}
+	
+	public String getHasSuppFiles() {
+		return hasSuppFiles;
+	}
+
 	
 	public AlternateAbstract getAlternateAbstracts() {
 		return dissAlternateAbstract;
@@ -476,11 +496,21 @@ public class DisPubMetaData {
 	}
 	
 	public static class CmteMember {
+		protected String fullName;
         protected String firstName;        
         protected String middleName;        
         protected String lastName;
         protected String suffix;
 
+        
+        public String getFullName() {
+            return fullName;
+        }
+
+        public void setFullName(String value) {
+            this.fullName = value;
+        }
+        
         public String getFirstName() {
             return firstName;
         }

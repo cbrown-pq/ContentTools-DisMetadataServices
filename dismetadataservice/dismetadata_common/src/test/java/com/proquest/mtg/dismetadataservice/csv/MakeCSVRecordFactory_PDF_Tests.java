@@ -32,7 +32,7 @@ public class MakeCSVRecordFactory_PDF_Tests extends EasyMockSupport {
 		pubNumber = "Pub1";
 	}
 
-	@Test
+	/*@Test
 	public void makeWithEmptyPdfStatus() throws Exception {
 
 		metadata.setPdfStatus(pdfAvailableDateStatus);
@@ -91,5 +91,5 @@ public class MakeCSVRecordFactory_PDF_Tests extends EasyMockSupport {
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kPubNumber, pubNumber);
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kHasPDF, "Y");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kPDFAvailableDate, "PdfAvailableDate");
-	}
+	}*/
 }

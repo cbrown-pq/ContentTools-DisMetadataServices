@@ -28,7 +28,8 @@ public class LocMetaDataServiceProvider {
 		this.locFormat = locFormat;
 	}
 	
-	@GET
+	//CBDELETE
+	/*@GET
 	@Path("/metadataForEligiblePubs/")
 	@Produces(MediaType.APPLICATION_XML)
 	public CreateNewClaimInput getLOCDataForAllEligiblePubs() throws WebApplicationException {
@@ -38,13 +39,13 @@ public class LocMetaDataServiceProvider {
 		} catch(IllegalArgumentException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
-		} catch (Exception e) {
+			throw new DisServiceException(Response.Status.NO_CONTENT);*/ /*As per standard it shouldn't contain a message */
+		/*} catch (Exception e) {
 			e.printStackTrace();
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 		return result;
-	}
+	}*/
 	
 	@GET
 	@Path("/metadataFor/{pubNumber}")
@@ -52,7 +53,7 @@ public class LocMetaDataServiceProvider {
 	public CreateNewClaimInput getLOCDataFor(@PathParam("pubNumber") String pubNumber) throws WebApplicationException {
 		CreateNewClaimInput result = null;
 		try {
-			result = getLocFormat().makeFor(pubNumber,0);
+			result = getLocFormat().makeFor(pubNumber,"TEMPSTUB",0);
 		} catch(IllegalArgumentException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());

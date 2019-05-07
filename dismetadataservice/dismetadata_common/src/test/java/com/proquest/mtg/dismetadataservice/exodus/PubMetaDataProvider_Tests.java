@@ -15,14 +15,14 @@ public class PubMetaDataProvider_Tests {
 	
 	static PubMetaDataProvider target;
 
-	@BeforeClass
+	/*@BeforeClass
 	public static void setUp() throws Exception {		
 		IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
 		target = new PubMetaDataProvider(connectionPool, 
 				MakeExodusMetadataForTesting.pqOpenUrlBase);
-	}
+	}*/
 	
-	@Test
+	/*@Test
 	public void pubWith_NoVolumeIssue_ReturnsNull() throws Exception {
 		DisPubMetaData metaDataResult;
 		metaDataResult = target.getPubMetaDataFor(MakeExodusMetadataForTesting.noVolumeIssuePub1,0,0,0);
@@ -133,6 +133,6 @@ public class PubMetaDataProvider_Tests {
 		DisPubMetaData metaDataResult;
 		metaDataResult = target.getPubMetaDataFor(MakeExodusMetadataForTesting.pubId13,0,0,0);
 		assertThat(metaDataResult, dissertationEqualTo(MakeExodusMetadataForTesting.makeExpectedMetaData13()));
-	}
+	}*/
 	
 }

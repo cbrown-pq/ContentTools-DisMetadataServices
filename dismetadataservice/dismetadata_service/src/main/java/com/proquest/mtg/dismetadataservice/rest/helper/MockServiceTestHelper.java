@@ -14,7 +14,7 @@ import com.proquest.mtg.dismetadataservice.rest.MStarXmlMetadataServiceProvider;
 import com.proquest.mtg.dismetadataservice.rest.PdfDownloadServiceProvider;
 import com.proquest.mtg.dismetadataservice.rest.SchoolMetadataServiceProvider;
 import com.proquest.mtg.dismetadataservice.rest.SubjectsMetadataServiceProvider;
-import com.proquest.mtg.dismetadataservice.rest.FOPEligiblePubsServiceProvider;
+//import com.proquest.mtg.dismetadataservice.rest.FOPEligiblePubsServiceProvider;
 
 public class MockServiceTestHelper extends ServiceTestHelperBase {
 	
@@ -26,7 +26,7 @@ public class MockServiceTestHelper extends ServiceTestHelperBase {
 			final PdfDownloadServiceProvider pdfDownload,
 			final MStarXmlMetadataServiceProvider mstarMetadata,
 			final ExternalUrlXmlServiceProvider externalUrlData,
-			final FOPEligiblePubsServiceProvider fopEligiblePubsData,
+			//final FOPEligiblePubsServiceProvider fopEligiblePubsData,
 			final FOPUpdateAvailableFormatsServiceProvider fopUpdateAvailableFormats)
 			throws IllegalArgumentException, IOException {
 		
@@ -41,7 +41,7 @@ public class MockServiceTestHelper extends ServiceTestHelperBase {
 										 bind(PdfDownloadServiceProvider.class).toInstance(pdfDownload);
 										 bind(MStarXmlMetadataServiceProvider.class).toInstance(mstarMetadata);
 										 bind(ExternalUrlXmlServiceProvider.class).toInstance(externalUrlData);
-										 bind(FOPEligiblePubsServiceProvider.class).toInstance(fopEligiblePubsData);
+										 //bind(FOPEligiblePubsServiceProvider.class).toInstance(fopEligiblePubsData);
 										 bind(FOPUpdateAvailableFormatsServiceProvider.class).toInstance(fopUpdateAvailableFormats);
 									 }
 		 	 					});

@@ -39,7 +39,7 @@ public class MyServletContextListener extends GuiceServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-		disMetadataServiceGuiceModule.shutdown();
+		//disMetadataServiceGuiceModule.shutdown();
 		super.contextDestroyed(sce);
 	}
 	

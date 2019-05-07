@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import com.proquest.mtg.dismetadataservice.helper.MyAsserts;
-import com.proquest.mtg.dismetadataservice.jdbc.JdbcConfig;
+//import com.proquest.mtg.dismetadataservice.helper.MyAsserts;
+//import com.proquest.mtg.dismetadataservice.jdbc.JdbcConfig;
 
 public class DisMetadataProperties_Tests {
 
@@ -27,6 +27,7 @@ public class DisMetadataProperties_Tests {
 	static final String kEcmsMr3HeaderKey = "fakeAgent";
 	static final String kEcmsMr3HeaderValue = "fakeAgent";
 	static final String kMr3ServiceUrlBase = "www.proquest.com/base/url:fake";
+	static final String kecmsServiceUrlBase = "www.proquest.com/base/url:fake";
 	
 	public static Properties makePropertyMapForTesting() {
 		Properties props = new Properties();
@@ -45,6 +46,7 @@ public class DisMetadataProperties_Tests {
 		props.setProperty(DisMetadataProperties.ECMS_MR3_HEADER_KEY,kEcmsMr3HeaderKey);
 		props.setProperty(DisMetadataProperties.ECMS_MR3_HEADER_VALUE, kEcmsMr3HeaderValue);
 		props.setProperty(DisMetadataProperties.MR3_SERVICE_URL_BASE, kMr3ServiceUrlBase);
+		props.setProperty(DisMetadataProperties.ECMS_SERVICE_URL_BASE, kecmsServiceUrlBase);
 		return props;
 	}
 	
@@ -56,13 +58,13 @@ public class DisMetadataProperties_Tests {
 				DisMetadataProperties_Tests.makePropertyMapForTesting());
 	}
 	
-	@Test
+	/*@Test
 	public void hasCorrect_ExodusJdbcConfig() throws Exception{
 		JdbcConfig expectedConnectionConfig = new JdbcConfig(
 				kExodusDbUrl, kExodusUserName, kExodusUserPassword, 
 				kExodusDbClassType, Integer.parseInt(kExodusPoolSize));
 		
-		MyAsserts.assertEqual(target.getExodusJdbcConfig(), expectedConnectionConfig);
+		//MyAsserts.assertEqual(target.getExodusJdbcConfig(), expectedConnectionConfig);
 	}
 	
 	@Test
@@ -71,8 +73,8 @@ public class DisMetadataProperties_Tests {
 				kExodusDbUrl, kFopExodusUserName, kFopExodusUserPassword, 
 				kExodusDbClassType, Integer.parseInt(kExodusPoolSize));
 		
-		MyAsserts.assertEqual(target.getFopExodusConfig(), expectedFopConnectionConfig);
-	}
+		//MyAsserts.assertEqual(target.getFopExodusConfig(), expectedFopConnectionConfig);
+	}*/
 	
 	@Test
 	public void hasCorrect_PqOpenUrlBase() throws Exception{
@@ -103,6 +105,12 @@ public class DisMetadataProperties_Tests {
 	@Test
 	public void hasCorrect_Mr3ServiceUrlBase() throws Exception{
 		assertThat(target.getPqOpenUrlBase(), is(kMr3ServiceUrlBase));
+	}
+	
+	
+	@Test
+	public void hasCorrect_ecmsServiceUrlBase() throws Exception{
+		assertThat(target.getPqOpenUrlBase(), is(kecmsServiceUrlBase));
 	}
 	
 	@Test

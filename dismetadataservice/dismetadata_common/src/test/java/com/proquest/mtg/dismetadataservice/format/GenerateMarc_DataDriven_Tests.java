@@ -64,8 +64,8 @@ public class GenerateMarc_DataDriven_Tests {
 			return marcRecord;
 		}
 		
-		public static PubAndMarcRecord makeFor(IMarcProvider marcProvider, String pubId) throws Exception {
-			MarcRecord marcRecord = marcProvider.getMarcResultFor(pubId,0,0,0);
+		public static PubAndMarcRecord makeFor(IMarcProvider marcProvider, String pubId, String mr3Data) throws Exception {
+			MarcRecord marcRecord = marcProvider.getMarcResultFor(pubId,mr3Data,0,0,0);
 			return new PubAndMarcRecord(pubId, marcRecord);
 		}
 	}
@@ -82,8 +82,9 @@ public class GenerateMarc_DataDriven_Tests {
 	@Test
 	@Ignore
 	public void dataDrivenTest() throws Exception {
+		String jsonstub = "JSONSTUB";
 		for (PubAndMarcRecord expectedMarc : expectedMarcRecords) {
-			PubAndMarcRecord actualMarc = PubAndMarcRecord.makeFor(marcProvider, expectedMarc.getPubId());
+			PubAndMarcRecord actualMarc = PubAndMarcRecord.makeFor(marcProvider, expectedMarc.getPubId(), jsonstub);
 			String message = "Pub: " + expectedMarc.getPubId();
 			verifyMarc(message, actualMarc, expectedMarc);
 		}
@@ -91,7 +92,7 @@ public class GenerateMarc_DataDriven_Tests {
 	
 	private void initMarcProvider() throws Exception {
 		JdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
-		PubMetaDataProvider pubMetaDataProvider = new PubMetaDataProvider(connectionPool, 
+		PubMetaDataProvider pubMetaDataProvider = new PubMetaDataProvider(
 				MakeExodusMetadataForTesting.pqOpenUrlBase);
 		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(connectionPool);
 		PlainTextNormalizer plainTextNormalizer = new PlainTextNormalizer(new HTMLTagRemover());

@@ -51,8 +51,8 @@ public class GenerateCSV_DataDriven_Tests {
 		}
 
 		public static PubAndCSVRecord makeFor(ICSVProvider csvProvider,
-				String pubId) throws Exception {
-			String csvRecord = csvProvider.getCSVResultFor(pubId,0,0,0);
+				String pubId, String mr3Data) throws Exception {
+			String csvRecord = csvProvider.getCSVResultFor(pubId,mr3Data,0,0,0);
 			return new PubAndCSVRecord(pubId, csvRecord);
 		}
 
@@ -67,9 +67,11 @@ public class GenerateCSV_DataDriven_Tests {
 	@Test
 	@Ignore
 	public void dataDrivenTest() throws Exception {
+		// Temporary String
+		String foo = "JSON STUB";
 		for (PubAndCSVRecord expectedCsv : expectedCsvRecords) {
 			PubAndCSVRecord actualCsv = PubAndCSVRecord.makeFor(csvProvider,
-					expectedCsv.getPubId());
+					expectedCsv.getPubId(), foo);
 			assertEquals(actualCsv.getPubId(), expectedCsv.getPubId());
 			assertEquals("Pub ID: " + actualCsv.getPubId(), actualCsv.getCSVRecord(), expectedCsv.getCSVRecord());
 		}
@@ -79,7 +81,7 @@ public class GenerateCSV_DataDriven_Tests {
 		JdbcConnectionPool connectionPool = JdbcHelper
 				.makePoolForExodusUnitTest();
 		PubMetaDataProvider pubMetaDataProvider = new PubMetaDataProvider(
-				connectionPool, MakeExodusMetadataForTesting.pqOpenUrlBase);
+				MakeExodusMetadataForTesting.pqOpenUrlBase);
 		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(
 				connectionPool);
 		PlainTextNormalizer plainTextNormalizer = new PlainTextNormalizer(

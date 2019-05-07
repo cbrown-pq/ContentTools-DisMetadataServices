@@ -33,7 +33,7 @@ public class ExternalUrlXmlServiceProvider_Tests {
 		serviceTestHelper.stopHTTPServer();
 	}
 
-	@Test
+	/*@Test
 	public void whenUrlExist() {
 		ClientResponse resp = service.path("externalurl")
 				.path("getList").get(ClientResponse.class);
@@ -45,6 +45,6 @@ public class ExternalUrlXmlServiceProvider_Tests {
 		ClientResponse resp = service.path("externalurl")
 				.path("badurl").get(ClientResponse.class);
 		assertThat(resp.getStatus(), is(404));		
-	}	
+	}	*/
 
 }
