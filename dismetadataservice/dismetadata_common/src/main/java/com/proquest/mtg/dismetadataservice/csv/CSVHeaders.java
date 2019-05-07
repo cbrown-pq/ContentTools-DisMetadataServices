@@ -6,10 +6,8 @@ public class CSVHeaders {
 	public static final String kVolumeIssue = "VOLUME ISSUE";
 	public static final String kAdvisors = "ADVISORS";
 	public static final String kIsbn = "ISBN";
-	public static final String kPageNumber = "PAGE NUMBER";
 	public static final String kPageCount = "PAGE COUNT";
 	public static final String kPublisher = "PUBLISHER";
-	public static final String kReferenceLocation = "REFERENCE";
 	public static final String kBritishLibraryNumber = "BL NUMBER";
 	public static final String kPqOpenUrl = "PQ OPEN URL";
 	public static final String kExternalUrl = "EXTERNAL URL";
@@ -56,17 +54,14 @@ public class CSVHeaders {
 	public static final String kFormatRestrictionEndDt = "FORMAT RESTRICTION ENDDT";
 	public static final String kExternalId = "EXTERNAL ID";
 	public static final String kOpenAccessFlag = "OPEN ACCESS";
-	public static final String kAuthorCitizenship = "AUTHOR CITIZENSHIP";
 	public static final String kPubDate = "PUB DATE";
 	public static final String kManuscriptMediaCode = "MANUSCRIPTMEDIA CODE";
 	public static final String kManuscriptMediaDesc = "MANUSCRIPTMEDIA DESC";
 	public static final String kSchoolLocCountry = "LOC SCHOOL COUNTRY";
-	public static final String kAuthorLocCitizenship = "LOC AUTHOR CITIZENSHIP";
 	public static final String kDciRefsFlag = "DCI REFS";
 	public static final String kCmteMember = "COMMITTEE MEMBERS";
 	public static final String kActiveSalesRestrictionCode = "ACTIVE SALES RESTRICTION CODE";
 	public static final String kActiveFormatRestrictionCode = "ACTIVE FORMAT RESTRICTION CODE";
 	public static final String kDisValidSource = "FOP_Diss_Valid_Source";
 	public static final String kDisAvailableFormats = "FOP_Available_Formats";
-	public static final String kFopQuantity = "FOP_Quantity";
 }
