@@ -22,14 +22,15 @@ public class DisMetadataProperties {
 	public final static String FOP_EXODUS_USER_NAME = "fop.exodus.db.username";
 	public final static String FOP_EXODUS_PASSWORD = "fop.exodus.db.password";
 	public final static String MR3_SERVICE_URL_BASE = "mr3.service.url.base";
+	public final static String ECMS_SERVICE_URL_BASE = "ecms.service.url.base";
 	public final static String ECMS_MR3_HEADER_KEY = "ecms.mr3.header.key";
 	public final static String ECMS_MR3_HEADER_VALUE = "ecms.mr3.header.value";
 
 	public final static ArrayList<String> kRequiredProps = Lists
 			.newArrayList(
-					EXODUS_DB_URL, 
-					EXODUS_USER_NAME, 
-					EXODUS_PASSWORD, 
+					EXODUS_DB_URL,
+					EXODUS_USER_NAME,
+					EXODUS_PASSWORD,
 					EXODUS_POOL_SIZE,
 					EXODUS_DB_CLASSTYPE,
 					PQ_OPEN_URL_BASE,
@@ -40,6 +41,7 @@ public class DisMetadataProperties {
 					FOP_EXODUS_USER_NAME,
 					FOP_EXODUS_PASSWORD,
 					MR3_SERVICE_URL_BASE,
+					ECMS_SERVICE_URL_BASE,
 					ECMS_MR3_HEADER_KEY,
 					ECMS_MR3_HEADER_VALUE);
 	
@@ -52,6 +54,7 @@ public class DisMetadataProperties {
 	private final String pqServiceUserAgent;
 	private final JdbcConfig fopExodusConfig;
 	private final String mr3ServiceURL;
+	private final String ecmsServiceURL;
 	private final String ecmsMr3HeaderKey;
 	private final String ecmsMr3HeaderValue;
 
@@ -83,6 +86,7 @@ public class DisMetadataProperties {
 		this.pqServiceUserAgent = props.getProperty(PQ_SERVICE_USER_AGENT);
 		this.pqServiceTimeoutMS = getIntValueFrom(props, PQ_SERVICE_TIMEOUT_MS);
 		this.mr3ServiceURL = props.getProperty(MR3_SERVICE_URL_BASE);
+		this.ecmsServiceURL = props.getProperty(ECMS_SERVICE_URL_BASE);
 		this.ecmsMr3HeaderKey = props.getProperty(ECMS_MR3_HEADER_KEY);
 		this.ecmsMr3HeaderValue = props.getProperty(ECMS_MR3_HEADER_VALUE);
 	}
@@ -135,6 +139,10 @@ public class DisMetadataProperties {
 	
 	public String getMr3ServiceURL() {
 		return mr3ServiceURL;
+	}
+	
+	public String getECMSServiceURL() {
+		return ecmsServiceURL;
 	}
 	
 	public String getECMSMr3HeaderKey() {
