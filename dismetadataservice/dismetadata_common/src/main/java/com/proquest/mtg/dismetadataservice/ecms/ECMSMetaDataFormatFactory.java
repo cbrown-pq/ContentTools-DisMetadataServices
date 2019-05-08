@@ -12,7 +12,6 @@
 	import org.xml.sax.SAXException;
 	
 	import org.json.JSONObject;
-	import org.json.JSONArray;
 	
 	import org.w3c.dom.Document;
 	import org.w3c.dom.NodeList;
@@ -35,9 +34,7 @@
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.ManuscriptMedia;
     //import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataQuery;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
@@ -725,7 +722,6 @@
 	                      items.setDBTypeDesc(dissdesc);
 	                      result.setBatch(items);
 	                      
-	                      System.out.println("Starting SchoolCodeName");
 	    	      //6. school name	                              
 				  School school = new School();
 				  school.setSchoolName(eElement
@@ -737,7 +733,6 @@
 		                      .item(0)
 		                      .getTextContent());
 	              
-		          System.out.println("Starting SchoolLocation");
 	              //44. School country
 		          String schoolLocation = eElement
 	                      .getElementsByTagName("SchoolLocation")
@@ -753,7 +748,7 @@
 				  school.setSchoolState(schoolState);
 				  result.setSchool(school);
 					
-					System.out.println("Starting DegreeDescription");
+					
 	              //59. Degree description for first Author
     				degree.setDegreeDescription(eElement
   	                      .getElementsByTagName("DegreeDescription")
@@ -778,74 +773,60 @@
 	        e.printStackTrace();
 	     }
 	    
-	    System.out.println("Starting MR3 data");
 	    // MR3 data
         //8. MR3: pdf available date  -  /Title/PublicationDate
 	    //33. MR3: Publication date  -  /Title/PublicationDate
         JSONObject json = new JSONObject(mr3Data);
-        System.out.println("JSON OBJECT :" +json);
         String PublicationDate = json.optString("PublicationDate");
-        System.out.println("MR3 Available Date :" +PublicationDate);
-        result.setFirstPublicationDate(PublicationDate);
-        //result.setPdfStatus(PublicationDate);  // Needs to be pdfavailablestatus type
+        if (null != PublicationDate) {
+           //System.out.println("MR3 Available Date :" +PublicationDate);
+           result.setFirstPublicationDate(PublicationDate);
+        }
         
         //13. MR3:  Active Sales Restriction code  -  /Title/ActiveSalesRestrictionCodes/ActiveCode
         //String ActiveCode = json.getString("ActiveCode");
-        //if (null != ActiveCode) {
-        	//
-       // }
         //System.out.println("MR3 Active Sales Restriction Code :" +ActiveCode);
         
-        List<SalesRestriction> salesrestriction = null;
-        salesrestriction = Lists.newArrayList();
-        SalesRestriction salesitem = new SalesRestriction();
         //15. MR3:  Sales Restriction code  -  /Title/Restrictions/Restriction/Code*
-        /*String srCode = json.optJSONArray("Restrictions").getJSONObject(0).optString("Code");
-        if (null != srCode) {
-        salesitem.setCode(srCode);
-        salesrestriction.add(salesitem);
-        result.setSalesRestrictions(salesrestriction);
+        //String srCode = json.getJSONArray("Restrictions").getJSONObject(0).getString("Code");
         //String salesRestrictionCode = json.getString("Code");
-        System.out.println("MR3 sr Code :" +srCode);
-        }*/
+        //System.out.println("MR3 sr Code :" +srCode);
         
         //16. MR3:  Sales Restriction description  -  /Title/Restrictions/Restriction/Type
         //17. MR3:  Sales Restriction start date  -  /Title/Restrictions/Restriction/RestrictionDates/StartDate
         //18. MR3:  Sales Restriction end date  -  /Title/Restrictions/Restriction/RestrictionDates/EndDate
         
-        System.out.println("Starting MR3 MMCode");
         //28. MR3:  Manuscript Media code  - /Title/ManuscriptMediumCode
-        List<ManuscriptMedia> manuscriptmedia = null;
-        manuscriptmedia = Lists.newArrayList();
-        ManuscriptMedia mediaitem = new ManuscriptMedia();
-        /*String mmCode = json.getString("ManuscriptMediumCode");
-        mediaitem.setManuscriptMediaCode(mmCode);
-        //manuscriptmedia.add(mediaitem);
-        result.setManuscriptMedia(mediaitem);
-        System.out.println("MR3 mmCode :" +mmCode);*/
+        //String mmCode = json.getString("ManuscriptMediumCode");
+        //System.out.println("MR3 mmCode :" +mmCode);
        
         
         //29. MR3:  Manuscript Media description   N/A  - Ask DissOps
         
         //32. MR3:  Open Access Flag    - /Title/OpenAccessFlag
-        String oaFlag = json.getString("OpenAccessFlag");
-        System.out.println("MR3 OAFlag :" +oaFlag);
-        result.setOpenAccessFlag(oaFlag);
+        String oaFlag = json.optString("OpenAccessFlag");
+        if (null != oaFlag) {
+           //System.out.println("MR3 OAFlag :" +oaFlag);
+           result.setOpenAccessFlag(oaFlag);
+        }
         
         //40. MR3: External ID  -  /Title/ExternalID
         String xID = json.optString("ExternalID");
         if (null != xID) {
-        System.out.println("MR3 ExternalID :" +xID);
-        result.setExternalId(xID);
+           //System.out.println("MR3 ExternalID :" +xID);
+           result.setExternalId(xID);
         }
         
         //63. MR3:  Dissertations valid source  -  /Title/DissertationsValidSource
-        String dissValidSource = json.getString("DissertationsValidSource");
-        System.out.println("MR3 Valid Source :" +dissValidSource);
-        result.setDisValidSource(dissValidSource);
+        String dissValidSource = json.optString("DissertationsValidSource");
+        if (null != dissValidSource) {
+           //System.out.println("MR3 Valid Source :" +dissValidSource);
+           result.setDisValidSource(dissValidSource);
+        }
         
         //64. MR3:  Dissertations available formats  - /Title/DissertationsAvailableFormats/AvailableFormat*
-        String availableFormats = json.getString("DissertationsAvailableFormats");
+        //String availableFormats = json.getString("DissertationsAvailableFormats");
+        //System.out.println("MR3 Available Formats :" +availableFormats);
         //result.setDisAvailableFormats(availableFormats);
         
 	    return result;
