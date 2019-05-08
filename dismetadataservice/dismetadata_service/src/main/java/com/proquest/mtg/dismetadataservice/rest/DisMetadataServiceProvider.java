@@ -115,7 +115,7 @@ public class DisMetadataServiceProvider {
 			}
 			 is.close();
 			 
-	            URL = "http://mr3.pre.int.proquest.com/mr3/fops/titles";
+	                        URL = getMr3ServiceUrlBase();
 				HEADERKEY = getECMSMr3HeaderKey();
 				HEADERVALUE = getECMSMr3HeaderValue();
 				c = Client.create();
