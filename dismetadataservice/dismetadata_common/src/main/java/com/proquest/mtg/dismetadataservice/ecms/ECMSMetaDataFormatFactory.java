@@ -320,17 +320,18 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
 	        List<Subject> subjectresults = null;
 	        subjectresults = Lists.newArrayList();
-		      Subject item = new Subject();
+		      //Subject genSubj = new Subject();
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
 	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	        	   Subject genSubj = new Subject();
 			      //Subject item = new Subject();
 	              System.out.println("Subject Description: [" +nNode.getTextContent()+ "]");
-	              item.setSubjectDesc(nNode.getTextContent());
-	              subjectresults.add(item);   
+	              genSubj.setSubjectDesc(nNode.getTextContent());
+	              subjectresults.add(genSubj);   
 	           }
 	        }
 	        
@@ -430,21 +431,23 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	        xpath = xPathfactory.newXPath();
 	        expr = xpath.compile("//FlexTerm[@FlexTermName=\"DissPaperCategory\"]/FlexTermValue");
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
-			List<Subject> subjresults = null;
-	        subjresults = Lists.newArrayList();
-			Subject subject = new Subject();
+			//List<Subject> subjresults = null;
+	        //subjresults = Lists.newArrayList();
+			//Subject subject = new Subject();
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
 	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("Subject Group Description: [" +nNode.getTextContent()+ "]");
-	              item.setSubjectDesc(nNode.getTextContent());
-					subject.setSubjectGroupDesc(nNode.getTextContent());
-	                subjresults.add(subject);
+	        	   Subject genSubj = new Subject();
+	              String gDesc = nNode.getTextContent();
+	              System.out.println("Subject Group Description: [" +gDesc+ "]");
+					genSubj.setSubjectGroupDesc(gDesc);
+					subjectresults.add(genSubj);
 	           }
 	        }
+	       
 	        
 	        //42. Subject code  * Part appears to be a part of subject code.  There can be
 	        //multiple and they are separated by a | 
@@ -458,10 +461,11 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("ClassCode: [" +nNode.getTextContent()+ "]");
-	              item.setSubjectCode(nNode.getTextContent());
-	              subject.setSubjectCode(nNode.getTextContent());
-	              subjresults.add(subject);
+	        	   Subject genSubj = new Subject();
+		              String gCode = nNode.getTextContent();
+		              System.out.println("Subject Group Description: [" +gCode+ "]");
+	              genSubj.setSubjectCode(gCode);
+	              subjectresults.add(genSubj);
 	           }
 	        }
 	        result.setSubjects(subjectresults);
