@@ -1,9 +1,12 @@
-	package com.proquest.mtg.dismetadataservice.ecms;
+package com.proquest.mtg.dismetadataservice.ecms;
 
 	import java.io.*;
+    import java.util.Arrays;
     import java.util.List;
-    
-	import javax.xml.parsers.*;
+    //import java.util.regex.Matcher;
+    //import java.util.regex.Pattern;
+
+    import javax.xml.parsers.*;
 	import javax.xml.xpath.*;
 	import javax.xml.parsers.DocumentBuilderFactory;
 	import javax.xml.parsers.DocumentBuilder;
@@ -825,9 +828,19 @@
         }
         
         //64. MR3:  Dissertations available formats  - /Title/DissertationsAvailableFormats/AvailableFormat*
-        //String availableFormats = json.getString("DissertationsAvailableFormats");
-        //System.out.println("MR3 Available Formats :" +availableFormats);
-        //result.setDisAvailableFormats(availableFormats);
+        List<String> avformatname = null;
+        avformatname = Lists.newArrayList();
+        String availableFormats = json.optString("DissertationsAvailableFormats");
+        if (null != availableFormats) {
+        System.out.println("MR3 Available Formats :" +availableFormats);
+        availableFormats = availableFormats.replaceAll("\"", "").replace("[", "").replace("]", "");
+        String strArray[] = availableFormats.split(",");
+        for(int i=0;i < strArray.length; i++) {
+        	System.out.println(strArray[i]);
+            avformatname.add(strArray[i]);
+        }
+        result.setDisAvailableFormats(avformatname);
+        }
         
 	    return result;
 	  }
