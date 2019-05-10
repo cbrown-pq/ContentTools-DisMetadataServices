@@ -1,12 +1,12 @@
 package com.proquest.mtg.dismetadataservice.ecms;
 
 	import java.io.*;
-    import java.util.Arrays;
     import java.util.List;
-    //import java.util.regex.Matcher;
-    //import java.util.regex.Pattern;
+    import java.util.regex.Matcher;
+	import java.util.regex.Pattern;
 
-    import javax.xml.parsers.*;
+
+	import javax.xml.parsers.*;
 	import javax.xml.xpath.*;
 	import javax.xml.parsers.DocumentBuilderFactory;
 	import javax.xml.parsers.DocumentBuilder;
@@ -15,6 +15,7 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	import org.xml.sax.SAXException;
 	
 	import org.json.JSONObject;
+	import org.json.JSONArray;
 	
 	import org.w3c.dom.Document;
 	import org.w3c.dom.NodeList;
@@ -22,8 +23,6 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	import org.w3c.dom.Element;
 
     import com.google.common.collect.Lists;
-    //import com.google.inject.Inject;
-    //import com.google.inject.name.Named;
     
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
@@ -32,12 +31,14 @@ package com.proquest.mtg.dismetadataservice.ecms;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
 	import com.proquest.mtg.dismetadataservice.metadata.Author;
 	import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
-	//import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
-    //import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataQuery;
+    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.ManuscriptMedia;
+    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfAvailableDateStatus;
+    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
@@ -45,8 +46,7 @@ package com.proquest.mtg.dismetadataservice.ecms;
 
 
 	public class ECMSMetaDataFormatFactory {
-		//private List<SuppFile> suppFiles;
-		//private static String pqOpenUrlBase;
+
 		public static final String kEmptyValue = "";
 
 		public static final DisPubMetaData constructECMSMetaData(String ecmsData, String mr3Data, String pqOpenUrlBase, int excludeRestriction, int excludeAbstract, int excludeAltAbstract) throws Exception {
@@ -105,55 +105,6 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	           }
 	        }
 	        result.setAuthors(results);
-	        
-	        // Not Used for CSV, but check other feeds
-	        /*xPathfactory = XPathFactory.newInstance();
-	        xpath = xPathfactory.newXPath();
-	        expr = xpath.compile("//Contributor[@ContribRole=\"Author\"]/LastName");
-	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
-
-	        for (int i = 0; i < nodeList.getLength(); i++) {
-	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
-	           
-	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("Author:" +nNode.getTextContent());
-	              result.setLastName(nNode.getTextContent());
-	           }
-	        }
-	        */
-	        
-	     // Not Used for CSV, but check other feeds
-	        /*xPathfactory = XPathFactory.newInstance();
-	        xpath = xPathfactory.newXPath();
-	        expr = xpath.compile("//Contributor[@ContribRole=\"Author\"]/MiddleName");
-	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
-
-	        for (int i = 0; i < nodeList.getLength(); i++) {
-	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
-	           
-	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              //result.setMiddleName(nNode.getTextContent());
-	           }
-	        }
-            */
-		
-	     // Not Used for CSV, but check other feeds
-	        /*xPathfactory = XPathFactory.newInstance();
-	        xpath = xPathfactory.newXPath();
-	        expr = xpath.compile("//Contributor[@ContribRole=\"Author\"]/FirstName");
-	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
-
-	        for (int i = 0; i < nodeList.getLength(); i++) {
-	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
-	           
-	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("Author:" +nNode.getTextContent());
-	              //result.setFirstName(nNode.getTextContent());
-	           }
-	        }*/
 	        
 	        //3. Title   * Strip out html tags
 	        // * Get CDATA for Title
@@ -526,25 +477,7 @@ package com.proquest.mtg.dismetadataservice.ecms;
 				}
 	           }
 	        }
-	        
-	        
-	        /*expression = "/IngestRecord/ControlStructure";	        
-	        nodeList = (NodeList) xPath.compile(expression).evaluate(
-	           ecmsdoc, XPathConstants.NODESET);
 
-	        for (int i = 0; i < nodeList.getLength(); i++) {
-	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
-	           
-	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              Element eElement = (Element) nNode;
-	              System.out.println("Part : " 
-	                 + eElement
-	                 .getElementsByTagName("Part")
-	                 .item(0)
-	                 .getTextContent());
-	           }
-	        }*/
 	        
 	        expression = "/IngestRecord/RECORD/ObjectInfo/Abstract";	        
 	        nodeList = (NodeList) xPath.compile(expression).evaluate(
@@ -600,37 +533,10 @@ package com.proquest.mtg.dismetadataservice.ecms;
 				  altabstracts.setLanguage(altabsLang);
 				  result.setAlternateAbstracts(altabstracts);
 	              }
-	             // }
 	              //26. Alternate Title  * Within Abstract field with 'Title of Dissertation: ...'
 	              //25. Alternate Abstract language    *RawLang
 	              //27. Alternate Title language   *RawLang
 	              //48. Dissertations language code  *Language/RawLang split or ISOCODE?
-	             /*-- String DissLangCode = null;
-	              String DissLangDesc = null;
-	              String langcode = eElement
-	                      .getElementsByTagName("RawLang")
-	                      .item(0)
-	                      .getTextContent();
-		          String[] langstrs = langcode.split("[\\;]");*/
-                  /*--if (langstrs.length > 1 && langstrs[1] != null) {
-                  String lang1 = langstrs[0];
-                  String lang2 = langstrs[1];
-                  System.out.println("lang 1: " +lang1+ "\nlang 2 : " +lang2);
-                  if (lang1 == "English") {
-                	  DissLangCode = lang1;
-                	  DissLangDesc = lang2;
-                  }
-                  else {
-                	  DissLangCode = lang2;
-                	  DissLangDesc = lang1;
-                  }
-                  }*/
-                 /*-- List<DissLanguage> langresult = Lists.newArrayList();
-                  DissLanguage language = new DissLanguage((DissLangDesc), required(DissLangCode));
-                  langresult.add(language);
-                  result.setDissLanguages(langresult);*/
-	              //49. English translation of Title  * English overwrite title
-	              //50. Variant Title   * English Overwrite Title /Title   * Same as English Translation of Title.
 	           }
 	        }
 	        
@@ -788,24 +694,131 @@ package com.proquest.mtg.dismetadataservice.ecms;
         if (null != PublicationDate) {
            //System.out.println("MR3 Available Date :" +PublicationDate);
            result.setFirstPublicationDate(PublicationDate);
+           PdfAvailableDateStatus pdfavail = new PdfAvailableDateStatus();
+           pdfavail.setPdfAvailableDate(PublicationDate);
+           result.setPdfStatus(pdfavail);
         }
         
         //13. MR3:  Active Sales Restriction code  -  /Title/ActiveSalesRestrictionCodes/ActiveCode
-        //String ActiveCode = json.getString("ActiveCode");
-        //System.out.println("MR3 Active Sales Restriction Code :" +ActiveCode);
+        String activeCode = json.optString("ActiveCode");
+        if(null != activeCode) {
+           System.out.println("MR3 Active Sales Restriction Code :" +activeCode);
+        }
         
         //15. MR3:  Sales Restriction code  -  /Title/Restrictions/Restriction/Code*
-        //String srCode = json.getJSONArray("Restrictions").getJSONObject(0).getString("Code");
-        //String salesRestrictionCode = json.getString("Code");
-        //System.out.println("MR3 sr Code :" +srCode);
-        
         //16. MR3:  Sales Restriction description  -  /Title/Restrictions/Restriction/Type
         //17. MR3:  Sales Restriction start date  -  /Title/Restrictions/Restriction/RestrictionDates/StartDate
         //18. MR3:  Sales Restriction end date  -  /Title/Restrictions/Restriction/RestrictionDates/EndDate
         
-        //28. MR3:  Manuscript Media code  - /Title/ManuscriptMediumCode
-        //String mmCode = json.getString("ManuscriptMediumCode");
-        //System.out.println("MR3 mmCode :" +mmCode);
+        JSONArray sRestrictions = json.getJSONArray("Restrictions");
+        List<SalesRestriction> salesrestrictionresults = null;
+        salesrestrictionresults = Lists.newArrayList();
+        for (int i = 0; i < sRestrictions.length(); i++) {
+            
+            JSONObject srestriction = sRestrictions.getJSONObject(i); 
+
+            String salesStartDate = "";
+            String salesEndDate = "";
+            String code = srestriction.optString("Code");
+            String type = srestriction.optString("Type");
+            String rDates = srestriction.optString("RestrictionDates");
+            rDates = rDates.replaceAll("\"", "");
+			Pattern pattern = Pattern.compile(".*StartDate:(.*)}");
+			Matcher matcher = pattern.matcher(rDates);
+			if (matcher.find())
+			{
+				salesStartDate = matcher.group(1);
+			}
+			pattern = Pattern.compile(".*EndDate:(.*)}");
+			matcher = pattern.matcher(rDates);
+			if (matcher.find())
+			{
+				salesEndDate = matcher.group(1);
+			}
+			
+
+            System.out.println(code + ", " + type + ", " + salesStartDate + ", " + salesEndDate);
+            SalesRestriction salesRestrictions = new SalesRestriction();
+            if (null != code) {
+               salesRestrictions.setCode(code);
+            }
+            if (null != type) {
+            	salesRestrictions.setDescription(type);
+            }
+            if (null != salesStartDate) {
+            	salesRestrictions.setRestrictionStartDate(salesStartDate);
+            }
+            if (null != salesEndDate) {
+            	salesRestrictions.setRestrictionEndDate(salesEndDate);
+            }
+            salesrestrictionresults.add(salesRestrictions);
+          }
+        result.setSalesRestrictions(salesrestrictionresults);
+
+        //String srCode = json.getJSONArray("Restrictions").getString("Code");
+        //String salesRestrictionCode = json.optString("Code");
+        //System.out.println("MR3 sr Code :" +srCode);
+
+        //14. MR3:  Active Format Restriction code  -  N/A   - Talk to MR3   ex.  9712788
+        //19. MR3:  Format Restriction code   -  /Title/Formats/
+        //20. MR3:  Format Restriction description   -   N/A  - Talk to MR3
+        //21. MR3:  Format Restriction start date   -  /Title/Formats/Format/RestrictionDates?  Doesn't match up with value
+        //22. MR3:  Format Restriction end date  -  /Title/Formats/Format/RestrictionDates?  Doesn't match up with value
+        JSONArray fRestrictions = json.getJSONArray("Formats");
+        List<FormatRestriction> formatrestrictionresults = null;
+        formatrestrictionresults = Lists.newArrayList();
+        for (int i = 0; i < fRestrictions.length(); i++) {
+            
+            JSONObject frestriction = fRestrictions.getJSONObject(i); 
+
+            String formatStartDate = "";
+            String formatEndDate = "";
+            String fCode = frestriction.optString("Code");
+            String format = frestriction.optString("Format");
+            String created = frestriction.optString("Created");
+            String rDates = frestriction.optString("AvailableDate");
+            rDates = rDates.replaceAll("\"", "");
+			Pattern pattern = Pattern.compile(".*StartDate:(.*)}");
+			Matcher matcher = pattern.matcher(rDates);
+			if (matcher.find())
+			{
+				formatStartDate = matcher.group(1);
+			}
+			pattern = Pattern.compile(".*EndDate:(.*)}");
+			matcher = pattern.matcher(rDates);
+			if (matcher.find())
+			{
+				formatEndDate = matcher.group(1);
+			}
+            
+            // Get StartDate and EndDate.  rDates:  {""StartDate"":""2012-11...""}
+
+            System.out.println(fCode + ", " + format + ", " + created + "," +rDates);
+            FormatRestriction formatRestrictions = new FormatRestriction();
+            if (null != fCode) {
+            	formatRestrictions.setCode(fCode);
+            }
+            //if (null != format) {
+            //	formatRestrictions.setDesc(format);
+            //}
+            if (null != formatStartDate) {
+            	formatRestrictions.setFormatRestrictionStartDt(formatStartDate);
+            }
+            if (null != formatEndDate) {
+            	formatRestrictions.setFormatRestrictionEndDt(formatEndDate);
+            }
+            formatrestrictionresults.add(formatRestrictions);
+          }
+        result.setFormatRestrictions(formatrestrictionresults);
+        
+        
+        //28. MR3:  Manuscript Media code  - /Title/ManuscriptMedium
+        String mmCode = json.optString("ManuscriptMedium");
+        if (null != mmCode) {
+           ManuscriptMedia mmedia = new ManuscriptMedia();
+           mmedia.setManuscriptMediaCode(mmCode);
+           result.setManuscriptMedia(mmedia);
+        }
        
         
         //29. MR3:  Manuscript Media description   N/A  - Ask DissOps
@@ -863,17 +876,6 @@ package com.proquest.mtg.dismetadataservice.ecms;
 			}
 			return x;
 		}
-
-        //14. MR3:  Active Format Restriction code  -  N/A   - Talk to MR3   ex.  9712788
-        //15. MR3:  Sales Restriction code  -  /Title/Restrictions/Restriction/Code*
-        //16. MR3:  Sales Restriction description  -  /Title/Restrictions/Restriction/Type
-        //17. MR3:  Sales Restriction start date  -  /Title/Restrictions/Restriction/RestrictionDates/StartDate
-        //18. MR3:  Sales Restriction end date  -  /Title/Restrictions/Restriction/RestrictionDates/EndDate
-        //19. MR3:  Format Restriction code   -  /Title/Formats/
-        //20. MR3:  Format Restriction description   -   N/A  - Talk to MR3
-        //21. MR3:  Format Restriction start date   -  /Title/Formats/Format/RestrictionDates?  Doesn't match up with value
-        //22. MR3:  Format Restriction end date  -  /Title/Formats/Format/RestrictionDates?  Doesn't match up with value
-
 		
         //47. Author LOC citizenship    * Dropped per Mark Dill.   *DONE
         //54. Page number   * Not available in ECMS.  Dropped per Mark Dill.   *DONE
@@ -881,6 +883,10 @@ package com.proquest.mtg.dismetadataservice.ecms;
         //62. Reference location    * Drop per Mark Dill   *DONE
         //65. FOP Quantity.*  Drop per Mark Dill  *DONE
         //Note: AuthorCitizenship will be removed.  *DONE
+		
+		//NOTE:  Need to Add ORCID and REPOSITORY
+		//  ORCID  -  Comes from Dis_Authors
+		//  REPOSITORY -  Comes from 
 		
 		//private void setCommitteeMemberInformation() throws SQLException {
 		//	List<CmteMember> result = null;
