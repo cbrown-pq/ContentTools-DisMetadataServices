@@ -61,6 +61,7 @@ public class MediaDownloader implements IMediaDownloader {
 								MediaDownloadException {
 		HttpURLConnection connection = null;
 		byte[] content = null;
+		boolean redirect = false;
 		try {
 			connection = (HttpURLConnection)url.openConnection();
 			connection.setInstanceFollowRedirects(true);
@@ -69,12 +70,32 @@ public class MediaDownloader implements IMediaDownloader {
 			connection.setRequestProperty(kHttpHeaderUserAgentPropertyName, getPqServiceUserAgent());
 			connection.connect();
 			int statusCode = connection.getResponseCode();
-			if (HttpURLConnection.HTTP_OK == statusCode) {
+			if (statusCode != HttpURLConnection.HTTP_OK) {
+				redirect = connection.getFollowRedirects();
+			}
+			if (redirect) {
+
+				// get redirect url from "location" header field
+				String newUrl = connection.getHeaderField("Location");
+
+
+				// open the new connnection again
+				connection = (HttpURLConnection)new URL(newUrl).openConnection();
+				connection.setInstanceFollowRedirects(true);
+				connection.setConnectTimeout(getTimeoutMs());
+				connection.setReadTimeout(getTimeoutMs());
+				connection.setRequestProperty(kHttpHeaderUserAgentPropertyName, getPqServiceUserAgent());
+				connection.connect();
+										
+				System.out.println("Redirect to URL : " + newUrl);
+
+			}
+			if (HttpURLConnection.HTTP_OK == statusCode || redirect == true) {
 				
 				content = IOUtils.toByteArray(connection.getInputStream());
 				
 			} else {
-				throw new MediaDownloadException("Failed to download the PDF.");
+				throw new MediaDownloadException("Failed to down load the PDF.");
 			}
 			return content;
 		} finally {
