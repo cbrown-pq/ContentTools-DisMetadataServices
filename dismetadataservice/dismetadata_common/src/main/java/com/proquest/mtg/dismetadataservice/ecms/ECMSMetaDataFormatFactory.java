@@ -559,7 +559,7 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	                  String lang1 = langstrs[0];
 	                  String lang2 = langstrs[1];
 	                  System.out.println("lang 1: " +lang1+ "\nlang 2 : " +lang2);
-	                  if (lang1 == "English") {
+	                  if (lang1.equals("English")) {
 	                	  DissLangCode = lang1;
 	                	  DissLangDesc = lang2;
 	                  }
@@ -568,6 +568,12 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	                	  DissLangDesc = lang1;
 	                  }
 	               }
+		       else {
+			  if (langString.equals("English")) {
+	                	  DissLangCode = "EN";
+	                  }
+	                  DissLangDesc = langString;
+		       }
                   DissLanguage language = new DissLanguage((DissLangDesc), required(DissLangCode));
                   langresult.add(language);
 	           }
