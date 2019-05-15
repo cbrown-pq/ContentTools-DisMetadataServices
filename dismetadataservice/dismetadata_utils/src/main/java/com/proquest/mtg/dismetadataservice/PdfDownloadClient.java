@@ -9,7 +9,8 @@ import org.apache.commons.io.FileUtils;
 
 public class PdfDownloadClient {
 	static final String outDirPath = "C:\\temp\\Pdf";
-	 static final String kBaseUrl = "http://localhost:8080/";
+	// static final String kBaseUrl = "http://localhost:8081/";
+	static final String kBaseUrl = "http://preproddiss-services.aa1.pqe/";
 	//static final String kBaseUrl = "http://proddiss-services.dc4.pqe/";
 
 	static final int timeoutMs = 1200000;
@@ -18,7 +19,8 @@ public class PdfDownloadClient {
 	
 
 	public static void main(String[] args) throws Exception {
-		String pubId = "10390586";
+	//	String pubId = "10390586";
+		String pubId = "55114004";//"3309156";
 		String url = kBaseUrl + "dismetadata_service/disout/getPdf" + "/"+ pubId + "/POD?ec=1&ri=1";
 		//String url = kBaseUrl + "dismetadata_service/disout/getPdf" + "/"+ pubId + "/POD";
 		System.out.println("URL : " + url);

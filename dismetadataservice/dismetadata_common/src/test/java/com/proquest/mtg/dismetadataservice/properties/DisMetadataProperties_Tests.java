@@ -28,6 +28,7 @@ public class DisMetadataProperties_Tests {
 	static final String kEcmsMr3HeaderValue = "fakeAgent";
 	static final String kMr3ServiceUrlBase = "www.proquest.com/base/url:fake";
 	static final String kecmsServiceUrlBase = "www.proquest.com/base/url:fake";
+	static final String kMr3FopServiceUrlBase = "www.proquest.com/base/url:fake";
 	
 	public static Properties makePropertyMapForTesting() {
 		Properties props = new Properties();
@@ -47,6 +48,7 @@ public class DisMetadataProperties_Tests {
 		props.setProperty(DisMetadataProperties.ECMS_MR3_HEADER_VALUE, kEcmsMr3HeaderValue);
 		props.setProperty(DisMetadataProperties.MR3_SERVICE_URL_BASE, kMr3ServiceUrlBase);
 		props.setProperty(DisMetadataProperties.ECMS_SERVICE_URL_BASE, kecmsServiceUrlBase);
+		props.setProperty(DisMetadataProperties.MR3_SERVICE_FOP_URL_BASE, kMr3FopServiceUrlBase);
 		return props;
 	}
 	
@@ -122,5 +124,13 @@ public class DisMetadataProperties_Tests {
 	public void hasCorrect_EcmsMr3HeaderValue() throws Exception {
 		assertThat(target.getPqServiceUserAgent(), is(kEcmsMr3HeaderValue));
 	}
+	
+	
+	@Test
+	public void hasCorrect_EcmsMr3FopHeaderValue() throws Exception {
+		assertThat(target.getMr3FopServiceURL(), is(kMr3FopServiceUrlBase));
+	}
+	
+	
 	
 }

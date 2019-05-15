@@ -25,6 +25,7 @@ public class DisMetadataProperties {
 	public final static String ECMS_SERVICE_URL_BASE = "ecms.service.url.base";
 	public final static String ECMS_MR3_HEADER_KEY = "ecms.mr3.header.key";
 	public final static String ECMS_MR3_HEADER_VALUE = "ecms.mr3.header.value";
+	public final static String MR3_SERVICE_FOP_URL_BASE = "mr3.service.fop.url.base";
 
 	public final static ArrayList<String> kRequiredProps = Lists
 			.newArrayList(
@@ -43,7 +44,8 @@ public class DisMetadataProperties {
 					MR3_SERVICE_URL_BASE,
 					ECMS_SERVICE_URL_BASE,
 					ECMS_MR3_HEADER_KEY,
-					ECMS_MR3_HEADER_VALUE);
+					ECMS_MR3_HEADER_VALUE,
+					MR3_SERVICE_FOP_URL_BASE);
 	
 	
 	private final JdbcConfig exodusConfig;
@@ -57,6 +59,7 @@ public class DisMetadataProperties {
 	private final String ecmsServiceURL;
 	private final String ecmsMr3HeaderKey;
 	private final String ecmsMr3HeaderValue;
+	private final String mr3FopServiceURL;
 
 	@Inject
 	public DisMetadataProperties(IAppConfigReader appConfigReader) throws Exception {
@@ -89,6 +92,7 @@ public class DisMetadataProperties {
 		this.ecmsServiceURL = props.getProperty(ECMS_SERVICE_URL_BASE);
 		this.ecmsMr3HeaderKey = props.getProperty(ECMS_MR3_HEADER_KEY);
 		this.ecmsMr3HeaderValue = props.getProperty(ECMS_MR3_HEADER_VALUE);
+		this.mr3FopServiceURL = props.getProperty(MR3_SERVICE_FOP_URL_BASE);
 	}
 
 	public JdbcConfig getExodusJdbcConfig() {
@@ -151,6 +155,10 @@ public class DisMetadataProperties {
 	
 	public String getECMSMr3HeaderValue() {
 		return ecmsMr3HeaderValue;
+	}
+
+	public String getMr3FopServiceURL() {
+		return mr3FopServiceURL;
 	}
 	
 }

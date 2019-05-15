@@ -147,6 +147,10 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 	@Provides @Named(DisMetadataProperties.ECMS_MR3_HEADER_VALUE) 
 	protected String ecmsMr3User(DisMetadataProperties props) { 
 		return props.getECMSMr3HeaderValue(); }
+	
+	@Provides @Named(DisMetadataProperties.MR3_SERVICE_FOP_URL_BASE) 
+	protected String mr3FopUrl(DisMetadataProperties props) { 
+		return props.getMr3FopServiceURL(); }
 	 
 	//@SuppressWarnings("deprecation")
 	@Provides @Singleton

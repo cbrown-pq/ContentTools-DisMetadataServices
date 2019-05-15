@@ -1,6 +1,6 @@
-package com.proquest.mtg.dismetadataservice.format;
+/*package com.proquest.mtg.dismetadataservice.format;
 
-/*import java.io.IOException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.xml.sax.SAXException;
@@ -41,4 +41,5 @@ public class FOPEligiblePubsFormatFactory {
 	public IFOPEligiblePubsDataFormat update() throws IOException {
 		return new FOPEligiblePubsDataFormat(getFOPEligiblePubsProvider());
 	}
-}*/
+}
+*/

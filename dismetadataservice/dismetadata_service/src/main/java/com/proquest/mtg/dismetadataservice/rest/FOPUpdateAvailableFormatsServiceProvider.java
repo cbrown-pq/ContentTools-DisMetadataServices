@@ -17,17 +17,17 @@ public class FOPUpdateAvailableFormatsServiceProvider {
 	private FOPUpdateAvailablePubsFormatFactory fopUpdateAvailablePubsFormatFactory;
 	private final String ecmsMr3HeaderKey;
 	private final String ecmsMr3HeaderValue;	
-	private final String mr3ServiceUrlBase;
+	private final String mr3ServiceFopUrlBase;
 	
 	@Inject
 		public FOPUpdateAvailableFormatsServiceProvider(FOPUpdateAvailablePubsFormatFactory fopUpdateAvailablePubsFormatFactor, 
 				@Named(DisMetadataProperties.ECMS_MR3_HEADER_KEY) String ecmsMr3HeaderKey,
 				@Named(DisMetadataProperties.ECMS_MR3_HEADER_VALUE) String ecmsMr3HeaderValue,
-				@Named(DisMetadataProperties.MR3_SERVICE_URL_BASE) String mr3ServiceUrlBase) {
+				@Named(DisMetadataProperties.MR3_SERVICE_FOP_URL_BASE) String mr3ServiceFopUrlBase) {
 			this.fopUpdateAvailablePubsFormatFactory = fopUpdateAvailablePubsFormatFactory;
 			this.ecmsMr3HeaderKey = ecmsMr3HeaderKey;
 			this.ecmsMr3HeaderValue = ecmsMr3HeaderValue;
-			this.mr3ServiceUrlBase = mr3ServiceUrlBase;
+			this.mr3ServiceFopUrlBase = mr3ServiceFopUrlBase;
 		}
 	
 	public String getECMSMr3HeaderKey() {
@@ -36,10 +36,11 @@ public class FOPUpdateAvailableFormatsServiceProvider {
 	public String getECMSMr3HeaderValue() {
 			return ecmsMr3HeaderValue;
 	}
-	
-	public String getMr3ServiceUrlBase() {
-		return mr3ServiceUrlBase;
+
+	public String getMr3ServiceFopUrlBase() {
+		return mr3ServiceFopUrlBase;
 	}
+
 	public FOPUpdateAvailablePubsFormatFactory getFopUpdateAvailablePubsFormatFactory() {
 		return fopUpdateAvailablePubsFormatFactory;
 	}
@@ -56,7 +57,7 @@ public String updateInprogressStatusFor(@PathParam("pubID") String pubNumber, @P
 		System.out.println("\nProcessing Pub-Id: " + pubNumber);
 		for (String filmType : formats) {
 			//result = getFopUpdateAvailablePubsFormatFactory().updateFOPFormatsQuery(pubNumber,format);
-            String URL = getMr3ServiceUrlBase();
+            String URL = getMr3ServiceFopUrlBase();
             String body = null;
             if(format.equalsIgnoreCase("MFL")) {
             	body = "[{\"Code\":\""+format+"\",\"Format\":\"Masterfilm\",\"Created\":true}]"; 
@@ -84,7 +85,7 @@ public String updateInprogressStatusFor(@PathParam("pubID") String pubNumber, @P
 			conn.getOutputStream().write(postDataBytes);
 			
 			int responseCode = conn.getResponseCode();
-			if(responseCode == 204) {
+			if(responseCode == HttpURLConnection.HTTP_NO_CONTENT) {
 				result = null;
 				//result = "Update successful";
 				}else {
