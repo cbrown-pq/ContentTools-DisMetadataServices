@@ -52,6 +52,7 @@ package com.proquest.mtg.dismetadataservice.ecms;
 		public static final DisPubMetaData constructECMSMetaData(String ecmsData, String mr3Data, String pqOpenUrlBase, int excludeRestriction, int excludeAbstract, int excludeAltAbstract) throws Exception {
 	    	DisPubMetaData result = new DisPubMetaData();
 	    try {
+
 			Batch items = new Batch();
 	        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder dBuilder;
@@ -77,10 +78,8 @@ package com.proquest.mtg.dismetadataservice.ecms;
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("DissNum:" +nNode.getTextContent());
 	              pubId = nNode.getTextContent();
 	           }
 	        }
@@ -96,10 +95,8 @@ package com.proquest.mtg.dismetadataservice.ecms;
 			Author author = new Author();
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("Author:" +nNode.getTextContent());
 					author.setAuthorFullName(nNode.getTextContent());
 	                results.add(author);
 	           }
@@ -107,28 +104,22 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	        result.setAuthors(results);
 	        
 	        //3. Title   * Strip out html tags
-	        // * Get CDATA for Title
-	        // * Get RawLang for Title Language
 	        xPathfactory = XPathFactory.newInstance();
 	        xpath = xPathfactory.newXPath();
 	        expr = xpath.compile("//RECORD/ObjectInfo/Title");
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
-	        
-            //List<Title> titleresults = null;
-            //titleresults = Lists.newArrayList();        
-			  Title title = new Title();
+       
+			Title title = new Title();
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("Title: [" +nNode.getTextContent()+ "]");
 	              title.setMasterTitle(nNode.getTextContent());
 	              result.setTitle(title);
 	           }
 	        }
-	        
+       
 	        //Alternate Title   * Strip out html tags
 	        xPathfactory = XPathFactory.newInstance();
 	        xpath = xPathfactory.newXPath();
@@ -141,10 +132,8 @@ package com.proquest.mtg.dismetadataservice.ecms;
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("Title: [" +nNode.getTextContent()+ "]");
 	                alttitle.setAltTitle(nNode.getTextContent());
 	                alternatetitleresults.add(alttitle);
 	           }
@@ -159,10 +148,8 @@ package com.proquest.mtg.dismetadataservice.ecms;
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("Degree Date: [" +nNode.getTextContent()+ "]");
 	              result.setPubDate(nNode.getTextContent());
 	           }
 	        }
@@ -176,10 +163,8 @@ package com.proquest.mtg.dismetadataservice.ecms;
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("Has PDF: [" +nNode.getTextContent()+ "]");
 	              if (null != nNode.getTextContent()) {
 	            	  hasPDF = "Y";
 	              }
@@ -201,11 +186,9 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	        String hasSuppFiles = "N";
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 		              if (null != nNode.getTextContent()) {
-		            	  System.out.println("Setting Suppfiles to Y in ECMSMETADATA");
 		              }
 		              SuppFile suppitem = new SuppFile();
 	        	   String childTagName = nNode.getFirstChild().getNextSibling().getNodeName();
@@ -231,7 +214,7 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	        result.setSuppFiles(suppresults);
 	        result.setHasSuppFiles(hasSuppFiles);
 
-	        
+        
 	        //30. External URL    */FlexTerm@FlexTermName=ITTUrlIdxTxt/FlexTermValue
 	        xPathfactory = XPathFactory.newInstance();
 	        xpath = xPathfactory.newXPath();
@@ -240,16 +223,15 @@ package com.proquest.mtg.dismetadataservice.ecms;
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("External URL: [" +nNode.getTextContent()+ "]");
 	              result.setExternalURL(nNode.getTextContent());
 	           }
 	        }
 	        
 	        //31. ISBN * dis_items.ditm_isbn_number  * /RECORD/ObjecID@IDType=DocISBN
 	        //   -  Stored without dashes.  CSV output contains dashes.
+	        //   -  Approved for no dash output per Mark Dill.
 	        xPathfactory = XPathFactory.newInstance();
 	        xpath = xPathfactory.newXPath();
 	        expr = xpath.compile("//ObjectID[@IDType=\"DocISBN\"]");
@@ -257,7 +239,6 @@ package com.proquest.mtg.dismetadataservice.ecms;
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	              result.setISBN(trimmed(nNode.getTextContent()));
@@ -271,16 +252,12 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
 	        List<Subject> subjectresults = null;
 	        subjectresults = Lists.newArrayList();
-		      //Subject genSubj = new Subject();
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	        	   Subject genSubj = new Subject();
-			      //Subject item = new Subject();
-	              System.out.println("Subject Description: [" +nNode.getTextContent()+ "]");
+	        	  Subject genSubj = new Subject();
 	              genSubj.setSubjectDesc(nNode.getTextContent());
 	              subjectresults.add(genSubj);   
 	           }
@@ -297,11 +274,9 @@ package com.proquest.mtg.dismetadataservice.ecms;
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 		          Keyword keyitem = new Keyword();
-	              System.out.println("Keywords: [" +nNode.getTextContent()+ "]");
 				  keyitem.setValue(nNode.getTextContent());
 	              keywordresults.add(keyitem);
 	           }
@@ -319,10 +294,8 @@ package com.proquest.mtg.dismetadataservice.ecms;
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("Department name: [" +nNode.getTextContent()+ "]");
 	              departmentname.add(nNode.getTextContent());
 	           }
 	        }
@@ -341,11 +314,8 @@ package com.proquest.mtg.dismetadataservice.ecms;
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-				//Advisor item = new Advisor();
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("Advisors: [" +nNode.getTextContent()+ "]");
 					advisor.setAdvisorFullName(nNode.getTextContent());
 					advisorresult.add(advisor);
 	           }
@@ -364,10 +334,8 @@ package com.proquest.mtg.dismetadataservice.ecms;
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("Committee member: [" +nNode.getTextContent()+ "]");
 					CmteMember cmteitem = new CmteMember();
 					cmteitem.setFullName(nNode.getTextContent());
 	                cmteresults.add(cmteitem);
@@ -382,26 +350,20 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	        xpath = xPathfactory.newXPath();
 	        expr = xpath.compile("//FlexTerm[@FlexTermName=\"DissPaperCategory\"]/FlexTermValue");
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
-			//List<Subject> subjresults = null;
-	        //subjresults = Lists.newArrayList();
-			//Subject subject = new Subject();
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	        	   Subject genSubj = new Subject();
-	              String gDesc = nNode.getTextContent();
-	              System.out.println("Subject Group Description: [" +gDesc+ "]");
-					genSubj.setSubjectGroupDesc(gDesc);
-					subjectresults.add(genSubj);
+	               String gDesc = nNode.getTextContent();
+				   genSubj.setSubjectGroupDesc(gDesc);
+				   subjectresults.add(genSubj);
 	           }
 	        }
 	       
 	        
-	        //42. Subject code  * Part appears to be a part of subject code.  There can be
-	        //multiple and they are separated by a | 
+	        //42. Subject code
 	        xPathfactory = XPathFactory.newInstance();
 	        xpath = xPathfactory.newXPath();
 	        expr = xpath.compile("//ClassTerm[@TermVocab=\"DISSSUBJ\"]/ClassCode");
@@ -409,12 +371,10 @@ package com.proquest.mtg.dismetadataservice.ecms;
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	        	   Subject genSubj = new Subject();
-		              String gCode = nNode.getTextContent();
-		              System.out.println("Subject Group Description: [" +gCode+ "]");
+	        	  Subject genSubj = new Subject();
+		          String gCode = nNode.getTextContent();
 	              genSubj.setSubjectCode(gCode);
 	              subjectresults.add(genSubj);
 	           }
@@ -430,10 +390,8 @@ package com.proquest.mtg.dismetadataservice.ecms;
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("Publisher: [" +nNode.getTextContent()+ "]");
 	              result.setPublisher(nNode.getTextContent());
 	           }
 	        }
@@ -447,7 +405,6 @@ package com.proquest.mtg.dismetadataservice.ecms;
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	              result.setBLNumber(trimmed(nNode.getTextContent()));
@@ -456,9 +413,8 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	        
 	        
 	        //58. PQOpenURL
-	        // PQOpenURL is constructed in PubMetaDataProvider
 			result.setPqOpenURL(pqOpenUrlBase + pubId.trim());
-	        
+			
 	        //61. DCIRefs  Y if /Component@ComponentType=CitationReferences exists?  (NOTE: Make sure reptype = seed is okay
 	        xPathfactory = XPathFactory.newInstance();
 	        xpath = xPathfactory.newXPath();
@@ -467,59 +423,56 @@ package com.proquest.mtg.dismetadataservice.ecms;
             String dciRefExistsFlag = "N";
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("Has References: [" +nNode.getTextContent()+ "]");
 	              String dciRefNames = nNode.getTextContent();
-	  			if (null != dciRefNames) {
+	  			  if (null != dciRefNames) {
 					result.setDciRefExistsFlag(dciRefExistsFlag);
-				}
+				  }
+	           }
+	        }
+	        
+            //10. page count
+	        xPathfactory = XPathFactory.newInstance();
+	        xpath = xPathfactory.newXPath();
+	        expr = xpath.compile("//RECORD/ObjectInfo/PageCount");
+	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	           Node nNode = nodeList.item(i);
+	           
+	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+		              String pagecount = nNode.getTextContent();
+		  			  if (null != pagecount) {
+						result.setPageCount(pagecount);
+					  }
 	           }
 	        }
 
-	        
+      
 	        expression = "/IngestRecord/RECORD/ObjectInfo/Abstract";	        
 	        nodeList = (NodeList) xPath.compile(expression).evaluate(
 	           ecmsdoc, XPathConstants.NODESET);
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName()+ "I value " +i);
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	              Element eElement = (Element) nNode;
-	              //System.out.println("Version :" + eElement.getAttribute("MinorVersion"));
-	              //10. page count
-	              //result.setPageCount(trimmed(eElement.getElementsByTagName("PageCount").item(0).getTextContent()));
-	              //23. Abstract  * Split out from html/head/body tags
+
+	              //23. Abstract
 	              if (i == 0) {
-	              System.out.println("Abstract : " 
-	                      + eElement
-	                      .getElementsByTagName("AbsText")
-	                      .item(0)
-	                      .getTextContent());
 	              String Abstract = eElement
 	                      .getElementsByTagName("AbsText")
 	                      .item(0)
 	                      .getTextContent();
 	              Abstract = Abstract.replaceAll("<[^>]*>", "");
-	              // Split Abstract here for Alt Title and Alt Abstract.
-	              // NO... Alternate Abstracts should be in the second set of Abstract tags.  Don't split
-	              // because I think that is incorrect.
 	              result.setAbstract(Abstract);
 	              }
 	              else {
-	              //24. Alternate Abstract   * Within Abstract field.  Separated by \nABSTRACT\n???
-	              //List<AlternateAbstract> altabsresults = null;
-	              //altabsresults = Lists.newArrayList();        
+	              //24. Alternate Abstract 
 				  AlternateAbstract altabstracts = new AlternateAbstract();
-	              /*--String AltAbstract = eElement
-	                      .getElementsByTagName("AbsText")
-	                      .item(1)
-	                      .getTextContent();*/
-	              //if (null != AltAbstract) {
-	            	//  System.out.println("ALT ABS :" +AltAbstract);
+
 	              String altAbstract = eElement
 	                      .getElementsByTagName("AbsText")
 	                      .item(0)
@@ -547,10 +500,8 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	          
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              System.out.println("Has Language info: [" +nNode.getTextContent()+ "]");
 	              String DissLangCode = null;
 	              String DissLangDesc = null;
 	              String langString = nNode.getTextContent();
@@ -558,7 +509,6 @@ package com.proquest.mtg.dismetadataservice.ecms;
 		          if (langstrs.length > 1 && langstrs[1] != null) {
 	                  String lang1 = langstrs[0];
 	                  String lang2 = langstrs[1];
-	                  System.out.println("lang 1: " +lang1+ "\nlang 2 : " +lang2);
 	                  if (lang1.equals("English")) {
 	                	  DissLangCode = lang1;
 	                	  DissLangDesc = lang2;
@@ -568,12 +518,13 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	                	  DissLangDesc = lang1;
 	                  }
 	               }
-		       else {
-			  if (langString.equals("English")) {
+		          else {
+	                  if (langString.equals("English")) {
 	                	  DissLangCode = "EN";
 	                  }
 	                  DissLangDesc = langString;
-		       }
+		        			  
+		          }
                   DissLanguage language = new DissLanguage((DissLangDesc), required(DissLangCode));
                   langresult.add(language);
 	           }
@@ -581,53 +532,145 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	        result.setDissLanguages(langresult);
 	        
 	        
-	        expression = "/IngestRecord/RECORD/ObjectInfo/ScholarlyInfo";	        
-	        nodeList = (NodeList) xPath.compile(expression).evaluate(
-	           ecmsdoc, XPathConstants.NODESET);
-  			List<Degree> degreeresults = null;
-	        degreeresults = Lists.newArrayList();
+// School Information	        
+	        // School Code Number
+	        xPathfactory = XPathFactory.newInstance();
+	        xpath = xPathfactory.newXPath();
+	        expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/SchoolCodeNum");
+	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+			School school = new School();
+			
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	           Node nNode = nodeList.item(i);
+	           
+	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+		              String schoolCodeNumber = nNode.getTextContent();
+
+		  			  if (null != schoolCodeNumber) {
+				          school.setSchoolCode(schoolCodeNumber);
+					  }
+	           }
+	        }
+	        
+	        // School Code Name
+	        xPathfactory = XPathFactory.newInstance();
+	        xpath = xPathfactory.newXPath();
+	        expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/SchoolCodeName");
+	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           System.out.println("\nCurrent Element :" + nNode.getNodeName());
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	              Element eElement = (Element) nNode;
-					Degree degree = new Degree();
-	              //4. degree code for first author
-				degree.setDegreeCode(eElement
-	                      .getElementsByTagName("DegreeName")
-	                      .item(0)
-	                      .getTextContent());
-				//author.setDegreeCode(nNode.getTextContent());
-	              //12. Volume/issue   *  Needs to be split out from UMILocalPC
-	              //45. School state   * SchoolLocation  - Split off from Country if United States.
-	              //46. School LOC country   * May be SchoolLocation.
-	              String umilocalpc = eElement
-	                      .getElementsByTagName("UMILocalPC")
-	                      .item(0)
-	                      .getTextContent();
-	              //String[] strs = null;
-	              //if (umilocalpc.contains("MAI")) {
-	            //	  System.out.println("FOUND MAI");
-	            //	  strs = umilocalpc.split("[,\\/\\s]", 2);
-	              //}
-	              //else {
-	            //	  strs = umilocalpc.split("[,\\-\\/\\s]", 2);
-	              //}
+		              String schoolCodeName = nNode.getTextContent();
+
+		  			  if (null != schoolCodeName) {
+				          school.setSchoolName(schoolCodeName);
+					  }
+	           }
+	        }
+	        
+	        // School Code Location
+            //45. School state   * SchoolLocation  - Split off from Country if United States.
+	        xPathfactory = XPathFactory.newInstance();
+	        xpath = xPathfactory.newXPath();
+	        expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/SchoolLocation");
+	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	           Node nNode = nodeList.item(i);
+	           
+	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+		              String schoolLocation = nNode.getTextContent();
+
+		  			  if (null != schoolLocation) {
+		  		          String[] schoolstrs = schoolLocation.split("[\\--]");
+		  		          String schoolCountry = schoolstrs[0];
+		  		          String schoolState = "";
+		  		          if (schoolstrs.length > 2 && schoolstrs[2] != null) {
+		  		        	  schoolState = schoolstrs[2];
+		  		          }
+		  				  school.setSchoolCountry(schoolCountry);
+		  				  school.setSchoolState(schoolState);
+					  }
+	           }
+	        }
+	        result.setSchool(school);
+
+// Degree Information
+	        // Degree Name
+	        xPathfactory = XPathFactory.newInstance();
+	        xpath = xPathfactory.newXPath();
+	        expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/DegreeName");
+	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+  			List<Degree> degreeresults = null;
+	        degreeresults = Lists.newArrayList();
+			Degree degree = new Degree();
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	           Node nNode = nodeList.item(i);
+	           
+	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+		              String degreeName = nNode.getTextContent();
+
+		  			  if (null != degreeName) {
+				          degree.setDegreeCode(degreeName);
+					  }
+	           }
+	        }
+	        
+	        // Degree description
+	        xPathfactory = XPathFactory.newInstance();
+	        xpath = xPathfactory.newXPath();
+	        expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/DegreeDescription");
+	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	           Node nNode = nodeList.item(i);
+	           
+	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+		              String degreeDescription = nNode.getTextContent();
+
+		  			  if (null != degreeDescription) {
+		    		      degree.setDegreeDescription(degreeDescription);
+		      			  degree.setDegreeYear(result.getPubDate());
+		      			  degreeresults.add(degree);
+					  }
+	           }
+	        }
+			author.setDegrees(degreeresults);
+	        
+	        
+            //12. Volume/issue   *  Needs to be split out from UMILocalPC	        
+	        expression = "/IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/UMILocalPC";	        
+	        nodeList = (NodeList) xPath.compile(expression).evaluate(
+	           ecmsdoc, XPathConstants.NODESET);
+
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	           Node nNode = nodeList.item(i);
+	           
+	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
+	              String umilocalpc = nNode.getTextContent();
+	  			  if (null != umilocalpc) {
                           String dissdesc = "";
+                          String disstype = "";
+                          String disscode = "";
+                          String dissvol = "";
+                          String dississ = "";
 	                      String[] strs = umilocalpc.split("[,\\-\\/\\s, 2]");
-	                      String disstype = strs[0];
-	                      String disscode = strs[1];
-	                      String dissvol = strs[2];
-	                      String dississ = strs[3];
+	                      
+	                      if (strs.length > 3 && strs[3] != null) {
+	                      disstype = strs[0];
+	                      disscode = strs[1];
+	                      dissvol = strs[2];
+	                      dississ = strs[3];
+	                      }
 	                      if (strs.length > 7 && strs[7] != null) {
 	                          dissdesc = strs[5]+" "+strs[6]+" "+strs[7];
 	                      }
 	                      else {
 	                          dissdesc = strs[5]+" "+strs[6]; 
-	                      }
-	                      
+	                      }	                      
 	                      // 11. DISS TYPE CODE   - getBatch().getDBTypeCode()
 	                      items.setDBTypeCode(disstype);
 	                      
@@ -637,49 +680,9 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	    	              items.setVolumeIssue(volumeIssue);
 	                      
 	    	              //56. Dissertation code   *  Needs to be split out from UMILocalPC
-	                      System.out.println("Desc:" +dissdesc);
 	                      items.setDBTypeDesc(dissdesc);
-	                      result.setBatch(items);
-	                      
-	    	      //6. school name	                              
-				  School school = new School();
-				  school.setSchoolName(eElement
-		                      .getElementsByTagName("SchoolCodeName")
-		                      .item(0)
-		                      .getTextContent());
-		          school.setSchoolCode(eElement
-		                      .getElementsByTagName("SchoolCodeNum")
-		                      .item(0)
-		                      .getTextContent());
-	              
-	              //44. School country
-		          String schoolLocation = eElement
-	                      .getElementsByTagName("SchoolLocation")
-	                      .item(0)
-	                      .getTextContent();
-		          String[] schoolstrs = schoolLocation.split("[\\--]");
-                  String schoolCountry = schoolstrs[0];
-                  String schoolState = "";
-                  if (schoolstrs.length > 2 && schoolstrs[2] != null) {
-                	  schoolState = schoolstrs[2];
-                  }
-				  school.setSchoolCountry(schoolCountry);
-				  school.setSchoolState(schoolState);
-				  result.setSchool(school);
-					
-					
-	              //59. Degree description for first Author
-    				degree.setDegreeDescription(eElement
-  	                      .getElementsByTagName("DegreeDescription")
-  	                      .item(0)
-  	                      .getTextContent());
-    				degree.setDegreeDescription(eElement
-  	                      .getElementsByTagName("DegreeDescription")
-  	                      .item(0)
-  	                      .getTextContent());
-    				degree.setDegreeYear(result.getPubDate());
-    				degreeresults.add(degree);
-    				author.setDegrees(degreeresults);
+	               }
+	               result.setBatch(items);
 	           }
 	        }
 	     } catch (ParserConfigurationException e) {
@@ -698,7 +701,6 @@ package com.proquest.mtg.dismetadataservice.ecms;
         JSONObject json = new JSONObject(mr3Data);
         String PublicationDate = json.optString("PublicationDate");
         if (null != PublicationDate) {
-           //System.out.println("MR3 Available Date :" +PublicationDate);
            result.setFirstPublicationDate(PublicationDate);
            PdfAvailableDateStatus pdfavail = new PdfAvailableDateStatus();
            pdfavail.setPdfAvailableDate(PublicationDate);
@@ -743,7 +745,6 @@ package com.proquest.mtg.dismetadataservice.ecms;
 			}
 			
 
-            System.out.println(code + ", " + type + ", " + salesStartDate + ", " + salesEndDate);
             SalesRestriction salesRestrictions = new SalesRestriction();
             if (null != code) {
                salesRestrictions.setCode(code);
@@ -760,10 +761,6 @@ package com.proquest.mtg.dismetadataservice.ecms;
             salesrestrictionresults.add(salesRestrictions);
           }
         result.setSalesRestrictions(salesrestrictionresults);
-
-        //String srCode = json.getJSONArray("Restrictions").getString("Code");
-        //String salesRestrictionCode = json.optString("Code");
-        //System.out.println("MR3 sr Code :" +srCode);
 
         //14. MR3:  Active Format Restriction code  -  N/A   - Talk to MR3   ex.  9712788
         //19. MR3:  Format Restriction code   -  /Title/Formats/
@@ -796,10 +793,7 @@ package com.proquest.mtg.dismetadataservice.ecms;
 			{
 				formatEndDate = matcher.group(1);
 			}
-            
-            // Get StartDate and EndDate.  rDates:  {""StartDate"":""2012-11...""}
 
-            System.out.println(fCode + ", " + format + ", " + created + "," +rDates);
             FormatRestriction formatRestrictions = new FormatRestriction();
             if (null != fCode) {
             	formatRestrictions.setCode(fCode);
@@ -832,39 +826,34 @@ package com.proquest.mtg.dismetadataservice.ecms;
         //32. MR3:  Open Access Flag    - /Title/OpenAccessFlag
         String oaFlag = json.optString("OpenAccessFlag");
         if (null != oaFlag) {
-           //System.out.println("MR3 OAFlag :" +oaFlag);
            result.setOpenAccessFlag(oaFlag);
         }
         
         //40. MR3: External ID  -  /Title/ExternalID
         String xID = json.optString("ExternalID");
         if (null != xID) {
-           //System.out.println("MR3 ExternalID :" +xID);
            result.setExternalId(xID);
         }
         
         //63. MR3:  Dissertations valid source  -  /Title/DissertationsValidSource
         String dissValidSource = json.optString("DissertationsValidSource");
         if (null != dissValidSource) {
-           //System.out.println("MR3 Valid Source :" +dissValidSource);
            result.setDisValidSource(dissValidSource);
         }
-        
+     
         //64. MR3:  Dissertations available formats  - /Title/DissertationsAvailableFormats/AvailableFormat*
         List<String> avformatname = null;
         avformatname = Lists.newArrayList();
         String availableFormats = json.optString("DissertationsAvailableFormats");
         if (null != availableFormats) {
-        System.out.println("MR3 Available Formats :" +availableFormats);
         availableFormats = availableFormats.replaceAll("\"", "").replace("[", "").replace("]", "");
         String strArray[] = availableFormats.split(",");
         for(int i=0;i < strArray.length; i++) {
-        	System.out.println(strArray[i]);
             avformatname.add(strArray[i]);
         }
         result.setDisAvailableFormats(avformatname);
         }
-        
+  
 	    return result;
 	  }
 
@@ -892,16 +881,6 @@ package com.proquest.mtg.dismetadataservice.ecms;
 		
 		//NOTE:  Need to Add ORCID and REPOSITORY
 		//  ORCID  -  Comes from Dis_Authors
-		//  REPOSITORY -  Comes from 
-		
-		//private void setCommitteeMemberInformation() throws SQLException {
-		//	List<CmteMember> result = null;
-		//	CmteMember item = new CmteMember();
-			//item.setFirstName(required(cursor.getString(kColumnCommitteeFirstName)));
-			//item.setMiddleName(trimmed(cursor.getString(kColumnCommitteeMiddleName)));
-			//item.setLastName(required(cursor.getString(kColumnCommitteeLastName)));
-			//item.setSuffix(trimmed(cursor.getString(kColumnCommitteeSuffix)));
-		//	result.add(item);
-		//}
+		//  REPOSITORY -  Comes from dvr_harvest_source in dis_valid_repositories
 		
 	}
