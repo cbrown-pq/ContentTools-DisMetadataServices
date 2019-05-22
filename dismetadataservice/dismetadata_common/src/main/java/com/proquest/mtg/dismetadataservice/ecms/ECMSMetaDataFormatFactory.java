@@ -472,7 +472,7 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	              else {
 	              //24. Alternate Abstract 
 				  AlternateAbstract altabstracts = new AlternateAbstract();
-
+// NOTE: This getElement might cause problems, but seems to be working.
 	              String altAbstract = eElement
 	                      .getElementsByTagName("AbsText")
 	                      .item(0)
@@ -653,30 +653,68 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	              String umilocalpc = nNode.getTextContent();
 	  			  if (null != umilocalpc) {
                           String dissdesc = "";
+                          String typeCodeVolIssGroup = "";
+                          String typeCodeGroup = "";
+                          String volIssGroup = "";
                           String disstype = "";
                           String disscode = "";
                           String dissvol = "";
                           String dississ = "";
-	                      String[] strs = umilocalpc.split("[,\\-\\/\\s, 2]");
+	                      String[] strs = umilocalpc.split("[,]");
 	                      
-	                      if (strs.length > 3 && strs[3] != null) {
-	                      disstype = strs[0];
-	                      disscode = strs[1];
-	                      dissvol = strs[2];
-	                      dississ = strs[3];
+	                      if (strs.length > 1 && strs[1] != null) {
+	                    	  typeCodeVolIssGroup = strs[0];
+	                    	  if (null !=  typeCodeVolIssGroup) {
+	                    		  String[] volIssStrs = typeCodeVolIssGroup.split("[\\s]");
+	    	                      if (volIssStrs.length > 1 && volIssStrs[1] != null) {
+	    	                    	  typeCodeGroup = volIssStrs[0];
+	    	                    	  if (null != typeCodeGroup) {
+	    	                    		  String[] typeStrs = typeCodeGroup.split("[\\-]");
+		    	   	                      	if (typeStrs.length > 1 && typeStrs[1] != null) {
+		    	   	                      		disstype = typeStrs[0];
+		    	   	                      		disscode = typeStrs[1];
+		    	   	                      	}
+		    	   	                      	else {
+		    	   	                      		disstype = typeStrs[0];
+		    	   	                      	}
+	    	                    	  }
+	    	                    	  volIssGroup = volIssStrs[1];
+	    	                    	  System.out.println("Volume Issue Group :" +volIssGroup);
+	    	                    	  if (null != volIssGroup) {
+	    	                    		String[] volStrs = volIssGroup.split("[\\/]");
+	    	   	                      	if (volStrs.length > 1 && volStrs[1] != null) {
+	    	   	                      		dissvol = volStrs[0];
+	    	   	                      		dississ = volStrs[1];
+	    	   	                      	}
+	    	   	                      	else {
+	    	   	                      		dissvol = volStrs[0];
+	    	   	                      		System.out.println("VOLUME :" +dissvol);
+	    	   	                      	}
+	    	                    	  }
+	    	                      }
+	    	                      else {
+	    	                    	  disstype = volIssStrs[0];
+	    	                      }
+	                    	  }
+	                    	  dissdesc = strs[1];
+	                    	  dissdesc = dissdesc.trim();
 	                      }
-	                      if (strs.length > 7 && strs[7] != null) {
-	                          dissdesc = strs[5]+" "+strs[6]+" "+strs[7];
-	                      }
-	                      else {
-	                          dissdesc = strs[5]+" "+strs[6]; 
-	                      }	                      
-	                      // 11. DISS TYPE CODE   - getBatch().getDBTypeCode()
+	                      
+	                      // 11. DISS TYPE CODE   - setDBTypeCode()
 	                      items.setDBTypeCode(disstype);
 	                      
-	                      // 51. DAI Section Code  -  getBatch().getDAISectionCode()
+	                      // 51. DAI Section Code  -  setDAISectionCode()
 	      				  items.setDAISectionCode(disscode);
-	                      String volumeIssue = (dissvol + "-" +dississ);
+	      				  String volumeIssue = "";
+	      				  if ((null != dissvol) && (null != dississ)){
+	      					  if (!dississ.isEmpty()) {
+	      					    volumeIssue = (dissvol + "-" +dississ);
+	      					  }
+	      					  else {
+	      						  volumeIssue = dissvol;
+	      					  }
+	      				  }
+	                      //String volumeIssue = (dissvol + "-" +dississ);
 	    	              items.setVolumeIssue(volumeIssue);
 	                      
 	    	              //56. Dissertation code   *  Needs to be split out from UMILocalPC
