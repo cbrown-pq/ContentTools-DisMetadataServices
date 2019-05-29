@@ -26,16 +26,19 @@ public class FOPEligiblePubsServiceProvider {
 	private final String ecmsMr3HeaderKey;
 	private final String ecmsMr3HeaderValue;	
 	private final String mr3ServiceUrlBase;
+	private final String mr3ServiceFopUrlBase;
 	
 	@Inject
 	public FOPEligiblePubsServiceProvider(//FOPEligiblePubsFormatFactory fopEligiblePubsFormatFactory, 
 			@Named(DisMetadataProperties.ECMS_MR3_HEADER_KEY) String ecmsMr3HeaderKey,
 			@Named(DisMetadataProperties.ECMS_MR3_HEADER_VALUE) String ecmsMr3HeaderValue,
-			@Named(DisMetadataProperties.MR3_SERVICE_URL_BASE) String mr3ServiceUrlBase) {
+			@Named(DisMetadataProperties.MR3_SERVICE_URL_BASE) String mr3ServiceUrlBase,
+			@Named(DisMetadataProperties.MR3_SERVICE_FOP_URL_BASE) String mr3ServiceFopUrlBase) {
 		//this.fopEligiblePubsFormatFactory = fopEligiblePubsFormatFactory;
 		this.ecmsMr3HeaderKey = ecmsMr3HeaderKey;
 		this.ecmsMr3HeaderValue = ecmsMr3HeaderValue;
 		this.mr3ServiceUrlBase = mr3ServiceUrlBase;
+		this.mr3ServiceFopUrlBase = mr3ServiceFopUrlBase;
 	} 
 	
 	public String getECMSMr3HeaderKey() {
@@ -48,9 +51,10 @@ public class FOPEligiblePubsServiceProvider {
 	public String getMr3ServiceUrlBase() {
 		return mr3ServiceUrlBase;
 	}
-	/*public FOPEligiblePubsFormatFactory getFOPEligiblePubsFormatFactory() {
-		return fopEligiblePubsFormatFactory;
-	}*/
+
+	public String getMr3ServiceFopUrlBase() {
+		return mr3ServiceFopUrlBase;
+	}
 
 	@SuppressWarnings("unused")
 	@GET
@@ -61,7 +65,7 @@ public class FOPEligiblePubsServiceProvider {
 		ClientResponse response = null;
 		Properties props = new Properties();
 		try {
-            String URL = getMr3ServiceUrlBase();
+            String URL = getMr3ServiceFopUrlBase();
 			String HEADERKEY = getECMSMr3HeaderKey();
 			String HEADERVALUE = getECMSMr3HeaderValue(); 
 			Client c = Client.create();
