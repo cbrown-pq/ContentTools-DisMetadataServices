@@ -30,6 +30,7 @@ import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.ClientResponse.Status;
 import com.sun.jersey.api.client.WebResource;
 
 @Path("/metadata/")
@@ -92,19 +93,23 @@ public class DisMetadataServiceProvider {
 			String HEADERVALUE = getECMSMr3HeaderValue();
 			Client c = Client.create();
 			WebResource resource = c.resource(URL+"/"+pubNumber);
-			System.out.println("Web url :" +resource);
 			response = resource.header("Content-Type", "application/json")
 					    .header("Accept",  "application/json")
                     	.header(HEADERKEY, HEADERVALUE)
                     	.get(ClientResponse.class);
+
+
 			InputStream is = response.getEntityInputStream();
 			String line;
 			StringBuilder text = new StringBuilder();
+
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 			while((line = reader.readLine()) != null) {
 			    text.append(line).append("  ");
+			    //System.out.println("LINE :" +line);
 			}
 			String pakId = text.toString();
+			//System.out.println("DATA :" +pakId);
 			String ecmsData = "";
 			Pattern pattern = Pattern.compile(".*value\":\"(.*)\"}}]");
 			Matcher matcher = pattern.matcher(pakId);
@@ -115,16 +120,19 @@ public class DisMetadataServiceProvider {
 			}
 			 is.close();
 			 
-	                        URL = getMr3ServiceUrlBase();
+	            URL = getMr3ServiceUrlBase();
 				HEADERKEY = getECMSMr3HeaderKey();
 				HEADERVALUE = getECMSMr3HeaderValue();
 				c = Client.create();
 				resource = c.resource(URL+"/"+pubNumber);
-				System.out.println("Web url :" +resource);
 				response = resource.header("Content-Type", "application/json")
 						    .header("Accept",  "application/json")
 	                    	.header(HEADERKEY, HEADERVALUE)
 	                    	.get(ClientResponse.class);
+				if(response.getStatus() == 404) {
+					System.out.println("404 ERROR IN MR3 CALL");
+				}
+				if (response.getStatus() == 200) {
 				InputStream mr3is = response.getEntityInputStream();
 				StringBuilder mr3text = new StringBuilder();
 				BufferedReader mr3reader = new BufferedReader(new InputStreamReader(mr3is));
@@ -132,14 +140,21 @@ public class DisMetadataServiceProvider {
 				    mr3text.append(line).append("  ");
 				}
 				String mr3Data = mr3text.toString();
-				System.out.println("mr3 out" +mr3Data);
+				//System.out.println("FOUND MR3 DATA :" +mr3Data);
+				mr3is.close();
 				
-			result = getMetaDataFormatFactory().getFor(formatType).makeFor(ecmsData, mr3Data, excludeRestriction, excludeAbstract, excludeAltAbstract);
-		} catch(IllegalArgumentException e) {
+				// For testing each return to isolate the problem
+				// Remove at release
+				//ecmsData = "";
+				//mr3Data = "";			
+				
+			    result = getMetaDataFormatFactory().getFor(formatType).makeFor(ecmsData, mr3Data, excludeRestriction, excludeAbstract, excludeAltAbstract);
+				}
+			} catch(IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 			throw new DisServiceException(Response.Status.NOT_FOUND,e.getMessage());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("EXCEPTION :" +e.getMessage());
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 		return Response.status(Response.Status.OK).entity(result).build();
