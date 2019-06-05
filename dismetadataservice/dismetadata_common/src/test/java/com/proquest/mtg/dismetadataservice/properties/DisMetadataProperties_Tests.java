@@ -29,6 +29,9 @@ public class DisMetadataProperties_Tests {
 	static final String kMr3ServiceUrlBase = "www.proquest.com/base/url:fake";
 	static final String kecmsServiceUrlBase = "www.proquest.com/base/url:fake";
 	static final String kMr3FopServiceUrlBase = "www.proquest.com/base/url:fake";
+	static final String kVmsDbUrlBase = "www.proquest.com/base/url:fake";
+	static final String kVmsDbUserName = "FakeVmsUserName";
+	static final String kVmsDbUserPassword = "FakeVmsUserPassword";
 	
 	public static Properties makePropertyMapForTesting() {
 		Properties props = new Properties();
@@ -49,6 +52,9 @@ public class DisMetadataProperties_Tests {
 		props.setProperty(DisMetadataProperties.MR3_SERVICE_URL_BASE, kMr3ServiceUrlBase);
 		props.setProperty(DisMetadataProperties.ECMS_SERVICE_URL_BASE, kecmsServiceUrlBase);
 		props.setProperty(DisMetadataProperties.MR3_SERVICE_FOP_URL_BASE, kMr3FopServiceUrlBase);
+		props.setProperty(DisMetadataProperties.VMS_DB_URL, kVmsDbUrlBase);
+		props.setProperty(DisMetadataProperties.VMS_DB_USER_NAME, kVmsDbUserName);
+		props.setProperty(DisMetadataProperties.VMS_DB_PASSWORD, kVmsDbUserPassword);
 		return props;
 	}
 	
@@ -131,6 +137,20 @@ public class DisMetadataProperties_Tests {
 		assertThat(target.getMr3FopServiceURL(), is(kMr3FopServiceUrlBase));
 	}
 	
+	@Test
+	public void hasCorrect_VmsDbUrl() throws Exception {
+		assertThat(target.getVmDbUrl(), is(kVmsDbUrlBase));
+	}
+	
+	@Test
+	public void hasCorrect_VmsDbUserName() throws Exception {
+		assertThat(target.getVmDbUserName(), is(kVmsDbUserName));
+	}
+	
+	@Test
+	public void hasCorrect_VmsDbPassword() throws Exception {
+		assertThat(target.getVmDbPassword(), is(kVmsDbUserPassword));
+	}
 	
 	
 }
