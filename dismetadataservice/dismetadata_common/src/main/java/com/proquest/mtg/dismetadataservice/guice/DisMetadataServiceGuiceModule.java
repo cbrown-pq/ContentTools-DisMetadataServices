@@ -49,6 +49,8 @@ import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.properties.AppConfigReader;
 import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
 import com.proquest.mtg.dismetadataservice.properties.IAppConfigReader;
+import com.proquest.mtg.dismetadataservice.vms.IVmsMetaDataProvider;
+import com.proquest.mtg.dismetadataservice.vms.VmsMetaDataProvider;
 import com.proquest.mtg.services.gossamer.docfrosting.DocumentfrostingObjectIdResource;
 import com.proquest.mtg.services.gossamer.docfrosting.DocumentfrostingObjectIdResource_ClientStub;
 import com.proquest.mtg.services.gossamer.relatedids.RelatedidsGoidIdtypeIdResource;
@@ -151,6 +153,20 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 	@Provides @Named(DisMetadataProperties.MR3_SERVICE_FOP_URL_BASE) 
 	protected String mr3FopUrl(DisMetadataProperties props) { 
 		return props.getMr3FopServiceURL(); }
+	
+	@Provides @Named(DisMetadataProperties.VMS_DB_URL) 
+	protected String vmDbUrl(DisMetadataProperties props) { 
+		return props.getVmDbUrl(); }
+	 
+	@Provides @Named(DisMetadataProperties.VMS_DB_USER_NAME) 
+	protected String vmDbUserName(DisMetadataProperties props) { 
+		return props.getVmDbUserName(); }
+	 
+	@Provides @Named(DisMetadataProperties.VMS_DB_PASSWORD) 
+	protected String vmDbUserPassword(DisMetadataProperties props) { 
+		return props.getVmDbPassword(); }
+	 
+	
 	 
 	//@SuppressWarnings("deprecation")
 	@Provides @Singleton
@@ -251,6 +267,7 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		bind(IExternalUrlDataProvider.class).to(ExternalUrlDataProvider.class);
 		//bind(IFOPEligiblePubsProvider.class).to(FOPEligiblePubsProvider.class);
 		bind(IFopFormatsDataProvider.class).to(FopFormatsDataProvider.class);
+		bind(IVmsMetaDataProvider.class).to(VmsMetaDataProvider.class);
 	}
 
 }

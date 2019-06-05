@@ -26,6 +26,9 @@ public class DisMetadataProperties {
 	public final static String ECMS_MR3_HEADER_KEY = "ecms.mr3.header.key";
 	public final static String ECMS_MR3_HEADER_VALUE = "ecms.mr3.header.value";
 	public final static String MR3_SERVICE_FOP_URL_BASE = "mr3.service.fop.url.base";
+	public final static String VMS_DB_URL = "vms.db.url";
+	public final static String VMS_DB_USER_NAME = "vms.db.username";
+	public final static String VMS_DB_PASSWORD = "vms.db.password";
 
 	public final static ArrayList<String> kRequiredProps = Lists
 			.newArrayList(
@@ -45,7 +48,10 @@ public class DisMetadataProperties {
 					ECMS_SERVICE_URL_BASE,
 					ECMS_MR3_HEADER_KEY,
 					ECMS_MR3_HEADER_VALUE,
-					MR3_SERVICE_FOP_URL_BASE);
+					MR3_SERVICE_FOP_URL_BASE,
+					VMS_DB_URL,
+					VMS_DB_USER_NAME,
+					VMS_DB_PASSWORD);
 	
 	
 	private final JdbcConfig exodusConfig;
@@ -60,6 +66,9 @@ public class DisMetadataProperties {
 	private final String ecmsMr3HeaderKey;
 	private final String ecmsMr3HeaderValue;
 	private final String mr3FopServiceURL;
+	private final String vmDbUrl;
+	private final String vmDbUserName;
+	private final String vmDbPassword;
 
 	@Inject
 	public DisMetadataProperties(IAppConfigReader appConfigReader) throws Exception {
@@ -93,6 +102,9 @@ public class DisMetadataProperties {
 		this.ecmsMr3HeaderKey = props.getProperty(ECMS_MR3_HEADER_KEY);
 		this.ecmsMr3HeaderValue = props.getProperty(ECMS_MR3_HEADER_VALUE);
 		this.mr3FopServiceURL = props.getProperty(MR3_SERVICE_FOP_URL_BASE);
+		this.vmDbUrl = props.getProperty(VMS_DB_URL);
+		this.vmDbUserName = props.getProperty(VMS_DB_USER_NAME);
+		this.vmDbPassword = props.getProperty(VMS_DB_PASSWORD);
 	}
 
 	public JdbcConfig getExodusJdbcConfig() {
@@ -160,5 +172,16 @@ public class DisMetadataProperties {
 	public String getMr3FopServiceURL() {
 		return mr3FopServiceURL;
 	}
-	
+
+	public String getVmDbUrl() {
+		return vmDbUrl;
+	}
+
+	public String getVmDbUserName() {
+		return vmDbUserName;
+	}
+
+	public String getVmDbPassword() {
+		return vmDbPassword;
+	}
 }

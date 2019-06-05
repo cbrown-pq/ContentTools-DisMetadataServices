@@ -36,7 +36,7 @@ public class OptimusServiceProvider {
 	
 	@GET
 	@Path("/getReferenceCounts")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	public String getRefCountsInfoFromOptimus(@QueryParam("startDate") String startDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
 		String response = null;
 		try {
@@ -67,7 +67,7 @@ public class OptimusServiceProvider {
 	
 	@GET
 	@Path("/getReferenceRejects")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	public String getReferenceRejects(@QueryParam("startDate") String startDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
 		String response = null;
 		try {
