@@ -44,10 +44,11 @@ public class FOPEligiblePubsServiceProvider {
 	public String getECMSMr3HeaderKey() {
 		return ecmsMr3HeaderKey;
 	}
+
 	public String getECMSMr3HeaderValue() {
-			return ecmsMr3HeaderValue;
+		return ecmsMr3HeaderValue;
 	}
-	
+
 	public String getMr3ServiceUrlBase() {
 		return mr3ServiceUrlBase;
 	}
@@ -69,7 +70,7 @@ public class FOPEligiblePubsServiceProvider {
 			String HEADERKEY = getECMSMr3HeaderKey();
 			String HEADERVALUE = getECMSMr3HeaderValue(); 
 			Client c = Client.create();
-			WebResource resource = c.resource(URL+"?date="+date);
+			WebResource resource = c.resource(URL).path("title").queryParam("date", date);
 			response = resource.header("Content-Type", "application/xml")
                     	.header(HEADERKEY, HEADERVALUE)
                     	.get(ClientResponse.class);
