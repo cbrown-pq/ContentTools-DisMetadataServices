@@ -19,6 +19,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
@@ -77,7 +78,7 @@ public class LocReportServiceProvider {
 			String HEADERKEY = getECMSMr3HeaderKey();
 			String HEADERVALUE = getECMSMr3HeaderValue(); 
 			Client c = Client.create();
-			WebResource resource = c.resource(URL).path("getCopyrightedFilmPubs")
+			WebResource resource = c.resource(URL).path("loc").path("getCopyrightedFilmPubs")
 					.queryParam("date", date)
 					.queryParam("filmType", mr3FormatType);
 			response = resource.header("Content-Type", "application/json")
@@ -85,11 +86,18 @@ public class LocReportServiceProvider {
                     	.get(ClientResponse.class);
 			 String xmlStr = response.getEntity(String.class);
 			 
-			 JAXBContext jaxbContext = JAXBContext.newInstance(LOCReportPubListCR.class);
-			 Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-			 StringReader reader = new StringReader(xmlStr);
-			 LOCReportPubListCR thingy = (LOCReportPubListCR) unmarshaller.unmarshal(reader);
-			 result = thingy.makeJsonList();
+			 LOCReportPubListCR pubList;
+			 // handle when MR3 returns "No matching dissertations found:"
+			 if (StringUtils.isNotBlank(xmlStr) && !xmlStr.startsWith("<") && response.getStatus() == 404) { //TODO probably need better error handling here
+				 pubList = new LOCReportPubListCR();
+				 return Response.status(200).entity(pubList.makeJsonList()).build();
+			} else {
+				JAXBContext jaxbContext = JAXBContext.newInstance(LOCReportPubListCR.class);
+				Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+				StringReader reader = new StringReader(xmlStr);
+				pubList = (LOCReportPubListCR) unmarshaller.unmarshal(reader);
+			}
+			 result = pubList.makeJsonList();
 		} catch (IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);
 		}catch (Exception e) {
@@ -112,7 +120,7 @@ public class LocReportServiceProvider {
 			String HEADERKEY = getECMSMr3HeaderKey();
 			String HEADERVALUE = getECMSMr3HeaderValue(); 
 			Client c = Client.create();
-			WebResource resource = c.resource(URL).path("getNonCopyrightedFilmPubs")
+			WebResource resource = c.resource(URL).path("loc").path("getNonCopyrightedFilmPubs")
 					.queryParam("date", date)
 					.queryParam("filmType", mr3FormatType);
 			response = resource.header("Content-Type", "application/json")
@@ -143,7 +151,8 @@ public class LocReportServiceProvider {
 		pubs.removeAll(Lists.newArrayList("", null));
 		try {
 			if (pubs.size() > 0) {
-				getCopyrightPubReportProvider().updateFilmPullDate(pubs);
+				
+//				getCopyrightPubReportProvider().updateFilmPullDate(pubs);
 			}
 		} catch(IllegalArgumentException e) {
 			e.printStackTrace();

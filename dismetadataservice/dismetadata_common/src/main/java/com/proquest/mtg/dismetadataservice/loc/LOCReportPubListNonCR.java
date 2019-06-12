@@ -17,6 +17,8 @@ public class LOCReportPubListNonCR {
 	private List<LOCReportPub> pubs;
 
 	public List<LOCReportPub> getPubs() {
+		if (pubs == null)
+			pubs = new ArrayList<>();
 		return pubs;
 	}
 
@@ -26,7 +28,7 @@ public class LOCReportPubListNonCR {
 	
 	public List<LOCReportPubJson> makeJsonList() {
 		List<LOCReportPubJson> newList = new ArrayList<>();
-		for (LOCReportPub pub : this.pubs) {
+		for (LOCReportPub pub : getPubs()) {
 			newList.add(new LOCReportPubJson(pub.getPubNumber(), pub.getAuthorFullName()));
 		}
 		return newList;

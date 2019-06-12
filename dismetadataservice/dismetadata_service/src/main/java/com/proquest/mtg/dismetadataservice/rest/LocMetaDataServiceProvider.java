@@ -107,7 +107,7 @@ public class LocMetaDataServiceProvider {
 			String HEADERKEY = getECMSMr3HeaderKey();
 			String HEADERVALUE = getECMSMr3HeaderValue(); 
 			Client c = Client.create();
-			WebResource resource = c.resource(URL).path("cpsubmitted").path(pubNumber);
+			WebResource resource = c.resource(URL).path("loc").path("cpsubmitted").path(pubNumber);
 			response = resource.header("Content-Type", "application/json")
                     	.header(HEADERKEY, HEADERVALUE)
                     	.post(ClientResponse.class);
@@ -137,7 +137,7 @@ public class LocMetaDataServiceProvider {
 			String HEADERKEY = getECMSMr3HeaderKey();
 			String HEADERVALUE = getECMSMr3HeaderValue(); 
 			Client c = Client.create();
-			WebResource resource = c.resource(URL).path("locsent").path(pubNumber);
+			WebResource resource = c.resource(URL).path("loc").path("locsent").path(pubNumber);
 			response = resource.header("Content-Type", "application/json")
                     	.header(HEADERKEY, HEADERVALUE)
                     	.post(ClientResponse.class);
