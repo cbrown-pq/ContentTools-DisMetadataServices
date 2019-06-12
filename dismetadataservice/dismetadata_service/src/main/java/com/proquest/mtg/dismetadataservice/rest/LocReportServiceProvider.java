@@ -27,7 +27,7 @@ import com.google.inject.name.Named;
 import com.proquest.mtg.dismetadataservice.loc.LOCReportPubJson;
 import com.proquest.mtg.dismetadataservice.loc.LOCReportPubListCR;
 import com.proquest.mtg.dismetadataservice.loc.LOCReportPubListNonCR;
-import com.proquest.mtg.dismetadataservice.locreports.CopyrightPubReportProvider;
+//import com.proquest.mtg.dismetadataservice.locreports.CopyrightPubReportProvider;
 import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -37,18 +37,18 @@ import com.sun.jersey.api.client.WebResource;
 @Path("/locreports/")
 public class LocReportServiceProvider {
 	
-	private CopyrightPubReportProvider copyrightPubReportProvider;
+//	private CopyrightPubReportProvider copyrightPubReportProvider;
 	private final String ecmsMr3HeaderKey;
 	private final String ecmsMr3HeaderValue;	
 	private final String mr3ServiceUrlBase;
 	public static final String kPubSeparator = ",";
 	
 	@Inject
-	public LocReportServiceProvider(CopyrightPubReportProvider copyrightPubReportProvider, 
+	public LocReportServiceProvider(/*CopyrightPubReportProvider copyrightPubReportProvider,*/ 
 			@Named(DisMetadataProperties.ECMS_MR3_HEADER_KEY) String ecmsMr3HeaderKey,
 			@Named(DisMetadataProperties.ECMS_MR3_HEADER_VALUE) String ecmsMr3HeaderValue,
 			@Named(DisMetadataProperties.MR3_SERVICE_URL_BASE) String mr3ServiceUrlBase) {
-		this.copyrightPubReportProvider = copyrightPubReportProvider;
+//		this.copyrightPubReportProvider = copyrightPubReportProvider;
 		this.ecmsMr3HeaderKey = ecmsMr3HeaderKey;
 		this.ecmsMr3HeaderValue = ecmsMr3HeaderValue;
 		this.mr3ServiceUrlBase = mr3ServiceUrlBase;
@@ -166,7 +166,7 @@ public class LocReportServiceProvider {
 	}
 	
 
-	public CopyrightPubReportProvider getCopyrightPubReportProvider() {
-		return copyrightPubReportProvider;
-	}
+//	public CopyrightPubReportProvider getCopyrightPubReportProvider() {
+//		return copyrightPubReportProvider;
+//	}
 }
