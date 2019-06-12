@@ -107,15 +107,20 @@
               <version>1.0.14</version>
 		</dependency>
 		<dependency>
-   			  <groupId>org.json</groupId>
+    		  <groupId>org.json</groupId>
     		  <artifactId>json</artifactId>
-    		  <version>RELEASE</version>
+    		  <version>20180813</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.18</version>
 		</dependency>
+	<dependency>
+    <groupId>org.apache.derby</groupId>
+    <artifactId>derbyclient</artifactId>
+    <version>10.14.1.0</version>
+</dependency>
 	</dependencies>
 	<build>
 		<resources>

@@ -20,9 +20,9 @@ public class PdfDownloadClient {
 
 	public static void main(String[] args) throws Exception {
 	//	String pubId = "10390586";
-		String pubId = "55114004";//"3309156";
-		String url = kBaseUrl + "dismetadata_service/disout/getPdf" + "/"+ pubId + "/POD?ec=1&ri=1";
-		//String url = kBaseUrl + "dismetadata_service/disout/getPdf" + "/"+ pubId + "/POD";
+		String pubId = "55127510";//"3309156";
+		//String url = kBaseUrl + "dismetadata_service/disout/getPdf" + "/"+ pubId + "/POD?ec=1&ri=1";
+		String url = kBaseUrl + "dismetadata_service/disout/getPdf" + "/"+ pubId + "/POD";
 		System.out.println("URL : " + url);
 		int statusCode = doDownload(new URL(url), new File(outDirPath, pubId + ".pdf"));
 		System.out.println("Return Status code: " + statusCode);

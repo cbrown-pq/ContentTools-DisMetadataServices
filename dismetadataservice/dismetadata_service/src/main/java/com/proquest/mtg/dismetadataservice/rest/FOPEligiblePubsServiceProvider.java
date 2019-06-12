@@ -2,6 +2,7 @@ package com.proquest.mtg.dismetadataservice.rest;
 
 //CBDELETE2
 import java.util.Properties;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -9,13 +10,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import com.proquest.mtg.dismetadataservice.fop.FopMetaDataProvider;
 //import com.proquest.mtg.dismetadataservice.format.FOPEligiblePubsFormatFactory;
 import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+
 import org.json.JSONObject;
 
 
@@ -27,9 +31,11 @@ public class FOPEligiblePubsServiceProvider {
 	private final String ecmsMr3HeaderValue;	
 	private final String mr3ServiceUrlBase;
 	private final String mr3ServiceFopUrlBase;
+	private final FopMetaDataProvider fopMetaDataProvider;
 	
 	@Inject
 	public FOPEligiblePubsServiceProvider(//FOPEligiblePubsFormatFactory fopEligiblePubsFormatFactory, 
+			FopMetaDataProvider fopMetaDataProvider,
 			@Named(DisMetadataProperties.ECMS_MR3_HEADER_KEY) String ecmsMr3HeaderKey,
 			@Named(DisMetadataProperties.ECMS_MR3_HEADER_VALUE) String ecmsMr3HeaderValue,
 			@Named(DisMetadataProperties.MR3_SERVICE_URL_BASE) String mr3ServiceUrlBase,
@@ -39,6 +45,7 @@ public class FOPEligiblePubsServiceProvider {
 		this.ecmsMr3HeaderValue = ecmsMr3HeaderValue;
 		this.mr3ServiceUrlBase = mr3ServiceUrlBase;
 		this.mr3ServiceFopUrlBase = mr3ServiceFopUrlBase;
+		this.fopMetaDataProvider = fopMetaDataProvider;
 	} 
 	
 	public String getECMSMr3HeaderKey() {
@@ -54,6 +61,10 @@ public class FOPEligiblePubsServiceProvider {
 
 	public String getMr3ServiceFopUrlBase() {
 		return mr3ServiceFopUrlBase;
+	}
+
+	public FopMetaDataProvider getFopMetaDataProvider() {
+		return fopMetaDataProvider;
 	}
 
 	@SuppressWarnings("unused")
@@ -86,19 +97,17 @@ public class FOPEligiblePubsServiceProvider {
 		return Response.status(response.getStatus()).entity(jsonStr).build();
 	}
 	
-/*	@GET
+	@GET
 	@Path("/updateInProgressStatus/{pubID}/{Status}")
-	public String updateInprogressStatusFor(@PathParam("pubID") String pubId, @PathParam("Status") String Status) throws WebApplicationException {
+	public void updateInprogressStatusFor(@PathParam("pubID") String pubId, @PathParam("Status") String Status) throws WebApplicationException {
 		String result;
 		try {
-			result = getFOPEligiblePubsFormatFactory().update().updateFFInprogressStatus(pubId, Status);
+			getFopMetaDataProvider().updateFFInProgress(pubId, Status);
 		} catch (IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
-		return result;
-	}*/
-
+	}
 }

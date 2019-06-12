@@ -34,6 +34,8 @@ import com.proquest.mtg.dismetadataservice.exodus.MStarPubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.SchoolMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.SubjectsMetaDataProvider;
+import com.proquest.mtg.dismetadataservice.fop.FopMetaDataProvider;
+import com.proquest.mtg.dismetadataservice.fop.IFopMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.format.CSVFormat;
 import com.proquest.mtg.dismetadataservice.format.FakeFormat;
 import com.proquest.mtg.dismetadataservice.format.Marc21RdaFormat;
@@ -166,7 +168,18 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 	protected String vmDbUserPassword(DisMetadataProperties props) { 
 		return props.getVmDbPassword(); }
 	 
-	
+	@Provides @Named(DisMetadataProperties.FOP_DB_URL) 
+	protected String fopDbUrl(DisMetadataProperties props) { 
+		return props.getFopDbUrl(); }
+	 
+	@Provides @Named(DisMetadataProperties.FOP_DB_USER_NAME) 
+	protected String fopDbUserName(DisMetadataProperties props) { 
+		return props.getFopDbUserName(); }
+	 
+	@Provides @Named(DisMetadataProperties.FOP_DB_PASSWORD) 
+	protected String fopDbUserPassword(DisMetadataProperties props) { 
+		return props.getFopDbPassword(); }
+	 
 	 
 	//@SuppressWarnings("deprecation")
 	@Provides @Singleton
@@ -268,6 +281,7 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		//bind(IFOPEligiblePubsProvider.class).to(FOPEligiblePubsProvider.class);
 		bind(IFopFormatsDataProvider.class).to(FopFormatsDataProvider.class);
 		bind(IVmsMetaDataProvider.class).to(VmsMetaDataProvider.class);
+		//bind(IFopMetaDataProvider.class).to(FopMetaDataProvider.class);
 	}
 
 }

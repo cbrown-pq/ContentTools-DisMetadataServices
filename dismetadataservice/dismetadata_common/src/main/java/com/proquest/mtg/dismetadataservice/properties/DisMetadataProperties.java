@@ -29,6 +29,9 @@ public class DisMetadataProperties {
 	public final static String VMS_DB_URL = "vms.db.url";
 	public final static String VMS_DB_USER_NAME = "vms.db.username";
 	public final static String VMS_DB_PASSWORD = "vms.db.password";
+	public final static String FOP_DB_URL = "fop.db.url";
+	public final static String FOP_DB_USER_NAME = "fop.db.username";
+	public final static String FOP_DB_PASSWORD = "fop.db.password";
 
 	public final static ArrayList<String> kRequiredProps = Lists
 			.newArrayList(
@@ -51,7 +54,10 @@ public class DisMetadataProperties {
 					MR3_SERVICE_FOP_URL_BASE,
 					VMS_DB_URL,
 					VMS_DB_USER_NAME,
-					VMS_DB_PASSWORD);
+					VMS_DB_PASSWORD,
+					FOP_DB_URL,
+					FOP_DB_USER_NAME,
+					FOP_DB_PASSWORD);
 	
 	
 	private final JdbcConfig exodusConfig;
@@ -69,7 +75,10 @@ public class DisMetadataProperties {
 	private final String vmDbUrl;
 	private final String vmDbUserName;
 	private final String vmDbPassword;
-
+	private final String fopDbUrl;
+	private final String fopDbUserName;
+	private final String fopDbPassword;
+	
 	@Inject
 	public DisMetadataProperties(IAppConfigReader appConfigReader) throws Exception {
 		this(appConfigReader.getAllProperties());
@@ -105,6 +114,9 @@ public class DisMetadataProperties {
 		this.vmDbUrl = props.getProperty(VMS_DB_URL);
 		this.vmDbUserName = props.getProperty(VMS_DB_USER_NAME);
 		this.vmDbPassword = props.getProperty(VMS_DB_PASSWORD);
+		this.fopDbUrl = props.getProperty(FOP_DB_URL);
+		this.fopDbUserName = props.getProperty(FOP_DB_USER_NAME);
+		this.fopDbPassword = props.getProperty(FOP_DB_PASSWORD);
 	}
 
 	public JdbcConfig getExodusJdbcConfig() {
@@ -183,5 +195,21 @@ public class DisMetadataProperties {
 
 	public String getVmDbPassword() {
 		return vmDbPassword;
+	}
+
+	public String getPqServiceURL() {
+		return pqServiceURL;
+	}
+
+	public String getFopDbUrl() {
+		return fopDbUrl;
+	}
+
+	public String getFopDbUserName() {
+		return fopDbUserName;
+	}
+
+	public String getFopDbPassword() {
+		return fopDbPassword;
 	}
 }
