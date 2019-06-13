@@ -103,16 +103,12 @@ public class CSVRecordFactory {
 				CSVRecordFactory.class.getDeclaredMethod("handleFormatRestrictionStartDt"));
 		kAllHeaders.put(CSVHeaders.kFormatRestrictionEndDt,
 				CSVRecordFactory.class.getDeclaredMethod("handleFormatRestrictionEndDt"));
-		if (this.excludeAbstract == 0){
-			kAllHeaders.put(CSVHeaders.kAbstract,
-					CSVRecordFactory.class.getDeclaredMethod("handleAbstract"));
-		}
-		if (this.excludeAltAbstract == 0) {
-			kAllHeaders.put(CSVHeaders.kAltAbstract,
-					CSVRecordFactory.class.getDeclaredMethod("handleAltAbstract"));
-			kAllHeaders.put(CSVHeaders.kAltAbstractLang, 
-					CSVRecordFactory.class.getDeclaredMethod("handleAltAbstractLang"));
-		}
+		kAllHeaders.put(CSVHeaders.kAbstract,
+				CSVRecordFactory.class.getDeclaredMethod("handleAbstract"));
+		kAllHeaders.put(CSVHeaders.kAltAbstract,
+				CSVRecordFactory.class.getDeclaredMethod("handleAltAbstract"));
+		kAllHeaders.put(CSVHeaders.kAltAbstractLang, 
+				CSVRecordFactory.class.getDeclaredMethod("handleAltAbstractLang"));
 		kAllHeaders.put(CSVHeaders.kAltTitle,
 				CSVRecordFactory.class.getDeclaredMethod("handleAltTitle"));
 		kAllHeaders.put(CSVHeaders.kAltTitleLang,
@@ -651,7 +647,8 @@ public class CSVRecordFactory {
 
 	private void handleAbstract() {
 		String abstractText = "";
-		if (null != curMetaData.getAbstract()
+		if (this.excludeAbstract == 0 
+				&& null != curMetaData.getAbstract()
 				&& !curMetaData.getAbstract().isEmpty()) {
 			abstractText = abstractNormalizer
 					.applyTo(curMetaData.getAbstract());
@@ -662,7 +659,8 @@ public class CSVRecordFactory {
 	
 	private void handleAltAbstract() {
 		String altAbstractText = "";
-		if (null != curMetaData.getAlternateAbstracts()
+		if (this.excludeAltAbstract == 0
+				&& null != curMetaData.getAlternateAbstracts()
 				&& StringUtils.isNotEmpty(curMetaData.getAlternateAbstracts().getAbstractText())) {
 			altAbstractText = abstractNormalizer
 					.applyTo(curMetaData.getAlternateAbstracts().getAbstractText());
