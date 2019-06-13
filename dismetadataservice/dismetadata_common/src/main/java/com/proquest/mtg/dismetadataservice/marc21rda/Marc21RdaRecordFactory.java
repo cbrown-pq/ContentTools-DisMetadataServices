@@ -263,12 +263,14 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 			for (String curParagraph : makeAbstractParagraphsFrom(abstractText)) {
 				curParagraph = endsWithPunctuationMark(curParagraph);
 				curParagraph = SGMLEntitySubstitution.applyAllTo(curParagraph);
+				curParagraph = removeOddQuotes(curParagraph);
 				addField(MarcTags.kAbstract,
 					makeFieldDataFrom(' ', ' ', 'a', curParagraph));
 			}
 			for (String curAltParagraph : makeAbstractParagraphsFrom(alternateAbstractText)){
 				curAltParagraph = endsWithPunctuationMark(curAltParagraph);
 				curAltParagraph = SGMLEntitySubstitution.applyAllTo(curAltParagraph);
+				curAltParagraph = removeOddQuotes(curAltParagraph);
 				addField(MarcTags.kAbstract,
 					makeFieldDataFrom('$','=',curAltParagraph));
 			}
@@ -280,6 +282,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 				for (String curParagraph : makeAbstractParagraphsFrom(abstractText)) {
 					curParagraph = endsWithPunctuationMark(curParagraph);
 					curParagraph = SGMLEntitySubstitution.applyAllTo(curParagraph);
+					curParagraph = removeOddQuotes(curParagraph);
 					addField(MarcTags.kAbstract,
 						makeFieldDataFrom(' ', ' ', 'a', curParagraph));
 				}
@@ -292,6 +295,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 				   for (String curAltParagraph : makeAbstractParagraphsFrom(alternateAbstractText)) {
 					   curAltParagraph = endsWithPunctuationMark(curAltParagraph);
 					   curAltParagraph = SGMLEntitySubstitution.applyAllTo(curAltParagraph);
+					   curAltParagraph = removeOddQuotes(curAltParagraph);
 					   addField(MarcTags.kAbstract,
 						   makeFieldDataFrom(' ', ' ', 'a', curAltParagraph));
 				   }
@@ -300,6 +304,12 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		}
 	}
 
+	
+	// Replace left and right quotes with straight quotes
+	private String removeOddQuotes(String text) {
+		return text.replaceAll("[\\u2018\\u2019]", "'")
+		           .replaceAll("[\\u201C\\u201D]", "\"");
+	}
 
 	private List<String> makeAbstractParagraphsFrom(String abstractText) {
 		List<String> result = Lists.newArrayList();
