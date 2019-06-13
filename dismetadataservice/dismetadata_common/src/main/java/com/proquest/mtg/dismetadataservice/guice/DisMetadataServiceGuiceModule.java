@@ -179,7 +179,10 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 	@Provides @Named(DisMetadataProperties.FOP_DB_PASSWORD) 
 	protected String fopDbUserPassword(DisMetadataProperties props) { 
 		return props.getFopDbPassword(); }
-	 
+	
+	@Provides @Named(DisMetadataProperties.FOP_DB_CLASS_NAME) 
+	protected String fopDbClass(DisMetadataProperties props) { 
+		return props.getFopDbClass(); }
 	 
 	//@SuppressWarnings("deprecation")
 	@Provides @Singleton
@@ -281,7 +284,6 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		//bind(IFOPEligiblePubsProvider.class).to(FOPEligiblePubsProvider.class);
 		bind(IFopFormatsDataProvider.class).to(FopFormatsDataProvider.class);
 		bind(IVmsMetaDataProvider.class).to(VmsMetaDataProvider.class);
-		//bind(IFopMetaDataProvider.class).to(FopMetaDataProvider.class);
 	}
 
 }

@@ -6,6 +6,6 @@ import com.proquest.mtg.dismetadataservice.subjects.xml.Subjects.Subject;
 
 public interface IFopMetaDataProvider {
 
-	void updateFFInProgress(String pubNumber, String inProgressFlag)
+	String updateFFInProgress(String pubNumber, String inProgressFlag)
 			throws Exception;
 }

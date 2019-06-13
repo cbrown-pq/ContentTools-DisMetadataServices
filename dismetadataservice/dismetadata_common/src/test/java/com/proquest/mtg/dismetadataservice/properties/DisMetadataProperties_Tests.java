@@ -35,6 +35,7 @@ public class DisMetadataProperties_Tests {
 	static final String kFopDbUrlBase = "www.proquest.com/base/url:fake";
 	static final String kFopDbUserName = "FakeFopUserName";
 	static final String kFopDbUserPassword = "FakeFopPassword";
+	static final String kFopDbClassname = "FakeFopDbClassName";
 	
 	public static Properties makePropertyMapForTesting() {
 		Properties props = new Properties();
@@ -61,6 +62,7 @@ public class DisMetadataProperties_Tests {
 		props.setProperty(DisMetadataProperties.FOP_DB_URL, kFopDbUrlBase);
 		props.setProperty(DisMetadataProperties.FOP_DB_USER_NAME, kFopDbUserName);
 		props.setProperty(DisMetadataProperties.FOP_DB_PASSWORD, kFopDbUserPassword);
+		props.setProperty(DisMetadataProperties.FOP_DB_CLASS_NAME, kFopDbClassname);
 		return props;
 	}
 	
@@ -157,6 +159,5 @@ public class DisMetadataProperties_Tests {
 	public void hasCorrect_VmsDbPassword() throws Exception {
 		assertThat(target.getVmDbPassword(), is(kVmsDbUserPassword));
 	}
-	
 	
 }

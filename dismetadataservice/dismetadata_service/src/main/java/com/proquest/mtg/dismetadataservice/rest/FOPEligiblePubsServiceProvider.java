@@ -81,7 +81,7 @@ public class FOPEligiblePubsServiceProvider {
 			String HEADERKEY = getECMSMr3HeaderKey();
 			String HEADERVALUE = getECMSMr3HeaderValue(); 
 			Client c = Client.create();
-			WebResource resource = c.resource(URL).path("title").queryParam("date", date);
+			WebResource resource = c.resource(URL).queryParam("date", date);
 			response = resource.header("Content-Type", "application/xml")
                     	.header(HEADERKEY, HEADERVALUE)
                     	.get(ClientResponse.class);
@@ -100,15 +100,16 @@ public class FOPEligiblePubsServiceProvider {
 	
 	@GET
 	@Path("/updateInProgressStatus/{pubID}/{Status}")
-	public void updateInprogressStatusFor(@PathParam("pubID") String pubId, @PathParam("Status") String Status) throws WebApplicationException {
+	public String updateInprogressStatusFor(@PathParam("pubID") String pubId, @PathParam("Status") String Status) throws WebApplicationException {
 		String result;
 		try {
-			getFopMetaDataProvider().updateFFInProgress(pubId, Status);
+			result = getFopMetaDataProvider().updateFFInProgress(pubId, Status);
 		} catch (IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
+		return result;
 	}
 }

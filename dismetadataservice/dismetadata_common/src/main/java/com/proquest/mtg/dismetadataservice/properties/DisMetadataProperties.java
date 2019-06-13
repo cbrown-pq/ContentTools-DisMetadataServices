@@ -32,7 +32,8 @@ public class DisMetadataProperties {
 	public final static String FOP_DB_URL = "fop.db.url";
 	public final static String FOP_DB_USER_NAME = "fop.db.username";
 	public final static String FOP_DB_PASSWORD = "fop.db.password";
-
+	public final static String FOP_DB_CLASS_NAME = "fop.db.class";
+	
 	public final static ArrayList<String> kRequiredProps = Lists
 			.newArrayList(
 					EXODUS_DB_URL,
@@ -57,7 +58,8 @@ public class DisMetadataProperties {
 					VMS_DB_PASSWORD,
 					FOP_DB_URL,
 					FOP_DB_USER_NAME,
-					FOP_DB_PASSWORD);
+					FOP_DB_PASSWORD,
+					FOP_DB_CLASS_NAME);
 	
 	
 	private final JdbcConfig exodusConfig;
@@ -78,6 +80,7 @@ public class DisMetadataProperties {
 	private final String fopDbUrl;
 	private final String fopDbUserName;
 	private final String fopDbPassword;
+	private final String fopDbClass;
 	
 	@Inject
 	public DisMetadataProperties(IAppConfigReader appConfigReader) throws Exception {
@@ -117,6 +120,7 @@ public class DisMetadataProperties {
 		this.fopDbUrl = props.getProperty(FOP_DB_URL);
 		this.fopDbUserName = props.getProperty(FOP_DB_USER_NAME);
 		this.fopDbPassword = props.getProperty(FOP_DB_PASSWORD);
+		this.fopDbClass = props.getProperty(FOP_DB_CLASS_NAME);
 	}
 
 	public JdbcConfig getExodusJdbcConfig() {
@@ -212,4 +216,9 @@ public class DisMetadataProperties {
 	public String getFopDbPassword() {
 		return fopDbPassword;
 	}
+
+	public String getFopDbClass() {
+		return fopDbClass;
+	}
+	
 }

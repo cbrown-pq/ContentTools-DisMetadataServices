@@ -2,11 +2,15 @@ package com.proquest.mtg.dismetadataservice.rest;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Properties;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.proquest.mtg.dismetadataservice.format.FOPUpdateAvailablePubsFormatFactory;
@@ -48,8 +52,9 @@ public class FOPUpdateAvailableFormatsServiceProvider {
 
 @SuppressWarnings("unused")
 @GET
+@Produces(MediaType.TEXT_HTML)
 @Path("/updateAvailableFormats/{pubID}/{format}")
-public String updateInprogressStatusFor(@PathParam("pubID") String pubNumber, @PathParam("format") String format) throws WebApplicationException {
+public String updateAvailableStatusFor(@PathParam("pubID") String pubNumber, @PathParam("format") String format) throws WebApplicationException {
 	String[] formats = format.split(",");
 	String result = null;
 	Properties props = new Properties();
@@ -85,9 +90,8 @@ public String updateInprogressStatusFor(@PathParam("pubID") String pubNumber, @P
 			conn.getOutputStream().write(postDataBytes);
 			
 			int responseCode = conn.getResponseCode();
-			if(responseCode == HttpURLConnection.HTTP_NO_CONTENT) {
-				result = null;
-				//result = "Update successful";
+			if(responseCode == HttpURLConnection.HTTP_NO_CONTENT||responseCode == HttpURLConnection.HTTP_NO_CONTENT) {
+				result = "Update successful";
 				}else {
 					throw new Exception("Error!" + responseCode + conn.getResponseMessage());
 					}
