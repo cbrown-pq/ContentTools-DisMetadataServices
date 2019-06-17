@@ -77,7 +77,7 @@ public class DisMetadataServiceProvider {
 
 	@GET
 	@Path("/{pubNumber}/{formatType}")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN +";charset=utf-8")
 	public Response getDisMetaData(@PathParam("pubNumber") String pubNumber,
 			@PathParam("formatType") String formatType,
 			@DefaultValue("0") @QueryParam("er") int excludeRestriction,
