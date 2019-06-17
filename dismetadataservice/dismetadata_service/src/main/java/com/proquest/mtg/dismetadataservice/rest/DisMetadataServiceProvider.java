@@ -103,7 +103,7 @@ public class DisMetadataServiceProvider {
 			String line;
 			StringBuilder text = new StringBuilder();
 
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 			while((line = reader.readLine()) != null) {
 			    text.append(line).append("  ");
 			    //System.out.println("LINE :" +line);
