@@ -4,8 +4,10 @@ package com.proquest.mtg.dismetadataservice.ecms;
     import java.util.List;
     import java.util.regex.Matcher;
 	import java.util.regex.Pattern;
+	import java.util.Date;
 
-
+    import java.text.SimpleDateFormat;
+    import java.text.ParseException;
 	import javax.xml.parsers.*;
 	import javax.xml.xpath.*;
 	import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,7 +17,8 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	import org.xml.sax.SAXException;
 	
 	import org.json.JSONObject;
-	import org.json.JSONArray;
+//import org.apache.http.ParseException;
+import org.json.JSONArray;
 	
 	import org.w3c.dom.Document;
 	import org.w3c.dom.NodeList;
@@ -51,9 +54,10 @@ package com.proquest.mtg.dismetadataservice.ecms;
 
 		public static final DisPubMetaData constructECMSMetaData(String ecmsData, String mr3Data, String pqOpenUrlBase, int excludeRestriction, int excludeAbstract, int excludeAltAbstract) throws Exception {
 	    	DisPubMetaData result = new DisPubMetaData();
+	    	Batch items = new Batch();
 	    try {
 
-			Batch items = new Batch();
+			//Batch items = new Batch();
 	        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder dBuilder;
 
@@ -534,45 +538,45 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	        
 // School Information	        
 	        // School Code Number
-	        xPathfactory = XPathFactory.newInstance();
-	        xpath = xPathfactory.newXPath();
-	        expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/SchoolCodeNum");
-	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
-			School school = new School();
+	        //xPathfactory = XPathFactory.newInstance();
+	        //xpath = xPathfactory.newXPath();
+	        //expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/SchoolCodeNum");
+	        //nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+			//School school = new School();
 			
-	        for (int i = 0; i < nodeList.getLength(); i++) {
-	           Node nNode = nodeList.item(i);
+	       // for (int i = 0; i < nodeList.getLength(); i++) {
+	        //   Node nNode = nodeList.item(i);
 	           
-	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-		              String schoolCodeNumber = nNode.getTextContent();
+	        //   if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+		     //         String schoolCodeNumber = nNode.getTextContent();
 
-		  			  if (null != schoolCodeNumber) {
-				          school.setSchoolCode(schoolCodeNumber);
-					  }
-	           }
-	        }
+		  	//		  if (null != schoolCodeNumber) {
+				//          school.setSchoolCode(schoolCodeNumber);
+			//		  }
+	        //   }
+	       // }
 	        
 	        // School Code Name
-	        xPathfactory = XPathFactory.newInstance();
-	        xpath = xPathfactory.newXPath();
-	        expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/SchoolCodeName");
-	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+	        //xPathfactory = XPathFactory.newInstance();
+	       // xpath = xPathfactory.newXPath();
+	        //expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/SchoolCodeName");
+	        //nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
 
-	        for (int i = 0; i < nodeList.getLength(); i++) {
-	           Node nNode = nodeList.item(i);
+	        //for (int i = 0; i < nodeList.getLength(); i++) {
+	        //   Node nNode = nodeList.item(i);
 	           
-	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-		              String schoolCodeName = nNode.getTextContent();
+	         //  if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+		      //        String schoolCodeName = nNode.getTextContent();
 
-		  			  if (null != schoolCodeName) {
-				          school.setSchoolName(schoolCodeName);
-					  }
-	           }
-	        }
+		  		//	  if (null != schoolCodeName) {
+				//          school.setSchoolName(schoolCodeName);
+				//	  }
+	          // }
+	       // }
 	        
 	        // School Code Location
             //45. School state   * SchoolLocation  - Split off from Country if United States.
-	        xPathfactory = XPathFactory.newInstance();
+	       /* xPathfactory = XPathFactory.newInstance();
 	        xpath = xPathfactory.newXPath();
 	        expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/SchoolLocation");
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
@@ -594,8 +598,8 @@ package com.proquest.mtg.dismetadataservice.ecms;
 		  				  school.setSchoolState(schoolState);
 					  }
 	           }
-	        }
-	        result.setSchool(school);
+	        }*/
+	        //result.setSchool(school);
 
 // Degree Information
 	        // Degree Name
@@ -701,7 +705,8 @@ package com.proquest.mtg.dismetadataservice.ecms;
 	                      }
 	                      
 	                      // 11. DISS TYPE CODE   - setDBTypeCode()
-	                      items.setDBTypeCode(disstype);
+	                      //System.out.println("DISS TYPE(DBTYPECODE :" +disstype);
+	                      //items.setDBTypeCode(disstype);
 	                      
 	                      // 51. DAI Section Code  -  setDAISectionCode()
 	      				  items.setDAISectionCode(disscode);
@@ -737,8 +742,16 @@ package com.proquest.mtg.dismetadataservice.ecms;
         //8. MR3: pdf available date  -  /Title/PublicationDate
 	    //33. MR3: Publication date  -  /Title/PublicationDate
         JSONObject json = new JSONObject(mr3Data);
-        String PublicationDate = json.optString("PublicationDate");
-        if (null != PublicationDate) {
+        String PublicationDate = "";
+        String pubDate = json.optString("PublicationDate");
+        if (null != pubDate) {
+        	//Change ISO date to dd-MMM-yyyy format
+        	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        	try {
+        		PublicationDate = convertDate(pubDate,datePattern);
+        	} catch (ParseException e) {
+        		e.printStackTrace();
+        	}
            result.setFirstPublicationDate(PublicationDate);
            PdfAvailableDateStatus pdfavail = new PdfAvailableDateStatus();
            pdfavail.setPdfAvailableDate(PublicationDate);
@@ -791,9 +804,21 @@ package com.proquest.mtg.dismetadataservice.ecms;
             	salesRestrictions.setDescription(type);
             }
             if (null != salesStartDate) {
+            	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+            	try {
+            		salesStartDate = convertDate(salesStartDate,datePattern);
+            	} catch (ParseException e) {
+            		e.printStackTrace();
+            	}
             	salesRestrictions.setRestrictionStartDate(salesStartDate);
             }
             if (null != salesEndDate) {
+            	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+            	try {
+            		salesEndDate = convertDate(salesEndDate,datePattern);
+            	} catch (ParseException e) {
+            		e.printStackTrace();
+            	}
             	salesRestrictions.setRestrictionEndDate(salesEndDate);
             }
             salesrestrictionresults.add(salesRestrictions);
@@ -840,9 +865,21 @@ package com.proquest.mtg.dismetadataservice.ecms;
             //	formatRestrictions.setDesc(format);
             //}
             if (null != formatStartDate) {
+            	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+            	try {
+            		formatStartDate = convertDate(formatStartDate,datePattern);
+            	} catch (ParseException e) {
+            		e.printStackTrace();
+            	}
             	formatRestrictions.setFormatRestrictionStartDt(formatStartDate);
             }
             if (null != formatEndDate) {
+            	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+            	try {
+            		formatEndDate = convertDate(formatEndDate,datePattern);
+            	} catch (ParseException e) {
+            		e.printStackTrace();
+            	}
             	formatRestrictions.setFormatRestrictionEndDt(formatEndDate);
             }
             formatrestrictionresults.add(formatRestrictions);
@@ -873,6 +910,17 @@ package com.proquest.mtg.dismetadataservice.ecms;
            result.setExternalId(xID);
         }
         
+        //  DBTypeCode
+        //Batch items = new Batch();
+        String disstype= json.optString("DissType");
+        if (null != disstype) {
+        	if (disstype.equals("DAC")) {
+        		disstype = "DAI";
+        	}
+        	items.setDBTypeCode(disstype);
+        }
+        result.setBatch(items);
+        
         //63. MR3:  Dissertations valid source  -  /Title/DissertationsValidSource
         String dissValidSource = json.optString("DissertationsValidSource");
         if (null != dissValidSource) {
@@ -891,6 +939,40 @@ package com.proquest.mtg.dismetadataservice.ecms;
         }
         result.setDisAvailableFormats(avformatname);
         }
+        
+        //  MR3:  School Code Number
+        String schoolCodeNumber = json.optString("SchoolCode");
+        School school = new School();
+		  if (null != schoolCodeNumber) {
+			  school.setSchoolCode(schoolCodeNumber);
+		  }
+		  
+        //  MR3:  School Name
+        String schoolCodeName = json.optString("SchoolName");
+        //School school = new School();
+		  if (null != schoolCodeName) {
+	          school.setSchoolName(schoolCodeName);
+		  }
+		  
+	        //  MR3:  School Country
+	        String schoolCountry = json.optString("SchoolCountry");
+			  if (null != schoolCountry) {
+				  school.setSchoolCountry(schoolCountry);
+			  }
+	          
+		    //  MR3:  School State
+		    String schoolState = json.optString("SchoolStateProvince"); 
+			  if (null != schoolState) {
+				  school.setSchoolState(schoolState);
+			  }
+		  result.setSchool(school);
+
+        
+        //  MR3:  DAI Section Code
+        //String disscode = json.optString("DAISectionCode");
+        //if (null != disscode) {
+        //items.setDAISectionCode(disscode);
+        //}
   
 	    return result;
 	  }
@@ -908,6 +990,13 @@ package com.proquest.mtg.dismetadataservice.ecms;
 				x = kEmptyValue;
 			}
 			return x;
+		}
+		
+		public static String convertDate(String dateString, String datePattern)  throws ParseException {
+        	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePattern);
+        	Date date = simpleDateFormat.parse(dateString);
+        	String PublicationDate= new SimpleDateFormat("dd-MMM-yyyy").format(date);
+			return PublicationDate;
 		}
 		
         //47. Author LOC citizenship    * Dropped per Mark Dill.   *DONE
