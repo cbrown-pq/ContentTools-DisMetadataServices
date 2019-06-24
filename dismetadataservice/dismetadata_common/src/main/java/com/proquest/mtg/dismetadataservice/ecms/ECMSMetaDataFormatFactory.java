@@ -46,6 +46,7 @@ import org.json.JSONArray;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Title;
+    import com.proquest.mtg.dismetadataservice.metadata.DisVolIssProvider;
 
 
 	public class ECMSMetaDataFormatFactory {
@@ -55,6 +56,7 @@ import org.json.JSONArray;
 		public static final DisPubMetaData constructECMSMetaData(String ecmsData, String mr3Data, String pqOpenUrlBase, int excludeRestriction, int excludeAbstract, int excludeAltAbstract) throws Exception {
 	    	DisPubMetaData result = new DisPubMetaData();
 	    	Batch items = new Batch();
+	    	String disscode = "";
 	    try {
 
 			//Batch items = new Batch();
@@ -471,6 +473,7 @@ import org.json.JSONArray;
 	                      .item(0)
 	                      .getTextContent();
 	              Abstract = Abstract.replaceAll("<[^>]*>", "");
+	              //System.out.println("ABSTRACT IN CSV :" +Abstract);
 	              result.setAbstract(Abstract);
 	              }
 	              else {
@@ -535,71 +538,6 @@ import org.json.JSONArray;
 	        }
 	        result.setDissLanguages(langresult);
 	        
-	        
-// School Information	        
-	        // School Code Number
-	        //xPathfactory = XPathFactory.newInstance();
-	        //xpath = xPathfactory.newXPath();
-	        //expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/SchoolCodeNum");
-	        //nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
-			//School school = new School();
-			
-	       // for (int i = 0; i < nodeList.getLength(); i++) {
-	        //   Node nNode = nodeList.item(i);
-	           
-	        //   if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-		     //         String schoolCodeNumber = nNode.getTextContent();
-
-		  	//		  if (null != schoolCodeNumber) {
-				//          school.setSchoolCode(schoolCodeNumber);
-			//		  }
-	        //   }
-	       // }
-	        
-	        // School Code Name
-	        //xPathfactory = XPathFactory.newInstance();
-	       // xpath = xPathfactory.newXPath();
-	        //expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/SchoolCodeName");
-	        //nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
-
-	        //for (int i = 0; i < nodeList.getLength(); i++) {
-	        //   Node nNode = nodeList.item(i);
-	           
-	         //  if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-		      //        String schoolCodeName = nNode.getTextContent();
-
-		  		//	  if (null != schoolCodeName) {
-				//          school.setSchoolName(schoolCodeName);
-				//	  }
-	          // }
-	       // }
-	        
-	        // School Code Location
-            //45. School state   * SchoolLocation  - Split off from Country if United States.
-	       /* xPathfactory = XPathFactory.newInstance();
-	        xpath = xPathfactory.newXPath();
-	        expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/SchoolLocation");
-	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
-
-	        for (int i = 0; i < nodeList.getLength(); i++) {
-	           Node nNode = nodeList.item(i);
-	           
-	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-		              String schoolLocation = nNode.getTextContent();
-
-		  			  if (null != schoolLocation) {
-		  		          String[] schoolstrs = schoolLocation.split("[\\--]");
-		  		          String schoolCountry = schoolstrs[0];
-		  		          String schoolState = "";
-		  		          if (schoolstrs.length > 2 && schoolstrs[2] != null) {
-		  		        	  schoolState = schoolstrs[2];
-		  		          }
-		  				  school.setSchoolCountry(schoolCountry);
-		  				  school.setSchoolState(schoolState);
-					  }
-	           }
-	        }*/
-	        //result.setSchool(school);
 
 // Degree Information
 	        // Degree Name
@@ -644,12 +582,36 @@ import org.json.JSONArray;
 			author.setDegrees(degreeresults);
 	        
 	        
-            //12. Volume/issue   *  Needs to be split out from UMILocalPC	        
-	        expression = "/IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/UMILocalPC";	        
-	        nodeList = (NodeList) xPath.compile(expression).evaluate(
-	           ecmsdoc, XPathConstants.NODESET);
-
+            //  ECMS Bundle codes to determine DB Type code from MR3 data
+	        expr = xpath.compile("//IngestRecord/ControlStructure/ObjectBundleData/ObjectBundleValue");
+	        // Need to add check for ObjectBundleType value of DissProductCode
+	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+            //String disscode = "";
+            
 	        for (int i = 0; i < nodeList.getLength(); i++) {
+		           Node nNode = nodeList.item(i);
+		           
+		           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			              String bundleDescription = nNode.getTextContent();
+			              if (bundleDescription.equals("PQDTGLOBAL_A_SIDE")) {
+			            	  disscode = "A";
+			              }
+			              else if (bundleDescription.equals("PQDTGBLOBAL_B_SIDE")) {
+			            	  disscode = "B";
+			              }
+			              else {
+			            	  // Invalid bundle description
+			              }
+		           }
+		           //items.setDBTypeCode(disscode);
+	        }
+			
+            //12. Volume/issue   *  Needs to be split out from UMILocalPC	        
+	       // expression = "/IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/UMILocalPC";	        
+	        //nodeList = (NodeList) xPath.compile(expression).evaluate(
+	        //   ecmsdoc, XPathConstants.NODESET);
+
+	       /* for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -709,6 +671,7 @@ import org.json.JSONArray;
 	                      //items.setDBTypeCode(disstype);
 	                      
 	                      // 51. DAI Section Code  -  setDAISectionCode()
+	                      disscode="c";
 	      				  items.setDAISectionCode(disscode);
 	      				  String volumeIssue = "";
 	      				  if ((null != dissvol) && (null != dississ)){
@@ -720,14 +683,16 @@ import org.json.JSONArray;
 	      					  }
 	      				  }
 	                      //String volumeIssue = (dissvol + "-" +dississ);
+	      				  volumeIssue = "49-05";
 	    	              items.setVolumeIssue(volumeIssue);
 	                      
 	    	              //56. Dissertation code   *  Needs to be split out from UMILocalPC
+	    	              dissdesc = "Dissertations Abstract Int";
 	                      items.setDBTypeDesc(dissdesc);
 	               }
 	               result.setBatch(items);
 	           }
-	        }
+	        }*/
 	     } catch (ParserConfigurationException e) {
 	        e.printStackTrace();
 	     } catch (SAXException e) {
@@ -739,22 +704,45 @@ import org.json.JSONArray;
 	     }
 	    
 	    // MR3 data
-        //8. MR3: pdf available date  -  /Title/PublicationDate
 	    //33. MR3: Publication date  -  /Title/PublicationDate
         JSONObject json = new JSONObject(mr3Data);
         String PublicationDate = "";
+        String VolIssDate = "";
         String pubDate = json.optString("PublicationDate");
         if (null != pubDate) {
         	//Change ISO date to dd-MMM-yyyy format
         	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        	String formatRequest = "dd-MMM-yyyy";
         	try {
-        		PublicationDate = convertDate(pubDate,datePattern);
+        		PublicationDate = convertDate(pubDate,datePattern, formatRequest);
+        		// Also get the vol/Iss creation date
+        		formatRequest = "dd-MMMM-yyyy";
+        		VolIssDate = convertDate(pubDate,datePattern,formatRequest);
         	} catch (ParseException e) {
         		e.printStackTrace();
         	}
+        	
            result.setFirstPublicationDate(PublicationDate);
+        }
+        
+	    // MR3 data
+        //8. MR3: pdf available date  -  /Title/PdfAvailableDate
+        String PDFDate = "";
+        String pdfAvailableDate = json.optString("PdfAvailableDate");
+        System.out.println("HERE");
+        if (null != pdfAvailableDate) {
+        	//Change ISO date to dd-MMM-yyyy format
+        	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        	String formatRequest = "dd-MMM-yyyy";
+        	try {
+        		PDFDate = convertDate(pdfAvailableDate,datePattern,formatRequest);
+        	} catch (ParseException e) {
+        		e.printStackTrace();
+        	}
+        	System.out.println("PDF DATE :" +PDFDate);
+           result.setFirstPublicationDate(PDFDate);
            PdfAvailableDateStatus pdfavail = new PdfAvailableDateStatus();
-           pdfavail.setPdfAvailableDate(PublicationDate);
+           pdfavail.setPdfAvailableDate(PDFDate);
            result.setPdfStatus(pdfavail);
         }
         
@@ -805,8 +793,9 @@ import org.json.JSONArray;
             }
             if (null != salesStartDate) {
             	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+            	String formatRequest = "dd-MMM-yyyy";
             	try {
-            		salesStartDate = convertDate(salesStartDate,datePattern);
+            		salesStartDate = convertDate(salesStartDate,datePattern,formatRequest);
             	} catch (ParseException e) {
             		e.printStackTrace();
             	}
@@ -814,8 +803,9 @@ import org.json.JSONArray;
             }
             if (null != salesEndDate) {
             	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+            	String formatRequest = "dd-MMM-yyyy";
             	try {
-            		salesEndDate = convertDate(salesEndDate,datePattern);
+            		salesEndDate = convertDate(salesEndDate,datePattern,formatRequest);
             	} catch (ParseException e) {
             		e.printStackTrace();
             	}
@@ -866,8 +856,9 @@ import org.json.JSONArray;
             //}
             if (null != formatStartDate) {
             	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+            	String formatRequest = "dd-MMM-yyyy";
             	try {
-            		formatStartDate = convertDate(formatStartDate,datePattern);
+            		formatStartDate = convertDate(formatStartDate,datePattern,formatRequest);
             	} catch (ParseException e) {
             		e.printStackTrace();
             	}
@@ -875,8 +866,9 @@ import org.json.JSONArray;
             }
             if (null != formatEndDate) {
             	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+            	String formatRequest = "dd-MMM-yyyy";
             	try {
-            		formatEndDate = convertDate(formatEndDate,datePattern);
+            		formatEndDate = convertDate(formatEndDate,datePattern,formatRequest);
             	} catch (ParseException e) {
             		e.printStackTrace();
             	}
@@ -890,6 +882,7 @@ import org.json.JSONArray;
         //28. MR3:  Manuscript Media code  - /Title/ManuscriptMedium
         String mmCode = json.optString("ManuscriptMedium");
         if (null != mmCode) {
+        	System.out.println("MR3 Manuscript :" +mmCode);
            ManuscriptMedia mmedia = new ManuscriptMedia();
            mmedia.setManuscriptMediaCode(mmCode);
            result.setManuscriptMedia(mmedia);
@@ -910,13 +903,32 @@ import org.json.JSONArray;
            result.setExternalId(xID);
         }
         
-        //  DBTypeCode
+        // Split publication date which is PublicationDate and is in format dd-MMM-yyyy at this point.
+        String[] dateStrs = VolIssDate.split("\\-");
+        String pubDay = dateStrs[0];
+        String pubMonth = dateStrs[1];
+        pubMonth = pubMonth.toUpperCase();
+        String publicationYear = dateStrs[2];
+        int pubYear = Integer.parseInt(publicationYear);
+        //  Vol/Iss.   Not pulled from MR3, but other parts of this are pulled by MR3 and it is assembled here.
+        String dissVolumeIssue = DisVolIssProvider.DisVolIssProvider(pubYear,pubMonth);
+        
+        //  MR3: DBTypeCode
         //Batch items = new Batch();
         String disstype= json.optString("DissType");
+        String dissdesc = "";
         if (null != disstype) {
         	if (disstype.equals("DAC")) {
         		disstype = "DAI";
+        		dissdesc = "Dissertations Abstracts International";
         	}
+        	if (disstype.equals("MAI")) {
+        		dissdesc = "Masters Abstracts International";
+        	}
+			  //String volumeIssue = "80-12";
+              items.setVolumeIssue(dissVolumeIssue);
+            items.setDAISectionCode(disscode);
+            items.setDBTypeDesc(dissdesc);
         	items.setDBTypeCode(disstype);
         }
         result.setBatch(items);
@@ -940,10 +952,12 @@ import org.json.JSONArray;
         result.setDisAvailableFormats(avformatname);
         }
         
+        
         //  MR3:  School Code Number
         String schoolCodeNumber = json.optString("SchoolCode");
         School school = new School();
 		  if (null != schoolCodeNumber) {
+			  System.out.println("MR3 Schoolcode:" +schoolCodeNumber);
 			  school.setSchoolCode(schoolCodeNumber);
 		  }
 		  
@@ -963,17 +977,10 @@ import org.json.JSONArray;
 		    //  MR3:  School State
 		    String schoolState = json.optString("SchoolStateProvince"); 
 			  if (null != schoolState) {
+				  System.out.println("MR3 School state province :" +schoolState);
 				  school.setSchoolState(schoolState);
 			  }
 		  result.setSchool(school);
-
-        
-        //  MR3:  DAI Section Code
-        //String disscode = json.optString("DAISectionCode");
-        //if (null != disscode) {
-        //items.setDAISectionCode(disscode);
-        //}
-  
 	    return result;
 	  }
 
@@ -992,11 +999,17 @@ import org.json.JSONArray;
 			return x;
 		}
 		
-		public static String convertDate(String dateString, String datePattern)  throws ParseException {
+		public static String convertDate(String dateString, String datePattern, String formatRequest)  throws ParseException {
         	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePattern);
         	Date date = simpleDateFormat.parse(dateString);
-        	String PublicationDate= new SimpleDateFormat("dd-MMM-yyyy").format(date);
+        	//String PublicationDate= new SimpleDateFormat("dd-MMM-yyyy").format(date);
+        	String PublicationDate= new SimpleDateFormat(formatRequest).format(date);
 			return PublicationDate;
+		}
+		
+		public static String createVolumeIssue(Date creationDate) {
+			String volumeIssue = "";
+			return volumeIssue;
 		}
 		
         //47. Author LOC citizenship    * Dropped per Mark Dill.   *DONE
