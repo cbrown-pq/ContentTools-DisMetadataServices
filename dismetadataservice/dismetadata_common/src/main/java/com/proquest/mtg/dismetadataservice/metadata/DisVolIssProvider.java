@@ -17,45 +17,45 @@ public class DisVolIssProvider {
 	Period p = Period.between(initialDate, creationDate);
 	 
 	//Now access the values as below
-	System.out.println("Days :" +p.getDays());
-	System.out.println("Months :" +p.getMonths());
-	System.out.println("Years :" +p.getYears());
+	//System.out.println("Days :" +p.getDays());
+	//System.out.println("Months :" +p.getMonths());
+	//System.out.println("Years :" +p.getYears());
 	int VolIss = p.getYears();
 	String dissVolIss = String.valueOf(VolIss);
-	System.out.println("STRING YEARS :" +dissVolIss);
+	//System.out.println("STRING YEARS :" +dissVolIss);
 	// Since this is temporary, I did not try to make it efficient or pretty.
 	if (pubMonth.equals("JULY")) {
-		dissVolIss = (dissVolIss + '-' + "1");
+		dissVolIss = (dissVolIss + '-' + "01");
 	}
 	if (pubMonth.equals("AUGUST")) {
-		dissVolIss = (dissVolIss + '-' + "2");
+		dissVolIss = (dissVolIss + '-' + "02");
 	}
 	if (pubMonth.equals("SEPTEMBER")) {
-		dissVolIss = (dissVolIss + '-' + "3");
+		dissVolIss = (dissVolIss + '-' + "03");
 	}
 	if (pubMonth.equals("OCTOBER")) {
-		dissVolIss = (dissVolIss + '-' + "4");
+		dissVolIss = (dissVolIss + '-' + "04");
 	}
 	if (pubMonth.equals("NOVEMBER")) {
-		dissVolIss = (dissVolIss + '-' + "5");
+		dissVolIss = (dissVolIss + '-' + "05");
 	}
 	if (pubMonth.equals("DECEMBER")) {
-		dissVolIss = (dissVolIss + '-' + "6");
+		dissVolIss = (dissVolIss + '-' + "06");
 	}
 	if (pubMonth.equals("JANUARY")) {
 		VolIss = VolIss -1;
 		dissVolIss = String.valueOf(VolIss);
-		dissVolIss = (dissVolIss + '-' + "7");
+		dissVolIss = (dissVolIss + '-' + "07");
 	}
 	if (pubMonth.equals("FEBRUARY")) {
 		VolIss = VolIss -1;
 		dissVolIss = String.valueOf(VolIss);
-		dissVolIss = (dissVolIss + '-' + "8");
+		dissVolIss = (dissVolIss + '-' + "08");
 	}
 	if (pubMonth.equals("MARCH")) {
 		VolIss = VolIss -1;
 		dissVolIss = String.valueOf(VolIss);
-		dissVolIss = (dissVolIss + '-' + "9");
+		dissVolIss = (dissVolIss + '-' + "09");
 	}
 	if (pubMonth.equals("APRIL")) {
 		VolIss = VolIss -1;
