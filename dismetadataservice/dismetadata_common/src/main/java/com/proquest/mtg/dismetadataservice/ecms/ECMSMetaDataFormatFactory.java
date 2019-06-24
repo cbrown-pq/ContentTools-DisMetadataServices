@@ -645,7 +645,7 @@ import org.json.JSONArray;
 		    	   	                      	}
 	    	                    	  }
 	    	                    	  volIssGroup = volIssStrs[1];
-	    	                    	  System.out.println("Volume Issue Group :" +volIssGroup);
+	    	                    	  //System.out.println("Volume Issue Group :" +volIssGroup);
 	    	                    	  if (null != volIssGroup) {
 	    	                    		String[] volStrs = volIssGroup.split("[\\/]");
 	    	   	                      	if (volStrs.length > 1 && volStrs[1] != null) {
@@ -654,7 +654,7 @@ import org.json.JSONArray;
 	    	   	                      	}
 	    	   	                      	else {
 	    	   	                      		dissvol = volStrs[0];
-	    	   	                      		System.out.println("VOLUME :" +dissvol);
+	    	   	                      		//System.out.println("VOLUME :" +dissvol);
 	    	   	                      	}
 	    	                    	  }
 	    	                      }
@@ -729,7 +729,7 @@ import org.json.JSONArray;
         //8. MR3: pdf available date  -  /Title/PdfAvailableDate
         String PDFDate = "";
         String pdfAvailableDate = json.optString("PdfAvailableDate");
-        System.out.println("HERE");
+        //System.out.println("HERE");
         if (null != pdfAvailableDate) {
         	//Change ISO date to dd-MMM-yyyy format
         	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
@@ -739,7 +739,7 @@ import org.json.JSONArray;
         	} catch (ParseException e) {
         		e.printStackTrace();
         	}
-        	System.out.println("PDF DATE :" +PDFDate);
+        	//System.out.println("PDF DATE :" +PDFDate);
            result.setFirstPublicationDate(PDFDate);
            PdfAvailableDateStatus pdfavail = new PdfAvailableDateStatus();
            pdfavail.setPdfAvailableDate(PDFDate);
@@ -749,7 +749,7 @@ import org.json.JSONArray;
         //13. MR3:  Active Sales Restriction code  -  /Title/ActiveSalesRestrictionCodes/ActiveCode
         String activeCode = json.optString("ActiveCode");
         if(null != activeCode) {
-           System.out.println("MR3 Active Sales Restriction Code :" +activeCode);
+           //System.out.println("MR3 Active Sales Restriction Code :" +activeCode);
         }
         
         //15. MR3:  Sales Restriction code  -  /Title/Restrictions/Restriction/Code*
@@ -882,7 +882,7 @@ import org.json.JSONArray;
         //28. MR3:  Manuscript Media code  - /Title/ManuscriptMedium
         String mmCode = json.optString("ManuscriptMedium");
         if (null != mmCode) {
-        	System.out.println("MR3 Manuscript :" +mmCode);
+        	//System.out.println("MR3 Manuscript :" +mmCode);
            ManuscriptMedia mmedia = new ManuscriptMedia();
            mmedia.setManuscriptMediaCode(mmCode);
            result.setManuscriptMedia(mmedia);
@@ -918,14 +918,13 @@ import org.json.JSONArray;
         String disstype= json.optString("DissType");
         String dissdesc = "";
         if (null != disstype) {
-        	if (disstype.equals("DAC")) {
+        	if ((disstype.equals("DAC")) || (disstype.equals("DAI"))) {
         		disstype = "DAI";
         		dissdesc = "Dissertations Abstracts International";
         	}
         	if (disstype.equals("MAI")) {
         		dissdesc = "Masters Abstracts International";
         	}
-			  //String volumeIssue = "80-12";
               items.setVolumeIssue(dissVolumeIssue);
             items.setDAISectionCode(disscode);
             items.setDBTypeDesc(dissdesc);
@@ -957,7 +956,7 @@ import org.json.JSONArray;
         String schoolCodeNumber = json.optString("SchoolCode");
         School school = new School();
 		  if (null != schoolCodeNumber) {
-			  System.out.println("MR3 Schoolcode:" +schoolCodeNumber);
+			  //System.out.println("MR3 Schoolcode:" +schoolCodeNumber);
 			  school.setSchoolCode(schoolCodeNumber);
 		  }
 		  
@@ -977,7 +976,7 @@ import org.json.JSONArray;
 		    //  MR3:  School State
 		    String schoolState = json.optString("SchoolStateProvince"); 
 			  if (null != schoolState) {
-				  System.out.println("MR3 School state province :" +schoolState);
+				  //System.out.println("MR3 School state province :" +schoolState);
 				  school.setSchoolState(schoolState);
 			  }
 		  result.setSchool(school);
