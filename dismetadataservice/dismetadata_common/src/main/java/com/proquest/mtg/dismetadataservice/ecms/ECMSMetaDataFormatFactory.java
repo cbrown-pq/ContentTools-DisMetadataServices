@@ -645,7 +645,7 @@ import org.json.JSONArray;
 		    	   	                      	}
 	    	                    	  }
 	    	                    	  volIssGroup = volIssStrs[1];
-	    	                    	  //System.out.println("Volume Issue Group :" +volIssGroup);
+	    	                    	  System.out.println("Volume Issue Group :" +volIssGroup);
 	    	                    	  if (null != volIssGroup) {
 	    	                    		String[] volStrs = volIssGroup.split("[\\/]");
 	    	   	                      	if (volStrs.length > 1 && volStrs[1] != null) {
@@ -654,7 +654,7 @@ import org.json.JSONArray;
 	    	   	                      	}
 	    	   	                      	else {
 	    	   	                      		dissvol = volStrs[0];
-	    	   	                      		//System.out.println("VOLUME :" +dissvol);
+	    	   	                      		System.out.println("VOLUME :" +dissvol);
 	    	   	                      	}
 	    	                    	  }
 	    	                      }
@@ -709,7 +709,7 @@ import org.json.JSONArray;
         String PublicationDate = "";
         String VolIssDate = "";
         String pubDate = json.optString("PublicationDate");
-        if (null != pubDate) {
+        if (null != pubDate && !pubDate.isEmpty()) {
         	//Change ISO date to dd-MMM-yyyy format
         	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
         	String formatRequest = "dd-MMM-yyyy";
@@ -729,8 +729,8 @@ import org.json.JSONArray;
         //8. MR3: pdf available date  -  /Title/PdfAvailableDate
         String PDFDate = "";
         String pdfAvailableDate = json.optString("PdfAvailableDate");
-        //System.out.println("HERE");
-        if (null != pdfAvailableDate) {
+        System.out.println("HERE");
+        if (null != pdfAvailableDate && !pdfAvailableDate.isEmpty()) {
         	//Change ISO date to dd-MMM-yyyy format
         	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
         	String formatRequest = "dd-MMM-yyyy";
@@ -739,7 +739,7 @@ import org.json.JSONArray;
         	} catch (ParseException e) {
         		e.printStackTrace();
         	}
-        	//System.out.println("PDF DATE :" +PDFDate);
+        	System.out.println("PDF DATE :" +PDFDate);
            result.setFirstPublicationDate(PDFDate);
            PdfAvailableDateStatus pdfavail = new PdfAvailableDateStatus();
            pdfavail.setPdfAvailableDate(PDFDate);
@@ -749,7 +749,7 @@ import org.json.JSONArray;
         //13. MR3:  Active Sales Restriction code  -  /Title/ActiveSalesRestrictionCodes/ActiveCode
         String activeCode = json.optString("ActiveCode");
         if(null != activeCode) {
-           //System.out.println("MR3 Active Sales Restriction Code :" +activeCode);
+           System.out.println("MR3 Active Sales Restriction Code :" +activeCode);
         }
         
         //15. MR3:  Sales Restriction code  -  /Title/Restrictions/Restriction/Code*
@@ -791,7 +791,7 @@ import org.json.JSONArray;
             if (null != type) {
             	salesRestrictions.setDescription(type);
             }
-            if (null != salesStartDate) {
+            if (null != salesStartDate && !salesStartDate.isEmpty()) {
             	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
             	String formatRequest = "dd-MMM-yyyy";
             	try {
@@ -801,7 +801,7 @@ import org.json.JSONArray;
             	}
             	salesRestrictions.setRestrictionStartDate(salesStartDate);
             }
-            if (null != salesEndDate) {
+            if (null != salesEndDate && !salesEndDate.isEmpty()) {
             	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
             	String formatRequest = "dd-MMM-yyyy";
             	try {
@@ -854,7 +854,7 @@ import org.json.JSONArray;
             //if (null != format) {
             //	formatRestrictions.setDesc(format);
             //}
-            if (null != formatStartDate) {
+            if (null != formatStartDate && !formatStartDate.isEmpty()) {
             	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
             	String formatRequest = "dd-MMM-yyyy";
             	try {
@@ -864,7 +864,7 @@ import org.json.JSONArray;
             	}
             	formatRestrictions.setFormatRestrictionStartDt(formatStartDate);
             }
-            if (null != formatEndDate) {
+            if (null != formatEndDate && !formatEndDate.isEmpty()) {
             	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
             	String formatRequest = "dd-MMM-yyyy";
             	try {
@@ -881,8 +881,8 @@ import org.json.JSONArray;
         
         //28. MR3:  Manuscript Media code  - /Title/ManuscriptMedium
         String mmCode = json.optString("ManuscriptMedium");
-        if (null != mmCode) {
-        	//System.out.println("MR3 Manuscript :" +mmCode);
+        if (null != mmCode && !mmCode.isEmpty()) {
+        	System.out.println("MR3 Manuscript :" +mmCode);
            ManuscriptMedia mmedia = new ManuscriptMedia();
            mmedia.setManuscriptMediaCode(mmCode);
            result.setManuscriptMedia(mmedia);
@@ -896,7 +896,7 @@ import org.json.JSONArray;
         if (null != oaFlag) {
            result.setOpenAccessFlag(oaFlag);
         }
-        
+
         //40. MR3: External ID  -  /Title/ExternalID
         String xID = json.optString("ExternalID");
         if (null != xID) {
@@ -904,14 +904,20 @@ import org.json.JSONArray;
         }
         
         // Split publication date which is PublicationDate and is in format dd-MMM-yyyy at this point.
-        String[] dateStrs = VolIssDate.split("\\-");
-        String pubDay = dateStrs[0];
-        String pubMonth = dateStrs[1];
-        pubMonth = pubMonth.toUpperCase();
-        String publicationYear = dateStrs[2];
-        int pubYear = Integer.parseInt(publicationYear);
-        //  Vol/Iss.   Not pulled from MR3, but other parts of this are pulled by MR3 and it is assembled here.
-        String dissVolumeIssue = DisVolIssProvider.DisVolIssProvider(pubYear,pubMonth);
+        String dissVolumeIssue = "";
+        if (null != VolIssDate && !VolIssDate.isEmpty()) {
+           //System.out.println("VOLISS UNSPLIT :" +VolIssDate);
+           String[] dateStrs = VolIssDate.split("\\-");
+           String pubMonth = dateStrs[1];
+           pubMonth = pubMonth.toUpperCase();
+           String publicationYear = dateStrs[2];
+           int pubYear = Integer.parseInt(publicationYear);
+           //  Vol/Iss.   Not pulled from MR3, but other parts of this are pulled by MR3 and it is assembled here.
+          dissVolumeIssue = DisVolIssProvider.DisVolIssProvider(pubYear,pubMonth);
+        }
+        else {
+        	throw new Exception();
+        }
         
         //  MR3: DBTypeCode
         //Batch items = new Batch();
@@ -951,12 +957,12 @@ import org.json.JSONArray;
         result.setDisAvailableFormats(avformatname);
         }
         
-        
+
         //  MR3:  School Code Number
         String schoolCodeNumber = json.optString("SchoolCode");
         School school = new School();
 		  if (null != schoolCodeNumber) {
-			  //System.out.println("MR3 Schoolcode:" +schoolCodeNumber);
+			  System.out.println("MR3 Schoolcode:" +schoolCodeNumber);
 			  school.setSchoolCode(schoolCodeNumber);
 		  }
 		  
@@ -976,7 +982,7 @@ import org.json.JSONArray;
 		    //  MR3:  School State
 		    String schoolState = json.optString("SchoolStateProvince"); 
 			  if (null != schoolState) {
-				  //System.out.println("MR3 School state province :" +schoolState);
+				  System.out.println("MR3 School state province :" +schoolState);
 				  school.setSchoolState(schoolState);
 			  }
 		  result.setSchool(school);
@@ -1000,6 +1006,7 @@ import org.json.JSONArray;
 		
 		public static String convertDate(String dateString, String datePattern, String formatRequest)  throws ParseException {
         	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePattern);
+        	System.out.println("DATE STRING :" +dateString);
         	Date date = simpleDateFormat.parse(dateString);
         	//String PublicationDate= new SimpleDateFormat("dd-MMM-yyyy").format(date);
         	String PublicationDate= new SimpleDateFormat(formatRequest).format(date);
