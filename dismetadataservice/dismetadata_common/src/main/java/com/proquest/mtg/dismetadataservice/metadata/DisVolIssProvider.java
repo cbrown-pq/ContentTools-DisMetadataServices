@@ -1,28 +1,30 @@
 package com.proquest.mtg.dismetadataservice.metadata;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.Period;
+//import java.time.LocalDate;
+//import java.time.Month;
+//import java.time.Period;
 
 // This class is to temporarily generate the Vol/Iss field for Metadata output.
 // It should be replaced with data from ECMS at some point.
 public class DisVolIssProvider {
+	public static int dissBaseDate = 1938;
 	
 	public static String DisVolIssProvider(Integer pubYear,String pubMonth) {
+		//System.out.println(LocalDate.of(1938,Month.JANUARY,1));
 		// Today's date needs to be the publication date, which will be sent in
-	LocalDate initialDate = LocalDate.of(1938,1,1);                          //Today's date
+	//LocalDate initialDate = LocalDate.of(1938,Month.JANUARY,1);                          //Today's date
 	// Period required the month and day, but it will not be used as part of the calculation, except as required by Period.
-	LocalDate creationDate = LocalDate.of(pubYear, Month.valueOf(pubMonth), 1);  //Birth date
+	//LocalDate creationDate = LocalDate.of(pubYear, Month.valueOf(pubMonth), 1);  //Birth date
 	
-	Period p = Period.between(initialDate, creationDate);
+	//Period p = Period.between(initialDate, creationDate);
+		int VolIss = pubYear - dissBaseDate;
 	 
 	//Now access the values as below
-	//System.out.println("Days :" +p.getDays());
-	//System.out.println("Months :" +p.getMonths());
-	//System.out.println("Years :" +p.getYears());
-	int VolIss = p.getYears();
+	System.out.println("Months :" +pubMonth);
+	System.out.println("Years :" +VolIss);
+	//int VolIss = p.getYears();
 	String dissVolIss = String.valueOf(VolIss);
-	//System.out.println("STRING YEARS :" +dissVolIss);
+	System.out.println("STRING YEARS :" +dissVolIss);
 	// Since this is temporary, I did not try to make it efficient or pretty.
 	if (pubMonth.equals("JULY")) {
 		dissVolIss = (dissVolIss + '-' + "01");
