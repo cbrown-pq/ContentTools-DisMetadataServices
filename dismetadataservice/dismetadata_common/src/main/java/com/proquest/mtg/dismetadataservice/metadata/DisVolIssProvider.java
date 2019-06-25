@@ -10,7 +10,7 @@ public class DisVolIssProvider {
 	
 	public static String DisVolIssProvider(Integer pubYear,String pubMonth) {
 		// Today's date needs to be the publication date, which will be sent in
-	LocalDate initialDate = LocalDate.of(1938,Month.JANUARY,1);                          //Today's date
+	LocalDate initialDate = LocalDate.of(1938,1,1);                          //Today's date
 	// Period required the month and day, but it will not be used as part of the calculation, except as required by Period.
 	LocalDate creationDate = LocalDate.of(pubYear, Month.valueOf(pubMonth), 1);  //Birth date
 	
