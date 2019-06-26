@@ -26,9 +26,9 @@ public class LOCFormat {
 		return getLocDataProvider().getEligibleLOCData(excludeRestriction);
 	}*/
 
-	public void updateLOCClaimSubmissionFor(String pubNumber) throws Exception {
-		getLocDataProvider().updateLOCClaimSubmissionFor(pubNumber);
-	}
+//	public void updateLOCClaimSubmissionFor(String pubNumber) throws Exception {
+//		getLocDataProvider().updateLOCClaimSubmissionFor(pubNumber);
+//	}
 	
 	public void updateLOCDeliverySubmissionFor(String pubNumber) throws Exception {
 		getLocDataProvider().updateLOCDeliverySubmissionFor(pubNumber);
