@@ -121,10 +121,70 @@ public class LocMetaDataServiceProvider {
 		return Response.status(Response.Status.OK).entity("SUCCESS").build();
 	}
 	
+	@GET
+	@Path("/ackClaimSubmissionFor/{pubNumber}")
+	@Produces(MediaType.TEXT_PLAIN) //TODO remove
+	public Response getAckLOCClaimSubmissionFor(@PathParam("pubNumber") String pubNumber) throws WebApplicationException {
+//		try {
+//			getLocFormat().updateLOCClaimSubmissionFor(pubNumber);
+//		} catch (Exception e) {
+//			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+//		}
+//		return Response.status(Response.Status.OK).entity("SUCCESS").build();	
+		ClientResponse response = null;
+		try {
+            String URL = getMr3ServiceUrlBase();
+			String HEADERKEY = getECMSMr3HeaderKey();
+			String HEADERVALUE = getECMSMr3HeaderValue(); 
+			Client c = Client.create();
+			WebResource resource = c.resource(URL).path("loc").path("cpsubmitted").path(pubNumber);
+			response = resource.header("Content-Type", "application/json")
+                    	.header(HEADERKEY, HEADERVALUE)
+                    	.post(ClientResponse.class);
+		} catch (IllegalArgumentException e) {
+			throw new DisServiceException(Response.Status.NO_CONTENT);
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+//		return Response.status(response.getStatus()).entity(jsonStr).build();
+		return Response.status(Response.Status.OK).entity("SUCCESS").build();
+	}
+	
 	@PUT
 	@Path("/ackDeliverySubmissionFor/{pubNumber}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response ackLOCDeliverySubmissionFor(@PathParam("pubNumber") String pubNumber) throws WebApplicationException {
+//		try {
+//			getLocFormat().updateLOCDeliverySubmissionFor(pubNumber);
+//		} catch (Exception e) {
+//			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+//		}
+//		return Response.status(Response.Status.OK).entity("SUCCESS").build();		
+		ClientResponse response = null;
+		try {
+            String URL = getMr3ServiceUrlBase();
+			String HEADERKEY = getECMSMr3HeaderKey();
+			String HEADERVALUE = getECMSMr3HeaderValue(); 
+			Client c = Client.create();
+			WebResource resource = c.resource(URL).path("loc").path("locsent").path(pubNumber);
+			response = resource.header("Content-Type", "application/json")
+                    	.header(HEADERKEY, HEADERVALUE)
+                    	.post(ClientResponse.class);
+		} catch (IllegalArgumentException e) {
+			throw new DisServiceException(Response.Status.NO_CONTENT);
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+//		return Response.status(response.getStatus()).entity(jsonStr).build();
+		return Response.status(Response.Status.OK).entity("SUCCESS").build();
+	}
+	
+	@GET
+	@Path("/ackDeliverySubmissionFor/{pubNumber}")
+	@Produces(MediaType.TEXT_PLAIN) //TODO  remove
+	public Response getAckLOCDeliverySubmissionFor(@PathParam("pubNumber") String pubNumber) throws WebApplicationException {
 //		try {
 //			getLocFormat().updateLOCDeliverySubmissionFor(pubNumber);
 //		} catch (Exception e) {

@@ -1,8 +1,6 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
-import java.sql.Connection;
 import java.util.List;
-import java.util.Properties;
 
 import javax.inject.Named;
 
@@ -99,25 +97,25 @@ public class LOCMetaDataProvider {
 		return getLOCRecordFactory().getLOCRecordFor(disPubMetaData);
 	}
 
-	public void updateLOCClaimSubmissionFor(String pubNumber) throws Exception {
-		String jsonStr = null;
-		ClientResponse response = null;
-		
-		String URL = getMr3ServiceUrlBase();
-		String HEADERKEY = getECMSMr3HeaderKey();
-		String HEADERVALUE = getECMSMr3HeaderValue(); 
-		Client c = Client.create();
-		WebResource resource = c.resource(URL).path("loc").path("cpsubmitted").path(pubNumber);
-		response = resource.header("Content-Type", "application/json")
-                	.header(HEADERKEY, HEADERVALUE)
-                	.post(ClientResponse.class);
-		 jsonStr = response.getEntity(String.class);
-		
-//		try (Connection connection = getConnectionPool().getConnection();
-//				LOCSubmissionUpdateQuery query = new LOCSubmissionUpdateQuery(connection)) {
-//			query.updateClaimSubmissionFor(pubNumber);
-//		}
-	}
+//	public void updateLOCClaimSubmissionFor(String pubNumber) throws Exception {
+//		String jsonStr = null;
+//		ClientResponse response = null;
+//		
+//		String URL = getMr3ServiceUrlBase();
+//		String HEADERKEY = getECMSMr3HeaderKey();
+//		String HEADERVALUE = getECMSMr3HeaderValue(); 
+//		Client c = Client.create();
+//		WebResource resource = c.resource(URL).path("loc").path("cpsubmitted").path(pubNumber);
+//		response = resource.header("Content-Type", "application/json")
+//                	.header(HEADERKEY, HEADERVALUE)
+//                	.post(ClientResponse.class);
+//		 jsonStr = response.getEntity(String.class);
+//		
+////		try (Connection connection = getConnectionPool().getConnection();
+////				LOCSubmissionUpdateQuery query = new LOCSubmissionUpdateQuery(connection)) {
+////			query.updateClaimSubmissionFor(pubNumber);
+////		}
+//	}
 	
 	public void updateLOCDeliverySubmissionFor(String pubNumber) throws Exception {
 		String jsonStr = null;

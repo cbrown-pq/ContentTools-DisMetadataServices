@@ -142,28 +142,28 @@ public class LocReportServiceProvider {
 		return Response.status(response.getStatus()).entity(result).build();
 	}
 	
-	@PUT
-	@Path("/updatefilmpulldate/")
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response updateFilm(@Context HttpServletRequest request) throws WebApplicationException, IOException {
-		String pubList = IOUtils.toString(request.getInputStream());
-		List<String> pubs = Lists.newArrayList(pubList.split(kPubSeparator));
-		pubs.removeAll(Lists.newArrayList("", null));
-		try {
-			if (pubs.size() > 0) {
-				
+//	@PUT
+//	@Path("/updatefilmpulldate/")
+//	@Produces(MediaType.TEXT_PLAIN)
+//	public Response updateFilm(@Context HttpServletRequest request) throws WebApplicationException, IOException {
+//		String pubList = IOUtils.toString(request.getInputStream());
+//		List<String> pubs = Lists.newArrayList(pubList.split(kPubSeparator));
+//		pubs.removeAll(Lists.newArrayList("", null));
+//		try {
+//			if (pubs.size() > 0) {
+//				
 //				getCopyrightPubReportProvider().updateFilmPullDate(pubs);
-			}
-		} catch(IllegalArgumentException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
-		}
-		return Response.status(Response.Status.OK).entity("SUCCESS").build();
-	}
+//			}
+//		} catch(IllegalArgumentException e) {
+//			e.printStackTrace();
+//			System.out.println(e.getMessage());
+//			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+//		}
+//		return Response.status(Response.Status.OK).entity("SUCCESS").build();
+//	}
 	
 
 //	public CopyrightPubReportProvider getCopyrightPubReportProvider() {
