@@ -171,6 +171,7 @@ public class LocMetaDataServiceProvider {
 			response = resource.header("Content-Type", "application/json")
                     	.header(HEADERKEY, HEADERVALUE)
                     	.post(ClientResponse.class);
+			return Response.status(response.getStatus()).entity(response.getEntity(String.class)).build();
 		} catch (IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);
 		}catch (Exception e) {
@@ -178,7 +179,7 @@ public class LocMetaDataServiceProvider {
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 //		return Response.status(response.getStatus()).entity(jsonStr).build();
-		return Response.status(Response.Status.OK).entity("SUCCESS").build();
+//		return Response.status(Response.Status.OK).entity("SUCCESS").build();
 	}
 	
 	@GET
@@ -201,6 +202,7 @@ public class LocMetaDataServiceProvider {
 			response = resource.header("Content-Type", "application/json")
                     	.header(HEADERKEY, HEADERVALUE)
                     	.post(ClientResponse.class);
+			return Response.status(response.getStatus()).entity(response.getEntity(String.class)).build();
 		} catch (IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);
 		}catch (Exception e) {
@@ -208,7 +210,7 @@ public class LocMetaDataServiceProvider {
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 //		return Response.status(response.getStatus()).entity(jsonStr).build();
-		return Response.status(Response.Status.OK).entity("SUCCESS").build();
+//		return Response.status(Response.Status.OK).entity("SUCCESS").build();
 	}
 
 }
