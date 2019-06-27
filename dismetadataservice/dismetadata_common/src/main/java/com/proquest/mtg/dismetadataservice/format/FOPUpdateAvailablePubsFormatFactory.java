@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.xml.sax.SAXException;
 
 import com.google.inject.Inject;
-import com.proquest.mtg.dismetadataservice.exodus.IFopFormatsDataProvider;
 
 public class FOPUpdateAvailablePubsFormatFactory {
 	private final IFopFormatsDataProvider fopFormatsDataProvider;

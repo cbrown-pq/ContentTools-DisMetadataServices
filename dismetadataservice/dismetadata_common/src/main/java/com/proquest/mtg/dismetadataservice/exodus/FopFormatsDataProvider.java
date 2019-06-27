@@ -1,12 +1,13 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
 	import java.sql.Connection;
-	import java.sql.SQLException;
+import java.sql.SQLException;
 
 	import javax.inject.Named;
 
 	import com.google.inject.Inject;
-	import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
+import com.proquest.mtg.dismetadataservice.format.IFopFormatsDataProvider;
+import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 
 
 	public class FopFormatsDataProvider implements IFopFormatsDataProvider {
