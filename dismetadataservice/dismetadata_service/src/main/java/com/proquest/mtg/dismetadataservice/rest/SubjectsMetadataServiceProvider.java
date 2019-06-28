@@ -1,6 +1,6 @@
 package com.proquest.mtg.dismetadataservice.rest;
 
-import javax.ws.rs.GET;
+/*import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
@@ -35,10 +35,10 @@ public class SubjectsMetadataServiceProvider {
 			result = getSubjectsMetaDataFormatFactory().create().makeForAllSubjects();
 		} catch(IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
-		} catch (Exception e) {
+		/*} catch (Exception e) {
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 		return result;
 	}	
 
-}
+}*/
