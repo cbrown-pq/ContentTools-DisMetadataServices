@@ -27,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
+import com.proquest.mtg.dismetadataservice.utils.DisOutMetadataParseTimeOut;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -77,7 +78,7 @@ public class DisMetadataServiceProvider {
 
 	@GET
 	@Path("/{pubNumber}/{formatType}")
-	@Produces(MediaType.TEXT_PLAIN +";charset=utf-8")
+	@Produces(MediaType.TEXT_PLAIN  + "; charset=utf-8")
 	public Response getDisMetaData(@PathParam("pubNumber") String pubNumber,
 			@PathParam("formatType") String formatType,
 			@DefaultValue("0") @QueryParam("er") int excludeRestriction,
@@ -89,6 +90,7 @@ public class DisMetadataServiceProvider {
 		//Properties props = new Properties();
 		try {
             String URL = getECMSServiceUrlBase();
+            System.out.println("ECMS URL :" +URL);
 			String HEADERKEY = getECMSMr3HeaderKey();
 			String HEADERVALUE = getECMSMr3HeaderValue();
 			Client c = Client.create();
@@ -102,7 +104,6 @@ public class DisMetadataServiceProvider {
 				throw new Exception("404.  Missing ECMS data");
 			}
 
-
 			InputStream is = response.getEntityInputStream();
 			String line;
 			StringBuilder text = new StringBuilder();
@@ -115,26 +116,45 @@ public class DisMetadataServiceProvider {
 			String pakId = text.toString();
 			//System.out.println("DATA :" +pakId);
 			String ecmsData = "";
-			Pattern pattern = Pattern.compile(".*value\":\"(.*)\"}}]");
-			Matcher matcher = pattern.matcher(pakId);
+			Pattern pattern = Pattern.compile(".*?(<IngestRecord.*IngestRecord>).*");
+			//Pattern pattern = Pattern.compile(".+?value\":\"(.*)\"}}]");
+			Matcher matcher = null;
+			try {
+			matcher = DisOutMetadataParseTimeOut.matcher(pattern,pakId);
+			}
+			catch (DisOutMetadataParseTimeOut.RegExpTimeoutException e) {
+				  // Take appropriate action here. 
+				response.setStatus(500);
+			}
+			
 			if (matcher.find())
 			{
 				//System.out.println("FOUND :" +matcher.group(1));
 				ecmsData = matcher.group(1);
 			}
+			if (ecmsData.isEmpty() || ecmsData == null) {
+				//System.out.println("ECMS DATA :" +ecmsData);
+				response.setStatus(404);
+		
+			}
 			 is.close();
+				if(response.getStatus() == 500) {
+					System.out.println("500 ERROR IN ECMS/MR3 DDATA PARSE.  URL: "+resource);
+					throw new Exception("500.  Server Error");
+				}
 			 
 	            URL = getMr3ServiceUrlBase();
+	            //System.out.println("MR3 URL :" +URL);
 				HEADERKEY = getECMSMr3HeaderKey();
 				HEADERVALUE = getECMSMr3HeaderValue();
 				c = Client.create();
-				resource = c.resource(URL+"/"+pubNumber);
+				resource = c.resource(URL+"/dissertation/titles/"+pubNumber);
 				response = resource.header("Content-Type", "application/json")
 						    .header("Accept",  "application/json")
 	                    	.header(HEADERKEY, HEADERVALUE)
 	                    	.get(ClientResponse.class);
 				if(response.getStatus() == 404) {
-					System.out.println("404 ERROR IN MR3 CALL");
+					System.out.println("404 ERROR IN ECMS/MR3 CALL.  URL: "+resource);
 					throw new Exception("404.  Missing MR3 data");
 				}
 				if (response.getStatus() == 200) {
@@ -145,15 +165,13 @@ public class DisMetadataServiceProvider {
 				    mr3text.append(line).append("  ");
 				}
 				String mr3Data = mr3text.toString();
-				//System.out.println("FOUND MR3 DATA :" +mr3Data);
+				System.out.println("FOUND MR3 DATA :" +mr3Data);
 				mr3is.close();
-				
-				// For testing each return to isolate the problem
-				// Remove at release
-				//ecmsData = "";
-				//mr3Data = "";			
-				
-			    result = getMetaDataFormatFactory().getFor(formatType).makeFor(ecmsData, mr3Data, excludeRestriction, excludeAbstract, excludeAltAbstract);
+						
+				if ((!mr3Data.isEmpty()) && (!ecmsData.isEmpty())) {
+			       result = getMetaDataFormatFactory().getFor(formatType).makeFor(ecmsData, mr3Data, excludeRestriction, excludeAbstract, excludeAltAbstract);
+                   //System.out.println("FULL RESULT :" +result);
+				}
 				}
 			} catch(IllegalArgumentException e) {
 			System.out.println(e.getMessage());
