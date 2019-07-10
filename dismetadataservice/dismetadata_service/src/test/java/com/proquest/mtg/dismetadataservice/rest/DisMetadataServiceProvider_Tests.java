@@ -24,14 +24,14 @@ public class DisMetadataServiceProvider_Tests extends EasyMockSupport {
 
 	static String kBASE_URI = "http://localhost:9999/dismetadata_service/";
 	MetaDataFormatFactory metaDataFormatFactory;
-	SchoolMetadataServiceProvider schoolMetadata;
-	SubjectsMetadataServiceProvider subjectsMetadata;
+	//SchoolMetadataServiceProvider schoolMetadata;
+	// SubjectsMetadataServiceProvider subjectsMetadata;
 	LocMetaDataServiceProvider locMetadata;
 	PdfDownloadServiceProvider pdfDownload;
 	LocReportServiceProvider locReport;
 	IMetaDataFormats metaDataFormats;
-	MStarXmlMetadataServiceProvider mstarMetadata;
-	ExternalUrlXmlServiceProvider externalUrlData;
+	//MStarXmlMetadataServiceProvider mstarMetadata;
+	//ExternalUrlXmlServiceProvider externalUrlData;
 	//FOPEligiblePubsServiceProvider fopEligiblePubsData;
 	FOPUpdateAvailableFormatsServiceProvider fopUpdateAvailableFormats;
 	MockServiceTestHelper serviceTestHelper;
@@ -46,19 +46,19 @@ public class DisMetadataServiceProvider_Tests extends EasyMockSupport {
 		metaDataFormatFactory = createMock(MetaDataFormatFactory.class);
 		metaDataFormats = createMock(IMetaDataFormats.class);
 		
-		schoolMetadata = createMock(SchoolMetadataServiceProvider.class);
-		subjectsMetadata = createMock(SubjectsMetadataServiceProvider.class);
+		//schoolMetadata = createMock(SchoolMetadataServiceProvider.class);
+		//subjectsMetadata = createMock(SubjectsMetadataServiceProvider.class);
 		locMetadata = createMock(LocMetaDataServiceProvider.class);
 		locReport = createMock(LocReportServiceProvider.class);
 		pdfDownload = createMock(PdfDownloadServiceProvider.class);
-		mstarMetadata = createMock(MStarXmlMetadataServiceProvider.class);
-		externalUrlData = createMock(ExternalUrlXmlServiceProvider.class);
+		//mstarMetadata = createMock(MStarXmlMetadataServiceProvider.class);
+		//externalUrlData = createMock(ExternalUrlXmlServiceProvider.class);
 		//fopEligiblePubsData = createMock(FOPEligiblePubsServiceProvider.class);
 		fopUpdateAvailableFormats = createMock(FOPUpdateAvailableFormatsServiceProvider.class);
 		
 		serviceTestHelper = new MockServiceTestHelper(metaDataFormatFactory, 
-				schoolMetadata, subjectsMetadata, locMetadata, 
-				locReport, pdfDownload, mstarMetadata,externalUrlData, fopUpdateAvailableFormats);
+			    locMetadata, 
+				locReport, pdfDownload, fopUpdateAvailableFormats);
 		serviceTestHelper.startHTTPServer();
 		Client client = Client.create(new DefaultClientConfig());
 		service = client.resource(kBASE_URI);
