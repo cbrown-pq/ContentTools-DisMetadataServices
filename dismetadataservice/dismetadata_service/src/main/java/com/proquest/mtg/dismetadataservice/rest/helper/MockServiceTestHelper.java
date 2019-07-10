@@ -10,7 +10,7 @@ import com.proquest.mtg.dismetadataservice.rest.ExternalUrlXmlServiceProvider;
 import com.proquest.mtg.dismetadataservice.rest.FOPUpdateAvailableFormatsServiceProvider;
 import com.proquest.mtg.dismetadataservice.rest.LocMetaDataServiceProvider;
 import com.proquest.mtg.dismetadataservice.rest.LocReportServiceProvider;
-import com.proquest.mtg.dismetadataservice.rest.MStarXmlMetadataServiceProvider;
+//import com.proquest.mtg.dismetadataservice.rest.MStarXmlMetadataServiceProvider;
 import com.proquest.mtg.dismetadataservice.rest.PdfDownloadServiceProvider;
 import com.proquest.mtg.dismetadataservice.rest.SchoolMetadataServiceProvider;
 import com.proquest.mtg.dismetadataservice.rest.SubjectsMetadataServiceProvider;
@@ -24,7 +24,7 @@ public class MockServiceTestHelper extends ServiceTestHelperBase {
 			final LocMetaDataServiceProvider locMetadata,
 			final LocReportServiceProvider locReport,
 			final PdfDownloadServiceProvider pdfDownload,
-			final MStarXmlMetadataServiceProvider mstarMetadata,
+			//final MStarXmlMetadataServiceProvider mstarMetadata,
 			final ExternalUrlXmlServiceProvider externalUrlData,
 			//final FOPEligiblePubsServiceProvider fopEligiblePubsData,
 			final FOPUpdateAvailableFormatsServiceProvider fopUpdateAvailableFormats)
@@ -39,7 +39,7 @@ public class MockServiceTestHelper extends ServiceTestHelperBase {
 										 bind(LocMetaDataServiceProvider.class).toInstance(locMetadata);
 										 bind(LocReportServiceProvider.class).toInstance(locReport);
 										 bind(PdfDownloadServiceProvider.class).toInstance(pdfDownload);
-										 bind(MStarXmlMetadataServiceProvider.class).toInstance(mstarMetadata);
+										 //bind(MStarXmlMetadataServiceProvider.class).toInstance(mstarMetadata);
 										 bind(ExternalUrlXmlServiceProvider.class).toInstance(externalUrlData);
 										 //bind(FOPEligiblePubsServiceProvider.class).toInstance(fopEligiblePubsData);
 										 bind(FOPUpdateAvailableFormatsServiceProvider.class).toInstance(fopUpdateAvailableFormats);
