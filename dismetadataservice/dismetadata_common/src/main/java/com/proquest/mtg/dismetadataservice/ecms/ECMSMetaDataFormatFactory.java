@@ -596,7 +596,7 @@ import org.json.JSONArray;
 			              if (bundleDescription.equals("PQDTGLOBAL_A_SIDE")) {
 			            	  disscode = "A";
 			              }
-			              else if (bundleDescription.equals("PQDTGBLOBAL_B_SIDE")) {
+			              else if (bundleDescription.equals("PQDTGLOBAL_B_SIDE")) {
 			            	  disscode = "B";
 			              }
 			              else {
