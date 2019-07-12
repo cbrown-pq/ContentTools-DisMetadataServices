@@ -116,24 +116,14 @@ public class DisMetadataServiceProvider {
 			String pakId = text.toString();
 			//System.out.println("DATA :" +pakId);
 			String ecmsData = "";
-			Pattern pattern = Pattern.compile(".*?(<IngestRecord.*IngestRecord>).*");
-			//Pattern pattern = Pattern.compile(".+?value\":\"(.*)\"}}]");
-			Matcher matcher = null;
-			try {
-			matcher = DisOutMetadataParseTimeOut.matcher(pattern,pakId);
-			}
-			catch (DisOutMetadataParseTimeOut.RegExpTimeoutException e) {
-				  // Take appropriate action here. 
-				response.setStatus(500);
-			}
-			
-			if (matcher.find())
-			{
-				//System.out.println("FOUND :" +matcher.group(1));
-				ecmsData = matcher.group(1);
-			}
+			int startIndex = pakId.indexOf("<IngestRecord");
+			String startToBeReplaced = pakId.substring(0,startIndex);
+			ecmsData = pakId.replace(startToBeReplaced,  "");
+			int endIndex = ecmsData.indexOf("</IngestRecord");
+			ecmsData = ecmsData.substring(0, endIndex + 15);
+			//System.out.println("NEW PAKID AFTER REMOVE :" + ecmsData);
+
 			if (ecmsData.isEmpty() || ecmsData == null) {
-				//System.out.println("ECMS DATA :" +ecmsData);
 				response.setStatus(404);
 		
 			}
