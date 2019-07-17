@@ -32,6 +32,7 @@ public class MyServletContextListener extends GuiceServletContextListener {
 						disMetadataServiceGuiceModule);
 			}
 			super.contextInitialized(sce);
+			logger.info("Initialized ServletContextListener");
 		} catch (Throwable e) {
 			logger.error("Failed to initialize ServletContextListener", e);
 		}

@@ -8,9 +8,11 @@ import java.sql.Statement;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FopMetaDataQuery {
+	private final Logger logger = LoggerFactory.getLogger(FopMetaDataProvider.class);
 	Connection connection;
 	String updateQuery = "UPDATE PUB SET FILM_FICHE_IN_PROGRESS = ? where PUB_NUMBER = ?";
 	public FopMetaDataQuery(Connection connection) {
@@ -23,16 +25,13 @@ public class FopMetaDataQuery {
 		PreparedStatement preparedStmt = connection.prepareStatement(updateQuery);  
 		preparedStmt.setString(1, flag);
 	      preparedStmt.setString(2, pubNumber);
-		System.out.println(connection.toString());  
-		
+	      System.out.println(connection.toString());  
 		 preparedStmt.executeUpdate();
-	      
 		 connection.close();
         }
 	catch (Exception e)
     {
-      System.err.println("Got an exception! ");
-      System.err.println(e.getMessage());
+      logger.info("Got an exception! "+ e.getMessage());
     }
 	}
 

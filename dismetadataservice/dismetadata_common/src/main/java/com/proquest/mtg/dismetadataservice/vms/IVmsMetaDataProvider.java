@@ -6,5 +6,5 @@ import com.proquest.mtg.dismetadataservice.subjects.xml.Subjects.Subject;
 
 public interface IVmsMetaDataProvider {
 
-	String getPQDeliveryData() throws Exception;
+	String getPQDeliveryData(String startDate, String endDate) throws Exception;
 }

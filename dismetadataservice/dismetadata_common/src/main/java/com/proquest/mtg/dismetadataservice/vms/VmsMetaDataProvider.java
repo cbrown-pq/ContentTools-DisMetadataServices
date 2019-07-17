@@ -37,7 +37,7 @@ public class VmsMetaDataProvider implements IVmsMetaDataProvider {
 	}
 
 	@Override
-	public String getPQDeliveryData() throws Exception {
+	public String getPQDeliveryData(String startDate,String endDate) throws Exception {
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection connection = null;
 		VMSMetaDataQuery query;
@@ -46,7 +46,7 @@ public class VmsMetaDataProvider implements IVmsMetaDataProvider {
 			connection = DriverManager.getConnection(getVmsDbUrl(),
 					getVmsDbUserName(), getVmsDbPassword());
 			query = new VMSMetaDataQuery(connection);
-			result = query.getPQDeliveryData();
+			result = query.getPQDeliveryData(startDate, endDate);
 		} finally {
 			if (null != connection) {
 				connection.close();

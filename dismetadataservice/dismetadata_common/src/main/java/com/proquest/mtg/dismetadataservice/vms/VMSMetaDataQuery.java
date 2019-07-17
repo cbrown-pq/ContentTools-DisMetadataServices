@@ -8,26 +8,31 @@ import java.sql.Statement;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.sql.PreparedStatement;
 
 public class VMSMetaDataQuery {
 	Connection connection;
-	String pqDeliveryDataQuery = "SELECT B.BATCH_ID,"+
-		 "D.DOCUMENT_EXTERNAL_ID, " +
-		 "DH.DOCUMENT_STATUS, "	 +
-		 "DH.DOCUMENT_STATUS_DATE "	+
-		 "FROM BATCH B,BATCH_TO_DELIVERY DB,DELIVERY_TO_DOCUMENTS DTD,DOCUMENTS D,DOCUMENT_HISTORY DH,DOCUMENT_TO_HISTORY DTH " +
-		 "WHERE B.BATCH_ID = DB.BATCH_ID " +
-		 "AND DB.DELIVERY_JOB_ID = DTD.DELIVERY_JOB_ID " +
-		 "AND DTD.DOCUMENT_ID = D.DOCUMENT_ID " +
-		 "AND D.DOCUMENT_ID = DTH.DOCUMENT_ID " +
-		 "AND DTH.DOCUMENT_HISTORY_ID = DH.DOCUMENT_HISTORY_ID ORDER BY B.BATCH_ID ASC";
+
 	public VMSMetaDataQuery(Connection connection) {
 		this.connection = connection;
 	}
 
-	public String getPQDeliveryData() throws Exception {
+	public String getPQDeliveryData(String startDate, String endDate) throws Exception {
 		JSONArray jsonArray = new JSONArray();
-		Statement stmt = connection.createStatement();  
+		String pqDeliveryDataQuery = "SELECT B.BATCH_ID,"+
+				 "D.DOCUMENT_EXTERNAL_ID, " +
+				 "DH.DOCUMENT_STATUS, "	 +
+				 "DH.DOCUMENT_STATUS_DATE "	+
+				 "FROM BATCH B,BATCH_TO_DELIVERY DB,DELIVERY_TO_DOCUMENTS DTD,DOCUMENTS D,DOCUMENT_HISTORY DH,DOCUMENT_TO_HISTORY DTH " +
+				 "WHERE B.BATCH_ID = DB.BATCH_ID " +
+				 "AND DB.DELIVERY_JOB_ID = DTD.DELIVERY_JOB_ID " +
+				 "AND DTD.DOCUMENT_ID = D.DOCUMENT_ID " +
+				 "AND D.DOCUMENT_ID = DTH.DOCUMENT_ID " +
+				 "AND DTH.DOCUMENT_HISTORY_ID = DH.DOCUMENT_HISTORY_ID " +
+				// "AND DH.DOCUMENT_STATUS = \'NOT_STARTED\' " +
+				 "AND DATE(DH.DOCUMENT_STATUS_DATE) BETWEEN '" + startDate + "' AND '" + endDate + "'" +
+				 "ORDER BY B.BATCH_ID ASC";
+		PreparedStatement stmt = connection.prepareStatement(pqDeliveryDataQuery); 
 		ResultSet rs=stmt.executeQuery(pqDeliveryDataQuery); 
 		System.out.println(connection.toString());  
 		
