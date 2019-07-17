@@ -30,8 +30,8 @@ public class LOCFormat {
 //		getLocDataProvider().updateLOCClaimSubmissionFor(pubNumber);
 //	}
 	
-	public void updateLOCDeliverySubmissionFor(String pubNumber) throws Exception {
-		getLocDataProvider().updateLOCDeliverySubmissionFor(pubNumber);
-	}
+//	public void updateLOCDeliverySubmissionFor(String pubNumber) throws Exception {
+//		getLocDataProvider().updateLOCDeliverySubmissionFor(pubNumber);
+//	}
 
 }
