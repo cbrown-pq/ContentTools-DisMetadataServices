@@ -30,7 +30,7 @@ public class VMSMetaDataQuery {
 				 "AND D.DOCUMENT_ID = DTH.DOCUMENT_ID " +
 				 "AND DTH.DOCUMENT_HISTORY_ID = DH.DOCUMENT_HISTORY_ID " +
 				// "AND DH.DOCUMENT_STATUS = \'NOT_STARTED\' " +
-				 "AND DATE(DH.DOCUMENT_STATUS_DATE) BETWEEN '" + startDate + "' AND '" + endDate + "'" +
+				 "AND DATE(DH.DOCUMENT_STATUS_DATE) BETWEEN '" + startDate + "' AND '" + endDate + "' " +
 				 "ORDER BY B.BATCH_ID ASC";
 		PreparedStatement stmt = connection.prepareStatement(pqDeliveryDataQuery); 
 		ResultSet rs=stmt.executeQuery(pqDeliveryDataQuery); 
