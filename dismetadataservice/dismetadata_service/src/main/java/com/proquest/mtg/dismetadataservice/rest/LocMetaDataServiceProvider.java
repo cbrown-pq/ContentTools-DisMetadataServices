@@ -2,6 +2,7 @@ package com.proquest.mtg.dismetadataservice.rest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -16,6 +17,7 @@ import org.json.JSONObject;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import com.owlike.genson.Genson;
 import com.proquest.mtg.dismetadataservice.loc.LOCFormat;
 import com.proquest.mtg.dismetadataservice.pqloc.CreateNewClaimInput;
 import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
@@ -100,19 +102,13 @@ public class LocMetaDataServiceProvider {
 	@Path("/ackClaimSubmissionFor/{pubNumber}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response ackLOCClaimSubmissionFor(@PathParam("pubNumber") String pubNumber) throws WebApplicationException {
-//		try {
-//			getLocFormat().updateLOCClaimSubmissionFor(pubNumber);
-//		} catch (Exception e) {
-//			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
-//		}
-//		return Response.status(Response.Status.OK).entity("SUCCESS").build();	
 		ClientResponse response = null;
 		try {
 			String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 			SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 			String dateString = sdf.format(new Date());
-//			String dateString = "2019-04-21T15:33:00.682Z";
 			String jsonString = new JSONObject().put("CopyrightDateSubmitted", dateString).toString();
+			Map<String, String> map = (new Genson()).deserialize(jsonString, Map.class);
 			
             String URL = getMr3ServiceUrlBase();
 			String HEADERKEY = getECMSMr3HeaderKey();
@@ -121,7 +117,7 @@ public class LocMetaDataServiceProvider {
 			WebResource resource = c.resource(URL).path("loc").path("cpsubmitted").path(pubNumber);
 			response = resource.header("Content-Type", "application/json")
                     	.header(HEADERKEY, HEADERVALUE)
-                    	.post(ClientResponse.class, jsonString);
+                    	.post(ClientResponse.class, map);
 		} catch (IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);
 		}catch (Exception e) {
@@ -142,6 +138,7 @@ public class LocMetaDataServiceProvider {
 			String dateString = sdf.format(new Date());
 //			String dateString = "2019-04-21T15:33:00.682Z";
 			String jsonString = new JSONObject().put("CopyrightDateSubmitted", dateString).toString();
+			Map<String, String> map = (new Genson()).deserialize(jsonString, Map.class);
 			
             String URL = getMr3ServiceUrlBase();
 			String HEADERKEY = getECMSMr3HeaderKey();
@@ -150,7 +147,7 @@ public class LocMetaDataServiceProvider {
 			WebResource resource = c.resource(URL).path("loc").path("cpsubmitted").path(pubNumber);
 			response = resource.header("Content-Type", "application/json")
                     	.header(HEADERKEY, HEADERVALUE)
-                    	.post(ClientResponse.class, jsonString);
+                    	.post(ClientResponse.class, map);
 		} catch (IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);
 		}catch (Exception e) {
@@ -164,37 +161,31 @@ public class LocMetaDataServiceProvider {
 	@Path("/ackDeliverySubmissionFor/{pubNumber}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response ackLOCDeliverySubmissionFor(@PathParam("pubNumber") String pubNumber) throws WebApplicationException {
-//		try {
-//			getLocFormat().updateLOCDeliverySubmissionFor(pubNumber);
-//		} catch (Exception e) {
-//			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
-//		}
-//		return Response.status(Response.Status.OK).entity("SUCCESS").build();		
 		ClientResponse response = null;
 		try {
 			String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 			SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 			String dateString = sdf.format(new Date());
-//			String dateString = "2019-04-21T15:33:00.682Z";
 			String jsonString = new JSONObject().put("LOCFirstLiveDate", dateString).toString();
+			Map<String, String> map = (new Genson()).deserialize(jsonString, Map.class);
 			
-            String URL = getMr3ServiceUrlBase();
+	        String URL = getMr3ServiceUrlBase();
 			String HEADERKEY = getECMSMr3HeaderKey();
 			String HEADERVALUE = getECMSMr3HeaderValue(); 
 			Client c = Client.create();
 			WebResource resource = c.resource(URL).path("loc").path("locsent").path(pubNumber);
 			response = resource.header("Content-Type", "application/json")
-                    	.header(HEADERKEY, HEADERVALUE)
-                    	.post(ClientResponse.class, jsonString);
-			return Response.status(response.getStatus()).entity(response.getEntity(String.class)).build();
+	                	.header(HEADERKEY, HEADERVALUE)
+	                	.type("application/json")
+	                	.post(ClientResponse.class, map);
+			System.out.println("MR3 locsent responded with: " + response.getStatus());
+			return Response.status(response.getStatus()).build();
 		} catch (IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
-//		return Response.status(response.getStatus()).entity(jsonStr).build();
-//		return Response.status(Response.Status.OK).entity("SUCCESS").build();
 	}
 	
 	@GET
@@ -214,6 +205,7 @@ public class LocMetaDataServiceProvider {
 			String dateString = sdf.format(new Date());
 //			String dateString = "2019-04-21T15:33:00.682Z";
 			String jsonString = new JSONObject().put("LOCFirstLiveDate", dateString).toString();
+			Map<String, String> map = (new Genson()).deserialize(jsonString, Map.class);
 			
             String URL = getMr3ServiceUrlBase();
 			String HEADERKEY = getECMSMr3HeaderKey();
@@ -222,16 +214,16 @@ public class LocMetaDataServiceProvider {
 			WebResource resource = c.resource(URL).path("loc").path("locsent").path(pubNumber);
 			response = resource.header("Content-Type", "application/json")
                     	.header(HEADERKEY, HEADERVALUE)
-                    	.post(ClientResponse.class, jsonString);
-			return Response.status(response.getStatus()).entity(response.getEntity(String.class)).build();
+                    	.type("application/json")
+                    	.post(ClientResponse.class, map);
+			System.out.println("MR3 locsent responded with: " + response.getStatus());
+			return Response.status(response.getStatus()).build();
 		} catch (IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
-//		return Response.status(response.getStatus()).entity(jsonStr).build();
-//		return Response.status(Response.Status.OK).entity("SUCCESS").build();
 	}
 
 }
