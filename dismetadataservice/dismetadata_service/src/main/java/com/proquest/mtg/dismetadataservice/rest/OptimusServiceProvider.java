@@ -37,7 +37,7 @@ public class OptimusServiceProvider {
 	@GET
 	@Path("/getReferenceCounts")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getRefCountsInfoFromOptimus(@QueryParam("startDate") String startDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
+	public String getRefCountsInfoFromOptimus(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
 		String response = null;
 		try {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
@@ -52,7 +52,7 @@ public class OptimusServiceProvider {
 			SharedKeyAuthorization sharedKeyAuthorization = sharedKeyAuthorizationService.build();
 			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
 			URLConnection urlConnection = buildUrlConnection("http://optimus-pipeline-service.pre.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
-			String url = "{\"dateCreatedStart\"" + ":" + "\"" + startDate + "\","+ "\"pubNumbers\": "+ pubNumbers + "}";
+			String url = "{\"dateCreatedStart\"" + ":" + "\"" + startDate + "\"," + "\"dateCreatedEnd\"" + ":" + "\"" + endDate + "\"," +  "\"pubNumbers\": "+ pubNumbers + "}";
 			//response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\"}");
 			//response =  processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\",\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
 			response = processResponse(urlConnection, url);
@@ -68,7 +68,7 @@ public class OptimusServiceProvider {
 	@GET
 	@Path("/getReferenceRejects")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getReferenceRejects(@QueryParam("startDate") String startDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
+	public String getReferenceRejects(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
 		String response = null;
 		try {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
@@ -85,7 +85,7 @@ public class OptimusServiceProvider {
 			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
 			
 			URLConnection urlConnection = buildUrlConnection("http://optimus-pipeline-service.pre.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-rejects","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
-			String url = "{\"dateCreatedStart\"" + ":" + "\"" + startDate + "\","+ "\"pubNumbers\": "+ pubNumbers + "}";
+			String url = "{\"dateCreatedStart\"" + ":" + "\"" + startDate + "\"," + "\"dateCreatedEnd\"" + ":" + "\"" + endDate + "\"," + "\"pubNumbers\": "+ pubNumbers + "}";
 			//response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\",\"dateCreatedEnd\":\"20160418\",\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
 			response = processResponse(urlConnection, url);
 			System.out.println("response:" + response);
