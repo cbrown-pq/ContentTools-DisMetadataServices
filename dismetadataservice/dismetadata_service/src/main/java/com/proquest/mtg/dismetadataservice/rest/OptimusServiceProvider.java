@@ -25,7 +25,7 @@ import javax.ws.rs.core.Response;
 
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestParameters;
-import com.proquest.mtg.dismetadataservice.format.SchoolMetaDataFormatFactory;
+//import com.proquest.mtg.dismetadataservice.format.SchoolMetaDataFormatFactory;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools;
 import com.proquest.optimus.security.SharedKeyAuthorization;
 import com.proquest.optimus.security.service.SharedKeyAuthorizationService;
