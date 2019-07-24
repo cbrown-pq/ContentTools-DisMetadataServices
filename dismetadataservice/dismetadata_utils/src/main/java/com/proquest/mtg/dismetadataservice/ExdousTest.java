@@ -1,6 +1,6 @@
 package com.proquest.mtg.dismetadataservice;
 
-import java.sql.Connection;
+/*import java.sql.Connection;
 
 import com.proquest.mtg.dismetadataservice.exodus.LOCSubmissionUpdateQuery;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
@@ -37,4 +37,4 @@ public class ExdousTest {
 			}
 		}
 	}
-}
+}*/
