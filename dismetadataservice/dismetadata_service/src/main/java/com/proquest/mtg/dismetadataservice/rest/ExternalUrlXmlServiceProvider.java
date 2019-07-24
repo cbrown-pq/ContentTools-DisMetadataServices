@@ -1,6 +1,6 @@
 package com.proquest.mtg.dismetadataservice.rest;
 
-import javax.ws.rs.DefaultValue;
+/*import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -60,4 +60,4 @@ public class ExternalUrlXmlServiceProvider {
 		}
 		return result;
 	}
-}
+}*/
