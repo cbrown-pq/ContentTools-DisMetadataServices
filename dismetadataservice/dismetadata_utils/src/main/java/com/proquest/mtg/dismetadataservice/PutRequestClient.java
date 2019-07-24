@@ -5,13 +5,13 @@ import java.net.HttpURLConnection;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
+//import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 
 public class PutRequestClient {
 
 	public static void main(String args[]) {
-		String clientName = "schoolmetadata";
-		String password = "pw4school";
+		//String clientName = "schoolmetadata";
+		//String password = "pw4school";
 		Client c = Client.create();
 		//c.addFilter(new HTTPBasicAuthFilter(clientName, password));
 		//WebResource resource = c.resource("http://localhost:8080/dismetadata_service/disout/schoolmetadata/ackSchoolMetadataLoadFor/0056");
