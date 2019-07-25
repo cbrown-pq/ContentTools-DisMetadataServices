@@ -20,7 +20,7 @@ import com.proquest.gossamer.GossamerServiceClient;
 import com.proquest.mtg.dismetadataservice.exodus.ExodusDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.ExternalUrlDataProvider;
 //import com.proquest.mtg.dismetadataservice.exodus.FOPEligiblePubsProvider;
-import com.proquest.mtg.dismetadataservice.exodus.FopFormatsDataProvider;
+//import com.proquest.mtg.dismetadataservice.exodus.FopFormatsDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.ICSVProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IExternalUrlDataProvider;
 //import com.proquest.mtg.dismetadataservice.exodus.IFOPEligiblePubsProvider;
@@ -282,7 +282,7 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		bind(IMStarPubMetaDataProvider.class).to(MStarPubMetaDataProvider.class);
 		bind(IExternalUrlDataProvider.class).to(ExternalUrlDataProvider.class);
 		//bind(IFOPEligiblePubsProvider.class).to(FOPEligiblePubsProvider.class);
-		bind(IFopFormatsDataProvider.class).to(FopFormatsDataProvider.class);
+	//	bind(IFopFormatsDataProvider.class).to(FopFormatsDataProvider.class);
 		bind(IVmsMetaDataProvider.class).to(VmsMetaDataProvider.class);
 	}
 

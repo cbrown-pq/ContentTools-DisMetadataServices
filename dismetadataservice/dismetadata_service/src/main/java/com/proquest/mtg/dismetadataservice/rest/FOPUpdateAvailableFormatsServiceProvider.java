@@ -13,22 +13,19 @@ import javax.ws.rs.core.Response;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import com.proquest.mtg.dismetadataservice.format.FOPUpdateAvailablePubsFormatFactory;
 import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
 
 @Path("/fopformats/")
 public class FOPUpdateAvailableFormatsServiceProvider {
-	private FOPUpdateAvailablePubsFormatFactory fopUpdateAvailablePubsFormatFactory;
 	private final String ecmsMr3HeaderKey;
 	private final String ecmsMr3HeaderValue;	
 	private final String mr3ServiceFopUrlBase;
 	
 	@Inject
-		public FOPUpdateAvailableFormatsServiceProvider(FOPUpdateAvailablePubsFormatFactory fopUpdateAvailablePubsFormatFactor, 
+		public FOPUpdateAvailableFormatsServiceProvider(
 				@Named(DisMetadataProperties.ECMS_MR3_HEADER_KEY) String ecmsMr3HeaderKey,
 				@Named(DisMetadataProperties.ECMS_MR3_HEADER_VALUE) String ecmsMr3HeaderValue,
 				@Named(DisMetadataProperties.MR3_SERVICE_FOP_URL_BASE) String mr3ServiceFopUrlBase) {
-			this.fopUpdateAvailablePubsFormatFactory = fopUpdateAvailablePubsFormatFactory;
 			this.ecmsMr3HeaderKey = ecmsMr3HeaderKey;
 			this.ecmsMr3HeaderValue = ecmsMr3HeaderValue;
 			this.mr3ServiceFopUrlBase = mr3ServiceFopUrlBase;
@@ -44,11 +41,6 @@ public class FOPUpdateAvailableFormatsServiceProvider {
 	public String getMr3ServiceFopUrlBase() {
 		return mr3ServiceFopUrlBase;
 	}
-
-	public FOPUpdateAvailablePubsFormatFactory getFopUpdateAvailablePubsFormatFactory() {
-		return fopUpdateAvailablePubsFormatFactory;
-	}
-		
 
 @SuppressWarnings("unused")
 @GET
