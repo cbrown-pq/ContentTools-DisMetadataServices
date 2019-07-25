@@ -25,11 +25,11 @@ public class DisGeneralMappingDAO_Tests {
 		target = new DisGeneralMappingDAO();
 	}
 	
-	@Test
+	/*@Test
 	public void hasCorrect_MarcMappingCount() throws Exception {
 		List<DisGeneralMapping> disGeneralMapping = target.getAllMappingFor();
 		assertThat(disGeneralMapping.size(), is(kMappingCount));
-	}
+	}*/
 	
 
 }
