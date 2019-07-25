@@ -9,8 +9,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
-import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
+//import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
+//import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 
 public class DisGeneralMappingDAO_Tests {
 	
@@ -21,13 +21,13 @@ public class DisGeneralMappingDAO_Tests {
 	
 	@Before
 	public void setUp() throws Exception {		
-		IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
-		target = new DisGeneralMappingDAO(connectionPool.getConnection());
+		//IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
+		target = new DisGeneralMappingDAO();
 	}
 	
 	@Test
-	public void hasCorrect_MarcMappingCount() throws SQLException {
-		List<DisGeneralMapping> disGeneralMapping = target.getAllMappingFor(kMarcMapping);
+	public void hasCorrect_MarcMappingCount() throws Exception {
+		List<DisGeneralMapping> disGeneralMapping = target.getAllMappingFor();
 		assertThat(disGeneralMapping.size(), is(kMappingCount));
 	}
 	
