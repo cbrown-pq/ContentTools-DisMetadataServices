@@ -15,7 +15,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.guice.DisMetadataServiceGuiceModule;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
-import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
+//import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
@@ -31,8 +31,8 @@ public class Marc21RecordFactory_SubjectTerm_Tests {
 	@Before
 	public void setUp() throws Exception {
 		tag = MarcTags.kSubjectTerm;
-		IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
-		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(connectionPool);
+		//IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
+		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider();
 		Injector injector = Guice.createInjector(
 				new DisMetadataServiceGuiceModule("dismetadata.local.properties"));
 		
