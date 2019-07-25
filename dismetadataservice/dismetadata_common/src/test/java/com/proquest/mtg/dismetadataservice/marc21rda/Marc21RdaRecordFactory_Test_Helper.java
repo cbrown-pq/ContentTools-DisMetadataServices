@@ -11,7 +11,7 @@ import org.junit.Before;
 
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
-import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
+//import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider;
@@ -32,8 +32,8 @@ public class Marc21RdaRecordFactory_Test_Helper extends EasyMockSupport {
 	
 	@Before
 	public void setUp() throws Exception {
-		IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
-		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(connectionPool);
+		//IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
+		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider();
 		factory = new Marc21RdaRecordFactory(disGenMappingProvider);
 		pdfVaultAvailableStatusProvider = createMock(PDFVaultAvailableStatusProvider.class);
 	}
