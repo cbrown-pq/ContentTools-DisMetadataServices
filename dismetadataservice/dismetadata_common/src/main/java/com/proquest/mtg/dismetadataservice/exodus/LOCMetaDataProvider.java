@@ -1,24 +1,15 @@
 package com.proquest.mtg.dismetadataservice.exodus;
 
-import java.util.List;
-
 import javax.inject.Named;
 
 import com.google.inject.Inject;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
-import com.proquest.mtg.dismetadataservice.loc.LOCRecordFactory;
-import com.proquest.mtg.dismetadataservice.pqloc.Claim;
-import com.proquest.mtg.dismetadataservice.pqloc.Claims;
-import com.proquest.mtg.dismetadataservice.pqloc.CreateNewClaimInput;
 import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
 
 public class LOCMetaDataProvider {
 	
 	private final IPubMetaDataProvider pubMetaDataProvider;
-	private final LOCRecordFactory locRecordFactory;
+//	private final LOCRecordFactory locRecordFactory;
 	private final IJdbcConnectionPool connectionPool;
 	private final String ecmsMr3HeaderKey;
 	private final String ecmsMr3HeaderValue;	
@@ -26,13 +17,13 @@ public class LOCMetaDataProvider {
 
 	@Inject
 	public LOCMetaDataProvider(IPubMetaDataProvider pubMetaDataProvider,
-			LOCRecordFactory locRecordFactory,
+//			LOCRecordFactory locRecordFactory,
 			@Named(IJdbcConnectionPool.kExodusConnectionPool) IJdbcConnectionPool connectionPool,
 			@Named(DisMetadataProperties.ECMS_MR3_HEADER_KEY) String ecmsMr3HeaderKey,
 			@Named(DisMetadataProperties.ECMS_MR3_HEADER_VALUE) String ecmsMr3HeaderValue,
 			@Named(DisMetadataProperties.MR3_SERVICE_URL_BASE) String mr3ServiceUrlBase) {
 		this.pubMetaDataProvider = pubMetaDataProvider;
-		this.locRecordFactory = locRecordFactory;
+//		this.locRecordFactory = locRecordFactory;
 		this.connectionPool = connectionPool;
 		this.ecmsMr3HeaderKey = ecmsMr3HeaderKey;
 		this.ecmsMr3HeaderValue = ecmsMr3HeaderValue;
@@ -43,9 +34,9 @@ public class LOCMetaDataProvider {
 		return pubMetaDataProvider;
 	}
 
-	public LOCRecordFactory getLOCRecordFactory() {
-		return locRecordFactory;
-	}
+//	public LOCRecordFactory getLOCRecordFactory() {
+//		return locRecordFactory;
+//	}
 
 	public IJdbcConnectionPool getConnectionPool() {
 		return connectionPool;
@@ -83,19 +74,19 @@ public class LOCMetaDataProvider {
 		return createNewClaimInput;
 	}*/
 	
-	public CreateNewClaimInput getLOCDataFor(String pubId, String mr3Data, int excludeRestriction) throws Exception {
-		Claims claims = new Claims();
-		List<Claim> claimList = claims.getClaim();
-		claimList.add(getDataFor(pubId, mr3Data, excludeRestriction));
-		CreateNewClaimInput createNewClaimInput = new CreateNewClaimInput();
-		createNewClaimInput.setClaims(claims);
-		return createNewClaimInput;
-	}
+//	public CreateNewClaimInput getLOCDataFor(String pubId, String mr3Data, int excludeRestriction) throws Exception {
+//		Claims claims = new Claims();
+//		List<Claim> claimList = claims.getClaim();
+//		claimList.add(getDataFor(pubId, mr3Data, excludeRestriction));
+//		CreateNewClaimInput createNewClaimInput = new CreateNewClaimInput();
+//		createNewClaimInput.setClaims(claims);
+//		return createNewClaimInput;
+//	}
 	
-	private Claim getDataFor(String pubId, String mr3Data, int excludeRestriction) throws Exception {
-		DisPubMetaData disPubMetaData = getPubMetaDataProvider().getPubMetaDataFor(pubId, mr3Data, excludeRestriction, 0, 0);
-		return getLOCRecordFactory().getLOCRecordFor(disPubMetaData);
-	}
+//	private Claim getDataFor(String pubId, String mr3Data, int excludeRestriction) throws Exception {
+//		DisPubMetaData disPubMetaData = getPubMetaDataProvider().getPubMetaDataFor(pubId, mr3Data, excludeRestriction, 0, 0);
+//		return getLOCRecordFactory().getLOCRecordFor(disPubMetaData);
+//	}
 
 //	public void updateLOCClaimSubmissionFor(String pubNumber) throws Exception {
 //		String jsonStr = null;
