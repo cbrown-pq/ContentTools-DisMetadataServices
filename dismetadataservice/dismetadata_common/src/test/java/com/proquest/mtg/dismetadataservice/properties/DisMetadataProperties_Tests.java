@@ -12,11 +12,11 @@ import static org.junit.Assert.assertThat;
 
 public class DisMetadataProperties_Tests {
 
-	static final String kExodusDbUrl = "FakeURL";
-	static final String kExodusUserName = "FakeUserName";
-	static final String kExodusUserPassword = "FakeUserPassword";
-	static final String kExodusPoolSize = "5";
-	static final String kExodusDbClassType = "FakeDbClassType";
+	//static final String kExodusDbUrl = "FakeURL";
+	//static final String kExodusUserName = "FakeUserName";
+	//static final String kExodusUserPassword = "FakeUserPassword";
+	//static final String kExodusPoolSize = "5";
+	//static final String kExodusDbClassType = "FakeDbClassType";
 	static final String kPQOpenUrlBase = "www.proquest.com/base/url:fake";
 	static final String kSchoolBatchSize = "5";
 	static final String kServiceUrlBase = "www.service.proquest.com/base/url:fake";
@@ -39,18 +39,18 @@ public class DisMetadataProperties_Tests {
 	
 	public static Properties makePropertyMapForTesting() {
 		Properties props = new Properties();
-		props.setProperty(DisMetadataProperties.EXODUS_DB_URL, kExodusDbUrl);
-		props.setProperty(DisMetadataProperties.EXODUS_USER_NAME, kExodusUserName);
-		props.setProperty(DisMetadataProperties.EXODUS_PASSWORD, kExodusUserPassword);
-		props.setProperty(DisMetadataProperties.EXODUS_POOL_SIZE, kExodusPoolSize);
-		props.setProperty(DisMetadataProperties.EXODUS_DB_CLASSTYPE, kExodusDbClassType);
+		//props.setProperty(DisMetadataProperties.EXODUS_DB_URL, kExodusDbUrl);
+		//props.setProperty(DisMetadataProperties.EXODUS_USER_NAME, kExodusUserName);
+		//props.setProperty(DisMetadataProperties.EXODUS_PASSWORD, kExodusUserPassword);
+		//props.setProperty(DisMetadataProperties.EXODUS_POOL_SIZE, kExodusPoolSize);
+		//props.setProperty(DisMetadataProperties.EXODUS_DB_CLASSTYPE, kExodusDbClassType);
 		props.setProperty(DisMetadataProperties.PQ_OPEN_URL_BASE, kPQOpenUrlBase);
 		props.setProperty(DisMetadataProperties.SCHOOL_BATCH_SIZE, kSchoolBatchSize);
 		props.setProperty(DisMetadataProperties.PQ_SERVICE_URL_BASE, kServiceUrlBase);
 		props.setProperty(DisMetadataProperties.PQ_SERVICE_TIMEOUT_MS, kPqserviceTimeout);
 		props.setProperty(DisMetadataProperties.PQ_SERVICE_USER_AGENT, kUserAgent);
-		props.setProperty(DisMetadataProperties.FOP_EXODUS_USER_NAME, kFopExodusUserName);
-		props.setProperty(DisMetadataProperties.FOP_EXODUS_PASSWORD, kFopExodusUserPassword);
+		//props.setProperty(DisMetadataProperties.FOP_EXODUS_USER_NAME, kFopExodusUserName);
+		//props.setProperty(DisMetadataProperties.FOP_EXODUS_PASSWORD, kFopExodusUserPassword);
 		props.setProperty(DisMetadataProperties.ECMS_MR3_HEADER_KEY,kEcmsMr3HeaderKey);
 		props.setProperty(DisMetadataProperties.ECMS_MR3_HEADER_VALUE, kEcmsMr3HeaderValue);
 		props.setProperty(DisMetadataProperties.MR3_SERVICE_URL_BASE, kMr3ServiceUrlBase);
