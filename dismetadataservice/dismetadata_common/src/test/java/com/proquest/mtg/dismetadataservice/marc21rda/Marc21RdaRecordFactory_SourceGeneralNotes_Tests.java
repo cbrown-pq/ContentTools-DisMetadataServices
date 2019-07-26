@@ -14,7 +14,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.guice.DisMetadataServiceGuiceModule;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
-import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
+//import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
@@ -31,10 +31,9 @@ public class Marc21RdaRecordFactory_SourceGeneralNotes_Tests {
 	@SuppressWarnings("unused")
 	@Before
 	public void setUp() throws Exception {
-		IJdbcConnectionPool connectionPool = JdbcHelper
-				.makePoolForExodusUnitTest();
-		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(
-				connectionPool);
+		//IJdbcConnectionPool connectionPool = JdbcHelper
+		//		.makePoolForExodusUnitTest();
+		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider();
 		Injector injector = Guice.createInjector(
 				new DisMetadataServiceGuiceModule("dismetadata.local.properties"));
 		factory = new Marc21RdaRecordFactory(disGenMappingProvider);

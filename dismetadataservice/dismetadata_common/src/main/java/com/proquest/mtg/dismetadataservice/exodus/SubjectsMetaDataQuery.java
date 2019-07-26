@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.exodus;
+/*package com.proquest.mtg.dismetadataservice.exodus;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -63,4 +63,4 @@ public class SubjectsMetaDataQuery {
 			statement.close();
 		}
 	}
-}
+}*/

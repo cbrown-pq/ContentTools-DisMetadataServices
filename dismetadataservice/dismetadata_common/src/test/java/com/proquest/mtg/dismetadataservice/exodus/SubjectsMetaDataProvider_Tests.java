@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.exodus;
+/*package com.proquest.mtg.dismetadataservice.exodus;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -29,4 +29,4 @@ public class SubjectsMetaDataProvider_Tests {
 		assertThat( subjects, notNullValue());
 	}
 
-}
+}*/

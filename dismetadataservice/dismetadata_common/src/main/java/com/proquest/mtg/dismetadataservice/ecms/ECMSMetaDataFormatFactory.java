@@ -607,11 +607,11 @@ import org.json.JSONArray;
 	        }
 			
             //12. Volume/issue   *  Needs to be split out from UMILocalPC	        
-	       // expression = "/IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/UMILocalPC";	        
-	        //nodeList = (NodeList) xPath.compile(expression).evaluate(
-	        //   ecmsdoc, XPathConstants.NODESET);
+	        expression = "/IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/UMILocalPC";	        
+	        nodeList = (NodeList) xPath.compile(expression).evaluate(
+	           ecmsdoc, XPathConstants.NODESET);
 
-	       /* for (int i = 0; i < nodeList.getLength(); i++) {
+	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -623,7 +623,7 @@ import org.json.JSONArray;
                           String typeCodeGroup = "";
                           String volIssGroup = "";
                           String disstype = "";
-                          String disscode = "";
+                          //String disscode = "";
                           String dissvol = "";
                           String dississ = "";
 	                      String[] strs = umilocalpc.split("[,]");
@@ -671,7 +671,7 @@ import org.json.JSONArray;
 	                      //items.setDBTypeCode(disstype);
 	                      
 	                      // 51. DAI Section Code  -  setDAISectionCode()
-	                      disscode="c";
+	                      //disscode="c";
 	      				  items.setDAISectionCode(disscode);
 	      				  String volumeIssue = "";
 	      				  if ((null != dissvol) && (null != dississ)){
@@ -683,16 +683,16 @@ import org.json.JSONArray;
 	      					  }
 	      				  }
 	                      //String volumeIssue = (dissvol + "-" +dississ);
-	      				  volumeIssue = "49-05";
+	      				  //volumeIssue = "49-05";
 	    	              items.setVolumeIssue(volumeIssue);
 	                      
 	    	              //56. Dissertation code   *  Needs to be split out from UMILocalPC
 	    	              dissdesc = "Dissertations Abstract Int";
 	                      items.setDBTypeDesc(dissdesc);
 	               }
-	               result.setBatch(items);
+	               //result.setBatch(items);
 	           }
-	        }*/
+	        }
 	     } catch (ParserConfigurationException e) {
 	        e.printStackTrace();
 	     } catch (SAXException e) {

@@ -8,8 +8,8 @@ import java.util.List;
 import org.junit.Before;
 
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
-import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
+//import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
+//import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
@@ -18,15 +18,15 @@ import com.proquest.mtg.dismetadataservice.usmarc.USMarcRecordFactory;
 public class USMarcRecordFactoryBase_Test_Helper {
 	
 	static int kDataIndependentFieldCount = 4;
-	IJdbcConnectionPool connectionPool;
+	//IJdbcConnectionPool connectionPool;
 	DisGenMappingProvider disGenMappingProvider;
 	
 	USMarcRecordFactory factory;
 	
 	@Before
 	public void setUp() throws Exception {
-		IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
-		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(connectionPool);
+		//IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
+		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider();
 		factory = new USMarcRecordFactory(disGenMappingProvider);
 	}
 	

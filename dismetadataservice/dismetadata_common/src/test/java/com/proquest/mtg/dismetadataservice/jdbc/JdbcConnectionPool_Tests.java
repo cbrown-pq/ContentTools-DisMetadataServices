@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.jdbc;
+/*package com.proquest.mtg.dismetadataservice.jdbc;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -49,4 +49,4 @@ public class JdbcConnectionPool_Tests {
 		assertThat(connection1.isValid(kTimeoutSeconds), is(false));
 		assertThat(connection2.isValid(kTimeoutSeconds), is(false));
 	}
-}
+}*/

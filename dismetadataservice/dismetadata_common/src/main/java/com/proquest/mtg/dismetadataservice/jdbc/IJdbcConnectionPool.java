@@ -5,9 +5,9 @@ import java.sql.SQLException;
 
 public interface IJdbcConnectionPool {
 	
-	public static final String kExodusConnectionPool = "ExodusJdbcConnectionPool";
-	public static final String kEbsConnectionPool = "EbsJdbcConnectionPool"; 
-	public static final String kFopExodusConnectionPool = "FopExodusJdbcConnectionPool";
+	//public static final String kExodusConnectionPool = "ExodusJdbcConnectionPool";
+	//public static final String kEbsConnectionPool = "EbsJdbcConnectionPool"; 
+	//public static final String kFopExodusConnectionPool = "FopExodusJdbcConnectionPool";
 	
 	Connection getConnection() throws SQLException;
 	

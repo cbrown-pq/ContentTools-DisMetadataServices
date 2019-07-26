@@ -3,28 +3,28 @@ package com.proquest.mtg.dismetadataservice.exodus;
 import javax.inject.Named;
 
 import com.google.inject.Inject;
-import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
+//import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
 
 public class LOCMetaDataProvider {
 	
 	private final IPubMetaDataProvider pubMetaDataProvider;
 //	private final LOCRecordFactory locRecordFactory;
-	private final IJdbcConnectionPool connectionPool;
+	//private final IJdbcConnectionPool connectionPool;
 	private final String ecmsMr3HeaderKey;
 	private final String ecmsMr3HeaderValue;	
 	private final String mr3ServiceUrlBase;
 
 	@Inject
 	public LOCMetaDataProvider(IPubMetaDataProvider pubMetaDataProvider,
-//			LOCRecordFactory locRecordFactory,
-			@Named(IJdbcConnectionPool.kExodusConnectionPool) IJdbcConnectionPool connectionPool,
+//			//LOCRecordFactory locRecordFactory,
+			//@Named(IJdbcConnectionPool.kExodusConnectionPool) IJdbcConnectionPool connectionPool,
 			@Named(DisMetadataProperties.ECMS_MR3_HEADER_KEY) String ecmsMr3HeaderKey,
 			@Named(DisMetadataProperties.ECMS_MR3_HEADER_VALUE) String ecmsMr3HeaderValue,
 			@Named(DisMetadataProperties.MR3_SERVICE_URL_BASE) String mr3ServiceUrlBase) {
 		this.pubMetaDataProvider = pubMetaDataProvider;
 //		this.locRecordFactory = locRecordFactory;
-		this.connectionPool = connectionPool;
+		//this.connectionPool = connectionPool;
 		this.ecmsMr3HeaderKey = ecmsMr3HeaderKey;
 		this.ecmsMr3HeaderValue = ecmsMr3HeaderValue;
 		this.mr3ServiceUrlBase = mr3ServiceUrlBase;
@@ -38,9 +38,9 @@ public class LOCMetaDataProvider {
 //		return locRecordFactory;
 //	}
 
-	public IJdbcConnectionPool getConnectionPool() {
-		return connectionPool;
-	}
+	//public IJdbcConnectionPool getConnectionPool() {
+	//	return connectionPool;
+	//}
 
 	public String getECMSMr3HeaderKey() {
 		return ecmsMr3HeaderKey;

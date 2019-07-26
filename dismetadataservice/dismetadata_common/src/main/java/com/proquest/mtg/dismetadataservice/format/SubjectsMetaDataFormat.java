@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.format;
+/*package com.proquest.mtg.dismetadataservice.format;
 
 
 import java.util.List;
@@ -40,4 +40,4 @@ public class SubjectsMetaDataFormat implements ISubjectsMetaDataFormats {
 		return result;
 	}
 
-}
+}*/

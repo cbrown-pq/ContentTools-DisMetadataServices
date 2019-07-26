@@ -13,8 +13,8 @@ import org.junit.Test;
 import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
-import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
-import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
+//import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
+//import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
@@ -44,8 +44,8 @@ public class USMarcRecordFactory_FixedLengthElement_Tests  {
 		author = new Author();
 		author.setDegrees(Lists.newArrayList(degree));
 		authors = Lists.newArrayList(author);
-		IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
-		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(connectionPool);
+		//IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
+		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider();
 		factory = new USMarcRecordFactory(disGenMappingProvider);
 	}
 	

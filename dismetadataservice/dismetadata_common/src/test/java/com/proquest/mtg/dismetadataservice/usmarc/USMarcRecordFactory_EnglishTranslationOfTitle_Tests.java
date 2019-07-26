@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Title;
-import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
-import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
+//import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
+//import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
@@ -27,10 +27,9 @@ public class USMarcRecordFactory_EnglishTranslationOfTitle_Tests {
 
 	@Before
 	public void setUp() throws Exception {
-		IJdbcConnectionPool connectionPool = JdbcHelper
-				.makePoolForExodusUnitTest();
-		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(
-				connectionPool);
+		//IJdbcConnectionPool connectionPool = JdbcHelper
+		//		.makePoolForExodusUnitTest();
+		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider();
 		title = new Title();
 		factory = new USMarcRecordFactory(disGenMappingProvider);
 	}

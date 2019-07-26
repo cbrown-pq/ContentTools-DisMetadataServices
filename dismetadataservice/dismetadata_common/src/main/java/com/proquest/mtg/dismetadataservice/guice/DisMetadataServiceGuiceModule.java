@@ -18,21 +18,21 @@ import org.slf4j.LoggerFactory;
 import com.proquest.gossamer.ApacheGossamerServiceClient;
 import com.proquest.gossamer.GossamerServiceClient;
 import com.proquest.mtg.dismetadataservice.exodus.ExodusDataProvider;
-import com.proquest.mtg.dismetadataservice.exodus.ExternalUrlDataProvider;
+//import com.proquest.mtg.dismetadataservice.exodus.ExternalUrlDataProvider;
 //import com.proquest.mtg.dismetadataservice.exodus.FOPEligiblePubsProvider;
 //import com.proquest.mtg.dismetadataservice.exodus.FopFormatsDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.ICSVProvider;
-import com.proquest.mtg.dismetadataservice.exodus.IExternalUrlDataProvider;
+//import com.proquest.mtg.dismetadataservice.exodus.IExternalUrlDataProvider;
 //import com.proquest.mtg.dismetadataservice.exodus.IFOPEligiblePubsProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IMStarPubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IMarcProvider;
 import com.proquest.mtg.dismetadataservice.exodus.IPubMetaDataProvider;
-import com.proquest.mtg.dismetadataservice.exodus.ISchoolMetaDataProvider;
-import com.proquest.mtg.dismetadataservice.exodus.ISubjectsMetaDataProvider;
-import com.proquest.mtg.dismetadataservice.exodus.MStarPubMetaDataProvider;
+//import com.proquest.mtg.dismetadataservice.exodus.ISchoolMetaDataProvider;
+//import com.proquest.mtg.dismetadataservice.exodus.ISubjectsMetaDataProvider;
+//import com.proquest.mtg.dismetadataservice.exodus.MStarPubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataProvider;
-import com.proquest.mtg.dismetadataservice.exodus.SchoolMetaDataProvider;
-import com.proquest.mtg.dismetadataservice.exodus.SubjectsMetaDataProvider;
+//import com.proquest.mtg.dismetadataservice.exodus.SchoolMetaDataProvider;
+//import com.proquest.mtg.dismetadataservice.exodus.SubjectsMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.fop.FopMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.fop.IFopMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.format.CSVFormat;
@@ -194,27 +194,27 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		return httpClientConnectionManager;
 	}
 	
-	@Provides @Singleton @Named(IJdbcConnectionPool.kExodusConnectionPool)
-	protected IJdbcConnectionPool exodusConnectionPool(DisMetadataProperties props) {
-		IJdbcConnectionPool result = null;
-		try {
-			return new JdbcConnectionPool(props.getExodusJdbcConfig());
-		} catch (Exception e) {
-			logger.error("Failed to initialize Exodus JDBC Connection Pool, because: " + e.getMessage(), e);
-		}
-		return result;
-	}
+	//@Provides @Singleton @Named(IJdbcConnectionPool.kExodusConnectionPool)
+	//protected IJdbcConnectionPool exodusConnectionPool(DisMetadataProperties props) {
+	//	IJdbcConnectionPool result = null;
+	//	try {
+	//		return new JdbcConnectionPool(props.getExodusJdbcConfig());
+	//	} catch (Exception e) {
+	//		logger.error("Failed to initialize Exodus JDBC Connection Pool, because: " + e.getMessage(), e);
+	//	}
+	//	return result;
+	//}
 	
-	@Provides @Singleton @Named(IJdbcConnectionPool.kFopExodusConnectionPool)
-	protected IJdbcConnectionPool fopExodusConnectionPool(DisMetadataProperties props) {
-		IJdbcConnectionPool result = null;
-		try {
-			return new JdbcConnectionPool(props.getFopExodusConfig());
-		} catch (Exception e) {
-			logger.error("Failed to initialize Exodus JDBC Connection Pool, because: " + e.getMessage(), e);
-		}
-		return result;
-	}
+	//@Provides @Singleton @Named(IJdbcConnectionPool.kFopExodusConnectionPool)
+	//protected IJdbcConnectionPool fopExodusConnectionPool(DisMetadataProperties props) {
+	//	IJdbcConnectionPool result = null;
+	//	try {
+	//		return new JdbcConnectionPool(props.getFopExodusConfig());
+	//	} catch (Exception e) {
+	//		logger.error("Failed to initialize Exodus JDBC Connection Pool, because: " + e.getMessage(), e);
+	//	}
+	//	return result;
+	//}
 	
 	//@SuppressWarnings("deprecation")
 	@Provides @Singleton GossamerServiceClient getGossamerServiceClient(
@@ -275,12 +275,12 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		bind(IMarcProvider.class).to(ExodusDataProvider.class);
 		bind(ICSVProvider.class).to(ExodusDataProvider.class);
 		bind(IPubMetaDataProvider.class).to(PubMetaDataProvider.class);
-		bind(ISchoolMetaDataProvider.class).to(SchoolMetaDataProvider.class);
-		bind(ISubjectsMetaDataProvider.class).to(SubjectsMetaDataProvider.class);
+		//bind(ISchoolMetaDataProvider.class).to(SchoolMetaDataProvider.class);
+		//bind(ISubjectsMetaDataProvider.class).to(SubjectsMetaDataProvider.class);
 		bind(IMediaDownloader.class).to(MediaDownloader.class);
 		bind(IWriter.class).to(StringWriter.class);
-		bind(IMStarPubMetaDataProvider.class).to(MStarPubMetaDataProvider.class);
-		bind(IExternalUrlDataProvider.class).to(ExternalUrlDataProvider.class);
+		//bind(IMStarPubMetaDataProvider.class).to(MStarPubMetaDataProvider.class);
+		//bind(IExternalUrlDataProvider.class).to(ExternalUrlDataProvider.class);
 		//bind(IFOPEligiblePubsProvider.class).to(FOPEligiblePubsProvider.class);
 	//	bind(IFopFormatsDataProvider.class).to(FopFormatsDataProvider.class);
 		bind(IVmsMetaDataProvider.class).to(VmsMetaDataProvider.class);

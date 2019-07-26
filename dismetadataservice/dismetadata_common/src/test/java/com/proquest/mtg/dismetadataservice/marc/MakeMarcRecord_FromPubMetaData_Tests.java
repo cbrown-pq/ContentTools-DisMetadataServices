@@ -13,7 +13,7 @@ import com.google.common.collect.Lists;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
-import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
+//import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.usmarc.USMarcRecordFactory;
 
@@ -27,9 +27,8 @@ public class MakeMarcRecord_FromPubMetaData_Tests {
 
 	@Before
 	public void setUp() throws Exception {
-		IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusProd();
-		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(
-				connectionPool);
+		//IJdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusProd();
+		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider();
 		factory = new USMarcRecordFactory(disGenMappingProvider);
 	}
 

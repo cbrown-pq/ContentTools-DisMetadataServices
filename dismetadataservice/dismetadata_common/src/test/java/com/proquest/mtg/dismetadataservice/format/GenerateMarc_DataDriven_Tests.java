@@ -23,7 +23,7 @@ import com.proquest.mtg.dismetadataservice.exodus.MakeExodusMetadataForTesting;
 import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.guice.DisMetadataServiceGuiceModule;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcConnectionPool;
-import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
+//import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcParser;
 import com.proquest.mtg.dismetadataservice.marc.MarcParserException;
@@ -91,10 +91,10 @@ public class GenerateMarc_DataDriven_Tests {
 	}
 	
 	private void initMarcProvider() throws Exception {
-		JdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
+		//JdbcConnectionPool connectionPool = JdbcHelper.makePoolForExodusUnitTest();
 		PubMetaDataProvider pubMetaDataProvider = new PubMetaDataProvider(
 				MakeExodusMetadataForTesting.pqOpenUrlBase);
-		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider(connectionPool);
+		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider();
 		PlainTextNormalizer plainTextNormalizer = new PlainTextNormalizer(new HTMLTagRemover());
 		Injector injector = Guice.createInjector(
 				new DisMetadataServiceGuiceModule("dismetadata.local.properties"));
