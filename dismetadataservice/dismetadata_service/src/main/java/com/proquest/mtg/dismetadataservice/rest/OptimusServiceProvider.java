@@ -51,7 +51,7 @@ public class OptimusServiceProvider {
 			 
 			SharedKeyAuthorization sharedKeyAuthorization = sharedKeyAuthorizationService.build();
 			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
-			URLConnection urlConnection = buildUrlConnection("http://optimus-pipeline-service.pre.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
+			URLConnection urlConnection = buildUrlConnection("http://optimus-pipeline-service.prod.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
 			String url = "{\"dateCreatedStart\"" + ":" + "\"" + startDate + "\"," + "\"dateCreatedEnd\"" + ":" + "\"" + endDate + "\"," +  "\"pubNumbers\": "+ pubNumbers + "}";
 			//response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\"}");
 			//response =  processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\",\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
@@ -84,7 +84,7 @@ public class OptimusServiceProvider {
 			
 			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
 			
-			URLConnection urlConnection = buildUrlConnection("http://optimus-pipeline-service.pre.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-rejects","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
+			URLConnection urlConnection = buildUrlConnection("http://optimus-pipeline-service.prod.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-rejects","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
 			String url = "{\"dateCreatedStart\"" + ":" + "\"" + startDate + "\"," + "\"dateCreatedEnd\"" + ":" + "\"" + endDate + "\"," + "\"pubNumbers\": "+ pubNumbers + "}";
 			//response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\",\"dateCreatedEnd\":\"20160418\",\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
 			response = processResponse(urlConnection, url);
@@ -98,7 +98,7 @@ public class OptimusServiceProvider {
 	}
 	
 	
-	@GET
+/*	@GET
 	@Path("/getDissertations/{startDate}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getDissertations(@PathParam("startDate") String startDate) throws WebApplicationException {
@@ -123,12 +123,12 @@ public class OptimusServiceProvider {
 			
 			System.out.println("response:" + response);
 		} catch(IllegalArgumentException e) {
-			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
+			throw new DisServiceException(Response.Status.NO_CONTENT); As per standard it shouldn't contain a message 
 		} catch (Exception e) {
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 		return response;
-	}
+	}*/
 	
 	public static URLConnection buildUrlConnection(String path, String contentType, String accept, String computedSignature, SharedKeyAuthorization sharedKeyAuthorization)
             throws Exception {
