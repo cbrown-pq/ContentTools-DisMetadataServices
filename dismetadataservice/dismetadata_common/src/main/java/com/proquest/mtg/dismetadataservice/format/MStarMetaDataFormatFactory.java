@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.format;
+/*package com.proquest.mtg.dismetadataservice.format;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,4 +40,4 @@ public class MStarMetaDataFormatFactory {
 				new XmlSchemaValidator<Dissertation>(in));
 	}
 
-}
+}*/
