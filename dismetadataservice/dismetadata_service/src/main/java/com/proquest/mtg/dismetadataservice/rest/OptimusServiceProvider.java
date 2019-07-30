@@ -43,8 +43,8 @@ public class OptimusServiceProvider {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
 			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
 			        new SharedKeyAuthorizationService(
-			                "XYPC9MN8AAPP7SQR",
-			                "y88akjsAzGzULmZwJj9xa3K5ArX8TYYhWuMMzwgYeJNnLS3QZfmdLuApRKqLkVD7",
+			        	    "EL4B9BCEYCD24VVH",
+				            "hBBYbQVNnrE43rfZnQwywxuRnXj6KHR77pqdKamGsD7Km24apP8FaVaQA6ssrw8R",
 			                "POST",
 			                "http://optimus-pipeline-service.prod.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts",
 			                parameterMap);
@@ -74,8 +74,8 @@ public class OptimusServiceProvider {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
 			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
 			        new SharedKeyAuthorizationService(
-			                "XYPC9MN8AAPP7SQR",
-			                "y88akjsAzGzULmZwJj9xa3K5ArX8TYYhWuMMzwgYeJNnLS3QZfmdLuApRKqLkVD7",
+			        	    "EL4B9BCEYCD24VVH",
+				            "hBBYbQVNnrE43rfZnQwywxuRnXj6KHR77pqdKamGsD7Km24apP8FaVaQA6ssrw8R",
 			                "POST",
 			                "http://optimus-pipeline-service.prod.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-rejects",
 			                parameterMap);
