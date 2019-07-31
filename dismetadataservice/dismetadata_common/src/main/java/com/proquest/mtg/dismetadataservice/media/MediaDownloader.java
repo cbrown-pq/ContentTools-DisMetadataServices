@@ -104,7 +104,7 @@ public class MediaDownloader implements IMediaDownloader {
 			if (HttpURLConnection.HTTP_OK == statusCode || redirect == true) {
 				System.out.println("redirect9:" +redirect);
 				content = IOUtils.toByteArray(connection.getInputStream());
-				System.out.println("redirect10:" +redirect);
+				System.out.println("redirect10:" +content.length);
 			} else {
 				System.out.println("redirect11:" +redirect);
 				throw new MediaDownloadException("Failed to down load the PDF.");
