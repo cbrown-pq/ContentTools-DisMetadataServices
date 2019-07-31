@@ -84,7 +84,7 @@ public class MediaDownloader implements IMediaDownloader {
 			}
 			System.out.println("redirect:" +redirect);
 			if (redirect) {
-
+				System.out.println("Redirect to URL :8");
 				// get redirect url from "location" header field
 				String newUrl = connection.getHeaderField("Location");
 
