@@ -147,6 +147,10 @@ public class DisMetadataServiceProvider {
 					System.out.println("404 ERROR IN ECMS/MR3 CALL.  URL: "+resource);
 					throw new Exception("404.  Missing MR3 data");
 				}
+				if(response.getStatus() == 500) {
+					System.out.println("500 ERROR IN MR3 PARSE.  URL: "+resource);
+					throw new Exception("500.  Server Error");
+				}
 				if (response.getStatus() == 200) {
 				InputStream mr3is = response.getEntityInputStream();
 				StringBuilder mr3text = new StringBuilder();
