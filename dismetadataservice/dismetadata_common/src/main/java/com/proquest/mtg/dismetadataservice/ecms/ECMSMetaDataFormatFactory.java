@@ -721,7 +721,7 @@ import org.json.JSONArray;
         	} catch (ParseException e) {
         		e.printStackTrace();
         	}
-        	
+        	result.setPubDate(PublicationDate);
            result.setFirstPublicationDate(PublicationDate);
         }
         
