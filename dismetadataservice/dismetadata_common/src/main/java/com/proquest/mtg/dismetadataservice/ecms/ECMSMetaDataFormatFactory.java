@@ -98,16 +98,71 @@ import org.json.JSONArray;
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
 			List<Author> results = null;
 	        results = Lists.newArrayList();
-			Author author = new Author();
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
+	           Author author = new Author();
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	        	   String myAuthorName = nNode.getTextContent();
 					author.setAuthorFullName(nNode.getTextContent());
-	                results.add(author);
 	           }
+	           results.add(author);
+	           //CBNEW START
+		        xPathfactory = XPathFactory.newInstance();
+		        xpath = xPathfactory.newXPath();
+		        expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/DegreeDescription");
+		        NodeList nodeList2 = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+	  			List<Degree> degreeresults = null;
+		        degreeresults = Lists.newArrayList();
+				Degree degree = new Degree();
+		        for (int j = 0; j < nodeList2.getLength(); j++) {
+		           Node nNode2 = nodeList2.item(j);
+		           
+		           if (nNode2.getNodeType() == Node.ELEMENT_NODE) {
+			              String degreeDescription = nNode2.getTextContent();
+
+			  			  if (null != degreeDescription) {
+			    		      degree.setDegreeDescription(degreeDescription);
+			      			  degree.setDegreeYear(result.getPubDate());
+			      			  //System.out.println("Degree :" +degree);
+			      			  degreeresults.add(degree);
+						  }
+		           }
+		        }
+		        //CBNEW END
+		        //CBNEW 2 START
+		        expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/DegreeName");
+		        nodeList2 = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+		        for (int j = 0; j < nodeList2.getLength(); j++) {
+		           Node nNode2 = nodeList2.item(j);
+		           
+		           if (nNode2.getNodeType() == Node.ELEMENT_NODE) {
+			              String degreeName = nNode2.getTextContent();
+
+			  			  if (null != degreeName) {
+					          degree.setDegreeCode(degreeName);
+						  }
+		           }
+		        }
+		        //CBNEW 2 END
+		        //CBNEW 3 START
+		        expr = xpath.compile("//DateInfo/Dates[@DateType=\"DegreeDate\"]");
+		        nodeList2 = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+
+		        for (int j = 0; j < nodeList2.getLength(); j++) {
+		           Node nNode2 = nodeList2.item(j);
+		           
+		           if (nNode2.getNodeType() == Node.ELEMENT_NODE) {
+		              result.setPubDate(nNode2.getTextContent());
+		              degree.setDegreeYear(result.getPubDate());
+		           }
+		        }
+		        //CBNEW 3 END
+				author.setDegrees(degreeresults);
 	        }
+	        //System.out.println("Get Authors" +results.toString());
 	        result.setAuthors(results);
+	        //System.out.println("RESULT :" +result);
 	        
 	        //3. Title   * Strip out html tags
 	        xPathfactory = XPathFactory.newInstance();
@@ -147,7 +202,7 @@ import org.json.JSONArray;
 	        result.setAlternateTitles(alternatetitleresults);
 	        
 	        //5. degree year for first author  */DateInfo/Dates@DateType=DegreeDate
-	        xPathfactory = XPathFactory.newInstance();
+	       /* xPathfactory = XPathFactory.newInstance();
 	        xpath = xPathfactory.newXPath();
 	        expr = xpath.compile("//DateInfo/Dates[@DateType=\"DegreeDate\"]");
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
@@ -158,7 +213,7 @@ import org.json.JSONArray;
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	              result.setPubDate(nNode.getTextContent());
 	           }
-	        }
+	        }*/
 	        
 	        //7. has pdf
 	        xPathfactory = XPathFactory.newInstance();
@@ -541,7 +596,7 @@ import org.json.JSONArray;
 
 // Degree Information
 	        // Degree Name
-	        xPathfactory = XPathFactory.newInstance();
+/*	        xPathfactory = XPathFactory.newInstance();
 	        xpath = xPathfactory.newXPath();
 	        expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/DegreeName");
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
@@ -565,7 +620,6 @@ import org.json.JSONArray;
 	        xpath = xPathfactory.newXPath();
 	        expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/DegreeDescription");
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
-
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
 	           
@@ -575,11 +629,12 @@ import org.json.JSONArray;
 		  			  if (null != degreeDescription) {
 		    		      degree.setDegreeDescription(degreeDescription);
 		      			  degree.setDegreeYear(result.getPubDate());
+		      			  System.out.println("Degree :" +degree);
 		      			  degreeresults.add(degree);
 					  }
 	           }
-	        }
-			author.setDegrees(degreeresults);
+	        }*/
+			//author.setDegrees(degreeresults);
 	        
 	        
             //  ECMS Bundle codes to determine DB Type code from MR3 data
@@ -718,18 +773,20 @@ import org.json.JSONArray;
         		// Also get the vol/Iss creation date
         		formatRequest = "dd-MMMM-yyyy";
         		VolIssDate = convertDate(pubDate,datePattern,formatRequest);
+        		System.out.println("VOLISS DATE :" +VolIssDate);
         	} catch (ParseException e) {
         		e.printStackTrace();
         	}
+        	
         	result.setPubDate(PublicationDate);
-           result.setFirstPublicationDate(PublicationDate);
+           result.setFirstPublicationDate(VolIssDate);
         }
         
 	    // MR3 data
         //8. MR3: pdf available date  -  /Title/PdfAvailableDate
         String PDFDate = "";
         String pdfAvailableDate = json.optString("PdfAvailableDate");
-        System.out.println("HERE");
+        //System.out.println("HERE");
         if (null != pdfAvailableDate && !pdfAvailableDate.isEmpty()) {
         	//Change ISO date to dd-MMM-yyyy format
         	String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
@@ -739,8 +796,8 @@ import org.json.JSONArray;
         	} catch (ParseException e) {
         		e.printStackTrace();
         	}
-        	System.out.println("PDF DATE :" +PDFDate);
-           result.setFirstPublicationDate(PDFDate);
+        	//System.out.println("PDF DATE :" +PDFDate);
+           //result.setFirstPublicationDate(PDFDate);
            PdfAvailableDateStatus pdfavail = new PdfAvailableDateStatus();
            pdfavail.setPdfAvailableDate(PDFDate);
            result.setPdfStatus(pdfavail);
@@ -749,7 +806,7 @@ import org.json.JSONArray;
         //13. MR3:  Active Sales Restriction code  -  /Title/ActiveSalesRestrictionCodes/ActiveCode
         String activeCode = json.optString("ActiveCode");
         if(null != activeCode) {
-           System.out.println("MR3 Active Sales Restriction Code :" +activeCode);
+           //System.out.println("MR3 Active Sales Restriction Code :" +activeCode);
         }
         
         //15. MR3:  Sales Restriction code  -  /Title/Restrictions/Restriction/Code*
@@ -882,7 +939,7 @@ import org.json.JSONArray;
         //28. MR3:  Manuscript Media code  - /Title/ManuscriptMedium
         String mmCode = json.optString("ManuscriptMedium");
         if (null != mmCode && !mmCode.isEmpty()) {
-        	System.out.println("MR3 Manuscript :" +mmCode);
+        	//System.out.println("MR3 Manuscript :" +mmCode);
            ManuscriptMedia mmedia = new ManuscriptMedia();
            mmedia.setManuscriptMediaCode(mmCode);
            result.setManuscriptMedia(mmedia);
@@ -962,7 +1019,7 @@ import org.json.JSONArray;
         String schoolCodeNumber = json.optString("SchoolCode");
         School school = new School();
 		  if (null != schoolCodeNumber) {
-			  System.out.println("MR3 Schoolcode:" +schoolCodeNumber);
+			  //System.out.println("MR3 Schoolcode:" +schoolCodeNumber);
 			  school.setSchoolCode(schoolCodeNumber);
 		  }
 		  
@@ -982,7 +1039,7 @@ import org.json.JSONArray;
 		    //  MR3:  School State
 		    String schoolState = json.optString("SchoolStateProvince"); 
 			  if (null != schoolState) {
-				  System.out.println("MR3 School state province :" +schoolState);
+				  //System.out.println("MR3 School state province :" +schoolState);
 				  school.setSchoolState(schoolState);
 			  }
 		  result.setSchool(school);
@@ -1006,7 +1063,7 @@ import org.json.JSONArray;
 		
 		public static String convertDate(String dateString, String datePattern, String formatRequest)  throws ParseException {
         	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePattern);
-        	System.out.println("DATE STRING :" +dateString);
+        	//System.out.println("DATE STRING :" +dateString);
         	Date date = simpleDateFormat.parse(dateString);
         	//String PublicationDate= new SimpleDateFormat("dd-MMM-yyyy").format(date);
         	String PublicationDate= new SimpleDateFormat(formatRequest).format(date);
