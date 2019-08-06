@@ -220,7 +220,7 @@ import org.json.JSONArray;
 	        xpath = xPathfactory.newXPath();
 	        expr = xpath.compile("//Component/Representation[@RepresentationType=\"PDFFullText\"]/PDFType");
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
-	        String hasPDF = "NOPDF";
+	        String hasPDF = "N";
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
