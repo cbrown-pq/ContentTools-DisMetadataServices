@@ -105,6 +105,7 @@ import org.json.JSONArray;
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	        	   String myAuthorName = nNode.getTextContent();
 					author.setAuthorFullName(nNode.getTextContent());
+					author.setSequenceNumber(i+1);
 	           }
 	           results.add(author);
 	           //CBNEW START
@@ -126,6 +127,7 @@ import org.json.JSONArray;
 			      			  degree.setDegreeYear(result.getPubDate());
 			      			  //System.out.println("Degree :" +degree);
 			      			  degreeresults.add(degree);
+			      			  degree.setSequenceNumber(j+1);
 						  }
 		           }
 		        }
@@ -378,6 +380,7 @@ import org.json.JSONArray;
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 					advisor.setAdvisorFullName(nNode.getTextContent());
+					advisors.setAdvisorsExodusStr(nNode.getTextContent());
 					advisorresult.add(advisor);
 	           }
 	        }
@@ -395,13 +398,36 @@ import org.json.JSONArray;
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           
+	           CmteMember cmteitem = new CmteMember();
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					CmteMember cmteitem = new CmteMember();
+					//CmteMember cmteitem = new CmteMember();
 					cmteitem.setFullName(nNode.getTextContent());
 	                cmteresults.add(cmteitem);
 	           }
-	        }
+	           //CBNEW START
+	        //}
+	        expr = xpath.compile("//Contributor[@ContribRole=\"CmteMember\"]/LastName");
+	        NodeList nodeList2 = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+	        for (int j = 0; j < nodeList.getLength(); j++) {
+		           Node nNode2 = nodeList2.item(j);
+		           
+		           if (nNode2.getNodeType() == Node.ELEMENT_NODE) {
+						cmteitem.setLastName(nNode2.getTextContent());
+						advisorresult.add(advisor);
+		           }
+		    }
+	        expr = xpath.compile("//Contributor[@ContribRole=\"CmteMember\"]/FirstName");
+	        nodeList2 = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+	        for (int j = 0; j < nodeList.getLength(); j++) {
+		           Node nNode2 = nodeList2.item(j);
+		           
+		           if (nNode2.getNodeType() == Node.ELEMENT_NODE) {
+						cmteitem.setFirstName(nNode2.getTextContent());
+						advisorresult.add(advisor);
+		           }
+		    }
+	    }
+	        //CBNEW END
 	        result.setCmteMembers(cmteresults);
 	        
 	        
@@ -700,7 +726,7 @@ import org.json.JSONArray;
 		    	   	                      	}
 	    	                    	  }
 	    	                    	  volIssGroup = volIssStrs[1];
-	    	                    	  System.out.println("Volume Issue Group :" +volIssGroup);
+	    	                    	  //System.out.println("Volume Issue Group :" +volIssGroup);
 	    	                    	  if (null != volIssGroup) {
 	    	                    		String[] volStrs = volIssGroup.split("[\\/]");
 	    	   	                      	if (volStrs.length > 1 && volStrs[1] != null) {
@@ -773,7 +799,7 @@ import org.json.JSONArray;
         		// Also get the vol/Iss creation date
         		formatRequest = "dd-MMMM-yyyy";
         		VolIssDate = convertDate(pubDate,datePattern,formatRequest);
-        		System.out.println("VOLISS DATE :" +VolIssDate);
+        		//System.out.println("VOLISS DATE :" +VolIssDate);
         	} catch (ParseException e) {
         		e.printStackTrace();
         	}
