@@ -90,7 +90,7 @@ public class DisMetadataServiceProvider {
 		//Properties props = new Properties();
 		try {
             String URL = getECMSServiceUrlBase();
-            System.out.println("ECMS URL :" +URL);
+            //System.out.println("ECMS URL :" +URL);
 			String HEADERKEY = getECMSMr3HeaderKey();
 			String HEADERVALUE = getECMSMr3HeaderValue();
 			Client c = Client.create();
@@ -159,7 +159,7 @@ public class DisMetadataServiceProvider {
 				    mr3text.append(line).append("  ");
 				}
 				String mr3Data = mr3text.toString();
-				System.out.println("FOUND MR3 DATA :" +mr3Data);
+				//System.out.println("FOUND MR3 DATA :" +mr3Data);
 				mr3is.close();
 						
 				if ((!mr3Data.isEmpty()) && (!ecmsData.isEmpty())) {
