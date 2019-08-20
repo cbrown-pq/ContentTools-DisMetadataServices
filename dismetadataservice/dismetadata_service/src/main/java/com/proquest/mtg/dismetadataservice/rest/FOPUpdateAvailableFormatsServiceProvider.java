@@ -1,6 +1,8 @@
 package com.proquest.mtg.dismetadataservice.rest;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import javax.ws.rs.GET;
@@ -50,6 +52,10 @@ public String updateAvailableStatusFor(@PathParam("pubID") String pubNumber, @Pa
 	String[] formats = format.split(",");
 	String result = null;
 	Properties props = new Properties();
+	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	String mr3TimeStamp = dateFormat.format(timestamp).replace(" ", "T")+".000Z";
+	
 	try {
 		System.out.println("\nProcessing Pub-Id: " + pubNumber);
 		for (String filmType : formats) {
@@ -57,10 +63,10 @@ public String updateAvailableStatusFor(@PathParam("pubID") String pubNumber, @Pa
             String URL = getMr3ServiceFopUrlBase();
             String body = null;
             if(format.equalsIgnoreCase("MFL")) {
-            	body = "[{\"Code\":\""+format+"\",\"Format\":\"Masterfilm\",\"Created\":true}]"; 
+            	body = "[{\"Code\":\""+format+"\",\"Format\":\"Masterfilm\",\"Created\":true,\"AvailableDate\": \"" + mr3TimeStamp + "\"}]"; 
             	}
             else {
-            	body = "[{\"Code\":\""+format+"\",\"Format\":\"Masterfiche\",\"Created\":true}]"; 
+            	body = "[{\"Code\":\""+format+"\",\"Format\":\"Masterfiche\",\"Created\":true,\"AvailableDate\": \"" + mr3TimeStamp + "\"}]"; 
             	}
             System.out.println(body);
 			String HEADERKEY = getECMSMr3HeaderKey();
