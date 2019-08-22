@@ -1,7 +1,8 @@
 package com.proquest.mtg.dismetadataservice.ecms;
 
 	import java.io.*;
-    import java.util.List;
+import java.sql.SQLException;
+import java.util.List;
     import java.util.regex.Matcher;
 	import java.util.regex.Pattern;
 	import java.util.Date;
@@ -27,8 +28,10 @@ import org.json.JSONArray;
 
     import com.google.common.collect.Lists;
     
+    
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
+import com.proquest.mtg.dismetadataservice.exodus.SplitAdvisors;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateAbstract;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
@@ -372,20 +375,35 @@ import org.json.JSONArray;
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
 			List<Advisor> advisorresult = null;
 			advisorresult = Lists.newArrayList();
-			Advisor advisor = new Advisor();
-			Advisors advisors = new Advisors();
+			//Advisor advisor = new Advisor();
+			String delimitedAdvisors = "";
+
+		    Advisors advisors = new Advisors();
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
-	           
+	           Advisor advisor = new Advisor();
+	           //Advisors advisors = new Advisors();
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 					advisor.setAdvisorFullName(nNode.getTextContent());
+					if ((null != delimitedAdvisors) && (delimitedAdvisors != "")) {
+					delimitedAdvisors = (delimitedAdvisors + ';' + nNode.getTextContent());
+					}
+					else {
+						delimitedAdvisors = nNode.getTextContent();
+					}
+					//System.out.println("ADVISOR :" +nNode.getTextContent());
+					//System.out.println("DELIM ADVISOR :" +delimitedAdvisors);
 					advisors.setAdvisorsExodusStr(nNode.getTextContent());
-					advisorresult.add(advisor);
+					//advisorresult.add(advisor);
 	           }
+	           //System.out.println("ADDING ADVISOR :" +advisor.getAdvisorFullName());
+	           advisorresult.add(advisor);
+	           //CBNEW ADVISORS
+		        advisors.setAdvisor(advisorresult);
+		        //System.out.println("ADVISORS :" +advisors.getAdvisorsExodusStr());
 	        }
-	        advisors.setAdvisor(advisorresult);
-	        result.setAdvisors(advisors);
+	        result.setAdvisors(getAdvisorsFor(delimitedAdvisors));
 	        
 	        
 	        //39. Committee member  * /Contributor@ContribRole=CmteMember/OriginalForm
@@ -400,17 +418,22 @@ import org.json.JSONArray;
 	           Node nNode = nodeList.item(i);
 	           CmteMember cmteitem = new CmteMember();
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					//CmteMember cmteitem = new CmteMember();
+	        	   //System.out.println("CMTE MEMBER :" +nNode.getTextContent());
 					cmteitem.setFullName(nNode.getTextContent());
 	                cmteresults.add(cmteitem);
 	           }
 	           //CBNEW START
 	        //}
+	        // #CB:  The next two, and previous expr, are probably not needed, but I am going to leave them in until
+	        //       I am sure that we are not messing up the advisor results.  Advisor really shouldn't 
+	        //       be in this part, but for some reason I put it in there and it worked in testing.
+	        //       This should be cleaned up.
 	        expr = xpath.compile("//Contributor[@ContribRole=\"CmteMember\"]/LastName");
 	        NodeList nodeList2 = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
 	        for (int j = 0; j < nodeList.getLength(); j++) {
 		           Node nNode2 = nodeList2.item(j);
-		           
+		           //CBNEW ADVISOR
+		           Advisor advisor = new Advisor();
 		           if (nNode2.getNodeType() == Node.ELEMENT_NODE) {
 						cmteitem.setLastName(nNode2.getTextContent());
 						advisorresult.add(advisor);
@@ -420,7 +443,8 @@ import org.json.JSONArray;
 	        nodeList2 = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
 	        for (int j = 0; j < nodeList.getLength(); j++) {
 		           Node nNode2 = nodeList2.item(j);
-		           
+		           //CB NEW ADVISOR
+		           Advisor advisor = new Advisor();
 		           if (nNode2.getNodeType() == Node.ELEMENT_NODE) {
 						cmteitem.setFirstName(nNode2.getTextContent());
 						advisorresult.add(advisor);
@@ -429,6 +453,36 @@ import org.json.JSONArray;
 	    }
 	        //CBNEW END
 	        result.setCmteMembers(cmteresults);
+	        
+	        //CBTEST CMTE START
+	        // There must be a better way to do this with the expr variables.  Investigate and improve.
+	        expr = xpath.compile("//Contributor[@ContribRole=\"CmteMember\"]/FirstName");
+	        NodeList nodeList3 = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+	        XPathExpression expr2 = xpath.compile("//ObjectID[@IDType=\"DissertationNum\"]");
+	        expr2 = xpath.compile("//Contributor[@ContribRole=\"CmteMember\"]/LastName");
+	        NodeList nodeList4 = (NodeList) expr2.evaluate(ecmsdoc, XPathConstants.NODESET);
+	        XPathExpression expr3 = xpath.compile("//ObjectID[@IDType=\"DissertationNum\"]");
+	        expr3 = xpath.compile("//Contributor[@ContribRole=\"CmteMember\"]/OriginalForm");
+	        NodeList nodeList5 = (NodeList) expr3.evaluate(ecmsdoc, XPathConstants.NODESET);
+	        List<CmteMember> cmteresults2 = null;
+	        //CmteMember cmteitem = new CmteMember();
+	        cmteresults2 = Lists.newArrayList();
+	        for (int k = 0; k < nodeList3.getLength(); k++) {
+		           Node nNode3 = nodeList3.item(k);
+		           Node nNode4 = nodeList4.item(k);
+		           Node nNode5 = nodeList5.item(k);
+		           //CB NEW CMTEMEMBER
+		           CmteMember cmteitem = new CmteMember();
+		           //Advisor advisor = new Advisor();
+		           if (nNode3.getNodeType() == Node.ELEMENT_NODE) {
+		        	   cmteitem.setLastName(nNode4.getTextContent());
+						cmteitem.setFirstName(nNode3.getTextContent());
+						cmteitem.setFullName(nNode5.getTextContent());
+						cmteresults2.add(cmteitem);
+		           }
+		    }
+	        result.setCmteMembers(cmteresults2);
+	        //CBTEST CMTE END
 	        
 	        
 	        //41. Subject group description  * exodus:dvsg_description.  FlexTerm@
@@ -1100,6 +1154,30 @@ import org.json.JSONArray;
 			String volumeIssue = "";
 			return volumeIssue;
 		}
+		
+		//CBNEW
+		private static Advisors getAdvisorsFor(String delimitedAdvisorStr) throws SQLException {
+			Advisors result = null;
+			if (null != delimitedAdvisorStr && ! delimitedAdvisorStr.isEmpty()) {
+				result = new Advisors();
+				result.setAdvisorsExodusStr(delimitedAdvisorStr);
+				List<Advisor> advisors = Lists.newArrayList();
+				List<String> advisorNames = SplitAdvisors.split(delimitedAdvisorStr); 
+				//List<String> altAdvisorNames = getAlternateAdvisorsFor(itemId);
+				for (int i=0; i<advisorNames.size(); ++i) {
+					Advisor item = new Advisor();
+					item.setAdvisorFullName(advisorNames.get(i));
+					//if (altAdvisorNames.size() >= i+1) {
+					//	item.setAltAdvisorFullName(altAdvisorNames.get(i));
+					//}
+					advisors.add(item);
+				}
+				result.setAdvisor(advisors);
+			} 
+			return result;
+		}
+
+		//CBNEWEND
 		
         //47. Author LOC citizenship    * Dropped per Mark Dill.   *DONE
         //54. Page number   * Not available in ECMS.  Dropped per Mark Dill.   *DONE
