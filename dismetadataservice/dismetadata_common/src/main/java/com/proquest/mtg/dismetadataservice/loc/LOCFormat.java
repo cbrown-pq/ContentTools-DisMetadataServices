@@ -17,8 +17,8 @@ public class LOCFormat {
 		return locDataProvider;
 	}
 	
-	public CreateNewClaimInput makeFor(String pubNum, String mr3Data, int excludeRestriction) throws Exception {
-		return getLocDataProvider().getLOCDataFor(pubNum, mr3Data, excludeRestriction);
+	public CreateNewClaimInput makeFor(String ecmsData, String mr3Data, int excludeRestriction) throws Exception {
+		return getLocDataProvider().getLOCDataFor(ecmsData, mr3Data, excludeRestriction);
 	}
 	
 //	//CBDELETE
