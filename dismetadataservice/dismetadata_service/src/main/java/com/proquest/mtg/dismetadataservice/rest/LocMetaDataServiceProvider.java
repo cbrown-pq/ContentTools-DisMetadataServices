@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -17,6 +18,8 @@ import org.json.JSONObject;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.owlike.genson.Genson;
+import com.proquest.mtg.dismetadataservice.loc.LOCFormat;
+import com.proquest.mtg.dismetadataservice.pqloc.CreateNewClaimInput;
 import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -26,14 +29,14 @@ import com.sun.jersey.api.client.WebResource;
 @Path("/loc/")
 public class LocMetaDataServiceProvider {
 	
-//	private final LOCFormat locFormat;
+	private final LOCFormat locFormat;
 	private final String ecmsMr3HeaderKey;
 	private final String ecmsMr3HeaderValue;	
 	private final String mr3ServiceUrlBase;
 
-//	public LOCFormat getLocFormat() {
-//		return locFormat;
-//	}
+	public LOCFormat getLocFormat() {
+		return locFormat;
+	}
 	
 	public String getECMSMr3HeaderKey() {
 		return ecmsMr3HeaderKey;
@@ -48,42 +51,24 @@ public class LocMetaDataServiceProvider {
 	}
 	
 	@Inject
-	public LocMetaDataServiceProvider( 
+	public LocMetaDataServiceProvider(LOCFormat locFormat, 
 			@Named(DisMetadataProperties.ECMS_MR3_HEADER_KEY) String ecmsMr3HeaderKey,
 			@Named(DisMetadataProperties.ECMS_MR3_HEADER_VALUE) String ecmsMr3HeaderValue,
 			@Named(DisMetadataProperties.MR3_SERVICE_URL_BASE) String mr3ServiceUrlBase) {
-//		this.locFormat = locFormat;
+		this.locFormat = locFormat;
 		this.ecmsMr3HeaderKey = ecmsMr3HeaderKey;
 		this.ecmsMr3HeaderValue = ecmsMr3HeaderValue;
 		this.mr3ServiceUrlBase = mr3ServiceUrlBase;
 	}
 	
-	//CBDELETE
-	/*@GET
-	@Path("/metadataForEligiblePubs/")
-	@Produces(MediaType.APPLICATION_XML)
-	public CreateNewClaimInput getLOCDataForAllEligiblePubs() throws WebApplicationException {
-		CreateNewClaimInput result = null;
-		try {
-			result = getLocFormat().makeForEligiblePubs(0);
-		} catch(IllegalArgumentException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			throw new DisServiceException(Response.Status.NO_CONTENT);*/ /*As per standard it shouldn't contain a message */
-		/*} catch (Exception e) {
-			e.printStackTrace();
-			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
-		}
-		return result;
-	}*/
-	
+//	//CBDELETE
 //	@GET
-//	@Path("/metadataFor/{pubNumber}")
+//	@Path("/metadataForEligiblePubs/")
 //	@Produces(MediaType.APPLICATION_XML)
-//	public CreateNewClaimInput getLOCDataFor(@PathParam("pubNumber") String pubNumber) throws WebApplicationException {
+//	public CreateNewClaimInput getLOCDataForAllEligiblePubs() throws WebApplicationException {
 //		CreateNewClaimInput result = null;
 //		try {
-//			result = getLocFormat().makeFor(pubNumber,"TEMPSTUB",0);
+//			result = getLocFormat().makeForEligiblePubs(0);
 //		} catch(IllegalArgumentException e) {
 //			e.printStackTrace();
 //			System.out.println(e.getMessage());
@@ -94,6 +79,24 @@ public class LocMetaDataServiceProvider {
 //		}
 //		return result;
 //	}
+	
+	@GET
+	@Path("/metadataFor/{pubNumber}")
+	@Produces(MediaType.APPLICATION_XML)
+	public CreateNewClaimInput getLOCDataFor(@PathParam("pubNumber") String pubNumber) throws WebApplicationException {
+		CreateNewClaimInput result = null;
+		try {
+			result = getLocFormat().makeFor(pubNumber,"TEMPSTUB",0);
+		} catch(IllegalArgumentException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		return result;
+	}
 
 	@PUT
 	@Path("/ackClaimSubmissionFor/{pubNumber}")
