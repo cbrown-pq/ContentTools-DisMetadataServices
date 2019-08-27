@@ -1,11 +1,13 @@
 package com.proquest.mtg.dismetadataservice.loc;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 //import com.proquest.mtg.dismetadataservice.exodus.AddressMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Claimant;
 import com.proquest.mtg.dismetadataservice.metadata.SGMLEntitySubstitution;
+import com.proquest.mtg.dismetadataservice.metadata.SplitAuthorNames;
 import com.proquest.mtg.dismetadataservice.pqloc.Author;
 import com.proquest.mtg.dismetadataservice.pqloc.Authors;
 import com.proquest.mtg.dismetadataservice.pqloc.CertificateMailingAddress;
@@ -48,14 +50,15 @@ public class LOCRecordFactory {
 //				.getAddressFor(disPubMetaData.getAuthors().get(0).getAuthorId(), kAuthorAddress);
 
 		Publication publication = new Publication();
-		publication.setDateoffirstpublication(disPubMetaData.getFirstPublicationDate());
+		publication.setYearofCompletion(disPubMetaData.getAuthors().get(0).getDegrees().get(0).getDegreeYear());
+		publication.setDateoffirstpublication(new SimpleDateFormat("MM/dd/yyyy").format(
+				new SimpleDateFormat("dd-MMM-yyyy").parse(disPubMetaData.getFirstPublicationDate())));
 		publication.setAuthors(createAuthors(disPubMetaData));
 		publication.setClaimants(createClaimants(disPubMetaData));
 		claim.setCustomerClaimId(disPubMetaData.getPubNumber());
 
 		publication.setCertificateMailingAddress(
 				createCertificateMailingAddress(disPubMetaData));
-		publication.setYearofCompletion(disPubMetaData.getManuscriptYear());
 		publication.setNationofFirstPublication("United States");
 		publication.setTitles(createTitles(disPubMetaData));
 		claim.setPublication(publication);
@@ -169,9 +172,11 @@ public class LOCRecordFactory {
 		com.proquest.mtg.dismetadataservice.metadata.Author author = disPubMetaData.getAuthors().get(0);
 		com.proquest.mtg.dismetadataservice.pqloc.Author pqLocAuthor = new Author();
 		pqLocAuthor.setAuthorIntegrationId(disPubMetaData.getPubNumber() + kAuthorIntegrationIdConstant);
-		pqLocAuthor.setFirstName(author.getFirstName());
-		pqLocAuthor.setMiddleName(author.getMiddleName());
-		pqLocAuthor.setLastName(author.getLastName());
+		//TODO need to add logic to handle if the author name was already split?
+		SplitAuthorNames splitter = new SplitAuthorNames(author.getAuthorFullName());
+		pqLocAuthor.setFirstName(splitter.getFirst());
+		pqLocAuthor.setMiddleName(splitter.getMiddle());
+		pqLocAuthor.setLastName(splitter.getLast());
 		if (null != author.getAuthorCitizenship() && !author.getAuthorCitizenship().isEmpty()) {
 			pqLocAuthor.setCitizenShip(author.getAuthorLocCitizenship());
 		} else {
