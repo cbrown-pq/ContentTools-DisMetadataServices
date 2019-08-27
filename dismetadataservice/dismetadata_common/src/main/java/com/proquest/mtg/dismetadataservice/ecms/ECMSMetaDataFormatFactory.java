@@ -40,6 +40,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLOCLanguage;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
     import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.ManuscriptMedia;
@@ -638,6 +639,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 	        expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/Language/RawLang");
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
 	        List<DissLanguage> langresult = Lists.newArrayList();
+	        List<DissLOCLanguage> langLOCresult = Lists.newArrayList();
 	          
 	          
 	        for (int i = 0; i < nodeList.getLength(); i++) {
@@ -668,10 +670,13 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 		        			  
 		          }
                   DissLanguage language = new DissLanguage((DissLangDesc), required(DissLangCode));
+                  DissLOCLanguage languageLOC = new DissLOCLanguage((DissLangDesc), required(DissLangCode));
                   langresult.add(language);
+                  langLOCresult.add(languageLOC);
 	           }
 	        }
 	        result.setDissLanguages(langresult);
+	        result.setDissLOCLanguages(langLOCresult);
 	        
 
 // Degree Information
