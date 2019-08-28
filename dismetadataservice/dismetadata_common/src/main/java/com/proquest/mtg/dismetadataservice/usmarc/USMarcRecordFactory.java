@@ -211,7 +211,7 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 				&& !alternateAbstractText.isEmpty()) {
 			abstractText = abstractNormalizer.applyTo(abstractText);
 			abstractText = handleRecordSize(abstractText);
-			System.out.println("Abs: " + abstractText);
+			//System.out.println("Abs: " + abstractText);
 			alternateAbstractText = handleRecordSize(alternateAbstractText);
 			for (String curParagraph : makeAbstractParagraphsFrom(abstractText)) {
 				curParagraph = endsWithPunctuationMark(curParagraph);
