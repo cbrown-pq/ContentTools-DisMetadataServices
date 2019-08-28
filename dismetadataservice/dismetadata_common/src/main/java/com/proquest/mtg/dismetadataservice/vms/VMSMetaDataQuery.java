@@ -33,7 +33,6 @@ public class VMSMetaDataQuery {
 				 "ORDER BY B.BATCH_ID ASC";
 		PreparedStatement stmt = connection.prepareStatement(pqDeliveryDataQuery); 
 		ResultSet rs=stmt.executeQuery(pqDeliveryDataQuery); 
-		System.out.println(connection.toString());  
 		
         while (rs.next()) {
             int total_columns = rs.getMetaData().getColumnCount();
@@ -42,8 +41,6 @@ public class VMSMetaDataQuery {
                 obj.put(rs.getMetaData().getColumnLabel(i + 1).toLowerCase(), rs.getObject(i + 1));
             }
           jsonArray.put(obj);
-          System.out.println(obj.toString());
-          System.out.println(jsonArray.toString());
         }
 		return jsonArray.toString();
 	}
