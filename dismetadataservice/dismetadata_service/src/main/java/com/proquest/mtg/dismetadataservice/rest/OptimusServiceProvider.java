@@ -46,12 +46,13 @@ public class OptimusServiceProvider {
 			        	    "EL4B9BCEYCD24VVH",
 				            "hBBYbQVNnrE43rfZnQwywxuRnXj6KHR77pqdKamGsD7Km24apP8FaVaQA6ssrw8R",
 			                "POST",
-			                "http://optimus-pipeline-service.prod.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts",
+			                "https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts",
 			                parameterMap);
 			 
 			SharedKeyAuthorization sharedKeyAuthorization = sharedKeyAuthorizationService.build();
 			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
-			URLConnection urlConnection = buildUrlConnection("http://optimus-pipeline-service.prod.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
+			
+			URLConnection urlConnection = buildUrlConnection("https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
 			String url = "{\"dateCreatedStart\"" + ":" + "\"" + startDate + "\"," + "\"dateCreatedEnd\"" + ":" + "\"" + endDate + "\"," +  "\"pubNumbers\": "+ pubNumbers + "}";
 			//response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\"}");
 			//response =  processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\",\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
@@ -77,14 +78,14 @@ public class OptimusServiceProvider {
 			        	    "EL4B9BCEYCD24VVH",
 				            "hBBYbQVNnrE43rfZnQwywxuRnXj6KHR77pqdKamGsD7Km24apP8FaVaQA6ssrw8R",
 			                "POST",
-			                "http://optimus-pipeline-service.prod.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-rejects",
+			                "https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-rejects",
 			                parameterMap);
 			 
 			SharedKeyAuthorization sharedKeyAuthorization = sharedKeyAuthorizationService.build();
 			
 			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
 			
-			URLConnection urlConnection = buildUrlConnection("http://optimus-pipeline-service.prod.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-rejects","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
+			URLConnection urlConnection = buildUrlConnection("https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-rejects","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
 			String url = "{\"dateCreatedStart\"" + ":" + "\"" + startDate + "\"," + "\"dateCreatedEnd\"" + ":" + "\"" + endDate + "\"," + "\"pubNumbers\": "+ pubNumbers + "}";
 			//response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\",\"dateCreatedEnd\":\"20160418\",\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
 			response = processResponse(urlConnection, url);
