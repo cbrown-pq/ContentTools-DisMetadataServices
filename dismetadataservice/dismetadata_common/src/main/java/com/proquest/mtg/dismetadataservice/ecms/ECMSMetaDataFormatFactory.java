@@ -794,7 +794,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 	    	   	                      	}
 	    	   	                      	else {
 	    	   	                      		dissvol = volStrs[0];
-	    	   	                      		System.out.println("VOLUME :" +dissvol);
+	    	   	                      		//System.out.println("VOLUME :" +dissvol);
 	    	   	                      	}
 	    	                    	  }
 	    	                      }
