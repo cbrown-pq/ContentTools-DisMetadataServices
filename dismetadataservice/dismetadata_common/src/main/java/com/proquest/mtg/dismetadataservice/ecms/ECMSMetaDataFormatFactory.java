@@ -610,7 +610,9 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 	                      .getTextContent();
 	              Abstract = Abstract.replaceAll("<[^>]*>", "");
 	              //System.out.println("ABSTRACT IN CSV :" +Abstract);
-	              result.setAbstract(Abstract);
+			      if (excludeAbstract == 0){
+	                         result.setAbstract(Abstract);
+			      }
 	              }
 	              else {
 	              //24. Alternate Abstract 
@@ -627,7 +629,9 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 	              altAbstract = altAbstract.replaceAll("<[^>]*>", "");
 				  altabstracts.setAbstractText(altAbstract);
 				  altabstracts.setLanguage(altabsLang);
-				  result.setAlternateAbstracts(altabstracts);
+			          if (excludeAltAbstract == 0) {
+				     result.setAlternateAbstracts(altabstracts);
+				  }
 	              }
 	              //26. Alternate Title  * Within Abstract field with 'Title of Dissertation: ...'
 	              //25. Alternate Abstract language    *RawLang
