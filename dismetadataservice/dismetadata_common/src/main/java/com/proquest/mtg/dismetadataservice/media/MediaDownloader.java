@@ -63,31 +63,19 @@ public class MediaDownloader implements IMediaDownloader {
 		byte[] content = null;
 		boolean redirect = false;
 		try {
-			
-			System.out.println("Redirect to URL :11");
 			connection = (HttpURLConnection)url.openConnection();
-			System.out.println("Redirect to URL :2");
 			connection.setInstanceFollowRedirects(true);
-			System.out.println("Redirect to URL :3");
 			connection.setConnectTimeout(getTimeoutMs());
-			System.out.println("Redirect to URL :4");
 			connection.setReadTimeout(getTimeoutMs());
-			System.out.println("Redirect to URL :5");
 			connection.setRequestProperty(kHttpHeaderUserAgentPropertyName, getPqServiceUserAgent());
-			System.out.println("Redirect to URL :6");
 			connection.connect();
-			System.out.println("Redirect to URL :7");
 			int statusCode = connection.getResponseCode();
-			System.out.println("Redirect to URL statusCode:" +statusCode);
 			if (statusCode != HttpURLConnection.HTTP_OK) {
-				redirect = connection.getFollowRedirects();
+				redirect = HttpURLConnection.getFollowRedirects();
 			}
-			System.out.println("redirect:" +redirect);
 			if (redirect) {
-				System.out.println("Redirect to URL :8");
 				// get redirect url from "location" header field
 				String newUrl = connection.getHeaderField("Location");
-
 
 				// open the new connnection again
 				connection = (HttpURLConnection)new URL(newUrl).openConnection();
@@ -96,17 +84,11 @@ public class MediaDownloader implements IMediaDownloader {
 				connection.setReadTimeout(getTimeoutMs());
 				connection.setRequestProperty(kHttpHeaderUserAgentPropertyName, getPqServiceUserAgent());
 				connection.connect();
-										
 				System.out.println("Redirect to URL : " + newUrl);
-
 			}
-			System.out.println("redirect8:" +redirect);
 			if (HttpURLConnection.HTTP_OK == statusCode || redirect == true) {
-				System.out.println("redirect9:" +redirect);
 				content = IOUtils.toByteArray(connection.getInputStream());
-				System.out.println("redirect10:" +content.length);
 			} else {
-				System.out.println("redirect11:" +redirect);
 				throw new MediaDownloadException("Failed to down load the PDF.");
 			}
 			return content;
