@@ -236,7 +236,8 @@ public class LocMetaDataServiceProvider {
 	                	.header(HEADERKEY, HEADERVALUE)
 	                	.type("application/json")
 	                	.post(ClientResponse.class, map);
-			System.out.println("MR3 locsent responded with: " + response.getStatus());
+			if (response.getStatus() != 200)
+				System.out.println("MR3 locsent responded with: " + response.getStatus());
 			return Response.status(response.getStatus()).build();
 		} catch (IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);
