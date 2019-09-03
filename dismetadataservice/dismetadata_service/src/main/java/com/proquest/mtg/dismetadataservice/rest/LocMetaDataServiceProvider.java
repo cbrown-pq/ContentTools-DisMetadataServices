@@ -208,13 +208,13 @@ public class LocMetaDataServiceProvider {
                     	.post(ClientResponse.class, map);
 			if (response.getStatus() != 204)
 				System.out.println("MR3 locsent responded with: " + response.getStatus());
+			return Response.status(response.getStatus()).build();
 		} catch (IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
-		return Response.status(Response.Status.OK).entity("SUCCESS").build();
 	}
 	
 	@PUT
