@@ -88,7 +88,7 @@ public class LocReportServiceProvider {
 			 
 			 LOCReportPubListCR pubList;
 			 // handle when MR3 returns "No matching dissertations found:"
-			 if (StringUtils.isNotBlank(xmlStr) && !xmlStr.startsWith("<") && response.getStatus() == 404) { //TODO probably need better error handling here
+			 if (response.getStatus() == 404 && StringUtils.isNotBlank(xmlStr) && !xmlStr.startsWith("<")) { //TODO probably need better error handling here
 				 pubList = new LOCReportPubListCR();
 				 return Response.status(200).entity(pubList.makeJsonList()).build();
 			} else {
@@ -141,32 +141,4 @@ public class LocReportServiceProvider {
 		}
 		return Response.status(response.getStatus()).entity(result).build();
 	}
-	
-//	@PUT
-//	@Path("/updatefilmpulldate/")
-//	@Produces(MediaType.TEXT_PLAIN)
-//	public Response updateFilm(@Context HttpServletRequest request) throws WebApplicationException, IOException {
-//		String pubList = IOUtils.toString(request.getInputStream());
-//		List<String> pubs = Lists.newArrayList(pubList.split(kPubSeparator));
-//		pubs.removeAll(Lists.newArrayList("", null));
-//		try {
-//			if (pubs.size() > 0) {
-//				
-//				getCopyrightPubReportProvider().updateFilmPullDate(pubs);
-//			}
-//		} catch(IllegalArgumentException e) {
-//			e.printStackTrace();
-//			System.out.println(e.getMessage());
-//			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
-//		}
-//		return Response.status(Response.Status.OK).entity("SUCCESS").build();
-//	}
-	
-
-//	public CopyrightPubReportProvider getCopyrightPubReportProvider() {
-//		return copyrightPubReportProvider;
-//	}
 }

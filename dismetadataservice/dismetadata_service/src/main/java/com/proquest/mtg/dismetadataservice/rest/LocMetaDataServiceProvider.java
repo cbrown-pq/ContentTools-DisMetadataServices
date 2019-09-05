@@ -109,7 +109,7 @@ public class LocMetaDataServiceProvider {
 					.header(HEADERKEY, HEADERVALUE)
 					.get(ClientResponse.class);
 			if (response.getStatus() == 404) {
-				System.out.println("404 ERROR IN ECMS/MR3 CALL.  URL: " + resource);
+				System.out.println("404 ERROR IN LOC ECMS/MR3 CALL.  URL: " + resource);
 				throw new Exception("404.  Missing ECMS data");
 			}
 
@@ -138,7 +138,7 @@ public class LocMetaDataServiceProvider {
 			}
 			is.close();
 			if (response.getStatus() == 500) {
-				System.out.println("500 ERROR IN ECMS/MR3 DDATA PARSE.  URL: " + resource);
+				System.out.println("500 ERROR IN LOC ECMS/MR3 DATA PARSE.  URL: " + resource);
 				throw new Exception("500.  Server Error");
 			}
 
