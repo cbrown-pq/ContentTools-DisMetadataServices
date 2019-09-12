@@ -109,7 +109,7 @@ public class LocMetaDataServiceProvider {
 					.header(HEADERKEY, HEADERVALUE)
 					.get(ClientResponse.class);
 			if (response.getStatus() == 404) {
-				System.out.println("404 ERROR IN ECMS/MR3 CALL.  URL: " + resource);
+				System.out.println("404 ERROR IN LOC ECMS/MR3 CALL.  URL: " + resource);
 				throw new Exception("404.  Missing ECMS data");
 			}
 
@@ -138,7 +138,7 @@ public class LocMetaDataServiceProvider {
 			}
 			is.close();
 			if (response.getStatus() == 500) {
-				System.out.println("500 ERROR IN ECMS/MR3 DDATA PARSE.  URL: " + resource);
+				System.out.println("500 ERROR IN LOC ECMS/MR3 DATA PARSE.  URL: " + resource);
 				throw new Exception("500.  Server Error");
 			}
 
@@ -206,13 +206,15 @@ public class LocMetaDataServiceProvider {
 			response = resource.header("Content-Type", "application/json")
                     	.header(HEADERKEY, HEADERVALUE)
                     	.post(ClientResponse.class, map);
+			if (response.getStatus() != 204)
+				System.out.println("MR3 locsent responded with: " + response.getStatus());
+			return Response.status(response.getStatus()).build();
 		} catch (IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
-		return Response.status(Response.Status.OK).entity("SUCCESS").build();
 	}
 	
 	@PUT
@@ -236,7 +238,8 @@ public class LocMetaDataServiceProvider {
 	                	.header(HEADERKEY, HEADERVALUE)
 	                	.type("application/json")
 	                	.post(ClientResponse.class, map);
-			System.out.println("MR3 locsent responded with: " + response.getStatus());
+			if (response.getStatus() != 204)
+				System.out.println("MR3 locsent responded with: " + response.getStatus());
 			return Response.status(response.getStatus()).build();
 		} catch (IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);

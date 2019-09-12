@@ -57,8 +57,7 @@ public class MediaDownloader implements IMediaDownloader {
 		return content;
 	}
 	
-	private byte[] doDownload(URL url) throws IOException, 
-								MediaDownloadException {
+	private byte[] doDownload(URL url) throws IOException, MediaDownloadException {
 		HttpURLConnection connection = null;
 		byte[] content = null;
 		boolean redirect = false;
