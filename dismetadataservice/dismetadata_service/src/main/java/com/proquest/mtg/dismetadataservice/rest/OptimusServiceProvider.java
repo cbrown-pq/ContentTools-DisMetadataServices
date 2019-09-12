@@ -57,7 +57,7 @@ public class OptimusServiceProvider {
 			//response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\"}");
 			//response =  processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\",\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
 			response = processResponse(urlConnection, url);
-			System.out.println("response:" + response);			} catch(IllegalArgumentException e) {
+		} catch(IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
 		} catch (Exception e) {
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
@@ -89,7 +89,6 @@ public class OptimusServiceProvider {
 			String url = "{\"dateCreatedStart\"" + ":" + "\"" + startDate + "\"," + "\"dateCreatedEnd\"" + ":" + "\"" + endDate + "\"," + "\"pubNumbers\": "+ pubNumbers + "}";
 			//response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\",\"dateCreatedEnd\":\"20160418\",\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
 			response = processResponse(urlConnection, url);
-			System.out.println("response:" + response);
 		} catch(IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
 		} catch (Exception e) {

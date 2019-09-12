@@ -1,5 +1,7 @@
 package com.proquest.mtg.dismetadataservice.rest;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -27,11 +29,11 @@ public class VmsMetadataServiceProvider {
 	@GET
 	@Path("/getPQDeliveryData")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getAllSubjects(@QueryParam("startDate") String startDate,@QueryParam("endDate") String endDate) throws WebApplicationException {
+	public String getAllSubjects(@QueryParam("startDate") String startDate,@QueryParam("endDate") String endDate, @QueryParam("pubNumbers") String pubNumbers) throws WebApplicationException {
 		String result = "";
 		JSONArray jsonArray = new JSONArray();
 		try {
-			result = vmsMetaDataProvider.getPQDeliveryData(startDate,endDate);
+			result = vmsMetaDataProvider.getPQDeliveryData(startDate,endDate,pubNumbers);
 
 		} catch (IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT); 

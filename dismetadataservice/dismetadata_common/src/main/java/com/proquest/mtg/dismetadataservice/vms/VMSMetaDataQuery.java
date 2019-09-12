@@ -17,7 +17,7 @@ public class VMSMetaDataQuery {
 		this.connection = connection;
 	}
 
-	public String getPQDeliveryData(String startDate, String endDate) throws Exception {
+	public String getPQDeliveryData(String startDate, String endDate,String pubList) throws Exception {
 		JSONArray jsonArray = new JSONArray();
 		String pqDeliveryDataQuery = "SELECT B.BATCH_ID,"+
 				 "D.DOCUMENT_EXTERNAL_ID, " +
@@ -29,8 +29,13 @@ public class VMSMetaDataQuery {
 				 "AND DTD.DOCUMENT_ID = D.DOCUMENT_ID " +
 				 "AND D.DOCUMENT_ID = DTH.DOCUMENT_ID " +
 				 "AND DTH.DOCUMENT_HISTORY_ID = DH.DOCUMENT_HISTORY_ID " +
-				 "AND DATE(DH.DOCUMENT_STATUS_DATE) BETWEEN '" + startDate + "' AND '" + endDate + "' " +
-				 "ORDER BY B.BATCH_ID ASC";
+				 "AND DATE(DH.DOCUMENT_STATUS_DATE) BETWEEN '" + startDate + "' AND '" + endDate + "' " ;
+		
+		if(pubList != null && !pubList.isEmpty())
+		{
+			pqDeliveryDataQuery = pqDeliveryDataQuery +	 "AND D.DOCUMENT_EXTERNAL_ID IN(" +  pubList + ") " ;
+		}
+		pqDeliveryDataQuery = pqDeliveryDataQuery +	 "ORDER BY B.BATCH_ID ASC";
 		PreparedStatement stmt = connection.prepareStatement(pqDeliveryDataQuery); 
 		ResultSet rs=stmt.executeQuery(pqDeliveryDataQuery); 
 		
