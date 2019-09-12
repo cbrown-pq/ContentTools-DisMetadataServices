@@ -499,6 +499,11 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 				if (! advisor.endsWith(".")) {
 					advisor = advisor + ".";
 				}
+				//MT-2675  Add Advisor: to beginning of String to match
+				//         the way Exodus would store Advisor strings
+				if (! advisor.startsWith("Advisor:")) {
+				   advisor = "Advisor: " +advisor;
+			    }
 			}
 			addField(MarcTags.kGeneralNote, 
 						makeFieldDataFrom(' ', ' ', 'a', advisor));
