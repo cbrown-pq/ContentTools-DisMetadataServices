@@ -1,5 +1,5 @@
 package com.proquest.mtg.dismetadataservice.ecms;
-
+//CB
 	import java.io.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -128,9 +128,9 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 
 			  			  if (null != degreeDescription) {
 			    		      degree.setDegreeDescription(degreeDescription);
-			      			  degree.setDegreeYear(result.getPubDate());
+			      			  //degree.setDegreeYear(result.getPubDate());
 			      			  //System.out.println("Degree :" +degree);
-			      			  degreeresults.add(degree);
+			      			  //degreeresults.add(degree);
 			      			  degree.setSequenceNumber(j+1);
 						  }
 		           }
@@ -161,6 +161,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 		           if (nNode2.getNodeType() == Node.ELEMENT_NODE) {
 		              result.setPubDate(nNode2.getTextContent());
 		              degree.setDegreeYear(result.getPubDate());
+		              degreeresults.add(degree);
 		           }
 		        }
 		        //CBNEW 3 END
