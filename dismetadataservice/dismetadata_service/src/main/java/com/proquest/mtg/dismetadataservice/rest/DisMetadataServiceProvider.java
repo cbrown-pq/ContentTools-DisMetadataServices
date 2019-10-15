@@ -101,7 +101,7 @@ public class DisMetadataServiceProvider {
                     	.get(ClientResponse.class);
 			if(response.getStatus() == 404) {
 				System.out.println("404 ERROR IN ECMS/MR3 CALL.  URL: "+resource);
-				throw new Exception("404.  Missing ECMS data");
+				throw new DisServiceException(Response.Status.NOT_FOUND, "Missing ECMS Data");
 			}
 
 			InputStream is = response.getEntityInputStream();
@@ -145,7 +145,7 @@ public class DisMetadataServiceProvider {
 	                    	.get(ClientResponse.class);
 				if(response.getStatus() == 404) {
 					System.out.println("404 ERROR IN ECMS/MR3 CALL.  URL: "+resource);
-					throw new Exception("404.  Missing MR3 data");
+					throw new DisServiceException(Response.Status.NOT_FOUND, "Missing MR3 Data");
 				}
 				if(response.getStatus() == 500) {
 					System.out.println("500 ERROR IN MR3 PARSE.  URL: "+resource);
