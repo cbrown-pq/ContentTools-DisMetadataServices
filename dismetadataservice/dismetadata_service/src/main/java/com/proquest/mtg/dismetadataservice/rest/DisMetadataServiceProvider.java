@@ -102,7 +102,6 @@ public class DisMetadataServiceProvider {
 			if(response.getStatus() == 404) {
 				System.out.println("404 ERROR IN ECMS/MR3 CALL.  URL: "+resource);
 				throw new DisServiceException(Response.Status.NOT_FOUND, "Missing ECMS Data");
-				System.exit(0);
 			}
 
 			InputStream is = response.getEntityInputStream();
