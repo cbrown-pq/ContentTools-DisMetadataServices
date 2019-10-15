@@ -16,6 +16,7 @@ public class DisServiceException extends WebApplicationException {
 	
 	public DisServiceException(Response.Status status, String message) {
 		//System.out.println("CORRECT");
+		System.out.println("CORRECT");
 		super(createResponse(status, message));
 	}
 	
