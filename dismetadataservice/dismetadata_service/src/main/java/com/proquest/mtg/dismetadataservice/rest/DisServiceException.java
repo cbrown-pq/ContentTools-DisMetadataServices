@@ -10,17 +10,15 @@ import javax.ws.rs.core.Response.Status;
 public class DisServiceException extends WebApplicationException {
 
 	public DisServiceException(Response.Status status) {
-		//System.out.println("INCORRECT");
 		super(createResponse(status, null));
 	}
 	
 	public DisServiceException(Response.Status status, String message) {
-		//System.out.println("CORRECT");
-		System.out.println("CORRECT");
 		super(createResponse(status, message));
 	}
 	
 	private static Response createResponse(Response.Status statusCode, String message) {
+		System.out.println("IN RESPONSE");
 		if(message==null)
 		{
 			System.out.println("NULL!");
