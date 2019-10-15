@@ -174,6 +174,10 @@ public class DisMetadataServiceProvider {
 			System.out.println("EXCEPTION :" +e.getMessage());
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
+		catch (DisServiceException e) {
+			System.out.println("DIS EXCEPTION :" +e.getMessage());
+			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
 		return Response.status(Response.Status.OK).entity(result).build();
 	}
 
