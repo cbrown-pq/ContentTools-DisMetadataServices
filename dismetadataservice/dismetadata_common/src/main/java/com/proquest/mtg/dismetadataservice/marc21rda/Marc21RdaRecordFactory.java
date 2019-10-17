@@ -235,15 +235,55 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		}
 	}
 	
-	/*  9999 byte limit on abstracts */
+	/*  9999 byte limit on abstracts, 775 Words */
 	private String handleRecordSize(String x) {
+		System.out.println("In Shrink Town");
 		if (null != x) {
-			if (x.length() > 9999) {
-				return x.substring(0,9999);
+			if (x.length() < 9999) {
+				System.out.println("Short Enough");
+				return x;
 		}
-		else {
-			return x;
+
+	      int wordCount = 0;
+	      int charMarker = 0;
+
+	      boolean isWord = false;
+	      boolean isEnd = false;
+	      int endOfLine = x.length() - 1;
+	      char[] characters = x.toCharArray();
+
+	      for (int i = 0; i < characters.length; i++) {
+
+	        // if the char is a letter, word = true.
+	        if (Character.isLetter(characters[i]) && i != endOfLine && !isEnd) {
+	          isWord = true;
+
+	          // if char isn't a letter and there have been letters before,
+	          // counter goes up.
+	        } else if (!Character.isLetter(characters[i]) && isWord && !isEnd) {
+	          wordCount++;
+	          //System.out.println("Word Count: " +wordCount);
+	          if (wordCount > 771) {
+	        	  charMarker = i;
+	        	  isEnd = true;
+	          }
+	          isWord = false;
+
+	          // last word of String; if it doesn't end with a non letter, it
+	          // wouldn't count without this.
+	        } else if (Character.isLetter(characters[i]) && i == endOfLine && !isEnd) {
+	          wordCount++;
+	        }
+	      }
+	      
+		if (null != x) {
+			if (wordCount > 771) {
+				x = x.substring(0,charMarker);
+				x = endsWithPunctuationMark(x);
+				x = x + " (Abstract shortened by ProQuest)";
+		        }
 		}
+		System.out.println("Word Count of Abstract: "+wordCount);
 		}
 		return x;
 	}
