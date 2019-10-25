@@ -37,8 +37,9 @@ public class OptimusServiceProvider {
 	@GET
 	@Path("/getReferenceCountsTotals")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getRefCountsTotalsFromOptimus(@QueryParam("startDate") String startDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
+	public String getRefCountsTotalsFromOptimus(@QueryParam("vendor") String vendor, @QueryParam("startDate") String startDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
 		String response = null;
+		String optimusUrl = String.format("https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/%1$s/reference-counts-summary", vendor);
 		try {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
 			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
@@ -46,14 +47,14 @@ public class OptimusServiceProvider {
 			        	    "EL4B9BCEYCD24VVH",
 				            "hBBYbQVNnrE43rfZnQwywxuRnXj6KHR77pqdKamGsD7Km24apP8FaVaQA6ssrw8R",
 			                "POST",
-			                "https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts-summary",
+			                optimusUrl,
 			                parameterMap);
 			 
 			SharedKeyAuthorization sharedKeyAuthorization = sharedKeyAuthorizationService.build();
 			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
 			
-			URLConnection urlConnection = buildUrlConnection("https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts-summary","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
-			String url = String.format("{\"dateSearchStart\": \"%1$s\", \"pubNumbers\": %2$s}", startDate, pubNumbers);
+			URLConnection urlConnection = buildUrlConnection(optimusUrl,"application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
+			String url = String.format("{`dateSearchStart`: `%1$s`, `pubNumbers`: %2$s}", startDate, pubNumbers).replace('`', '"');
 			// String url = "{\"dateSearchStart\": \"" + startDate + "\", \"pubNumbers\": " + pubNumbers + "}";
 			response = processResponse(urlConnection, url);
 		} catch(IllegalArgumentException e) {
