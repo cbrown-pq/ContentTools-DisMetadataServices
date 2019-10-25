@@ -53,7 +53,7 @@ public class OptimusServiceProvider {
 			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
 			
 			URLConnection urlConnection = buildUrlConnection("https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts-summary","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
-			String url = "{\"dateSearchStart\":" + "\"" + startDate + "\"," + "\"pubNumbers\": " + pubNumbers + "}";
+			String url = "{\"dateSearchStart\": \"" + startDate + "\", \"pubNumbers\": " + pubNumbers + "}";
 			response = processResponse(urlConnection, url);
 		} catch(IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);
