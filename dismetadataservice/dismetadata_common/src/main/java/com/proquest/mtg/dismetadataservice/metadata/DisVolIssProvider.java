@@ -11,8 +11,11 @@ public class DisVolIssProvider {
 	
 	public static String DisVolIssProvider(Integer pubYear,String pubMonth) {
 	int VolIss = pubYear - dissBaseDate;
+	String dissVolIss = String.format("%02d", VolIss);
+	//System.out.println("DISS ISS:" +dissVolIss);
 	 
-	String dissVolIss = String.valueOf(VolIss);
+	//String dissVolIss = String.valueOf(VolIss);
+	//dissVolIss = String.format("%02s", dissVolIss);
 
 	if (pubMonth.equals("JULY")) {
 		dissVolIss = (dissVolIss + '-' + "01");
@@ -34,32 +37,38 @@ public class DisVolIssProvider {
 	}
 	if (pubMonth.equals("JANUARY")) {
 		VolIss = VolIss -1;
-		dissVolIss = String.valueOf(VolIss);
+		dissVolIss = String.format("%02d", VolIss);
+		//dissVolIss = String.valueOf(VolIss);
 		dissVolIss = (dissVolIss + '-' + "07");
 	}
 	if (pubMonth.equals("FEBRUARY")) {
 		VolIss = VolIss -1;
-		dissVolIss = String.valueOf(VolIss);
+		dissVolIss = String.format("%02d", VolIss);
+		//dissVolIss = String.valueOf(VolIss);
 		dissVolIss = (dissVolIss + '-' + "08");
 	}
 	if (pubMonth.equals("MARCH")) {
 		VolIss = VolIss -1;
-		dissVolIss = String.valueOf(VolIss);
+		dissVolIss = String.format("%02d", VolIss);
+		//dissVolIss = String.valueOf(VolIss);
 		dissVolIss = (dissVolIss + '-' + "09");
 	}
 	if (pubMonth.equals("APRIL")) {
 		VolIss = VolIss -1;
-		dissVolIss = String.valueOf(VolIss);
+		dissVolIss = String.format("%02d", VolIss);
+		//dissVolIss = String.valueOf(VolIss);
 		dissVolIss = (dissVolIss + '-' + "10");
 	}
 	if (pubMonth.equals("MAY")) {
 		VolIss = VolIss -1;
-		dissVolIss = String.valueOf(VolIss);
+		dissVolIss = String.format("%02d", VolIss);
+		//dissVolIss = String.valueOf(VolIss);
 		dissVolIss = (dissVolIss + '-' + "11");
 	}
 	if (pubMonth.equals("JUNE")) {
 		VolIss = VolIss -1;
-		dissVolIss = String.valueOf(VolIss);
+		dissVolIss = String.format("%02d", VolIss);
+		//dissVolIss = String.valueOf(VolIss);
 		dissVolIss = (dissVolIss + '-' + "12");
 	}
 	// If January - June, Subtract 1 from year
