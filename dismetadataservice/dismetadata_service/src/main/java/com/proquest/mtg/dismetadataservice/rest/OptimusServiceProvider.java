@@ -60,8 +60,8 @@ public class OptimusServiceProvider {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
 			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
 			        new SharedKeyAuthorizationService(
-			        	    "RLRFC83WE2NVK7LA",
-				            "gv9KcBlIXIBPgWLVQBpZPwqZPHLOSGL8kZtqZBz/1LCaINGdI+CYTBbQIRivoJNspDA5KEpFPAQdABgEwh7h6w==",
+			        	    "XYPC9MN8AAPP7SQR",
+				            "y88akjsAzGzULmZwJj9xa3K5ArX8TYYhWuMMzwgYeJNnLS3QZfmdLuApRKqLkVD7",
 			                "POST",
 			                optimusPreUrl,
 			                parameterMap);
@@ -72,7 +72,7 @@ public class OptimusServiceProvider {
 			URLConnection urlConnection = buildUrlConnection(optimusPreUrl,"application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
 			// String url = String.format("{`dateSearchStart`: `%1$s`, `pubNumbers`: [`22588181`,`22624858`]}", startDate).replace('`', '"');
 			String url = "{\"dateSearchStart\": \"20191024\", \"pubNumbers\": [\"22588181\",\"22624858\"]}";
-			
+		//	String url = "{\"dateSearchStart\": \"20190729\"}";
 			// String url = String.format("{`dateSearchStart`: `%1$s`, `pubNumbers`: %2$s}", startDate, pubNumbers).replace('`', '"');
 			// String url = "{\"dateSearchStart\": \"" + startDate + "\", \"pubNumbers\": " + pubNumbers + "}";
 			response = processResponse(urlConnection, url);
