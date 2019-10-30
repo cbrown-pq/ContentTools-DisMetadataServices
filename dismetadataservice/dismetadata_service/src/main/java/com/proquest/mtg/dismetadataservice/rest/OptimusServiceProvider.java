@@ -1,6 +1,7 @@
 package com.proquest.mtg.dismetadataservice.rest;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -34,12 +35,100 @@ import com.proquest.optimus.security.service.SharedKeyAuthorizationService;
 public class OptimusServiceProvider {
 
 	// Added by Roeland
+	/*
+	Authorization:SharedKey 
+	PublicAccessAPIKey="RLRFC83WE2NVK7LA",
+	Signature="gv9KcBlIXIBPgWLVQBpZPwqZPHLOSGL8kZtqZBz/1LCaINGdI+CYTBbQIRivoJNspDA5KEpFPAQdABgEwh7h6w==",
+	SignatureAlgorithm="HMAC-SHA512",
+	Timestamp="1572355506",
+	Nonce="UD5SfiXLeXga4J4PHpO7s8LPrjUdi3Wg",
+	Version="1.0"
+	Content-Type:application/json
+	Accept:application/json
+	*/
+	@GET
+	@Path("/getReferenceCountsTotalsPre")
+	@Produces(MediaType.TEXT_PLAIN)
+	// public String getRefCountsTotalsFromOptimus(@QueryParam("vendor") String vendor, @QueryParam("startDate") String startDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
+	public String getRefCountsTotalsFromOptimusPre() throws WebApplicationException {
+		String response = null;
+		//                  "https://optimus-pipeline-service.prod.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts-summary"
+		//                      https://optimus-pipeline-service.pre.int.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts",
+		String optimusPreUrl = "https://optimus-pipeline-service.pre.int.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts-summary";
+		// String optimusPreUrl = String.format("https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/%1$s/reference-counts-summary", vendor);
+		try {
+			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
+			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
+			        new SharedKeyAuthorizationService(
+			        	    "RLRFC83WE2NVK7LA",
+				            "gv9KcBlIXIBPgWLVQBpZPwqZPHLOSGL8kZtqZBz/1LCaINGdI+CYTBbQIRivoJNspDA5KEpFPAQdABgEwh7h6w==",
+			                "POST",
+			                optimusPreUrl,
+			                parameterMap);
+			 
+			SharedKeyAuthorization sharedKeyAuthorization = sharedKeyAuthorizationService.build();
+			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
+			
+			URLConnection urlConnection = buildUrlConnection(optimusPreUrl,"application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
+			// String url = String.format("{`dateSearchStart`: `%1$s`, `pubNumbers`: [`22588181`,`22624858`]}", startDate).replace('`', '"');
+			String url = "{\"dateSearchStart\": \"20191024\", \"pubNumbers\": [\"22588181\",\"22624858\"]}";
+			
+			// String url = String.format("{`dateSearchStart`: `%1$s`, `pubNumbers`: %2$s}", startDate, pubNumbers).replace('`', '"');
+			// String url = "{\"dateSearchStart\": \"" + startDate + "\", \"pubNumbers\": " + pubNumbers + "}";
+			response = processResponse(urlConnection, url);
+		} catch(IllegalArgumentException e) {
+			throw new DisServiceException(Response.Status.NO_CONTENT);
+		} catch (Exception e) {
+			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		return response;
+	}
+
 	@GET
 	@Path("/getReferenceCountsTotals")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getRefCountsTotalsFromOptimus(@QueryParam("vendor") String vendor, @QueryParam("startDate") String startDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
+	// public String getRefCountsTotalsFromOptimus(@QueryParam("vendor") String vendor, @QueryParam("startDate") String startDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
+	public String getRefCountsTotalsFromOptimus() throws WebApplicationException {
 		String response = null;
-		String optimusUrl = String.format("https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/%1$s/reference-counts-summary", vendor);
+		//                  "https://optimus-pipeline-service.prod.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts-summary"
+		String optimusUrl = "https://optimus-pipeline-service.prod.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts-summary";
+		// String optimusUrl = String.format("https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/%1$s/reference-counts-summary", vendor);
+		try {
+			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
+			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
+			        new SharedKeyAuthorizationService(
+			        	    "EL4B9BCEYCD24VVH",
+				            "hBBYbQVNnrE43rfZnQwywxuRnXj6KHR77pqdKamGsD7Km24apP8FaVaQA6ssrw8R",
+			                "POST",
+			                optimusUrl,
+			                parameterMap);
+			 
+			SharedKeyAuthorization sharedKeyAuthorization = sharedKeyAuthorizationService.build();
+			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
+			
+			URLConnection urlConnection = buildUrlConnection(optimusUrl,"application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
+			// String url = String.format("{`dateSearchStart`: `%1$s`, `pubNumbers`: [`22588181`,`22624858`]}", startDate).replace('`', '"');
+			String url = "{\"dateSearchStart\": \"20191024\", \"pubNumbers\": [\"22588181\",\"22624858\"]}";
+			
+			// String url = String.format("{`dateSearchStart`: `%1$s`, `pubNumbers`: %2$s}", startDate, pubNumbers).replace('`', '"');
+			// String url = "{\"dateSearchStart\": \"" + startDate + "\", \"pubNumbers\": " + pubNumbers + "}";
+			response = processResponse(urlConnection, url);
+		} catch(IllegalArgumentException e) {
+			throw new DisServiceException(Response.Status.NO_CONTENT);
+		} catch (Exception e) {
+			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		
+		return response;
+	}
+
+	/*
+	@GET
+	@Path("/getReferenceRejectsTotals")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getReferenceRejectsTotalsFromOptimus(@QueryParam("vendor") String vendor, @QueryParam("startDate") String startDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
+		String response = null;
+		String optimusUrl = String.format("https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/%1$s/reference-rejects-counts-summary", vendor);
 		try {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
 			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
@@ -65,7 +154,7 @@ public class OptimusServiceProvider {
 		
 		return response;
 	}
-	
+	*/
 	@GET
 	@Path("/getReferenceCounts")
 	@Produces(MediaType.TEXT_PLAIN)
