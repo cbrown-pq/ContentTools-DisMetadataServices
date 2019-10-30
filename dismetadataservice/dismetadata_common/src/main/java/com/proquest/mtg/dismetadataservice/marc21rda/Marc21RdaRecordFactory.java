@@ -237,10 +237,8 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	
 	/*  9999 byte limit on abstracts, 775 Words */
 	private String handleRecordSize(String x) {
-		System.out.println("In Shrink Town");
 		if (null != x) {
 			if (x.length() < 9999) {
-				System.out.println("Short Enough");
 				return x;
 		}
 
@@ -283,7 +281,6 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 				x = x + " (Abstract shortened by ProQuest)";
 		        }
 		}
-		System.out.println("Word Count of Abstract: "+wordCount);
 		}
 		return x;
 	}
