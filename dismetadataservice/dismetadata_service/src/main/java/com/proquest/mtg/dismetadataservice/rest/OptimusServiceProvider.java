@@ -24,6 +24,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.google.inject.name.Named;
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestParameters;
 //import com.proquest.mtg.dismetadataservice.format.SchoolMetaDataFormatFactory;
@@ -31,9 +32,12 @@ import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools;
 import com.proquest.optimus.security.SharedKeyAuthorization;
 import com.proquest.optimus.security.service.SharedKeyAuthorizationService;
 
+import com.proquest.mtg.dismetadataservice.properties.OptimusServiceProviderProperties;
+
+
 @Path("/optimusdata/")
 public class OptimusServiceProvider {
-
+ 
 	// Added by Roeland
 	/*
 	Authorization:SharedKey 
@@ -46,6 +50,14 @@ public class OptimusServiceProvider {
 	Content-Type:application/json
 	Accept:application/json
 	*/
+	private String optimusUrl;
+
+	@Inject
+	public void OptimusServiceProviderProperties(
+		@Named(OptimusServiceProviderProperties.OPTIMUS_URL_BASE) String optimusUrl) {
+			this.optimusUrl = optimusUrl;
+	}
+
 	@GET
 	@Path("/getReferenceCountsTotalsPre")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -63,13 +75,15 @@ public class OptimusServiceProvider {
 			        	    "XYPC9MN8AAPP7SQR",
 				            "y88akjsAzGzULmZwJj9xa3K5ArX8TYYhWuMMzwgYeJNnLS3QZfmdLuApRKqLkVD7",
 			                "POST",
-			                optimusPreUrl,
+			                // this.optimusUrl,
+							optimusPreUrl,
 			                parameterMap);
 			 
 			SharedKeyAuthorization sharedKeyAuthorization = sharedKeyAuthorizationService.build();
 			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
 			
 			URLConnection urlConnection = buildUrlConnection(optimusPreUrl,"application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
+			//URLConnection urlConnection = buildUrlConnection(this.optimusUrl,"application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
 			// String url = String.format("{`dateSearchStart`: `%1$s`, `pubNumbers`: [`22588181`,`22624858`]}", startDate).replace('`', '"');
 			String url = "{\"dateSearchStart\": \"20191024\", \"pubNumbers\": [\"22588181\",\"22624858\"]}";
 		//	String url = "{\"dateSearchStart\": \"20190729\"}";
@@ -81,7 +95,7 @@ public class OptimusServiceProvider {
 		} catch (Exception e) {
 			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
-		return response;
+		return this.optimusUrl;
 	}
 
 	@GET
