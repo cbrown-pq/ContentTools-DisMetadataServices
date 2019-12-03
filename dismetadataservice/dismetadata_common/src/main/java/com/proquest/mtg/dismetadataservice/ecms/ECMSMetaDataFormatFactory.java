@@ -597,7 +597,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 	        nodeList = (NodeList) xPath.compile(expression).evaluate(
 	           ecmsdoc, XPathConstants.NODESET);
 
-	        for (int i = 0; i < nodeList.getLength(); i++) {
+	        for (int i = 0; i < nodeList.getLength() && i < 2; i++) {
 	           Node nNode = nodeList.item(i);
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
