@@ -183,6 +183,11 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 	@Provides @Named(DisMetadataProperties.FOP_DB_CLASS_NAME) 
 	protected String fopDbClass(DisMetadataProperties props) { 
 		return props.getFopDbClass(); }
+	
+	
+	@Provides @Named(DisMetadataProperties.OPTIMUS_URL_BASE) 
+	protected String optimusUrlBase(DisMetadataProperties props) { 
+		return props.getOptimusUrlBase(); }
 	 
 	//@SuppressWarnings("deprecation")
 	@Provides @Singleton

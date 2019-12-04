@@ -31,8 +31,7 @@ import com.google.inject.servlet.RequestParameters;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools;
 import com.proquest.optimus.security.SharedKeyAuthorization;
 import com.proquest.optimus.security.service.SharedKeyAuthorizationService;
-
-import com.proquest.mtg.dismetadataservice.properties.OptimusServiceProviderProperties;
+import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
 
 
 @Path("/optimusdata/")
@@ -54,7 +53,7 @@ public class OptimusServiceProvider {
 
 	@Inject
 	public void OptimusServiceProviderProperties(
-		@Named(OptimusServiceProviderProperties.OPTIMUS_URL_BASE) String optimusUrl) {
+		@Named(DisMetadataProperties.OPTIMUS_URL_BASE) String optimusUrl) {
 			this.optimusUrl = optimusUrl;
 	}
 

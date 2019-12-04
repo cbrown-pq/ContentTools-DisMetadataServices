@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.properties;
+/*package com.proquest.mtg.dismetadataservice.properties;
 
 import java.util.ArrayList;
 import java.util.Properties;
@@ -40,4 +40,4 @@ public class OptimusServiceProviderProperties {
 		}
 	}
 	
-}
+}*/
