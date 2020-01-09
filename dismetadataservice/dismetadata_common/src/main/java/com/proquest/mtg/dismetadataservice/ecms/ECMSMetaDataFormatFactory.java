@@ -434,22 +434,24 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 	        NodeList nodeList2 = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
 	        for (int j = 0; j < nodeList.getLength(); j++) {
 		           Node nNode2 = nodeList2.item(j);
-		           //CBNEW ADVISOR
-		           Advisor advisor = new Advisor();
-		           if (nNode2.getNodeType() == Node.ELEMENT_NODE) {
+		           if (null!=nNode2) {
+		              Advisor advisor = new Advisor();
+		              if (nNode2.getNodeType() == Node.ELEMENT_NODE) {
 						cmteitem.setLastName(nNode2.getTextContent());
 						advisorresult.add(advisor);
+			      }
 		           }
 		    }
 	        expr = xpath.compile("//Contributor[@ContribRole=\"CmteMember\"]/FirstName");
 	        nodeList2 = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
 	        for (int j = 0; j < nodeList.getLength(); j++) {
 		           Node nNode2 = nodeList2.item(j);
-		           //CB NEW ADVISOR
-		           Advisor advisor = new Advisor();
-		           if (nNode2.getNodeType() == Node.ELEMENT_NODE) {
+		           if (null!=nNode2) {
+		              Advisor advisor = new Advisor();
+		              if (nNode2.getNodeType() == Node.ELEMENT_NODE) {
 						cmteitem.setFirstName(nNode2.getTextContent());
 						advisorresult.add(advisor);
+			      }
 		           }
 		    }
 	    }
