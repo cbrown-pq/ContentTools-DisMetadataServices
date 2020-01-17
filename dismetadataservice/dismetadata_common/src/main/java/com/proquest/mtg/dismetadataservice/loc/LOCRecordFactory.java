@@ -3,6 +3,8 @@ package com.proquest.mtg.dismetadataservice.loc;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 //import com.proquest.mtg.dismetadataservice.exodus.AddressMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Claimant;
@@ -177,6 +179,9 @@ public class LOCRecordFactory {
 		pqLocAuthor.setFirstName(splitter.getFirst());
 		pqLocAuthor.setMiddleName(splitter.getMiddle());
 		pqLocAuthor.setLastName(splitter.getLast());
+		if (StringUtils.isNotEmpty(splitter.getSuffix())) {
+			pqLocAuthor.setLastName(splitter.getLast() + " " + splitter.getSuffix());
+		}
 		if (null != author.getAuthorCitizenship() && !author.getAuthorCitizenship().isEmpty()) {
 			pqLocAuthor.setCitizenShip(author.getAuthorLocCitizenship());
 		} else {
