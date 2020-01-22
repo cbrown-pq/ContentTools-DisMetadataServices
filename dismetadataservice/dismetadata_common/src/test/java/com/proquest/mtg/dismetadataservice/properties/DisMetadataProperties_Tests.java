@@ -37,6 +37,8 @@ public class DisMetadataProperties_Tests {
 	static final String kFopDbUserPassword = "FakeFopPassword";
 	static final String kFopDbClassname = "FakeFopDbClassName";
 	static final String kOptimusUrlBase = "FakeOptimusUrlBase";
+	static final String kOptimusKey = "FakeOptimusKey";
+	static final String kOptimusSecretKey = "FakeOptimusSecretKey";
 	
 	public static Properties makePropertyMapForTesting() {
 		Properties props = new Properties();
@@ -65,6 +67,8 @@ public class DisMetadataProperties_Tests {
 		props.setProperty(DisMetadataProperties.FOP_DB_PASSWORD, kFopDbUserPassword);
 		props.setProperty(DisMetadataProperties.FOP_DB_CLASS_NAME, kFopDbClassname);
 		props.setProperty(DisMetadataProperties.OPTIMUS_URL_BASE, kOptimusUrlBase);
+		props.setProperty(DisMetadataProperties.OPTIMUS_KEY, kOptimusKey);
+		props.setProperty(DisMetadataProperties.OPTIMUS_SECRET_KEY, kOptimusSecretKey);
 		return props;
 	}
 	
@@ -167,4 +171,13 @@ public class DisMetadataProperties_Tests {
 		assertThat(target.getOptimusUrlBase(), is(kOptimusUrlBase));
 	}
 	
+	@Test
+	public void hasCorrect_optimusKey() throws Exception {
+		assertThat(target.getOptimusKey(), is(kOptimusKey));
+	}
+	
+	@Test
+	public void hasCorrect_optimusSecretKey() throws Exception {
+		assertThat(target.getOptimusSecretKey(), is(kOptimusSecretKey));
+	}		
 }

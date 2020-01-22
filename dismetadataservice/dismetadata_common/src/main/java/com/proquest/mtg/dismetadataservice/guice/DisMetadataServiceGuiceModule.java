@@ -188,7 +188,15 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 	@Provides @Named(DisMetadataProperties.OPTIMUS_URL_BASE) 
 	protected String optimusUrlBase(DisMetadataProperties props) { 
 		return props.getOptimusUrlBase(); }
-	 
+
+	@Provides @Named(DisMetadataProperties.OPTIMUS_KEY) 
+	protected String optimusKey(DisMetadataProperties props) { 
+		return props.getOptimusKey(); }
+
+	@Provides @Named(DisMetadataProperties.OPTIMUS_SECRET_KEY) 
+	protected String optimusSecretKey(DisMetadataProperties props) { 
+		return props.getOptimusSecretKey(); }
+
 	//@SuppressWarnings("deprecation")
 	@Provides @Singleton
 	protected ClientConnectionManager getHttpClientConnectionManager() {

@@ -34,6 +34,8 @@ public class DisMetadataProperties {
 	public final static String FOP_DB_PASSWORD = "fop.db.password";
 	public final static String FOP_DB_CLASS_NAME = "fop.db.class";
 	public final static String OPTIMUS_URL_BASE = "optimus.api.url";
+	public final static String OPTIMUS_KEY = "optimus.api.key";
+	public final static String OPTIMUS_SECRET_KEY = "optimus.api.secret";
 	
 	public final static ArrayList<String> kRequiredProps = Lists
 			.newArrayList(
@@ -61,7 +63,9 @@ public class DisMetadataProperties {
 					FOP_DB_USER_NAME,
 					FOP_DB_PASSWORD,
 					FOP_DB_CLASS_NAME,
-					OPTIMUS_URL_BASE);
+					OPTIMUS_URL_BASE,
+					OPTIMUS_KEY,
+					OPTIMUS_SECRET_KEY);
 	
 	
 	//private final JdbcConfig exodusConfig;
@@ -84,6 +88,8 @@ public class DisMetadataProperties {
 	private final String fopDbPassword;
 	private final String fopDbClass;
 	private final String optimusUrlBase;
+	private final String optimusKey;
+	private final String optimusSecretKey;
 	
 	@Inject
 	public DisMetadataProperties(IAppConfigReader appConfigReader) throws Exception {
@@ -125,6 +131,8 @@ public class DisMetadataProperties {
 		this.fopDbPassword = props.getProperty(FOP_DB_PASSWORD);
 		this.fopDbClass = props.getProperty(FOP_DB_CLASS_NAME);
 		this.optimusUrlBase = props.getProperty(OPTIMUS_URL_BASE);
+		this.optimusKey = props.getProperty(OPTIMUS_KEY);
+		this.optimusSecretKey = props.getProperty(OPTIMUS_SECRET_KEY);
 	}
 
 	//public JdbcConfig getExodusJdbcConfig() {
@@ -228,5 +236,12 @@ public class DisMetadataProperties {
 	public String getOptimusUrlBase() {
 		return optimusUrlBase;
 	}
+
+	public String getOptimusKey() {
+		return optimusKey;
+	}
 	
+	public String getOptimusSecretKey() {
+		return optimusSecretKey;
+	}
 }
