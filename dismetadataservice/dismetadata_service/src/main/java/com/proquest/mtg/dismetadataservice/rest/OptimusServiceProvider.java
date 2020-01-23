@@ -24,25 +24,24 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-// import com.google.inject.name.Named;
-// import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import com.google.inject.Inject;
 // import com.google.inject.servlet.RequestParameters;
 // import com.proquest.mtg.dismetadataservice.format.SchoolMetaDataFormatFactory;
 // import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools;
 import com.proquest.optimus.security.SharedKeyAuthorization;
 import com.proquest.optimus.security.service.SharedKeyAuthorizationService;
-// import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
+import com.proquest.mtg.dismetadataservice.properties.DisMetadataProperties;
 import com.proquest.mtg.dismetadataservice.rest.DisServiceException;
 
 
 @Path("/optimusdata/")
 public class OptimusServiceProvider {
  
-	private String optimusUrl = "https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/INNODATA";
-	private String optimusKey = "XYPC9MN8AAPP7SQR";
-	private String optimusSecretKey = "y88akjsAzGzULmZwJj9xa3K5ArX8TYYhWuMMzwgYeJNnLS3QZfmdLuApRKqLkVD7";
+	private String optimusUrl; // = "https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/INNODATA";
+	private String optimusKey; // = "XYPC9MN8AAPP7SQR";
+	private String optimusSecretKey; // = "y88akjsAzGzULmZwJj9xa3K5ArX8TYYhWuMMzwgYeJNnLS3QZfmdLuApRKqLkVD7";
 
-	/*
 	@Inject
 	public void OptimusServiceProviderProperties(
 		@Named(DisMetadataProperties.OPTIMUS_URL_BASE) String optimusUrl,
@@ -52,13 +51,12 @@ public class OptimusServiceProvider {
 			this.optimusKey = optimusKey; 
 			this.optimusSecretKey = optimusSecretKey; 
 	}
-	*/
 
 	@GET
 	@Path("/test")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String testAPI() throws WebApplicationException {
-		String response = "working still";
+		String response = "working stilll";
 		return response;
 	}	
 
