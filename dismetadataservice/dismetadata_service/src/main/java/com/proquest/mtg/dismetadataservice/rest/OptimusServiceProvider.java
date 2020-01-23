@@ -39,8 +39,8 @@ import com.proquest.mtg.dismetadataservice.rest.DisServiceException;
 public class OptimusServiceProvider {
  
 	private String optimusUrl; // = "https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/INNODATA";
-	private String optimusKey; // = "XYPC9MN8AAPP7SQR";
-	private String optimusSecretKey; // = "y88akjsAzGzULmZwJj9xa3K5ArX8TYYhWuMMzwgYeJNnLS3QZfmdLuApRKqLkVD7";
+	private String optimusKey; // = "EL4B9BCEYCD24VVH";
+	private String optimusSecretKey; // = "hBBYbQVNnrE43rfZnQwywxuRnXj6KHR77pqdKamGsD7Km24apP8FaVaQA6ssrw8R";
 
 	@Inject
 	public void OptimusServiceProviderProperties(
@@ -51,12 +51,12 @@ public class OptimusServiceProvider {
 			this.optimusKey = optimusKey; 
 			this.optimusSecretKey = optimusSecretKey; 
 	}
-
+	
 	@GET
 	@Path("/test")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String testAPI() throws WebApplicationException {
-		String response = "working stilll";
+		String response = "working stillz";
 		return response;
 	}	
 
@@ -64,12 +64,9 @@ public class OptimusServiceProvider {
 	@GET
 	@Path("/getReferenceCountsTotals")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getRefCountsTotalsFromOptimus(@QueryParam("startDate") String startDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
+	public String getRefCountsTotalsFromOptimus(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
 		String response = null;
-		//                  "https://optimus-pipeline-service.prod.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts-summary"
-		//                      https://optimus-pipeline-service.pre.int.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts",
 		String optimusRefSumUrl = String.join("/", this.optimusUrl, "reference-counts-summary");
-		// String optimusRefSumUrl = String.format("https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/%1$s/reference-counts-summary", vendor);
 		try {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
 			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
@@ -89,7 +86,7 @@ public class OptimusServiceProvider {
 			// String url = String.format("{`dateSearchStart`: `%1$s`, `pubNumbers`: [`22588181`,`22624858`]}", startDate).replace('`', '"');
 			//String url = "{\"dateSearchStart\": \"20191024\", \"pubNumbers\": [\"22588181\",\"22624858\"]}";
 		  	//String url = "{\"dateSearchStart\": \"20190729\"}";
-			String url = String.format("{`dateSearchStart`: `%1$s`, `pubNumbers`: %2$s}", startDate, pubNumbers).replace('`', '"');
+			String url = String.format("{`dateSearchStart`: `%1$s`, `dateSearchEnd`: `%2$s`, `pubNumbers`: %3$s}", startDate, endDate, pubNumbers).replace('`', '"');
 			// String url = "{\"dateSearchStart\": \"" + startDate + "\", \"pubNumbers\": " + pubNumbers + "}";
 			response = processResponse(urlConnection, url);
 		} catch(IllegalArgumentException e) {
