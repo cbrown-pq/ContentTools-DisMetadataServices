@@ -53,14 +53,6 @@ public class OptimusServiceProvider {
 	}
 	
 	@GET
-	@Path("/test")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String testAPI() throws WebApplicationException {
-		String response = "working stillz";
-		return response;
-	}	
-
-	@GET
 	@Path("/getReferenceCountsTotals")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getRefCountsTotalsFromOptimus(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
@@ -73,7 +65,6 @@ public class OptimusServiceProvider {
 							this.optimusKey,
 							this.optimusSecretKey,
 			                "POST",
-			                // this.optimusUrl,
 							optimusRefSumUrl,
 			                parameterMap);
 			 
@@ -81,12 +72,7 @@ public class OptimusServiceProvider {
 			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
 			
 			URLConnection urlConnection = buildUrlConnection(optimusRefSumUrl,"application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
-			//URLConnection urlConnection = buildUrlConnection(this.optimusUrl,"application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
-			// String url = String.format("{`dateSearchStart`: `%1$s`, `pubNumbers`: [`22588181`,`22624858`]}", startDate).replace('`', '"');
-			//String url = "{\"dateSearchStart\": \"20191024\", \"pubNumbers\": [\"22588181\",\"22624858\"]}";
-		  	//String url = "{\"dateSearchStart\": \"20190729\"}";
 			String url = String.format("{`dateSearchStart`: `%1$s`, `dateSearchEnd`: `%2$s`, `pubNumbers`: %3$s}", startDate, endDate, pubNumbers).replace('`', '"');
-			// String url = "{\"dateSearchStart\": \"" + startDate + "\", \"pubNumbers\": " + pubNumbers + "}";
 			response = processResponse(urlConnection, url);
 		} catch(IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);
@@ -99,12 +85,9 @@ public class OptimusServiceProvider {
 	@GET
 	@Path("/getReferenceRejectsTotals")
 	@Produces(MediaType.TEXT_PLAIN)
-	// public String getRefRejectsTotalsFromOptimus() throws WebApplicationException {
-	public String getRefRejectsTotalsFromOptimus(@QueryParam("startDate") String startDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
+	public String getRefRejectsTotalsFromOptimus(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
 		String response = null;
-		//                  "https://optimus-pipeline-service.prod.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-cejects-summary"
-		String optimusRejSumUrl = String.join("/", this.optimusUrl, "reference-rejects-counts-summary ");
-		// String optimusUrl = String.format("https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/%1$s/reference-counts-summary", vendor);
+		String optimusRejSumUrl = String.join("/", this.optimusUrl, "reference-rejects-counts-summary");
 		try {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
 			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
@@ -118,13 +101,8 @@ public class OptimusServiceProvider {
 			SharedKeyAuthorization sharedKeyAuthorization = sharedKeyAuthorizationService.build();
 			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
 			
-			URLConnection urlConnection = buildUrlConnection(optimusUrl,"application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
-			// String url = String.format("{`dateSearchStart`: `%1$s`, `pubNumbers`: [`22588181`,`22624858`]}", startDate).replace('`', '"');
-			//String url = "{\"dateSearchStart\": \"20191024\", \"pubNumbers\": [\"22588181\",\"22624858\"]}";
-			String url = String.format("{`dateSearchStart`: `%1$s`, `pubNumbers`: %2$s}", startDate, pubNumbers).replace('`', '"');
-			
-			// String url = String.format("{`dateSearchStart`: `%1$s`, `pubNumbers`: %2$s}", startDate, pubNumbers).replace('`', '"');
-			// String url = "{\"dateSearchStart\": \"" + startDate + "\", \"pubNumbers\": " + pubNumbers + "}";
+			URLConnection urlConnection = buildUrlConnection(optimusRejSumUrl,"application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
+			String url = String.format("{`dateSearchStart`: `%1$s`, `dateSearchEnd`: `%2$s`, `pubNumbers`: %3$s}", startDate, endDate, pubNumbers).replace('`', '"');
 			response = processResponse(urlConnection, url);
 		} catch(IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);
@@ -140,23 +118,22 @@ public class OptimusServiceProvider {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getRefCountsInfoFromOptimus(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
 		String response = null;
+		String optimusRefCntUrl = String.join("/", this.optimusUrl, "reference-counts");
 		try {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
 			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
 			        new SharedKeyAuthorizationService(
-			        	    "EL4B9BCEYCD24VVH",
-				            "hBBYbQVNnrE43rfZnQwywxuRnXj6KHR77pqdKamGsD7Km24apP8FaVaQA6ssrw8R",
+							this.optimusKey,
+							this.optimusSecretKey,
 			                "POST",
-			                "https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts",
+			                optimusRefCntUrl,
 			                parameterMap);
 			 
 			SharedKeyAuthorization sharedKeyAuthorization = sharedKeyAuthorizationService.build();
 			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
 			
-			URLConnection urlConnection = buildUrlConnection("https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-counts","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
-			String url = "{\"dateCreatedStart\"" + ":" + "\"" + startDate + "\"," + "\"dateCreatedEnd\"" + ":" + "\"" + endDate + "\"," +  "\"pubNumbers\": "+ pubNumbers + "}";
-			//response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\"}");
-			//response =  processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\",\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
+			URLConnection urlConnection = buildUrlConnection(optimusRefCntUrl,"application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
+			String url = String.format("{`dateSearchStart`: `%1$s`, `dateSearchEnd`: `%2$s`, `pubNumbers`: %3$s}", startDate, endDate, pubNumbers).replace('`', '"');
 			response = processResponse(urlConnection, url);
 		} catch(IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
@@ -172,23 +149,23 @@ public class OptimusServiceProvider {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getReferenceRejects(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
 		String response = null;
+		String optimusRefRejUrl = String.join("/", this.optimusUrl, "reference-rejects");
 		try {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
 			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
 			        new SharedKeyAuthorizationService(
-			        	    "EL4B9BCEYCD24VVH",
-				            "hBBYbQVNnrE43rfZnQwywxuRnXj6KHR77pqdKamGsD7Km24apP8FaVaQA6ssrw8R",
+							this.optimusKey,
+							this.optimusSecretKey,
 			                "POST",
-			                "https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-rejects",
+			                optimusRefRejUrl,
 			                parameterMap);
 			 
 			SharedKeyAuthorization sharedKeyAuthorization = sharedKeyAuthorizationService.build();
 			
 			System.out.println("signature:"+sharedKeyAuthorization.getSignature());
 			
-			URLConnection urlConnection = buildUrlConnection("https://optimus-pipeline-service.prod.int.proquest.com/optimus-pipeline-service/vendors/INNODATA/reference-rejects","application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
-			String url = "{\"dateCreatedStart\"" + ":" + "\"" + startDate + "\"," + "\"dateCreatedEnd\"" + ":" + "\"" + endDate + "\"," + "\"pubNumbers\": "+ pubNumbers + "}";
-			//response = processResponse(urlConnection, "{\"dateCreatedStart\":\"20160413\",\"dateCreatedEnd\":\"20160418\",\"pubNumbers\":[\"1014308071\",\"1014308431\"]}");
+			URLConnection urlConnection = buildUrlConnection(optimusRefRejUrl, "application/json", "application/json", sharedKeyAuthorization.getSignature(), sharedKeyAuthorization);
+			String url = String.format("{`dateSearchStart`: `%1$s`, `dateSearchEnd`: `%2$s`, `pubNumbers`: %3$s}", startDate, endDate, pubNumbers).replace('`', '"');
 			response = processResponse(urlConnection, url);
 		} catch(IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT); /*As per standard it shouldn't contain a message */
