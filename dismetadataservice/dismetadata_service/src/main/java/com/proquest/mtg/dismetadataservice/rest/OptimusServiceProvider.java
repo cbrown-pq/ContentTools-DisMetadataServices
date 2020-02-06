@@ -57,7 +57,8 @@ public class OptimusServiceProvider {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getRefCountsTotalsFromOptimus(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
 		String response = null;
-		String optimusRefSumUrl = String.join("/", this.optimusUrl, "reference-counts-summary");
+		// String optimusRefSumUrl = this.optimusUrl + "/reference-counts-summary";
+		String optimusRefSumUrl = this.optimusUrl + "/reference-counts-summary";
 		try {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
 			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
@@ -87,7 +88,7 @@ public class OptimusServiceProvider {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getRefRejectsTotalsFromOptimus(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
 		String response = null;
-		String optimusRejSumUrl = String.join("/", this.optimusUrl, "reference-rejects-counts-summary");
+		String optimusRejSumUrl = this.optimusUrl + "/reference-rejects-counts-summary";
 		try {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
 			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
@@ -118,7 +119,7 @@ public class OptimusServiceProvider {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getRefCountsInfoFromOptimus(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
 		String response = null;
-		String optimusRefCntUrl = String.join("/", this.optimusUrl, "reference-counts");
+		String optimusRefCntUrl = this.optimusUrl + "/reference-counts";
 		try {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
 			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
@@ -149,7 +150,7 @@ public class OptimusServiceProvider {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getReferenceRejects(@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate, @QueryParam("pubNumbers") List<String> pubNumbers) throws WebApplicationException {
 		String response = null;
-		String optimusRefRejUrl = String.join("/", this.optimusUrl, "reference-rejects");
+		String optimusRefRejUrl = this.optimusUrl + "/reference-rejects";
 		try {
 			Map<String, String[]> parameterMap = new HashMap<String,String[]>();
 			SharedKeyAuthorizationService sharedKeyAuthorizationService =	
