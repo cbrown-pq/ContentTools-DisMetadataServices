@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.exodus;
+package com.proquest.mtg.dismetadataservice.datasource;
 
 import com.google.inject.Inject;
 import com.proquest.mtg.dismetadataservice.csv.CSVRecordFactory;
@@ -9,7 +9,7 @@ import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.metadata.PlainTextNormalizer;
 import com.proquest.mtg.dismetadataservice.usmarc.USMarcRecordFactory;
 
-public class ExodusDataProvider implements IMarcProvider,ICSVProvider {
+public class ECMSDataProvider implements IMarcProvider,ICSVProvider {
 	
 	private final IPubMetaDataProvider pubMetaDataProvider;
 	private final DisGenMappingProvider disGenMappingProvider;
@@ -17,7 +17,7 @@ public class ExodusDataProvider implements IMarcProvider,ICSVProvider {
 	private final PDFVaultAvailableStatusProvider pdfVaultAvailableStatusProvider;
 
 	@Inject
-	public ExodusDataProvider(IPubMetaDataProvider pubMetaDataProvider, 
+	public ECMSDataProvider(IPubMetaDataProvider pubMetaDataProvider, 
 			DisGenMappingProvider disGenMappingProvider,
 			PlainTextNormalizer plainTextNormalizer,
 			PDFVaultAvailableStatusProvider pdfVaultAvailableStatusProvider) {

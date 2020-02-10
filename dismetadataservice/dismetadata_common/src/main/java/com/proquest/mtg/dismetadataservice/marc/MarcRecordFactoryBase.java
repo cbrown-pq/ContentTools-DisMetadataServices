@@ -2,8 +2,8 @@ package com.proquest.mtg.dismetadataservice.marc;
 
 import java.util.List;
 
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
+import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.AlternateTitle;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.metadata.DisGeneralMapping;
 

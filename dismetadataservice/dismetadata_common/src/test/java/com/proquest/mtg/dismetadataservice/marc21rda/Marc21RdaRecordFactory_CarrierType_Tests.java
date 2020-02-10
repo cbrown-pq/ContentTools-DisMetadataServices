@@ -6,11 +6,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfAvailableDateStatus;
+import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.PdfAvailableDateStatus;
 import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
+import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.SuppFile;
 
 public class Marc21RdaRecordFactory_CarrierType_Tests extends
 		Marc21RdaRecordFactory_Test_Helper {

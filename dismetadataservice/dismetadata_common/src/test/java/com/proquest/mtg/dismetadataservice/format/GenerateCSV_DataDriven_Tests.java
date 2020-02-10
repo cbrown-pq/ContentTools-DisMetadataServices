@@ -15,10 +15,10 @@ import org.junit.Test;
 import com.google.common.collect.Lists;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.proquest.mtg.dismetadataservice.exodus.ExodusDataProvider;
-import com.proquest.mtg.dismetadataservice.exodus.ICSVProvider;
-import com.proquest.mtg.dismetadataservice.exodus.MakeExodusMetadataForTesting;
-import com.proquest.mtg.dismetadataservice.exodus.PubMetaDataProvider;
+import com.proquest.mtg.dismetadataservice.datasource.ECMSDataProvider;
+import com.proquest.mtg.dismetadataservice.datasource.ICSVProvider;
+import com.proquest.mtg.dismetadataservice.datasource.MakeECMSMetadataForTesting;
+import com.proquest.mtg.dismetadataservice.datasource.PubMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.guice.DisMetadataServiceGuiceModule;
 import com.proquest.mtg.dismetadataservice.jdbc.JdbcConnectionPool;
 //import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
@@ -81,7 +81,7 @@ public class GenerateCSV_DataDriven_Tests {
 		//JdbcConnectionPool connectionPool = JdbcHelper
 		//		.makePoolForExodusUnitTest();
 		PubMetaDataProvider pubMetaDataProvider = new PubMetaDataProvider(
-				MakeExodusMetadataForTesting.pqOpenUrlBase);
+				MakeECMSMetadataForTesting.pqOpenUrlBase);
 		DisGenMappingProvider disGenMappingProvider = new DisGenMappingProvider();
 		PlainTextNormalizer plainTextNormalizer = new PlainTextNormalizer(
 				new HTMLTagRemover());
@@ -89,7 +89,7 @@ public class GenerateCSV_DataDriven_Tests {
 				new DisMetadataServiceGuiceModule("dismetadata.local.properties"));
 		PDFVaultAvailableStatusProvider pdfVaultAvailableStatusProvider = 
 				injector.getInstance(PDFVaultAvailableStatusProvider.class);
-		csvProvider = new ExodusDataProvider(pubMetaDataProvider,
+		csvProvider = new ECMSDataProvider(pubMetaDataProvider,
 				disGenMappingProvider, plainTextNormalizer, pdfVaultAvailableStatusProvider);
 	}
 

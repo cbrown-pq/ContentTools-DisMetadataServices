@@ -3,8 +3,8 @@ package com.proquest.mtg.dismetadataservice.marc21rda;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
+import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 
 public class Marc21RdaRecordFactory_MakeHostItemEntry_NoTag_Tests extends
