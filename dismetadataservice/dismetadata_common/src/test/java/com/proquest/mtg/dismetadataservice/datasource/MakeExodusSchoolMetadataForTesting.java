@@ -12,7 +12,7 @@ import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools.School;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools.School.Addresses;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.Schools.School.SchoolPersons;
 
-public class MakeExodusSchoolMetadataForTesting {
+public class MakeECMSSchoolMetadataForTesting {
 	//static final String kEmptyField = ""; 
 	
 	static final String fakeSchool = "fakeSchool";
