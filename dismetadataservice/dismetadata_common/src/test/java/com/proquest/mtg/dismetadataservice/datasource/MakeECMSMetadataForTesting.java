@@ -96,7 +96,7 @@ public class MakeECMSMetadataForTesting {
 	
 	public static Advisors makeAdvisorsFrom(String advisorECMSStr, Iterable<Advisor> advisor) {
 		Advisors result = new Advisors();
-		result.setAdvisorsECMSStr(advisorExodusStr);
+		result.setAdvisorsECMSStr(advisorECMSStr);
 		result.setAdvisor(advisor);
 		return result;
 	}
