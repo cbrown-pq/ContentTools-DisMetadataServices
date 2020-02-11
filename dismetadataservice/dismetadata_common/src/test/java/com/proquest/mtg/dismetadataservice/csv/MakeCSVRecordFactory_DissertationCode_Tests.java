@@ -4,8 +4,8 @@ import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Batch;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider;
 
 public class MakeCSVRecordFactory_DissertationCode_Tests extends EasyMockSupport {

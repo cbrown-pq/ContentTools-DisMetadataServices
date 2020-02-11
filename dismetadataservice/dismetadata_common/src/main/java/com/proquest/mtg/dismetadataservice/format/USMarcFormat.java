@@ -1,7 +1,7 @@
 package com.proquest.mtg.dismetadataservice.format;
 
 import com.google.inject.Inject;
-import com.proquest.mtg.dismetadataservice.datasource.IMarcProvider;
+import com.proquest.mtg.dismetadataservice.exodus.IMarcProvider;
 
 public class USMarcFormat implements IMetaDataFormats {
 	

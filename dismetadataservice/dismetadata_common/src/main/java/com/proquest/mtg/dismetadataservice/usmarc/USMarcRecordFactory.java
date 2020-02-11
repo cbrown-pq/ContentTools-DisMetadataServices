@@ -7,13 +7,13 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.Lists;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisors;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Batch;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.DissLOCLanguage;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.SalesRestriction;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Subject;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.SuppFile;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLOCLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
 import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
@@ -529,7 +529,7 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 	private void handleGeneralNoteForAdvisor() {
 		Advisors advisors = curMetaData.getAdvisors();
 		if (null != advisors) {
-			String advisor = advisors.getAdvisorsECMSStr();
+			String advisor = advisors.getAdvisorsExodusStr();
 			if (null != advisor && !advisor.isEmpty()) {
 				advisor = SGMLEntitySubstitution.applyAllTo(advisor);
 				advisor.replaceAll("\\s+$", "");

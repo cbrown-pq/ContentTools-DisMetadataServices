@@ -3,7 +3,7 @@ package com.proquest.mtg.dismetadataservice.metadata;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.proquest.mtg.dismetadataservice.datasource.AddressMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.AddressMetaData;
 
 
 public class Author {

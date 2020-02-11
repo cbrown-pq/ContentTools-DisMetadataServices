@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Subject;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 //import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;

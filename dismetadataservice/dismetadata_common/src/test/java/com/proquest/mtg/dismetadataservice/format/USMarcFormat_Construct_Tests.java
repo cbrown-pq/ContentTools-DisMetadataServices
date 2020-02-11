@@ -7,7 +7,7 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.proquest.mtg.dismetadataservice.datasource.IMarcProvider;
+import com.proquest.mtg.dismetadataservice.exodus.IMarcProvider;
 
 public class USMarcFormat_Construct_Tests {
 	

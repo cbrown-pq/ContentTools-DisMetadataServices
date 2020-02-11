@@ -9,7 +9,7 @@ import java.util.List;
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
 
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 //import com.proquest.mtg.dismetadataservice.jdbc.JdbcHelper;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;

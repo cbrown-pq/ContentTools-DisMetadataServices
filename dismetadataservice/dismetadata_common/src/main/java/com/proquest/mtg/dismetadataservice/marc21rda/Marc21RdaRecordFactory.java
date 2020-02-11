@@ -7,16 +7,16 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.Lists;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisors;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Batch;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.CmteMember;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.DissLOCLanguage;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.DissLanguage;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.SalesRestriction;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Subject;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.SuppFile;
-import com.proquest.mtg.dismetadataservice.datasource.SplitAdvisors;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLOCLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
+import com.proquest.mtg.dismetadataservice.exodus.SplitAdvisors;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecordFactoryBase;
@@ -597,7 +597,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		Advisors advisors = curMetaData.getAdvisors();
 		String adviserCmteMembers = "";
 		if (null != advisors) {
-			String advisor = advisors.getAdvisorsECMSStr();
+			String advisor = advisors.getAdvisorsExodusStr();
 			if (null != advisor && !advisor.isEmpty()) {
 				List<String> advisorNames = SplitAdvisors.split(advisor);
 				for (String curAdvisor : advisorNames) {
@@ -788,7 +788,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 
 		Advisors advisors = curMetaData.getAdvisors();
 		if (null != advisors) {
-			String advisor = advisors.getAdvisorsECMSStr();
+			String advisor = advisors.getAdvisorsExodusStr();
 			if (null != advisor && !advisor.isEmpty()) {
 				advisor = SGMLEntitySubstitution.applyAllTo(advisor);
 				advisor.replaceAll("\\s+$", "");

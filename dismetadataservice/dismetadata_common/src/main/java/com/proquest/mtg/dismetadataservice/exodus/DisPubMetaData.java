@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.datasource;
+package com.proquest.mtg.dismetadataservice.exodus;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -776,14 +776,14 @@ public class DisPubMetaData {
     }
     
     public static class Advisors {
-        private String advisorsECMSStr;
+        private String advisorsExodusStr;
         private List<Advisor> advisors;
         
-        public String getAdvisorsECMSStr() {
-            return advisorsECMSStr;
+        public String getAdvisorsExodusStr() {
+            return advisorsExodusStr;
         }
-        public void setAdvisorsECMSStr(String value) {
-            this.advisorsECMSStr = value;
+        public void setAdvisorsExodusStr(String value) {
+            this.advisorsExodusStr = value;
         }
         public List<Advisor> getAdvisor() {
             return advisors;

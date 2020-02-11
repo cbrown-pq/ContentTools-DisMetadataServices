@@ -15,7 +15,7 @@ import org.marc4j.marc.Record;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.proquest.mtg.dismetadataservice.datasource.IMarcProvider;
+import com.proquest.mtg.dismetadataservice.exodus.IMarcProvider;
 import com.proquest.mtg.dismetadataservice.marc.MarcParser;
 import com.proquest.mtg.dismetadataservice.utils.MarcXMLSchemaValidator;
 

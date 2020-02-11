@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider;
 
 public class MakeCSVRecordFactory_Department_Tests extends EasyMockSupport {

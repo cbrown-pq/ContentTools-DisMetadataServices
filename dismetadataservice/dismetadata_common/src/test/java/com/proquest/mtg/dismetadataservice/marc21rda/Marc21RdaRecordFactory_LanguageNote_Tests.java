@@ -8,8 +8,8 @@ import java.util.List;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
 import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;

@@ -6,10 +6,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisors;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.CmteMember;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;
 
@@ -42,7 +42,7 @@ public class Marc21RdaRecordFactory_SourceAdvisor_Tests extends
 	@Test
 	public void withAdvisors_NullCmteMembers() {
 		String advisorString = "Advisors: JoAnn Jodi Crandall;Beverly Bickel";
-		advisors.setAdvisorsECMSStr(advisorString);
+		advisors.setAdvisorsExodusStr(advisorString);
 		metaData.setAdvisors(advisors);
 		metaData.setCmteMembers(cmteMembers);
 		expectedMarcFieldData = "  " + MarcCharSet.kSubFieldIndicator + "a"
@@ -54,7 +54,7 @@ public class Marc21RdaRecordFactory_SourceAdvisor_Tests extends
 	@Test
 	public void withAdvisorsAndCmteMembers() {
 		String advisorString = "Advisors: JoAnn Jodi Crandall; Beverly Bickel";
-		advisors.setAdvisorsECMSStr(advisorString);
+		advisors.setAdvisorsExodusStr(advisorString);
 		metaData.setAdvisors(advisors);
 		cmteMember.setFirstName("William");
 		cmteMember.setLastName("Dalton");
@@ -72,7 +72,7 @@ public class Marc21RdaRecordFactory_SourceAdvisor_Tests extends
 	@Test
 	public void withAdvisorsAndMultipleCmteMembers() {
 		String advisorString = "Advisors: JoAnn Jodi Crandall;Beverly Bickel";
-		advisors.setAdvisorsECMSStr(advisorString);
+		advisors.setAdvisorsExodusStr(advisorString);
 		metaData.setAdvisors(advisors);
 		cmteMember.setFirstName("William");
 		cmteMember.setLastName("Dalton");

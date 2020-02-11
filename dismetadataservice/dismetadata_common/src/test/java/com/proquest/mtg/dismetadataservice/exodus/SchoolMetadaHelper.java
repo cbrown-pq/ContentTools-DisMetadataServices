@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.datasource;
+package com.proquest.mtg.dismetadataservice.exodus;
 
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.AddressType;
 import com.proquest.mtg.dismetadataservice.schoolmetadata.xml.ContactType;

@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Keyword;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
 import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider;
 
 public class MakeCSVRecordFactory_Keyword_Tests extends EasyMockSupport {
@@ -67,12 +67,12 @@ public class MakeCSVRecordFactory_Keyword_Tests extends EasyMockSupport {
 		keyword1.setSource("low temperature adsorption drying");
 		Keyword keyword2 = new Keyword();
 		keyword2.setValue("For Datrix");
-		keyword2.setSource("	  å…�ç–«");
+		keyword2.setSource("	  免疫");
 		List<Keyword> keywords = Lists.newArrayList(keyword1, keyword2);
 		metadata.setKeywords(keywords);
 		String csvData = factory.makeFrom(metadata);
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kKeyword, "By Author|For Datrix");
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kKeywordSource, "low temperature adsorption drying|	  å…�ç–«");
+		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kKeywordSource, "low temperature adsorption drying|	  免疫");
 	}
 
 }

@@ -12,16 +12,16 @@ import org.hamcrest.Factory;
 import org.hamcrest.TypeSafeMatcher;
 
 import com.google.common.collect.Lists;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.AlternateTitle;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.CmteMember;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.DissLanguage;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.FormatRestriction;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Keyword;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.SalesRestriction;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Subject;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.SuppFile;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
 
 public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
@@ -289,9 +289,9 @@ public class DissertationMatcher extends TypeSafeMatcher<DisPubMetaData> {
 	private void verifyAdvisors(DisPubMetaData actual) {
 		if (null != expected.getAdvisors()) {
 			if (verifyNotNullValue("Advisors", actual.getAdvisors())) {
-				verify("Advisor ECMS String", 
-						expected.getAdvisors().getAdvisorsECMSStr(),
-						actual.getAdvisors().getAdvisorsECMSStr());
+				verify("Advisor Exodus String", 
+						expected.getAdvisors().getAdvisorsExodusStr(),
+						actual.getAdvisors().getAdvisorsExodusStr());
 				int expectedCount = expected.getAdvisors().getAdvisor().size();
 				int actualCount = actual.getAdvisors().getAdvisor().size();
 				verify("Advisors Count", expectedCount, actualCount);

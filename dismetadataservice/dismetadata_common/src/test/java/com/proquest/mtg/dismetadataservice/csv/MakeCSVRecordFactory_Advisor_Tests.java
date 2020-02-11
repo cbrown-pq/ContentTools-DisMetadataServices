@@ -11,9 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisors;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider;
 
 public class MakeCSVRecordFactory_Advisor_Tests extends EasyMockSupport {

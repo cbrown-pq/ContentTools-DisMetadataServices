@@ -5,7 +5,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
+//import com.proquest.mtg.dismetadataservice.exodus.AddressMetaDataProvider;
+import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.metadata.Author.Claimant;
 import com.proquest.mtg.dismetadataservice.metadata.SGMLEntitySubstitution;
 import com.proquest.mtg.dismetadataservice.metadata.SplitAuthorNames;
@@ -19,10 +20,25 @@ import com.proquest.mtg.dismetadataservice.pqloc.TitleofthisWork;
 import com.proquest.mtg.dismetadataservice.pqloc.Titles;
 
 public class LOCRecordFactory {
+//	private static String kAuthorAddress = "authorAddress";
+//	private static String kClaimantAddress = "claimantAddress";
 	private static String kClaimantIntegrationIdConstant = "C";
 	private static String kAuthorIntegrationIdConstant = "A";
 	private static String kTitleIntegrationIdConstant = "T";
 	private static String kUnknownLocCitizenship = "not known";
+//	private static String kDefaultNonUSState = "Non-U.S.";
+
+//	private final AddressMetaDataProvider addressMetaDataProvider;
+
+//	@Inject
+//	public LOCRecordFactory(AddressMetaDataProvider addressMetaDataProvider) {
+//		this.addressMetaDataProvider = addressMetaDataProvider;
+//
+//	}
+
+//	public AddressMetaDataProvider getAddressMetaDataProvider() {
+//		return addressMetaDataProvider;
+//	}
 
 	public Claim getLOCRecordFor(DisPubMetaData disPubMetaData) throws Exception {
 		Claim claim = new Claim();
@@ -53,6 +69,20 @@ public class LOCRecordFactory {
 
 	}
 
+//	private List<AddressMetaData> getClaimantAddress(DisPubMetaData disPubMetaData) throws Exception {
+//		List<AddressMetaData> claimantAddresses = null;
+//
+//		if (disPubMetaData.getAuthors() != null && !disPubMetaData.getAuthors().isEmpty()) {
+//			com.proquest.mtg.dismetadataservice.metadata.Author author = disPubMetaData.getAuthors().get(0);
+//			List<Claimant> authorClaimants = author.getClaimants();
+//			if (authorClaimants != null && !authorClaimants.isEmpty()) {
+//				claimantAddresses = getAddressMetaDataProvider()
+//						.getAddressFor(authorClaimants.get(0).getClaimantId(), kClaimantAddress);
+//			}
+//		}
+//		return claimantAddresses;
+//	}
+
 	private CertificateMailingAddress createCertificateMailingAddress(DisPubMetaData disPubMetaData) {
 		CertificateMailingAddress certificateMailingAddress = new CertificateMailingAddress();
 		com.proquest.mtg.dismetadataservice.metadata.Author author = disPubMetaData.getAuthors().get(0);
@@ -74,6 +104,49 @@ public class LOCRecordFactory {
 
 		return certificateMailingAddress;
 	}
+
+//	private void fillAddress(CertificateMailingAddress certificateMailingAddress,
+//			List<AddressMetaData> claimantAddresses) {
+//		AddressMetaData claimantAddress = null;
+//		if (claimantAddresses != null && claimantAddresses.size() != 0) {
+//			claimantAddress = claimantAddresses.get(0);
+//		}
+//
+//		if (null != claimantAddress) {
+//			certificateMailingAddress.setAddress1(createAddress1(claimantAddress));
+//			certificateMailingAddress.setCity(claimantAddress.getCity());
+//			if (StringUtils.isNotBlank(claimantAddress.getLocCountryDescription())) {
+//				certificateMailingAddress.setCountry(claimantAddress.getLocCountryDescription());
+//			} else {
+//				certificateMailingAddress.setCountry(claimantAddress.getCountryDescription());
+//			}
+//			if (StringUtils.isNotBlank(claimantAddress.getStateCode())) {
+//				certificateMailingAddress.setState(claimantAddress.getStateCode());
+//			} else {
+//				certificateMailingAddress.setState(kDefaultNonUSState);
+//			}
+//			certificateMailingAddress.setPostalCode(createPostalCode(claimantAddress));
+//		}
+//	}
+
+//	private String createPostalCode(AddressMetaData claimantAddress) {
+//
+//		String postalCode = null;
+//		if (claimantAddress.getCountry().equalsIgnoreCase("US")) {
+//			String fourDigitZip = claimantAddress.getFourDigitZip();
+//			String fiveDigitZip = claimantAddress.getFiveDigitZip();
+//			if (StringUtils.isNotBlank(fiveDigitZip)) {
+//				if (StringUtils.isNotBlank(fourDigitZip)) {
+//					postalCode = fiveDigitZip + "-" + fourDigitZip;
+//				} else {
+//					postalCode = fiveDigitZip;
+//				}
+//			}
+//		} else {
+//			postalCode = claimantAddress.getPostalCode();
+//		}
+//		return postalCode;
+//	}
 
 	private Titles createTitles(DisPubMetaData disPubMetaData) {
 		Titles titles = new Titles();
@@ -143,6 +216,58 @@ public class LOCRecordFactory {
 		pqLocClaimants.getClaimant().add(pqLocClaimant);
 		return pqLocClaimants;
 	}
+
+//	private void populateAddress(com.proquest.mtg.dismetadataservice.pqloc.Claimant pqLocClaimant,
+//			List<AddressMetaData> claimantAddresses, List<AddressMetaData> authorAddresses) {
+//
+//		AddressMetaData claimantAddress = null;
+//
+//		if (claimantAddresses != null && !claimantAddresses.isEmpty()) {
+//			claimantAddress = claimantAddresses.get(0);
+//		} else if (authorAddresses != null && !authorAddresses.isEmpty()) {
+//			claimantAddress = authorAddresses.get(0);
+//		}
+//
+//		if (null != claimantAddress) {
+//			fillAddress(pqLocClaimant, claimantAddress);
+//		}
+//	}
+
+//	private void fillAddress(com.proquest.mtg.dismetadataservice.pqloc.Claimant pqLocClaimant,
+//			AddressMetaData claimantAddress) {
+//
+//		pqLocClaimant.setAddress1(createAddress1(claimantAddress));
+//		pqLocClaimant.setCity(claimantAddress.getCity());
+//		if (StringUtils.isNotBlank(claimantAddress.getLocCountryDescription())) {
+//			pqLocClaimant.setCountry(claimantAddress.getLocCountryDescription());
+//		} else {
+//			pqLocClaimant.setCountry(claimantAddress.getCountryDescription());
+//		}
+//		if (StringUtils.isNotBlank(claimantAddress.getStateCode())) {
+//			pqLocClaimant.setState(claimantAddress.getStateCode());
+//		} else {
+//			pqLocClaimant.setState(kDefaultNonUSState);
+//		}
+//		pqLocClaimant.setPostalCode(createPostalCode(claimantAddress));
+//	}
+
+//	private String createAddress1(AddressMetaData addressMetaData) {
+//		String address1 = "";
+//		if (null != addressMetaData) {
+//			if (null != addressMetaData.getLine1()) {
+//				address1 += addressMetaData.getLine1();
+//			}
+//
+//			if (null != addressMetaData.getLine2()) {
+//				address1 += " " + addressMetaData.getLine2();
+//			}
+//
+//			if (null != addressMetaData.getLine3()) {
+//				address1 += " " + addressMetaData.getLine3();
+//			}
+//		}
+//		return address1;
+//	}
 
 	protected String verifyTitle(String title) {
 

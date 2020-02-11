@@ -1,7 +1,7 @@
 package com.proquest.mtg.dismetadataservice.format;
 
 import com.google.inject.Inject;
-import com.proquest.mtg.dismetadataservice.datasource.ICSVProvider;
+import com.proquest.mtg.dismetadataservice.exodus.ICSVProvider;
 
 public class CSVFormat implements IMetaDataFormats {
 	private final ICSVProvider csvDataProvider;
