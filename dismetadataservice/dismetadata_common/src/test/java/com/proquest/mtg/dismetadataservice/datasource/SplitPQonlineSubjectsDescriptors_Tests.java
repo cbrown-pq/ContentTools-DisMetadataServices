@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.exodus;
+package com.proquest.mtg.dismetadataservice.datasource;
 
 import static org.junit.Assert.assertEquals;
 

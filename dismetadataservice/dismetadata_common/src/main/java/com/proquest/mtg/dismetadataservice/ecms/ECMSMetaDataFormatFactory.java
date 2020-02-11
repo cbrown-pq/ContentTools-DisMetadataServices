@@ -29,27 +29,27 @@ import org.json.JSONArray;
     import com.google.common.collect.Lists;
     
     
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.exodus.SplitAdvisors;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateAbstract;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.AlternateTitle;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.datasource.SplitAdvisors;
+import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisors;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.AlternateAbstract;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.AlternateTitle;
 	import com.proquest.mtg.dismetadataservice.metadata.Author;
 	import com.proquest.mtg.dismetadataservice.metadata.Author.Degree;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Batch;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.CmteMember;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLanguage;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.DissLOCLanguage;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.FormatRestriction;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Keyword;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.ManuscriptMedia;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.PdfAvailableDateStatus;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SalesRestriction;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.School;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Subject;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.SuppFile;
-    import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Title;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Batch;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.CmteMember;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.DissLanguage;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.DissLOCLanguage;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.FormatRestriction;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Keyword;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.ManuscriptMedia;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.PdfAvailableDateStatus;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.SalesRestriction;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.School;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Subject;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.SuppFile;
+    import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Title;
     import com.proquest.mtg.dismetadataservice.metadata.DisVolIssProvider;
 
 
@@ -396,14 +396,13 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 					}
 					//System.out.println("ADVISOR :" +nNode.getTextContent());
 					//System.out.println("DELIM ADVISOR :" +delimitedAdvisors);
-					advisors.setAdvisorsExodusStr(nNode.getTextContent());
+					advisors.setAdvisorsECMSStr(nNode.getTextContent());
 					//advisorresult.add(advisor);
 	           }
 	           //System.out.println("ADDING ADVISOR :" +advisor.getAdvisorFullName());
 	           advisorresult.add(advisor);
 	           //CBNEW ADVISORS
 		        advisors.setAdvisor(advisorresult);
-		        //System.out.println("ADVISORS :" +advisors.getAdvisorsExodusStr());
 	        }
 	        result.setAdvisors(getAdvisorsFor(delimitedAdvisors));
 	        
@@ -1172,7 +1171,7 @@ import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
 			Advisors result = null;
 			if (null != delimitedAdvisorStr && ! delimitedAdvisorStr.isEmpty()) {
 				result = new Advisors();
-				result.setAdvisorsExodusStr(delimitedAdvisorStr);
+				result.setAdvisorsECMSStr(delimitedAdvisorStr);
 				List<Advisor> advisors = Lists.newArrayList();
 				List<String> advisorNames = SplitAdvisors.split(delimitedAdvisorStr); 
 				//List<String> altAdvisorNames = getAlternateAdvisorsFor(itemId);

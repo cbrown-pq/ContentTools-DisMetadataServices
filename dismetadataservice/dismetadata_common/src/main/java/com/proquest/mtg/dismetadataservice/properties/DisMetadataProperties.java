@@ -161,7 +161,7 @@ public class DisMetadataProperties {
 		return Integer.parseInt(props.getProperty(key));
 	}
 
-	public boolean fakeExodusFlag() {
+	public boolean fakeECMSFlag() {
 		return true;
 	}
 

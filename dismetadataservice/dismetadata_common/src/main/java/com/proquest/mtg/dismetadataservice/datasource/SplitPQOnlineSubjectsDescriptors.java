@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.exodus;
+package com.proquest.mtg.dismetadataservice.datasource;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.exodus;
+package com.proquest.mtg.dismetadataservice.datasource;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -43,7 +43,7 @@ public class LOCSubmissionUpdateQuery {
 			getClaimSubmissionUpdateStmt().setString(1, pubNumber);
 			if (getClaimSubmissionUpdateStmt().executeUpdate() == 0) {
 				throw new Exception("Failed to update Claim submission date for pub number : " 
-						+ pubNumber + ". Reason : Exodus update return to result.");
+						+ pubNumber + ". Reason : ECMS update return to result.");
 			}
 		} catch (SQLException e) {
 			throw new Exception("Failed to update Claim submission date for pub number : " 
@@ -57,7 +57,7 @@ public class LOCSubmissionUpdateQuery {
 			getDeliverySubmissionUpdateStmt().setString(1, pubNumber);
 			if (getDeliverySubmissionUpdateStmt().executeUpdate() == 0) {
 				throw new Exception("Failed to update delivery submission date for pub number : " 
-						+ pubNumber + ". Reason : Exodus update return to result.");
+						+ pubNumber + ". Reason : ECMS update return to result.");
 			}
 		} catch (SQLException e) {
 			throw new Exception("Failed to update delivery submission date for pub number : " 
