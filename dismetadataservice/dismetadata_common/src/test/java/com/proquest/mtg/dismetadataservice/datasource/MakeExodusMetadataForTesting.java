@@ -1,4 +1,4 @@
-package com.proquest.mtg.dismetadataservice.exodus;
+package com.proquest.mtg.dismetadataservice.datasource;
 
 import java.text.ParseException;
 import java.util.List;
@@ -414,7 +414,7 @@ public class MakeExodusMetadataForTesting {
 		title.setMasterTitle("Fundamental properties of Bragg gratings and their application to the design of advanced structures.");
 		x.setTitle(title);
 		
-		String abstract_ = "<![CDATA[This thesis presents the analysis of the local properties of Bragg gratings and their application to the improvement of standard designs and advanced structures.  The time spent by light inside each grating section is derived in terms of complex-valued quantities, and clear meaning is given to both the real and imaginary parts.  Improved physical understanding of propagation and energy distributions inside periodic structures is obtained.  Local properties also explain in a more intuitive way well understood features of different gratings, which improves intuition of new complex designs.  The analysis of the effect of perturbations is immediate using this approach and has important practical applications.  Independent confirmation of the theory is obtained, and experimental measurement of the imaginary part of the local time delay is given.  Phase errors affect the grating writing techniques, and the related sensitivity is analysed in detail. The robustness of different designs is discussed with respect to such manufacturing errors.  Fine tuning of standard or advanced grating designs by means of suitable error distributions is also proposed, and optimised characteristics either in the reflectivity or in the dispersive response are obtained.  This method is integrated with inverse scattering designs to further boost their performances.  Improved complex designs are also proposed in case losses affect propagation in the grating.  Cladding mode losses are compensated using an iterative layer-peeling algorithm.  The design of the first wide-band dispersion-compensating grating realised with a standard single mode fibre is shown.  Background losses and UV-induced losses in gratings are also compensated using a modified layer-peeling method.  The physical limitations related to grating design in lossy media are explained using the derived understanding of local properties.  New advanced designs are also considered that fully exploit the theoretical potentialities and manufacturing capabilities of Bragg gratings.  The performance of code-division multiple access systems based on superstructured gratings is improved by combining encoding, bandwidth filtering, and dispersion compensation in the same high reflectivity grating.\n]]>";
+		String abstract_ = "<![CDATA[This thesis presents the analysis of the local properties of Bragg gratings and their application to the improvement of standard designs and advanced structures.Â  The time spent by light inside each grating section is derived in terms of complex-valued quantities, and clear meaning is given to both the real and imaginary parts.Â  Improved physical understanding of propagation and energy distributions inside periodic structures is obtained.Â  Local properties also explain in a more intuitive way well understood features of different gratings, which improves intuition of new complex designs.Â  The analysis of the effect of perturbations is immediate using this approach and has important practical applications.Â  Independent confirmation of the theory is obtained, and experimental measurement of the imaginary part of the local time delay is given.Â  Phase errors affect the grating writing techniques, and the related sensitivity is analysed in detail. The robustness of different designs is discussed with respect to such manufacturing errors.Â  Fine tuning of standard or advanced grating designs by means of suitable error distributions is also proposed, and optimised characteristics either in the reflectivity or in the dispersive response are obtained.Â  This method is integrated with inverse scattering designs to further boost their performances.Â  Improved complex designs are also proposed in case losses affect propagation in the grating.Â  Cladding mode losses are compensated using an iterative layer-peeling algorithm.Â  The design of the first wide-band dispersion-compensating grating realised with a standard single mode fibre is shown.Â  Background losses and UV-induced losses in gratings are also compensated using a modified layer-peeling method.Â  The physical limitations related to grating design in lossy media are explained using the derived understanding of local properties.Â  New advanced designs are also considered that fully exploit the theoretical potentialities and manufacturing capabilities of Bragg gratings.Â  The performance of code-division multiple access systems based on superstructured gratings is improved by combining encoding, bandwidth filtering, and dispersion compensation in the same high reflectivity grating.\n]]>";
 		x.setAbstract(abstract_);
 		
 		DissLanguage language = new DissLanguage("English", "EN");		
@@ -477,7 +477,7 @@ public class MakeExodusMetadataForTesting {
 		x.setTitle(title);
 		
 		AlternateTitle alternateTitle = new AlternateTitle();
-		alternateTitle.setAltTitle("应用模糊控制原理的空调控制器的开发\n\t");
+		alternateTitle.setAltTitle("åº”ç”¨æ¨¡ç³ŠæŽ§åˆ¶åŽŸç�†çš„ç©ºè°ƒæŽ§åˆ¶å™¨çš„å¼€å�‘\n\t");
 		alternateTitle.setLanguage("Chinese");
 		x.setAlternateTitles(Lists.newArrayList(alternateTitle));
 		
@@ -498,11 +498,11 @@ public class MakeExodusMetadataForTesting {
 				makeKeywordFrom("FUZZY","For Datrix"),
 				makeKeywordFrom("THEORY","For Datrix"),
 				makeKeywordFrom("USING","For Datrix"),
-				makeKeywordFrom("房间空调器", "By Author"),
-				makeKeywordFrom("模糊控制", "By Author"),
-				makeKeywordFrom("空气调节", "By Author"),
-				makeKeywordFrom("自由词", "By Author"),
-				makeKeywordFrom("计算机仿真", "By Author")
+				makeKeywordFrom("æˆ¿é—´ç©ºè°ƒå™¨", "By Author"),
+				makeKeywordFrom("æ¨¡ç³ŠæŽ§åˆ¶", "By Author"),
+				makeKeywordFrom("ç©ºæ°”è°ƒèŠ‚", "By Author"),
+				makeKeywordFrom("è‡ªç”±è¯�", "By Author"),
+				makeKeywordFrom("è®¡ç®—æœºä»¿çœŸ", "By Author")
 				));
 		
 		
@@ -516,7 +516,7 @@ public class MakeExodusMetadataForTesting {
 		Advisors advisors = makeAdvisorsFrom(
 				"Adviser: Guan Ping  Feng",
 				Lists.newArrayList(
-						makeAdvisorFrom("Guan Ping  Feng", "冯冠平")));
+						makeAdvisorFrom("Guan Ping  Feng", "å†¯å† å¹³")));
 		x.setAdvisors(advisors);
 	
 		x.setCmteMembers(null);
@@ -526,7 +526,7 @@ public class MakeExodusMetadataForTesting {
 		authors.add(
 				makeAuthorFrom(
 						"Zhang, Jian", 
-						"张建",  
+						"å¼ å»º",  
 						1, 
 						makeDegreeFrom("M.Eng.", "Master of Engineering", "2001", 1)));
 		x.setAuthors(authors);

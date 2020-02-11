@@ -5,7 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
 import com.proquest.mtg.dismetadataservice.marc.MarcTags;

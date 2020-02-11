@@ -1,7 +1,7 @@
 package com.proquest.mtg.dismetadataservice.loc;
 
 import com.google.inject.Inject;
-import com.proquest.mtg.dismetadataservice.exodus.LOCMetaDataProvider;
+import com.proquest.mtg.dismetadataservice.datasource.LOCMetaDataProvider;
 import com.proquest.mtg.dismetadataservice.pqloc.CreateNewClaimInput;
 
 public class LOCFormat {

@@ -8,9 +8,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisor;
-import com.proquest.mtg.dismetadataservice.exodus.DisPubMetaData.Advisors;
+import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
+import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
+import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.marc.MarcCharSet;
 import com.proquest.mtg.dismetadataservice.marc.MarcField;
 import com.proquest.mtg.dismetadataservice.marc.MarcRecord;
@@ -39,7 +39,7 @@ public class Marc21RdaRecordFactory_UncontrolledName_Tests extends
 	@Test
 	public void withAdvisor() {
 		String advisorString = "Advisers: Ou Li";
-		advisors.setAdvisorsExodusStr(advisorString);
+		advisors.setAdvisorsECMSStr(advisorString);
 		metaData.setAdvisors(advisors);
 		String expectedMarcFieldData = "1 " + MarcCharSet.kSubFieldIndicator
 				+ "a" + "Ou Li" 
@@ -57,7 +57,7 @@ public class Marc21RdaRecordFactory_UncontrolledName_Tests extends
 	@Test
 	public void withAdvisorsNames() {
 		String advisorString = "Advisers: JoAnn Jodi Crandall; Beverly Bickel";
-		advisors.setAdvisorsExodusStr(advisorString);
+		advisors.setAdvisorsECMSStr(advisorString);
 		metaData.setAdvisors(advisors);
 		String expectedMarcFieldData1 = "1 " + MarcCharSet.kSubFieldIndicator
 				+ "a" 
