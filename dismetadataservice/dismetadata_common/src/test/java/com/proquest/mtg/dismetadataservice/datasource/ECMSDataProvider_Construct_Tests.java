@@ -11,14 +11,14 @@ import com.proquest.mtg.dismetadataservice.media.PDFVaultAvailableStatusProvider
 import com.proquest.mtg.dismetadataservice.metadata.DisGenMappingProvider;
 import com.proquest.mtg.dismetadataservice.metadata.PlainTextNormalizer;
 
-public class ExodusDataProvider_Construct_Tests extends EasyMockSupport {
+public class ECMSDataProvider_Construct_Tests extends EasyMockSupport {
 	
 	IPubMetaDataProvider pubMetaDataProvider;
 	DisGenMappingProvider disGenMappingProvider;
 	PlainTextNormalizer plainTextNormalizer;
 	PDFVaultAvailableStatusProvider pdfVaultAvailableStatusProvider;
 	
-	ExodusDataProvider target;
+	ECMSDataProvider target;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -26,7 +26,7 @@ public class ExodusDataProvider_Construct_Tests extends EasyMockSupport {
 		disGenMappingProvider = createMock(DisGenMappingProvider.class);
 		plainTextNormalizer = createMock(PlainTextNormalizer.class);
 		pdfVaultAvailableStatusProvider = createMock(PDFVaultAvailableStatusProvider.class);
-		target = new ExodusDataProvider(pubMetaDataProvider, disGenMappingProvider, 
+		target = new ECMSDataProvider(pubMetaDataProvider, disGenMappingProvider, 
 								plainTextNormalizer, pdfVaultAvailableStatusProvider);
 	}
 	
