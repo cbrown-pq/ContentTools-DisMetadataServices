@@ -242,7 +242,7 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 						CSVFormat csvFromat, Marc21RdaFormat marc21RdaFormat,
 						MarcXmlFormat marcXml) {
 		MetaDataFormatFactory result = new MetaDataFormatFactory();
-		if (props.fakeExodusFlag()) {
+		if (props.fakeECMSFlag()) {
 			result.add(WellKnownFormatTypes.FAKE_MARC_TESTING, fakeFormat);
 			result.add(WellKnownFormatTypes.USMARC, usMarcFormat);
 			result.add(WellKnownFormatTypes.CSV, csvFromat);
