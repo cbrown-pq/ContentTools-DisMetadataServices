@@ -56,8 +56,6 @@ import com.proquest.mtg.utils.writer.StringWriter;
 public class DisMetadataServiceGuiceModule extends AbstractModule {
 	
 	private final AppConfigReader appConfigReader;
-	//private IJdbcConnectionPool exodusConnectionPool;
-	//private IJdbcConnectionPool exodusFopConnectionPool;
 	
 	//@SuppressWarnings("deprecation")
 	private ThreadSafeClientConnManager httpClientConnectionManager;
@@ -74,32 +72,6 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 			throw e;
 		}
 	}
-	
-	/*public void shutdown() {
-		shutdownExodusConnectionPool();
-		shutdownFopExodusConnectionPool();
-	}
-
-	private void shutdownFopExodusConnectionPool() {
-		if (null != exodusFopConnectionPool) {
-			try {
-				exodusFopConnectionPool.destroy();
-			} catch (Exception e) {
-				logger.error("Failed to destory Exodus JDBC Connection Pool, because: " + e.getMessage(), e);
-			}
-		}
-		
-	}
-
-	private void shutdownExodusConnectionPool() {
-		if (null != exodusConnectionPool) {
-			try {
-				exodusConnectionPool.destroy();
-			} catch (Exception e) {
-				logger.error("Failed to destory Exodus JDBC Connection Pool, because: " + e.getMessage(), e);
-			}
-		}
-	}*/
 	
 	@Provides @Named(DisMetadataProperties.PQ_OPEN_URL_BASE)
 	protected String pqOpenUrlBase(DisMetadataProperties props) {
@@ -175,6 +147,18 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 	@Provides @Named(DisMetadataProperties.FOP_DB_CLASS_NAME) 
 	protected String fopDbClass(DisMetadataProperties props) { 
 		return props.getFopDbClass(); }
+	
+	@Provides @Named(DisMetadataProperties.OPTIMUS_URL_BASE) 
+	protected String optimusUrlBase(DisMetadataProperties props) { 
+		return props.getOptimusUrlBase(); }
+	 
+	@Provides @Named(DisMetadataProperties.OPTIMUS_KEY) 
+	protected String optimusKey(DisMetadataProperties props) { 
+		return props.getOptimusKey(); }
+	
+	@Provides @Named(DisMetadataProperties.OPTIMUS_SECRET_KEY) 
+	protected String optimusSecretKey(DisMetadataProperties props) { 
+		return props.getOptimusSecretKey(); }
 	 
 	//@SuppressWarnings("deprecation")
 	@Provides @Singleton
@@ -186,27 +170,6 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		return httpClientConnectionManager;
 	}
 	
-	//@Provides @Singleton @Named(IJdbcConnectionPool.kExodusConnectionPool)
-	//protected IJdbcConnectionPool exodusConnectionPool(DisMetadataProperties props) {
-	//	IJdbcConnectionPool result = null;
-	//	try {
-	//		return new JdbcConnectionPool(props.getExodusJdbcConfig());
-	//	} catch (Exception e) {
-	//		logger.error("Failed to initialize Exodus JDBC Connection Pool, because: " + e.getMessage(), e);
-	//	}
-	//	return result;
-	//}
-	
-	//@Provides @Singleton @Named(IJdbcConnectionPool.kFopExodusConnectionPool)
-	//protected IJdbcConnectionPool fopExodusConnectionPool(DisMetadataProperties props) {
-	//	IJdbcConnectionPool result = null;
-	//	try {
-	//		return new JdbcConnectionPool(props.getFopExodusConfig());
-	//	} catch (Exception e) {
-	//		logger.error("Failed to initialize Exodus JDBC Connection Pool, because: " + e.getMessage(), e);
-	//	}
-	//	return result;
-	//}
 	
 	//@SuppressWarnings("deprecation")
 	@Provides @Singleton GossamerServiceClient getGossamerServiceClient(
@@ -267,14 +230,8 @@ public class DisMetadataServiceGuiceModule extends AbstractModule {
 		bind(IMarcProvider.class).to(ECMSDataProvider.class);
 		bind(ICSVProvider.class).to(ECMSDataProvider.class);
 		bind(IPubMetaDataProvider.class).to(PubMetaDataProvider.class);
-		//bind(ISchoolMetaDataProvider.class).to(SchoolMetaDataProvider.class);
-		//bind(ISubjectsMetaDataProvider.class).to(SubjectsMetaDataProvider.class);
 		bind(IMediaDownloader.class).to(MediaDownloader.class);
 		bind(IWriter.class).to(StringWriter.class);
-		//bind(IMStarPubMetaDataProvider.class).to(MStarPubMetaDataProvider.class);
-		//bind(IExternalUrlDataProvider.class).to(ExternalUrlDataProvider.class);
-		//bind(IFOPEligiblePubsProvider.class).to(FOPEligiblePubsProvider.class);
-	//	bind(IFopFormatsDataProvider.class).to(FopFormatsDataProvider.class);
 		bind(IVmsMetaDataProvider.class).to(VmsMetaDataProvider.class);
 	}
 

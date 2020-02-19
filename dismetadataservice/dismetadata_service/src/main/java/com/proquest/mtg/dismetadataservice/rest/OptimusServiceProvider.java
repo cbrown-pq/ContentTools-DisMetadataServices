@@ -43,7 +43,7 @@ public class OptimusServiceProvider {
 	private String optimusSecretKey;
 
 	@Inject
-	public void OptimusServiceProviderProperties(
+	public void DisMetaDataProperties(
 		@Named(DisMetadataProperties.OPTIMUS_URL_BASE) String optimusUrl,
 		@Named(DisMetadataProperties.OPTIMUS_KEY) String optimusKey,
 		@Named(DisMetadataProperties.OPTIMUS_SECRET_KEY) String optimusSecretKey) {
