@@ -467,7 +467,7 @@ public class CSVRecordFactory {
 			}
 			if (null != title && !title.isEmpty()) {
 				title = SGMLEntitySubstitution.applyAllTo(title).trim();
-				title = endsWithPunctuationMark(title);
+				//title = endsWithPunctuationMark(title);
 			}
 		}
 		addField(title);
@@ -479,7 +479,7 @@ public class CSVRecordFactory {
 				.getTitle().getEnglishOverwriteTitle() : null;
 		if (null != variantTitle && !variantTitle.isEmpty()) {
 			title = SGMLEntitySubstitution.applyAllTo(variantTitle);
-			title = endsWithPunctuationMark(title);
+			//title = endsWithPunctuationMark(title);
 		}
 
 		addField(title);
@@ -494,7 +494,7 @@ public class CSVRecordFactory {
 				altTitleSb.append(altTitle.getAltTitle());
 			}
 			title = SGMLEntitySubstitution.applyAllTo(altTitleSb.toString());
-			title = endsWithPunctuationMark(title);
+			//title = endsWithPunctuationMark(title);
 		}
 		
 		addField(title);
