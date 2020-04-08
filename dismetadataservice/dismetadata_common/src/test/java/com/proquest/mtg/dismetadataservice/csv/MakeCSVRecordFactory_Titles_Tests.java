@@ -31,18 +31,18 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, null);
 	}
 
-	@Test
-	public void makeTitleWithEmptyMasterTitle() throws Exception {
-		title.setElectronicTitle("ElectronicTitle");
-		title.setEnglishOverwriteTitle("OverwriteTitle");
-		title.setForeignTitle("ForeignTitle");
-		DisPubMetaData metadata = new DisPubMetaData();
-		metadata.setTitle(title);
-		String csvData = factory.makeFrom(metadata);
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "ForeignTitle.");
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, "ElectronicTitle.");
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, "OverwriteTitle");
-	}
+	//@Test
+	//public void makeTitleWithEmptyMasterTitle() throws Exception {
+	//	title.setElectronicTitle("ElectronicTitle");
+	//	title.setEnglishOverwriteTitle("OverwriteTitle");
+	//	title.setForeignTitle("ForeignTitle");
+	//	DisPubMetaData metadata = new DisPubMetaData();
+	//	metadata.setTitle(title);
+	//	String csvData = factory.makeFrom(metadata);
+	//	CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "ForeignTitle.");
+	//	CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, "ElectronicTitle.");
+	//	CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, "OverwriteTitle");
+	//}
 
 	@Test
 	public void makeTitleWithEmptyElectronicTitle() throws Exception {
