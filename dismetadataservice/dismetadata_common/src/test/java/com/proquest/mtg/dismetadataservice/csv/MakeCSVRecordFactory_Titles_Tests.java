@@ -70,31 +70,31 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, null);
 	}
 
-	@Test
-	public void makeTitleWithEmptyForeignTitle() throws Exception {
-		title.setMasterTitle("MasterTitle");
-		title.setEnglishOverwriteTitle("OverwriteTitle");
-		title.setElectronicTitle("ElectronicTitle");
-		DisPubMetaData metadata = new DisPubMetaData();
-		metadata.setTitle(title);
-		String csvData = factory.makeFrom(metadata);
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "MasterTitle.");
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, "ElectronicTitle.");
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, "OverwriteTitle");
-	}
+	//@Test
+	//public void makeTitleWithEmptyForeignTitle() throws Exception {
+	//	title.setMasterTitle("MasterTitle");
+	//	title.setEnglishOverwriteTitle("OverwriteTitle");
+	//	title.setElectronicTitle("ElectronicTitle");
+	//	DisPubMetaData metadata = new DisPubMetaData();
+	//	metadata.setTitle(title);
+	//	String csvData = factory.makeFrom(metadata);
+	//	CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "MasterTitle.");
+	//	CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, "ElectronicTitle.");
+	//	CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, "OverwriteTitle");
+	//}
 
-	@Test
-	public void withAllTitles() throws Exception {
-		title.setMasterTitle("Bridging the gap to peace:  From a new way of thinking into action");
-		title.setElectronicTitle("Utilization of an articulation index procedure in the evaluation of hearing-aid efficiency");
-		title.setEnglishOverwriteTitle("Adsorption kinetics at the air-water interface.  \\lbrack Dutch text\\rbrack");
-		title.setForeignTitle("NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text)");
-		metadata.setTitle(title);
-		String csvData = factory.makeFrom(metadata);
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text).");
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, "Utilization of an articulation index procedure in the evaluation of hearing-aid efficiency.");
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, "Adsorption kinetics at the air-water interface.  \\lbrack Dutch text\\rbrack");
-	}
+	//@Test
+	//public void withAllTitles() throws Exception {
+	//	title.setMasterTitle("Bridging the gap to peace:  From a new way of thinking into action");
+	//	title.setElectronicTitle("Utilization of an articulation index procedure in the evaluation of hearing-aid efficiency");
+	//	title.setEnglishOverwriteTitle("Adsorption kinetics at the air-water interface.  \\lbrack Dutch text\\rbrack");
+	//	title.setForeignTitle("NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text)");
+	//	metadata.setTitle(title);
+	//	String csvData = factory.makeFrom(metadata);
+	//	CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text).");
+	//	CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, "Utilization of an articulation index procedure in the evaluation of hearing-aid efficiency.");
+	//	CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, "Adsorption kinetics at the air-water interface.  \\lbrack Dutch text\\rbrack");
+	//}
 	
 	
 	@Test
