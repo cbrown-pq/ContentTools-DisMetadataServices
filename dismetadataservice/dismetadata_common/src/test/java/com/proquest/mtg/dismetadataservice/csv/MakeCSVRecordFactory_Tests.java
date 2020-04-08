@@ -108,10 +108,10 @@ public class MakeCSVRecordFactory_Tests extends EasyMockSupport {
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kPubNumber, "3569004");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolName, "Massachusetts Institute of Technology");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolCountry, "UNITED STATES");
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, "Adsorption kinetics at the air-water interface.  \\lbrack Dutch text\\rbrack");
+		//CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, "Adsorption kinetics at the air-water interface.  \\lbrack Dutch text\\rbrack");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolCode, "0753");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolState, "Massachusetts");
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, "Utilization of an articulation index procedure in the evaluation of hearing-aid efficiency.");
+		//CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, "Utilization of an articulation index procedure in the evaluation of hearing-aid efficiency.");
 		//CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kHasSupplementalFiles, "N");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectDesc, "Language, Literature and Linguistics");
 		//CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kReferenceLocation, "DEPT. OF PHARMACOLOGY, KAROLINSKA INSTITUTE, BOX 60400, S-104 01         STOCKHOLM, SWEDEN");
@@ -119,7 +119,7 @@ public class MakeCSVRecordFactory_Tests extends EasyMockSupport {
 		//CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kHasPDF, "N");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kAdvisors, "Moriarty, Matthew D.|Kinstlinger, Gary");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectGroupDesc, "Literature, Medieval");
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text).");
+		//CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text).");
 	}
 
 	@Test
@@ -136,16 +136,16 @@ public class MakeCSVRecordFactory_Tests extends EasyMockSupport {
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kPubNumber, "3569004");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolName, "Massachusetts Institute of Technology");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolCountry, "UNITED STATES");
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, "Adsorption kinetics at the air-water interface.  \\lbrack Dutch text\\rbrack");
+		//CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, "Adsorption kinetics at the air-water interface.  \\lbrack Dutch text\\rbrack");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolCode, "0753");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSchoolState, "Massachusetts");
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, "Utilization of an articulation index procedure in the evaluation of hearing-aid efficiency.");
+		//CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, "Utilization of an articulation index procedure in the evaluation of hearing-aid efficiency.");
 		//CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kHasSupplementalFiles, "N");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kAbstract, "<abstractText>Aim</italic>. The aim was to evaluate the results of endovascular aneurysm repair (EVAR) of abdominal aortic aneurysms (AAA) in terms of intra-AAA pressure and clinical outcomes. <p>   <italic>Methods and results</italic>. 0.014-inch guide-wire-mounted tip-pressure sensors were used for direct intra-aneurysm sac pressure measurement (DISP) through translumbar puncture of the AAA. Mean Pressure Index was calculated (MPI) as the percentage of mean intra-aneurysm pressure relative to the simultaneous mean intra-aortic pressure. The pressure sensor was evaluated in vitro, in an aneurysm model, showing good agreement with model output (2 mm Hg). Measurements within aneurysm thrombus agreed well with the simultaneous ones from the model's lumen (1 mm Hg). Intra-observer variability of DISP in 15 patients undergoing double measurement, by separate punctures of the AAA, showed MPI median variability of 0% (r = .962, p < .0001). Median MPI in patients with shrinking (n = 11), unchanged (n = 10) and expanding (n = 9) aneurysms without endoleaks at least 1 year after EVAR was 19%, 30% and 59%, respectively. Pulse pressure was also higher in expanding compared to the shrinking AAAs (10 vs. 2 mm Hg, p < .0001). Seven of the 10 patients with unchanged AAAs underwent further imaging follow-up after DISP; 2 expanded (MPIs 47%--63%), 4 shrank (MPI 21%--30%) and I continued unchanged (MPI 14%). Type II endoleaks (6 patients, 7 DISP) seemed to be a varied entity with different degrees of AAA pressurization, even in the same patient at different occasions (range MPI 22%--92%). Successful endoleak embolization resulted in pressure reduction. Between 1998 and 2001, 168 consecutive patients with non-ruptured AAAs were treated by EVAR (n = 117) and open repair (OR) due to anatomical restrictions for EVAR (group A, n = 40) or young age with long life-expectancy (n = 11). Thirty-day mortality in EVAR (n = 117), OR group A and B was 2.6%, 15% and 0%, respectively. EVAR patients had higher ASA classifications (p < .0001). Late survival was not different between the groups and late reinterventions, mainly endovascular, were more frequent in EVAR. <p>   <italic>Conclusions</italic>. DISP is a reliable and reproducible technique for measuring intra-AAA pressure. It may become an important tool for EVAR evaluation by detecting EVAR outcomes early. High pressure is associated with AAA expansion, while low pressure with shrinkage. EVAR provides good results for AAA treatment even with the inclusion of high risk patients. The wide application of EVAR may affect the results of OR, since this tends to be performed in older patients with severe comorbidity and challenging anatomy. OR continues to the first-option for low-risk young patients. <p>");
 		//CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kReferenceLocation, "DEPT. OF PHARMACOLOGY, KAROLINSKA INSTITUTE, BOX 60400, S-104 01         STOCKHOLM, SWEDEN");
 		//CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kHasPDF, "N");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kAdvisors, "Moriarty, Matthew D.|Kinstlinger, Gary");
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text).");
+		//CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text).");
 	}
 
 	@Test
