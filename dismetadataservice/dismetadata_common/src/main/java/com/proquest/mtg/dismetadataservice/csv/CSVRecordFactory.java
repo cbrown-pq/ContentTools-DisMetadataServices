@@ -479,6 +479,7 @@ public class CSVRecordFactory {
 				.getTitle().getEnglishOverwriteTitle() : null;
 		if (null != variantTitle && !variantTitle.isEmpty()) {
 			title = SGMLEntitySubstitution.applyAllTo(variantTitle);
+			title = endsWithPunctuationMark(title);
 		}
 
 		addField(title);
@@ -493,6 +494,7 @@ public class CSVRecordFactory {
 				altTitleSb.append(altTitle.getAltTitle());
 			}
 			title = SGMLEntitySubstitution.applyAllTo(altTitleSb.toString());
+			title = endsWithPunctuationMark(title);
 		}
 		
 		addField(title);
@@ -568,11 +570,13 @@ public class CSVRecordFactory {
 				if (null != curAuthor.getAuthorFullName()
 						&& !curAuthor.getAuthorFullName().isEmpty()) {
 					authorNames += endWithPipes(curAuthor.getAuthorFullName());
+					authorNames = StringUtils.normalizeSpace(authorNames);
 				}
 			}
 			if (null != authorNames && !authorNames.isEmpty()) {
 				authorNames = authorNames
 						.substring(0, authorNames.length() - 1);
+				authorNames = StringUtils.normalizeSpace(authorNames);
 			}
 		}
 		addField(authorNames);
