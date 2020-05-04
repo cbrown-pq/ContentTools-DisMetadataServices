@@ -227,7 +227,7 @@ public class LocMetaDataServiceProvider {
 			String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 			SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 			String dateString = sdf.format(new Date());
-			String jsonString = new JSONObject().put("LOCFirstLiveDate", dateString).toString();
+			String jsonString = new JSONObject().put("CopyrightDateSubmitted", dateString).toString();
 			Map<String, String> map = (new Genson()).deserialize(jsonString, Map.class);
 			
 	        String URL = getMr3ServiceUrlBase();
