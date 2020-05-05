@@ -45,7 +45,8 @@ public class PdfDownloadServiceProvider {
 				throw new Exception("Pdf type : " + pdfType + " is not supported.");
 			} else {
 				PDFDownloadOptions  pdfDownloadOptions = new PDFDownloadOptions(
-						pdfType, excludeCopyright, restrictionIncluded);				
+						pdfType, excludeCopyright, restrictionIncluded);	
+				System.out.println("PdfDownloadService call initiated for pub " + pubNumber);
 				input = getPdfMediaProvider().downloadFor(pubNumber, pdfDownloadOptions);
 				response = Response.status(Response.Status.OK).entity(input);
 				response.header("Content-Disposition", "attachment; filename=out.pdf");
