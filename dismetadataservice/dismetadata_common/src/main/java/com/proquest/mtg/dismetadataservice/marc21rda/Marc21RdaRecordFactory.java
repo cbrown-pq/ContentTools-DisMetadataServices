@@ -411,7 +411,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 				keyword = curKeyword.getValue();
 				addField(
 					MarcTags.kKeyword,
-					makeFieldDataFrom('#', '#', 'a', keyword));
+					makeFieldDataFrom(' ', ' ', 'a', keyword));
 				}
 			}
 		}
