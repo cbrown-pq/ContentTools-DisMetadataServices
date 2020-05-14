@@ -13,6 +13,7 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.DissLOCLanguage;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Keyword;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.SuppFile;
@@ -81,6 +82,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		handleLocationOfCopy(); /* 535 */
 		handleLanguageNote(); /* 546 */
 		handleSubjects(); /* 650 and 690 */
+		handleKeywords(); /* 653 */
 		handleMultipleAuthors(); /* 700 */
 		handleCorporateEntry(); /* 710 */
 		handleUncontrolledName(); /* 720 */
@@ -396,6 +398,22 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 			for (Subject curSubject : subjects) {
 				addSubjectTerm(curSubject.getSubjectDesc());
 				addSubjectCode(curSubject.getSubjectCode());
+			}
+		}
+	}
+	
+	private void handleKeywords() {
+		List<Keyword> keywords = curMetaData.getKeywords();
+		String keyword = "";
+		if (keywords != null && !keywords.isEmpty()) {
+			for (Keyword curKeyword : keywords) {
+				if (null != curKeyword.getValue()
+						&& !curKeyword.getValue().isEmpty()) {
+					keyword = curKeyword.getValue();
+					addField(
+							MarcTags.kKeyword,
+							makeFieldDataFrom('#', '#', 'a', keyword));
+				}
 			}
 		}
 	}
