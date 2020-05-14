@@ -11,6 +11,7 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.DissLOCLanguage;
+import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Keyword;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.SuppFile;
@@ -72,6 +73,7 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 		handleAccessRestrictionNote(); /*506*/
 		handleAbstract(); /*520*/
 		handleLocationOfCopy(); /*535*/
+		handleKeywords(); /*653*/
 		handleSubjects(); /*650 and 690*/
 		handleMultipleAuthors(); /*700*/
 		handleCorporateEntry(); /*710*/
@@ -317,6 +319,21 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 			addField(MarcTags.kLocationOfCopy,
 					makeFieldDataFrom('2', ' ', 'a', locationOfCopy));
 		}
+	}
+		
+	private void handleKeywords() {
+	List<Keyword> keywords = curMetaData.getKeywords();
+	String keyword = "";
+	if (keywords != null && !keywords.isEmpty()) {
+		for (Keyword curKeyword : keywords) {
+			if (null != curKeyword.getValue() && !curKeyword.getValue().isEmpty()) {
+				keyword = curKeyword.getValue();
+				addField(
+					MarcTags.kKeyword,
+					makeFieldDataFrom('#', '#', 'a', keyword));
+				}
+			}
+		}	
 	}
 
 	private void handleSubjects() {
