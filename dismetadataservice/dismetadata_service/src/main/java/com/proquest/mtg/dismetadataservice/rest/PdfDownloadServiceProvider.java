@@ -48,7 +48,9 @@ public class PdfDownloadServiceProvider {
 						pdfType, excludeCopyright, restrictionIncluded);	
 				System.out.println("PdfDownloadService call initiated for pub " + pubNumber);
 				input = getPdfMediaProvider().downloadFor(pubNumber, pdfDownloadOptions);
+				System.out.println("input retrieved");
 				response = Response.status(Response.Status.OK).entity(input);
+				System.out.println("response received" + response.toString());
 				response.header("Content-Disposition", "attachment; filename=out.pdf");
 			}
 		} catch (MediaDownloadException e) {
