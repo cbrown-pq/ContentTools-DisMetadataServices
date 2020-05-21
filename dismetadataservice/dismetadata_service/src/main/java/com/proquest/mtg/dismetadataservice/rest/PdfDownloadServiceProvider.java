@@ -41,9 +41,11 @@ public class PdfDownloadServiceProvider {
 		byte[] input = null;
 		
 		try {
+			System.out.println("getDisMetaData: ");
 			if (! SupportedPdfTypes.kSupportedPdfTypes.contains(pdfType.toUpperCase())) {
 				throw new Exception("Pdf type : " + pdfType + " is not supported.");
 			} else {
+				System.out.println("getDisMetaData pdfType: " + pdfType);
 				PDFDownloadOptions  pdfDownloadOptions = new PDFDownloadOptions(
 						pdfType, excludeCopyright, restrictionIncluded);	
 				System.out.println("PdfDownloadService call initiated for pub " + pubNumber);
