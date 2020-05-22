@@ -52,9 +52,14 @@ public class PdfMediaInfoFactory {
 	}
 	
 	private PdfMediaInfo makeFrom(Comp curComponent, Rep curRepresentation) {
-		PdfMediaInfo curPdfInfo = new PdfMediaInfo(
+		
+		PdfMediaInfo curPdfInfo = null;
+		String basePath="";
+		if(curComponent.getBasepath()!=null)
+			basePath = curComponent.getBasepath();
+		curPdfInfo = new PdfMediaInfo(
 				PdfType.fromString(curRepresentation.getPdfType()),
-				makeUrlFrom(curComponent.getBasepath(), curRepresentation.getPath()));
+				makeUrlFrom(basePath, curRepresentation.getPath()));
 		return curPdfInfo;
 	}
 	
