@@ -64,18 +64,12 @@ public class PdfMediaInfoFactory {
 	}
 
 	private boolean isFullText(Comp curComponent) {
-	   System.out.println(null != curComponent &&
-			curComponent.getType().equalsIgnoreCase(kFullText));
 		return 
 			null != curComponent &&
 			curComponent.getType().equalsIgnoreCase(kFullText) ;
 	}
 
 	private boolean isFullTextPdf(Rep curRepresentation) {
-		System.out.println(null != curRepresentation &&
-				curRepresentation.getType().equalsIgnoreCase(kPdfFullText) &&
-				null != curRepresentation.getPdfType() &&
-				null != curRepresentation.getPath());
 		return
 			null != curRepresentation &&
 			curRepresentation.getType().equalsIgnoreCase(kPdfFullText) &&
