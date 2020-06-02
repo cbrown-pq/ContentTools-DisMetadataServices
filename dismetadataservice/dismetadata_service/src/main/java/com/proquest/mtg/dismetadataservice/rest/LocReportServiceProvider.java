@@ -1,16 +1,16 @@
 package com.proquest.mtg.dismetadataservice.rest;
 
-import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -18,8 +18,9 @@ import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
@@ -69,7 +70,7 @@ public class LocReportServiceProvider {
 	@GET
 	@Path("/copyrightpubs/{formatType}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getEligibleCopyrightPubs(@PathParam("formatType") String formatType, @QueryParam("date") String date) throws WebApplicationException {
+	public Response getEligibleCopyrightPubs(@PathParam("formatType") String formatType) throws WebApplicationException {
 		String mr3FormatType = formatType.equals("105mm") ? "MFC" : "MFL";
 		ClientResponse response = null;
 		List<LOCReportPubJson> result = Lists.newArrayList();
@@ -79,7 +80,6 @@ public class LocReportServiceProvider {
 			String HEADERVALUE = getECMSMr3HeaderValue(); 
 			Client c = Client.create();
 			WebResource resource = c.resource(URL).path("loc").path("getCopyrightedFilmPubs")
-					.queryParam("date", date)
 					.queryParam("filmType", mr3FormatType);
 			response = resource.header("Content-Type", "application/json")
                     	.header(HEADERKEY, HEADERVALUE)
@@ -99,6 +99,7 @@ public class LocReportServiceProvider {
 			}
 			 result = pubList.makeJsonList();
 		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
 			throw new DisServiceException(Response.Status.NO_CONTENT);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -111,7 +112,7 @@ public class LocReportServiceProvider {
 	@GET
 	@Path("/noncopyrightpubs/{formatType}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getLOCDataForAllNonCopyrightPubs(@PathParam("formatType") String formatType, @QueryParam("date") String date) throws WebApplicationException {
+	public Response getLOCDataForAllNonCopyrightPubs(@PathParam("formatType") String formatType) throws WebApplicationException {
 		String mr3FormatType = formatType.equals("105mm") ? "MFC" : "MFL";
 		ClientResponse response = null;
 		List<LOCReportPubJson> result = Lists.newArrayList();
@@ -121,7 +122,6 @@ public class LocReportServiceProvider {
 			String HEADERVALUE = getECMSMr3HeaderValue(); 
 			Client c = Client.create();
 			WebResource resource = c.resource(URL).path("loc").path("getNonCopyrightedFilmPubs")
-					.queryParam("date", date)
 					.queryParam("filmType", mr3FormatType);
 			response = resource.header("Content-Type", "application/json")
                     	.header(HEADERKEY, HEADERVALUE)
@@ -141,4 +141,42 @@ public class LocReportServiceProvider {
 		}
 		return Response.status(response.getStatus()).entity(result).build();
 	}
+	
+	@POST
+	@Path("ackDownload")
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response ackDownload(@Context HttpServletRequest request, String data) throws WebApplicationException {
+		ClientResponse response = null;
+		try {
+			JSONArray dataArray = new JSONArray(data);
+			
+            String URL = getMr3ServiceUrlBase();
+			String HEADERKEY = getECMSMr3HeaderKey();
+			String HEADERVALUE = getECMSMr3HeaderValue(); 
+			Client c = Client.create();
+			WebResource resource = c.resource(URL).path("loc").path("locFilmSent");
+			response = resource.header("Content-Type", "application/json")
+                    	.header(HEADERKEY, HEADERVALUE)
+                    	.post(ClientResponse.class, jsonToArrayList(dataArray));
+		} catch (IllegalArgumentException e) {
+			throw new DisServiceException(Response.Status.NO_CONTENT);
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		return Response.status(response.getStatus()).build();
+	}
+	
+	private ArrayList<String> jsonToArrayList (JSONArray json) throws JSONException {
+		ArrayList<String> listdata = new ArrayList<String>();     
+		JSONArray jArray = (JSONArray)json; 
+		if (jArray != null) { 
+		   for (int i=0;i<jArray.length();i++){ 
+		    listdata.add(jArray.getString(i));
+		   } 
+		}
+		
+		return listdata;
+	}
+	
 }
