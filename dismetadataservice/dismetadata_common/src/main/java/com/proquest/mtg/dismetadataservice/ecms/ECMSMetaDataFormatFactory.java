@@ -79,6 +79,7 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	        NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(
 	           ecmsdoc, XPathConstants.NODESET);
 	        
+	        
 	        //1. Pubnumber  * /RECORD/ObjectID@IDType=DissertationNum
 	        XPathFactory xPathfactory = XPathFactory.newInstance();
 	        XPath xpath = xPathfactory.newXPath();
@@ -94,6 +95,7 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	           }
 	        }
             result.setPubNumber(pubId);
+            
 	        
 	        //2. authors   * fullname  - /RECORD/Contributors/Contributor@ContribRole=Author/OriginalForm
 	        xPathfactory = XPathFactory.newInstance();
@@ -727,6 +729,26 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	        }*/
 			//author.setDegrees(degreeresults);
 	        
+	        //0. ActionCode  */RECORD/
+	        // error out immediately if actioncode is delete and identify as such
+	        expr = xpath.compile("//IngestRecord/ControlStructure/ActionCode");
+	        // Need to add check for ActionCode
+	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+            //String disscode = "";
+            
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+		           Node nNode = nodeList.item(i);
+		           
+		           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			              String bundleDescription = nNode.getTextContent();
+			              if (bundleDescription.equals("deleted")) {
+			            	  throw new Exception("ECMS/MR3 soft delete");
+			              }
+			              else {
+			            	  // Invalid bundle description
+			              }
+		           }
+	        }
 	        
             //  ECMS Bundle codes to determine DB Type code from MR3 data
 	        expr = xpath.compile("//IngestRecord/ControlStructure/ObjectBundleData/ObjectBundleValue");
