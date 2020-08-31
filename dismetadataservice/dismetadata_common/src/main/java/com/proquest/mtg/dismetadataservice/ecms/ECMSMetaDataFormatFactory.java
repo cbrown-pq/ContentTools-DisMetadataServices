@@ -741,7 +741,7 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 		           
 		           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 			              String bundleDescription = nNode.getTextContent();
-			              if (bundleDescription.equals("deleted")) {
+			              if (bundleDescription.equals("delete")) {
 			            	  throw new Exception("ECMS/MR3 soft delete");
 			              }
 			              else {
