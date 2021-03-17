@@ -29,7 +29,7 @@ public class CSVHeaders {
 	public static final String kAbstract = "ABSTRACT";
 	public static final String kAltAbstract = "ALT ABSTRACT";
 	public static final String kAltAbstractLang = "ALT ABSTRACT LANG";
-	public static final String kSubjectDesc = "SUBJ DESC";
+	public static final String kSubjectDesc = "AI";
 	public static final String kSubjectCode = "SUBJ CODE";
 	public static final String kSubjectGroupDesc = "SUBJ GROUP DESC";
 	public static final String kHasSupplementalFiles = "HAS SUPP FILES";
