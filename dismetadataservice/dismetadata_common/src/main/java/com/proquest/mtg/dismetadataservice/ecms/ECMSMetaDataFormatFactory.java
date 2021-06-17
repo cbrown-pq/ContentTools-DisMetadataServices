@@ -541,6 +541,20 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	              result.setPublisher(nNode.getTextContent());
 	           }
 	        }
+		    
+		//Misc. ORCID
+	        xPathfactory = XPathFactory.newInstance();
+	        xpath = xPathfactory.newXPath();
+			expr = xpath.compile("//Contributor[@ContribRole=\"Author\"]/RefCode[@RefCodeType=\"ORCID\"]");
+	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	           Node nNode = nodeList.item(i);
+	           
+	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	              result.setOrcID(nNode.getTextContent());
+	           }
+	        }
 	
 	        
 	        //57. British Library number  * /FlexTerm@FlexTermName=ITTBLNumIdxTxt/FlexTermValue
