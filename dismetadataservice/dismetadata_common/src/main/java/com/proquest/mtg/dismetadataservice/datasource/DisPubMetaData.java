@@ -41,6 +41,7 @@ public class DisPubMetaData {
 	private String pqOpenURL;
 	private String openAccessFlag;
 	private String pubDate;
+	private String orcID;
 	private String externalId;
 	private ManuscriptMedia manuscriptMedia;
 	private String firstPublicationDate;
@@ -370,6 +371,14 @@ public class DisPubMetaData {
 	
 	public String getPublisher() {
 		return publisher;
+	}
+	  
+        public String getOrcID() {
+		return orcID;
+	}
+
+	public void setOrcID(String value) {
+		this.orcID = value;
 	}
 	
 	public void setPqOpenURL(String pqOpenURL) {
