@@ -19,7 +19,7 @@ public class MakeCSVRecordFactory_Publisher_Tests extends EasyMockSupport {
 		metadata = new DisPubMetaData();
 	}
 
-	@Test
+	/*@Test
 	public void makeWithEmptyPublisher() throws Exception {
 		metadata.setPublisher(null);
 		String csvData = factory.makeFrom(metadata);
@@ -32,5 +32,5 @@ public class MakeCSVRecordFactory_Publisher_Tests extends EasyMockSupport {
 		metadata.setPublisher(publisher);
 		String csvData = factory.makeFrom(metadata);
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kPublisher, publisher);
-	}
+	}*/
 }
