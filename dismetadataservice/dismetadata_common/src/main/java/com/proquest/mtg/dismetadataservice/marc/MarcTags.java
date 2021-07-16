@@ -69,7 +69,7 @@ public class MarcTags {
 			kLocalNoteSchoolCode,
 			kSubjectTerm,
 			kSubjectCode,
-		        kKeyword,
+			kKeyword,
 			kMulitpleAuthor,
 			kCorporatename,
 			kUncontrolledName,

@@ -321,20 +321,24 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 					makeFieldDataFrom('2', ' ', 'a', locationOfCopy));
 		}
 	}
-		
+
 	private void handleKeywords() {
-	List<Keyword> keywords = curMetaData.getKeywords();
-	String keyword = "";
-	if (keywords != null && !keywords.isEmpty()) {
-		for (Keyword curKeyword : keywords) {
-			if (null != curKeyword.getValue() && !curKeyword.getValue().isEmpty()) {
-				keyword = curKeyword.getValue();
-				addField(
-					MarcTags.kKeyword,
-					makeFieldDataFrom(' ', ' ', 'a', keyword));
+		List<Keyword> keywords = curMetaData.getKeywords();
+		String keyword = "";
+		if (keywords != null && !keywords.isEmpty()) {
+			for (Keyword curKeyword : keywords) {
+				if (null != curKeyword.getValue()
+						&& !curKeyword.getValue().isEmpty()) {
+					keyword = curKeyword.getValue();
+					addField(
+							MarcTags.kKeyword,
+							makeFieldDataFrom(' ', ' ', 'a', keyword));
 				}
 			}
-		}	
+		}
+				//addField(
+					//	MarcTags.kKeyword,
+						//makeFieldDataFrom('#', '#', 'a', keyword + "."));	
 	}
 
 	private void handleSubjects() {

@@ -25,6 +25,7 @@ public class DisPubMetaData {
 	private List<DissLOCLanguage> dissLOCLanguages;
 	private List<CmteMember> cmteMembers;
 	private List<Subject> subjects;
+	private List<Subject> pqsubjects;
 	private List<SuppFile> suppFiles;
 	private List<String> departments;
 	private List<Keyword> keywords;
@@ -41,12 +42,13 @@ public class DisPubMetaData {
 	private String pqOpenURL;
 	private String openAccessFlag;
 	private String pubDate;
-	private String orcID;
 	private String externalId;
 	private ManuscriptMedia manuscriptMedia;
 	private String firstPublicationDate;
 	private String dciRefExistsFlag;
 	private String disValidSource; 
+	private String orcID;
+	private String DOI;
 	private List<String> disAvailableFormats; 
 	private List<String> fopQuantity; 
 
@@ -252,6 +254,18 @@ public class DisPubMetaData {
 		return subjects;
 	}
 	
+	public void setpqSubjects(Iterable<Subject> value) {
+		if (null == value) {
+			this.pqsubjects = Lists.newArrayList();
+		} else {
+			this.pqsubjects = Lists.newArrayList(value);
+		}
+	}
+	
+	public List<Subject> getpqSubjects() {
+		return pqsubjects;
+	}
+	
 	public void setSuppFiles(Iterable<SuppFile> value) {
 		if (null == value) {
 			this.suppFiles = Lists.newArrayList();
@@ -372,13 +386,21 @@ public class DisPubMetaData {
 	public String getPublisher() {
 		return publisher;
 	}
-	  
-        public String getOrcID() {
+    
+    public String getOrcID() {
 		return orcID;
 	}
 
 	public void setOrcID(String value) {
 		this.orcID = value;
+	}
+	
+    public String getDOI() {
+		return DOI;
+	}
+
+	public void setDOI(String value) {
+		this.DOI = value;
 	}
 	
 	public void setPqOpenURL(String pqOpenURL) {

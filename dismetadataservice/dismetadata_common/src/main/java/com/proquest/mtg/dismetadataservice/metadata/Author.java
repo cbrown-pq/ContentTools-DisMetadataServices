@@ -131,7 +131,7 @@ public class Author {
 		return "Author [authorFullName=" + authorFullName + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", middleName="
 				+ middleName + ", altAuthorFullName=" + altAuthorFullName
-				+ ", degree=" + degree + ", sequenceNumber=" + sequenceNumber
+				+ ", degree=" + degree + ", orcid=" + orcID + ", sequenceNumber=" + sequenceNumber
 				+ "]";
 	}
 

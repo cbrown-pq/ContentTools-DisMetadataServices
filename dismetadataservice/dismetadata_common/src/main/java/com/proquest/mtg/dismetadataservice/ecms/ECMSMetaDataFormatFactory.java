@@ -1,5 +1,5 @@
 package com.proquest.mtg.dismetadataservice.ecms;
-//CB
+
 	import java.io.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -102,19 +102,25 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	        xpath = xPathfactory.newXPath();
 	        expr = xpath.compile("//Contributor[@ContribRole=\"Author\"]/OriginalForm");
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+			//XPathExpression exprOrc = xpath.compile("//ObjectID[@IDType=\"DissertationNum\"]");
+			//exprOrc = xpath.compile("//Contributor[@ContribRole=\"Author\"]/RefCode[@RefCodeType=\"ORCID\"]");
+			//NodeList nodeListOrc = (NodeList) exprOrc.evaluate(ecmsdoc, XPathConstants.NODESET);
 			List<Author> results = null;
 	        results = Lists.newArrayList();
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
+	           //Node nNodeOrc = nodeListOrc.item(i);
 	           Author author = new Author();
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	        	   String myAuthorName = nNode.getTextContent();
 					author.setAuthorFullName(nNode.getTextContent());
+					//author.setOrcID(nNodeOrc.getTextContent());
 					author.setSequenceNumber(i+1);
 	           }
 	           results.add(author);
-	           //CBNEW START
+
+	           
 		        xPathfactory = XPathFactory.newInstance();
 		        xpath = xPathfactory.newXPath();
 		        expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/DegreeDescription");
@@ -322,6 +328,8 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
 	        List<Subject> subjectresults = null;
 	        subjectresults = Lists.newArrayList();
+	        List<Subject> pqsubjectresults = null;
+	        pqsubjectresults = Lists.newArrayList();
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
@@ -329,9 +337,11 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	        	  Subject genSubj = new Subject();
 	              genSubj.setSubjectDesc(nNode.getTextContent());
-	              subjectresults.add(genSubj);   
+	              subjectresults.add(genSubj);
+	              pqsubjectresults.add(genSubj);
 	           }
 	        }
+	        result.setpqSubjects(pqsubjectresults);
 	        
 	        
 	        //35. Keywords  * Flex term value for FlexTerm@FlexTermName=DissPaperKwd
@@ -370,6 +380,8 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	           }
 	        }
 	        result.setDepartments(departmentname);
+	        
+	        
 	        
 	        
 	        //38. Advisors  * /Contributor@ContribRole=Advisor/OriginalForm
@@ -541,8 +553,8 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	              result.setPublisher(nNode.getTextContent());
 	           }
 	        }
-		    
-		//Misc. ORCID
+	        
+	        // ORCID
 	        xPathfactory = XPathFactory.newInstance();
 	        xpath = xPathfactory.newXPath();
 			expr = xpath.compile("//Contributor[@ContribRole=\"Author\"]/RefCode[@RefCodeType=\"ORCID\"]");
@@ -553,6 +565,20 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	              result.setOrcID(nNode.getTextContent());
+	           }
+	        }
+	        
+	        // DOI
+	        xPathfactory = XPathFactory.newInstance();
+	        xpath = xPathfactory.newXPath();
+			expr = xpath.compile("//ObjectID[@IDType=\\\"DOI\\\"]");
+	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	           Node nNode = nodeList.item(i);
+	           
+	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	              result.setDOI(nNode.getTextContent());
 	           }
 	        }
 	
@@ -749,13 +775,16 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	        // Need to add check for ActionCode
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
             //String disscode = "";
-            
+            //System.out.println("FOUND SFT DELETE");
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 		           Node nNode = nodeList.item(i);
 		           
 		           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-			              String bundleDescription = nNode.getTextContent();
-			              if (bundleDescription.equals("delete")) {
+			              //String bundleDescription = nNode.getTextContent();
+			              String actionCode = nNode.getTextContent();
+			              System.out.println("ActionCode: " +actionCode);
+			              if (actionCode.equals("delete")) {
+			            	  System.out.println("THROWING SOFT DELETE EXCEPTION");
 			            	  throw new Exception("ECMS/MR3 soft delete");
 			              }
 			              else {
@@ -1223,18 +1252,4 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 			} 
 			return result;
 		}
-
-		//CBNEWEND
-		
-        //47. Author LOC citizenship    * Dropped per Mark Dill.   *DONE
-        //54. Page number   * Not available in ECMS.  Dropped per Mark Dill.   *DONE
-        //60. Keyword Source    * Not available.  ECMS may be updated to hold this. Jessica will add this into ECMS.
-        //62. Reference location    * Drop per Mark Dill   *DONE
-        //65. FOP Quantity.*  Drop per Mark Dill  *DONE
-        //Note: AuthorCitizenship will be removed.  *DONE
-		
-		//NOTE:  Need to Add ORCID and REPOSITORY
-		//  ORCID  -  Comes from Dis_Authors
-		//  REPOSITORY -  Comes from dvr_harvest_source in dis_valid_repositories
-		
-	}
+}

@@ -12,8 +12,8 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisors;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Batch;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.CmteMember;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.DissLOCLanguage;
-import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Keyword;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.DissLanguage;
+import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Keyword;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.SalesRestriction;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Subject;
 import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.SuppFile;
@@ -140,6 +140,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		//String orcID = null;
 		List<Author> authors = curMetaData.getAuthors();
 		if (null != authors && !authors.isEmpty()) {
+			//curMetaData.
 			String orcID = curMetaData.getOrcID();
 			//orcID = authors.get(0).getOrcID();
 			authorFullname = authors.get(0).getAuthorFullName();
@@ -404,15 +405,16 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 	}
 	
 	private void handleKeywords() {
-	List<Keyword> keywords = curMetaData.getKeywords();
-	String keyword = "";
-	if (keywords != null && !keywords.isEmpty()) {
-		for (Keyword curKeyword : keywords) {
-			if (null != curKeyword.getValue() && !curKeyword.getValue().isEmpty()) {
-				keyword = curKeyword.getValue();
-				addField(
-					MarcTags.kKeyword,
-					makeFieldDataFrom(' ', ' ', 'a', keyword));
+		List<Keyword> keywords = curMetaData.getKeywords();
+		String keyword = "";
+		if (keywords != null && !keywords.isEmpty()) {
+			for (Keyword curKeyword : keywords) {
+				if (null != curKeyword.getValue()
+						&& !curKeyword.getValue().isEmpty()) {
+					keyword = curKeyword.getValue();
+					addField(
+							MarcTags.kKeyword,
+							makeFieldDataFrom(' ', ' ', 'a', keyword));
 				}
 			}
 		}
