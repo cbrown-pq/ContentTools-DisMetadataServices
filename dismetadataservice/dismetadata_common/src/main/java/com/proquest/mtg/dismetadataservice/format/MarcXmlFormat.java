@@ -65,6 +65,7 @@ public class MarcXmlFormat implements IMetaDataFormats {
         }
         writer.close();
         String marcXmlStr = new String(baos.toByteArray(), Charset.forName("UTF-8"));
+        System.out.println(marcXmlStr);
         try {
         	getMarcXMLSchemaValidator().validateXml(marcXmlStr);
         } catch (Exception e) {

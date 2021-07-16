@@ -137,10 +137,12 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 
 	private void handleAuthor() {
 		String authorFullname = null;
-		String orcID = null;
+		//String orcID = null;
 		List<Author> authors = curMetaData.getAuthors();
 		if (null != authors && !authors.isEmpty()) {
-			orcID = authors.get(0).getOrcID();
+			//curMetaData.
+			String orcID = curMetaData.getOrcID();
+			//orcID = authors.get(0).getOrcID();
 			authorFullname = authors.get(0).getAuthorFullName();
 			if (null != authorFullname && !authorFullname.isEmpty()) {
 				if (null != orcID && !orcID.isEmpty()){
@@ -412,7 +414,7 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 					keyword = curKeyword.getValue();
 					addField(
 							MarcTags.kKeyword,
-							makeFieldDataFrom('#', '#', 'a', keyword));
+							makeFieldDataFrom(' ', ' ', 'a', keyword));
 				}
 			}
 		}

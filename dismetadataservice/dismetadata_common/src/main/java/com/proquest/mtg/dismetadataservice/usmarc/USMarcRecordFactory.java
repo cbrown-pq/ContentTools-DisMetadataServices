@@ -97,11 +97,12 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 		/*String authorFirstName = null;
 		String authorMiddleName = null;
 		String authorLastName = null;*/
-		String orcID = null;
+		//String orcID = null;
 		List<Author> authors = curMetaData.getAuthors();		
 		if(null != authors && ! authors.isEmpty()) {
 			authorFullname = authors.get(0).getAuthorFullName();
-			orcID = authors.get(0).getOrcID();
+			//orcID = authors.get(0).getOrcID();
+			String orcID = curMetaData.getOrcID();
 			if(null != authorFullname) {			
 				if (null != orcID && !orcID.isEmpty()){
 				authorFullname = SGMLEntitySubstitution.applyAllTo(authorFullname);			
@@ -331,7 +332,7 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 					keyword = curKeyword.getValue();
 					addField(
 							MarcTags.kKeyword,
-							makeFieldDataFrom('#', '#', 'a', keyword));
+							makeFieldDataFrom(' ', ' ', 'a', keyword));
 				}
 			}
 		}

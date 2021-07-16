@@ -79,6 +79,7 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	        NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(
 	           ecmsdoc, XPathConstants.NODESET);
 	        
+	        
 	        //1. Pubnumber  * /RECORD/ObjectID@IDType=DissertationNum
 	        XPathFactory xPathfactory = XPathFactory.newInstance();
 	        XPath xpath = xPathfactory.newXPath();
@@ -94,25 +95,32 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	           }
 	        }
             result.setPubNumber(pubId);
+            
 	        
 	        //2. authors   * fullname  - /RECORD/Contributors/Contributor@ContribRole=Author/OriginalForm
 	        xPathfactory = XPathFactory.newInstance();
 	        xpath = xPathfactory.newXPath();
 	        expr = xpath.compile("//Contributor[@ContribRole=\"Author\"]/OriginalForm");
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+			//XPathExpression exprOrc = xpath.compile("//ObjectID[@IDType=\"DissertationNum\"]");
+			//exprOrc = xpath.compile("//Contributor[@ContribRole=\"Author\"]/RefCode[@RefCodeType=\"ORCID\"]");
+			//NodeList nodeListOrc = (NodeList) exprOrc.evaluate(ecmsdoc, XPathConstants.NODESET);
 			List<Author> results = null;
 	        results = Lists.newArrayList();
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
+	           //Node nNodeOrc = nodeListOrc.item(i);
 	           Author author = new Author();
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	        	   String myAuthorName = nNode.getTextContent();
 					author.setAuthorFullName(nNode.getTextContent());
+					//author.setOrcID(nNodeOrc.getTextContent());
 					author.setSequenceNumber(i+1);
 	           }
 	           results.add(author);
-	           //CBNEW START
+
+	           
 		        xPathfactory = XPathFactory.newInstance();
 		        xpath = xPathfactory.newXPath();
 		        expr = xpath.compile("//IngestRecord/RECORD/ObjectInfo/ScholarlyInfo/DegreeDescription");
@@ -320,6 +328,8 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
 	        List<Subject> subjectresults = null;
 	        subjectresults = Lists.newArrayList();
+	        List<Subject> pqsubjectresults = null;
+	        pqsubjectresults = Lists.newArrayList();
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
 	           Node nNode = nodeList.item(i);
@@ -327,9 +337,11 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	        	  Subject genSubj = new Subject();
 	              genSubj.setSubjectDesc(nNode.getTextContent());
-	              subjectresults.add(genSubj);   
+	              subjectresults.add(genSubj);
+	              pqsubjectresults.add(genSubj);
 	           }
 	        }
+	        result.setpqSubjects(pqsubjectresults);
 	        
 	        
 	        //35. Keywords  * Flex term value for FlexTerm@FlexTermName=DissPaperKwd
@@ -368,6 +380,8 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	           }
 	        }
 	        result.setDepartments(departmentname);
+	        
+	        
 	        
 	        
 	        //38. Advisors  * /Contributor@ContribRole=Advisor/OriginalForm
@@ -537,6 +551,34 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	           
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	              result.setPublisher(nNode.getTextContent());
+	           }
+	        }
+	        
+	        // ORCID
+	        xPathfactory = XPathFactory.newInstance();
+	        xpath = xPathfactory.newXPath();
+			expr = xpath.compile("//Contributor[@ContribRole=\"Author\"]/RefCode[@RefCodeType=\"ORCID\"]");
+	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	           Node nNode = nodeList.item(i);
+	           
+	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	              result.setOrcID(nNode.getTextContent());
+	           }
+	        }
+	        
+	        // DOI
+	        xPathfactory = XPathFactory.newInstance();
+	        xpath = xPathfactory.newXPath();
+			expr = xpath.compile("//ObjectID[@IDType=\\\"DOI\\\"]");
+	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	           Node nNode = nodeList.item(i);
+	           
+	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	              result.setDOI(nNode.getTextContent());
 	           }
 	        }
 	
@@ -727,6 +769,29 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	        }*/
 			//author.setDegrees(degreeresults);
 	        
+	        //0. ActionCode  */RECORD/
+	        // error out immediately if actioncode is delete and identify as such
+	        expr = xpath.compile("//IngestRecord/ControlStructure/ActionCode");
+	        // Need to add check for ActionCode
+	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+            //String disscode = "";
+            //System.out.println("FOUND SFT DELETE");
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+		           Node nNode = nodeList.item(i);
+		           
+		           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			              //String bundleDescription = nNode.getTextContent();
+			              String actionCode = nNode.getTextContent();
+			              System.out.println("ActionCode: " +actionCode);
+			              if (actionCode.equals("delete")) {
+			            	  System.out.println("THROWING SOFT DELETE EXCEPTION");
+			            	  throw new Exception("ECMS/MR3 soft delete");
+			              }
+			              else {
+			            	  // Invalid bundle description
+			              }
+		           }
+	        }
 	        
             //  ECMS Bundle codes to determine DB Type code from MR3 data
 	        expr = xpath.compile("//IngestRecord/ControlStructure/ObjectBundleData/ObjectBundleValue");

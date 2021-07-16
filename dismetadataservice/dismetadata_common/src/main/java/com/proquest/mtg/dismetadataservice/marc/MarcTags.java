@@ -32,6 +32,7 @@ public class MarcTags {
 	public static final String kLanguageNote = "546";
 	public static final String kLocalNoteSchoolCode = "590";
 	public static final String kSubjectTerm = "650";
+	public static final String kKeyword = "653";
 	public static final String kSubjectCode = "690";
 	public static final String kMulitpleAuthor = "700";
 	public static final String kCorporatename = "710";
@@ -68,6 +69,7 @@ public class MarcTags {
 			kLocalNoteSchoolCode,
 			kSubjectTerm,
 			kSubjectCode,
+			kKeyword,
 			kMulitpleAuthor,
 			kCorporatename,
 			kUncontrolledName,
