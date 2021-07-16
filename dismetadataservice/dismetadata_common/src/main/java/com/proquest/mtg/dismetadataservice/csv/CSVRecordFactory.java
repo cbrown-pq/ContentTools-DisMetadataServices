@@ -155,83 +155,20 @@ public class CSVRecordFactory {
 				CSVRecordFactory.class.getDeclaredMethod("handleFormatRestrictionStartDt"));
 		kAllHeaders.put(CSVHeaders.kFormatRestrictionEndDt,
 				CSVRecordFactory.class.getDeclaredMethod("handleFormatRestrictionEndDt"));
-		//kAllHeaders.put(CSVHeaders.kAbstract,
-		//		CSVRecordFactory.class.getDeclaredMethod("handleAbstract"));
-		//kAllHeaders.put(CSVHeaders.kAltAbstract,
-		//		CSVRecordFactory.class.getDeclaredMethod("handleAltAbstract"));
-		//kAllHeaders.put(CSVHeaders.kAltAbstractLang, 
-		//		CSVRecordFactory.class.getDeclaredMethod("handleAltAbstractLang"));
-		//kAllHeaders.put(CSVHeaders.kAltTitle,
-		//		CSVRecordFactory.class.getDeclaredMethod("handleAltTitle"));
-		//kAllHeaders.put(CSVHeaders.kAltTitleLang,
-		//		CSVRecordFactory.class.getDeclaredMethod("handleAltTitleLang"));
 		kAllHeaders.put(CSVHeaders.kManuscriptMediaCode, CSVRecordFactory.class
 				.getDeclaredMethod("handleManuscriptMediaCode"));
 		kAllHeaders.put(CSVHeaders.kManuscriptMediaDesc, CSVRecordFactory.class
 				.getDeclaredMethod("handleManuscriptMediaDesc"));
-		//kAllHeaders.put(CSVHeaders.kExternalUrl,
-		//		CSVRecordFactory.class.getDeclaredMethod("handleExternalUrl"));
-		//kAllHeaders.put(CSVHeaders.kIsbn,
-		//		CSVRecordFactory.class.getDeclaredMethod("handleISBN"));
-		//kAllHeaders.put(CSVHeaders.kOpenAccessFlag, CSVRecordFactory.class
-		//		.getDeclaredMethod("handleOpenAccessFlag"));
-		//kAllHeaders.put(CSVHeaders.kPubDate, CSVRecordFactory.class
-		//		.getDeclaredMethod("handlePubDate"));
-		//kAllHeaders.put(CSVHeaders.kSubjectDesc,
-		//		CSVRecordFactory.class.getDeclaredMethod("handleSubjectDesc"));
-		//kAllHeaders.put(CSVHeaders.kpqSubjectDesc,
-		//		CSVRecordFactory.class.getDeclaredMethod("handlepqSubjectDesc"));
-		//kAllHeaders.put(CSVHeaders.kKeyword,
-		//		CSVRecordFactory.class.getDeclaredMethod("handleKeyWords"));
-		//kAllHeaders.put(CSVHeaders.kDissLangDesc, CSVRecordFactory.class
-		//		.getDeclaredMethod("handleDissLanguageDesc"));
-		//kAllHeaders.put(CSVHeaders.kAuthorCitizenship, CSVRecordFactory.class
-		//		.getDeclaredMethod("handleAuthorCitizenship"));
-		//kAllHeaders.put(CSVHeaders.kDepartmentName, CSVRecordFactory.class
-		//		.getDeclaredMethod("handleDepartmentName"));
-		//kAllHeaders.put(CSVHeaders.kAdvisors,
-		//		CSVRecordFactory.class.getDeclaredMethod("handleAdvisors"));
-		//kAllHeaders.put(CSVHeaders.kCmteMember, CSVRecordFactory.class
-		//		.getDeclaredMethod("handleCmteMember"));
-		//kAllHeaders.put(CSVHeaders.kExternalId,
-		//		CSVRecordFactory.class.getDeclaredMethod("handleExternalId"));
-		//kAllHeaders.put(CSVHeaders.kSubjectGroupDesc, CSVRecordFactory.class
-		//		.getDeclaredMethod("handleSubjectGroupDesc"));
-		//kAllHeaders.put(CSVHeaders.kSubjectCode,
-		//		CSVRecordFactory.class.getDeclaredMethod("handleSubjectCode"));
-		//kAllHeaders.put(CSVHeaders.kSchoolCode,
-		//		CSVRecordFactory.class.getDeclaredMethod("handleSchoolCode"));
-		//kAllHeaders.put(CSVHeaders.kSchoolCountry, CSVRecordFactory.class
-		//		.getDeclaredMethod("handleSchoolCountry"));
-		//kAllHeaders.put(CSVHeaders.kSchoolState,
-		//		CSVRecordFactory.class.getDeclaredMethod("handleSchoolState"));
-		//kAllHeaders.put(CSVHeaders.kSchoolLocCountry, CSVRecordFactory.class
-		//		.getDeclaredMethod("handleSchoolLocCountry"));
-		//kAllHeaders.put(CSVHeaders.kAuthorLocCitizenship, CSVRecordFactory.class
-		//		.getDeclaredMethod("handleAuthorLocCitizenship"));
 		kAllHeaders.put(CSVHeaders.kDissLangCode, CSVRecordFactory.class
 				.getDeclaredMethod("handleDissLanguageCode"));
-		//kAllHeaders.put(CSVHeaders.kEnglishTranslationOfTitle,
-		//		CSVRecordFactory.class.getDeclaredMethod("handleEnglishTranslationOfTitle"));
-		//kAllHeaders.put(CSVHeaders.kVariantTitle,
-		//		CSVRecordFactory.class.getDeclaredMethod("handleVariantTitle"));
-		//kAllHeaders.put(CSVHeaders.kDAISectionCode, CSVRecordFactory.class
-		//		.getDeclaredMethod("handleDAISectionCode"));
 		kAllHeaders.put(CSVHeaders.kSuppFileNames, CSVRecordFactory.class
 				.getDeclaredMethod("handleSupplementalFileName"));
 		kAllHeaders.put(CSVHeaders.kSuppFileDescription, CSVRecordFactory.class
 				.getDeclaredMethod("handleSupplementalFileDesc"));
 		kAllHeaders.put(CSVHeaders.kSuppFileCategory, CSVRecordFactory.class
 				.getDeclaredMethod("handleSupplementalFilesCategory"));
-		//kAllHeaders.put(CSVHeaders.kPageNumber,
-		//		CSVRecordFactory.class.getDeclaredMethod("handlePageNumber"));
-		//kAllHeaders.put(CSVHeaders.kPublisher,
-		//		CSVRecordFactory.class.getDeclaredMethod("handlePublisher"));
-		//kAllHeaders.put(CSVHeaders.kDissertationCode, CSVRecordFactory.class
-		//		.getDeclaredMethod("handleDissertationCode"));
 		kAllHeaders.put(CSVHeaders.kExternalUrl,
 				CSVRecordFactory.class.getDeclaredMethod("handleExternalUrl"));
-		// DOI
 		kAllHeaders.put(CSVHeaders.kDOI,
 				CSVRecordFactory.class.getDeclaredMethod("handleDOI"));
 		kAllHeaders.put(CSVHeaders.kOrcID,
@@ -240,17 +177,10 @@ public class CSVRecordFactory {
 				CSVRecordFactory.class.getDeclaredMethod("handleBritishLibrary"));
 		kAllHeaders.put(CSVHeaders.kPqOpenUrl,
 				CSVRecordFactory.class.getDeclaredMethod("handlePqOpenUrl"));
-		//kAllHeaders.put(CSVHeaders.kDegreeDesc, CSVRecordFactory.class
-		//		.getDeclaredMethod("handleDegreeDescForFirstAuthor"));
-		//kAllHeaders.put(CSVHeaders.kKeywordSource, CSVRecordFactory.class
-		//		.getDeclaredMethod("handleKeyWordSource"));
 		kAllHeaders.put(CSVHeaders.kDciRefsFlag, CSVRecordFactory.class
 				.getDeclaredMethod("handleDCIRefs"));
-		//kAllHeaders.put(CSVHeaders.kReferenceLocation, CSVRecordFactory.class
-		//		.getDeclaredMethod("handleReferenceLocation"));
 		kAllHeaders.put(CSVHeaders.kDisValidSource, CSVRecordFactory.class.getDeclaredMethod("handleDisValidSource")); 
 		kAllHeaders.put(CSVHeaders.kDisAvailableFormats, CSVRecordFactory.class.getDeclaredMethod("handleDisAvailableFormats")); 
-		//kAllHeaders.put(CSVHeaders.kFopQuantity, CSVRecordFactory.class.getDeclaredMethod("handleFOPQuantity")); 
 	}
 
 	public LinkedHashMap<String, Method> getTagMappings() {

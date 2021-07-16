@@ -1,5 +1,5 @@
 package com.proquest.mtg.dismetadataservice.ecms;
-//CB
+
 	import java.io.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -1252,18 +1252,4 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 			} 
 			return result;
 		}
-
-		//CBNEWEND
-		
-        //47. Author LOC citizenship    * Dropped per Mark Dill.   *DONE
-        //54. Page number   * Not available in ECMS.  Dropped per Mark Dill.   *DONE
-        //60. Keyword Source    * Not available.  ECMS may be updated to hold this. Jessica will add this into ECMS.
-        //62. Reference location    * Drop per Mark Dill   *DONE
-        //65. FOP Quantity.*  Drop per Mark Dill  *DONE
-        //Note: AuthorCitizenship will be removed.  *DONE
-		
-		//NOTE:  Need to Add ORCID and REPOSITORY
-		//  ORCID  -  Comes from Dis_Authors
-		//  REPOSITORY -  Comes from dvr_harvest_source in dis_valid_repositories
-		
-	}
+}

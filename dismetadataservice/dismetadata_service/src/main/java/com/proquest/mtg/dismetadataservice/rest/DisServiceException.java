@@ -18,7 +18,7 @@ public class DisServiceException extends WebApplicationException {
 	}
 	
 	private static Response createResponse(Response.Status statusCode, String message) {
-		System.out.println("IN RESPONSE");
+		System.out.println("IN RESPONSE:" + statusCode + " message:" + message);
 		if(message==null)
 		{
 			System.out.println("NULL!");

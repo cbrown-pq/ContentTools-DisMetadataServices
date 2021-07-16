@@ -52,21 +52,26 @@ public class PdfMediaInfoFactory {
 	}
 	
 	private PdfMediaInfo makeFrom(Comp curComponent, Rep curRepresentation) {
-		PdfMediaInfo curPdfInfo = new PdfMediaInfo(
+		
+		PdfMediaInfo curPdfInfo = null;
+		String basePath="";
+		if(curComponent.getBasepath()!=null)
+			basePath = curComponent.getBasepath();
+		curPdfInfo = new PdfMediaInfo(
 				PdfType.fromString(curRepresentation.getPdfType()),
-				makeUrlFrom(curComponent.getBasepath(), curRepresentation.getPath()));
+				makeUrlFrom(basePath, curRepresentation.getPath()));
 		return curPdfInfo;
 	}
 	
 	private String makeUrlFrom(String componentpath, String representationPath) {
+		System.out.println("makeUrlFrom:"+getBaseUrl().resolve(componentpath).resolve(representationPath).toString());
 		return getBaseUrl().resolve(componentpath).resolve(representationPath).toString();
 	}
 
 	private boolean isFullText(Comp curComponent) {
 		return 
 			null != curComponent &&
-			curComponent.getType().equalsIgnoreCase(kFullText) &&
-			null != curComponent.getBasepath();
+			curComponent.getType().equalsIgnoreCase(kFullText) ;
 	}
 
 	private boolean isFullTextPdf(Rep curRepresentation) {

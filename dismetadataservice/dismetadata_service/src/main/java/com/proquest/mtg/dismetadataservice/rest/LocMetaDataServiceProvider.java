@@ -191,30 +191,31 @@ public class LocMetaDataServiceProvider {
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response ackLOCClaimSubmissionFor(@PathParam("pubNumber") String pubNumber) throws WebApplicationException {
 		ClientResponse response = null;
-		try {
-			String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-			SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-			String dateString = sdf.format(new Date());
-			String jsonString = new JSONObject().put("CopyrightDateSubmitted", dateString).toString();
-			Map<String, String> map = (new Genson()).deserialize(jsonString, Map.class);
-			
-            String URL = getMr3ServiceUrlBase();
-			String HEADERKEY = getECMSMr3HeaderKey();
-			String HEADERVALUE = getECMSMr3HeaderValue(); 
-			Client c = Client.create();
-			WebResource resource = c.resource(URL).path("loc").path("cpsubmitted").path(pubNumber);
-			response = resource.header("Content-Type", "application/json")
-                    	.header(HEADERKEY, HEADERVALUE)
-                    	.post(ClientResponse.class, map);
-			if (response.getStatus() != 204)
-				System.out.println("MR3 cpsubmitted responded with: " + response.getStatus());
-			return Response.status(response.getStatus()).build();
-		} catch (IllegalArgumentException e) {
-			throw new DisServiceException(Response.Status.NO_CONTENT);
-		}catch (Exception e) {
-			e.printStackTrace();
-			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
-		}
+		return Response.status(Response.Status.GONE).build();
+//		try {
+//			String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+//			SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+//			String dateString = sdf.format(new Date());
+//			String jsonString = new JSONObject().put("CopyrightDateSubmitted", dateString).toString();
+//			Map<String, String> map = (new Genson()).deserialize(jsonString, Map.class);
+//			
+//            String URL = getMr3ServiceUrlBase();
+//			String HEADERKEY = getECMSMr3HeaderKey();
+//			String HEADERVALUE = getECMSMr3HeaderValue(); 
+//			Client c = Client.create();
+//			WebResource resource = c.resource(URL).path("loc").path("cpsubmitted").path(pubNumber);
+//			response = resource.header("Content-Type", "application/json")
+//                    	.header(HEADERKEY, HEADERVALUE)
+//                    	.post(ClientResponse.class, map);
+//			if (response.getStatus() != 204)
+//				System.out.println("MR3 cpsubmitted responded with: " + response.getStatus());
+//			return Response.status(response.getStatus()).build();
+//		} catch (IllegalArgumentException e) {
+//			throw new DisServiceException(Response.Status.NO_CONTENT);
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//			throw new DisServiceException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+//		}
 	}
 	
 	@PUT
@@ -226,20 +227,20 @@ public class LocMetaDataServiceProvider {
 			String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 			SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 			String dateString = sdf.format(new Date());
-			String jsonString = new JSONObject().put("LOCFirstLiveDate", dateString).toString();
+			String jsonString = new JSONObject().put("CopyrightDateSubmitted", dateString).toString();
 			Map<String, String> map = (new Genson()).deserialize(jsonString, Map.class);
 			
 	        String URL = getMr3ServiceUrlBase();
 			String HEADERKEY = getECMSMr3HeaderKey();
 			String HEADERVALUE = getECMSMr3HeaderValue(); 
 			Client c = Client.create();
-			WebResource resource = c.resource(URL).path("loc").path("locsent").path(pubNumber);
+			WebResource resource = c.resource(URL).path("loc").path("cpsubmitted").path(pubNumber);
 			response = resource.header("Content-Type", "application/json")
 	                	.header(HEADERKEY, HEADERVALUE)
 	                	.type("application/json")
 	                	.post(ClientResponse.class, map);
 			if (response.getStatus() != 204)
-				System.out.println("MR3 locsent responded with: " + response.getStatus());
+				System.out.println("MR3 cpSubmitted responded with: " + response.getStatus());
 			return Response.status(response.getStatus()).build();
 		} catch (IllegalArgumentException e) {
 			throw new DisServiceException(Response.Status.NO_CONTENT);

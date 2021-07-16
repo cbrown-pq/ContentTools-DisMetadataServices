@@ -32,13 +32,15 @@ public class PdfMediaProvider {
 	public byte[] downloadFor(String pubNumber,
 			PDFDownloadOptions pdfDownloadOptions) throws Exception {
 		byte[] content = null;
+		System.out.println("PdfMediaProvider download pub:" + pubNumber);
 		IPubMediaInfoProvider pubMediaInfoProvider = 
 				getPubMediaProviderFactory().create(pdfDownloadOptions.isRestrictionIncluded());
 		PubMediaInfo curPubMediaInfo = pubMediaInfoProvider.makeFor(pubNumber.replaceAll("\\n",""));
+		System.out.println("curPubMediaInfo:" + curPubMediaInfo.toString());
 		PdfMediaInfo curPdfMediaInfo = curPubMediaInfo.getPreferredPdf(
 				pdfDownloadOptions.getPdfPriorityOrder());
 		if (null == curPdfMediaInfo) {
-			throw new MediaDownloadException("No Pdf found");
+			throw new MediaDownloadException("PdfMediaInfo is null");
 		} else {
 			if (pdfDownloadOptions.isCopyrightMsgRequired()) {
 				content = getMediaDownloader().download(
