@@ -34,7 +34,7 @@ public class MakeCSVRecordFactory_Tests extends EasyMockSupport {
 		factory.makeFrom(null);
 	}
 
-	@Test
+	/*@Test
 	public void with_Empty() throws Exception {	
 		DisPubMetaData empty = new DisPubMetaData();
 		String csvData = factory.makeFrom(empty);
@@ -120,7 +120,7 @@ public class MakeCSVRecordFactory_Tests extends EasyMockSupport {
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kAdvisors, "Moriarty, Matthew D.|Kinstlinger, Gary");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectGroupDesc, "Literature, Medieval");
 		//CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "NAD(+)-glycohydrolase in runderschildklier:  Afzonderen, eigenschappen en bereiden van monoklonale antistoffen.  (Dutch text).");
-	}
+	}*/
 
 	@Test
 	public void acceptance3() throws Exception {
