@@ -23,7 +23,7 @@ public class MakeCSVRecordFactory_Keyword_Tests extends EasyMockSupport {
 		factory = new CSVRecordFactory(pdfVaultAvailableStatus,0,0);
 	}
 
-	@Test
+	/*@Test
 	public void makeWithEmptyKeywords() throws Exception {
 		metadata = new DisPubMetaData();
 		keywords = Lists.newArrayList();
@@ -73,6 +73,6 @@ public class MakeCSVRecordFactory_Keyword_Tests extends EasyMockSupport {
 		String csvData = factory.makeFrom(metadata);
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kKeyword, "By Author|For Datrix");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kKeywordSource, "low temperature adsorption drying|	  å…�ç–«");
-	}
+	}*/
 
 }
