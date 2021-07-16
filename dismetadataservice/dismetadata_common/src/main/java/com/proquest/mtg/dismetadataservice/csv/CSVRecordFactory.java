@@ -1390,6 +1390,4 @@ public class CSVRecordFactory {
 		return x.matches("^.+[\\.,\\?;:!]$") ? x : x + ".";
 	}
 
-
-
 }
