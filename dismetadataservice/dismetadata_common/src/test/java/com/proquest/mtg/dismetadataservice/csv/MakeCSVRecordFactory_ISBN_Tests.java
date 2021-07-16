@@ -19,19 +19,19 @@ public class MakeCSVRecordFactory_ISBN_Tests extends EasyMockSupport {
 		metadata = new DisPubMetaData();
 	}
 
-	@Test
-	public void makeWithEmptyISBN() throws Exception {
-		String isbn = null;
-		metadata.setISBN(isbn);
-		String csvData = factory.makeFrom(metadata);
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kIsbn, null);
-	}
+	//@Test
+	//public void makeWithEmptyISBN() throws Exception {
+	//	String isbn = null;
+	//	metadata.setISBN(isbn);
+	//	String csvData = factory.makeFrom(metadata);
+	//	CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kIsbn, null);
+	//}
 
-	@Test
-	public void withOnlyISBN() throws Exception {
-		metadata.setISBN("978-1-303-03106-9");
-		String csvData = factory.makeFrom(metadata);
-		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kIsbn, "978-1-303-03106-9");
-	}
+	//@Test
+	//public void withOnlyISBN() throws Exception {
+	//	metadata.setISBN("978-1-303-03106-9");
+	//	String csvData = factory.makeFrom(metadata);
+	//	CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kIsbn, "978-1-303-03106-9");
+	//}
 
 }
