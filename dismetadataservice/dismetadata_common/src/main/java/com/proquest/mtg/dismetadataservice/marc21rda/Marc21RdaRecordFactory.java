@@ -1064,5 +1064,4 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 			}
 		}
 	}
-
 }
