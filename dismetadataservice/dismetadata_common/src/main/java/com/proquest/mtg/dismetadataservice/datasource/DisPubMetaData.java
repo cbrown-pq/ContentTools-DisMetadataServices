@@ -991,5 +991,4 @@ public class DisPubMetaData {
 	public void setFirstPublicationDate(String firstPublicationDate) {
 		this.firstPublicationDate = firstPublicationDate;
 	}
-	
 }
