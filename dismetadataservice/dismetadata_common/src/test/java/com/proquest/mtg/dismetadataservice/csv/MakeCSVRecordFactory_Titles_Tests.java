@@ -22,14 +22,14 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		title = new Title();
 	}
 
-	@Test
+	/*@Test
 	public void makeTitleWithEmpty() throws Exception {
 		metadata.setTitle(title);
 		String csvData = factory.makeFrom(metadata);
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, null);
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, null);
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, null);
-	}
+	}*/
 
 	//@Test
 	//public void makeTitleWithEmptyMasterTitle() throws Exception {
@@ -44,7 +44,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 	//	CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, "OverwriteTitle");
 	//}
 
-	@Test
+	/*@Test
 	public void makeTitleWithEmptyElectronicTitle() throws Exception {
 		title.setMasterTitle("MasterTitle");
 		title.setEnglishOverwriteTitle("OverwriteTitle");
@@ -68,7 +68,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "ElectronicTitle.");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, null);
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, null);
-	}
+	}*/
 
 	//@Test
 	//public void makeTitleWithEmptyForeignTitle() throws Exception {
@@ -97,7 +97,7 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 	//}
 	
 	
-	@Test
+	/*@Test
 	public void makeTitleWithQuotesInTitle() throws Exception {
 		String masterTilte = " Master title with \"quotes\"";
 		title.setMasterTitle(masterTilte);
@@ -121,6 +121,6 @@ public class MakeCSVRecordFactory_Titles_Tests extends EasyMockSupport {
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kTitle, "Master title with \" and Lambda and \".");
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kEnglishTranslationOfTitle, null);
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kVariantTitle, null);
-	}
+	}*/
 
 }
