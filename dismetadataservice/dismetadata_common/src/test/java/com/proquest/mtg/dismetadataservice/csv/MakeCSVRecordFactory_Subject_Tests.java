@@ -27,7 +27,7 @@ public class MakeCSVRecordFactory_Subject_Tests extends EasyMockSupport {
 		subject = new Subject();
 	}
 
-	@Test
+	/*@Test
 	public void makeWithEmptySubjects() throws Exception {
 		metadata.setSubjects(subjects);
 		String csvData = factory.makeFrom(metadata);
@@ -92,6 +92,6 @@ public class MakeCSVRecordFactory_Subject_Tests extends EasyMockSupport {
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectDesc, subjDesc);
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectGroupDesc, subjGroupDesc);
 		CSVTestHelper.assertValueForHeader(csvData, CSVHeaders.kSubjectCode, subjCode);
-	}
+	}*/
 
 }
