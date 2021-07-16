@@ -822,7 +822,4 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 		}
 
 	}
-
-	
-
 }
