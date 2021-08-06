@@ -137,8 +137,6 @@ public class CSVRecordFactory {
 				CSVRecordFactory.class.getDeclaredMethod("handleVolumeIssue"));
 		kAllHeaders.put(CSVHeaders.kActiveSalesRestrictionCode,
 				CSVRecordFactory.class.getDeclaredMethod("handleActiveSalesRestrictionCode"));
-		kAllHeaders.put(CSVHeaders.kActiveFormatRestrictionCode,
-				CSVRecordFactory.class.getDeclaredMethod("handleActiveFormatRestrictionCode"));
 		kAllHeaders.put(CSVHeaders.kSalesRestrictionCode,
 				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionCode"));
 		kAllHeaders.put(CSVHeaders.kSalesRestrictionDesc,
@@ -147,6 +145,8 @@ public class CSVRecordFactory {
 				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionStartDate"));
 		kAllHeaders.put(CSVHeaders.kSalesRestrictionEndDate,
 				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionEndDate"));
+		kAllHeaders.put(CSVHeaders.kActiveFormatRestrictionCode,
+				CSVRecordFactory.class.getDeclaredMethod("handleActiveFormatRestrictionCode"));
 		kAllHeaders.put(CSVHeaders.kFormatRestrictionCode,
 				CSVRecordFactory.class.getDeclaredMethod("handleFormatRestrictionCode"));
 		kAllHeaders.put(CSVHeaders.kFormatRestrictionDesc,
@@ -181,7 +181,7 @@ public class CSVRecordFactory {
 				.getDeclaredMethod("handleDCIRefs"));
 		kAllHeaders.put(CSVHeaders.kDisValidSource, CSVRecordFactory.class.getDeclaredMethod("handleDisValidSource")); 
 		kAllHeaders.put(CSVHeaders.kDisAvailableFormats, CSVRecordFactory.class.getDeclaredMethod("handleDisAvailableFormats")); 
-	}
+    }
 
 	public LinkedHashMap<String, Method> getTagMappings() {
 		return kAllHeaders;
@@ -1049,17 +1049,6 @@ public class CSVRecordFactory {
 				&& !curMetaData.getHasPDF().isEmpty()) {
 			hasPDF = curMetaData.getHasPDF();
 		}
-		//String pubNumber = curMetaData.getPubNumber(); 
-		//if (null != pubNumber && !pubNumber.isEmpty()) {
-		//	try {
-		//		if (getPDFVaultAvailableStatusProvider().
-		//				isPdfAvailableInVaultFor(pubNumber)) {
-		//			hasPDF = "Y";
-		//		}
-		//	} catch (Exception e) {
-		//		hasPDF = "N";
-		//	}			
-		//}
 		addField(hasPDF);
 	}
 
@@ -1244,10 +1233,10 @@ public class CSVRecordFactory {
 		if (null != curMetaData.getOpenAccessFlag()
 				&& !curMetaData.getOpenAccessFlag().isEmpty()) {
 			openAccessFlag = curMetaData.getOpenAccessFlag();
-			if (openAccessFlag.equals("TRUE")) {
+			if (openAccessFlag.equalsIgnoreCase("TRUE")) {
 				openAccessFlag = "Y";
 			}
-			if (openAccessFlag.equals("FALSE")) {
+			if (openAccessFlag.equalsIgnoreCase("FALSE")) {
 				openAccessFlag = "N";
 			}
 		}
@@ -1389,5 +1378,4 @@ public class CSVRecordFactory {
 	private String endsWithPunctuationMark(String x) {
 		return x.matches("^.+[\\.,\\?;:!]$") ? x : x + ".";
 	}
-
 }
