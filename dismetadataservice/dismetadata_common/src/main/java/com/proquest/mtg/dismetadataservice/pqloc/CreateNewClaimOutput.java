@@ -37,16 +37,16 @@ import javax.xml.bind.annotation.XmlType;
     "errorSpcCode",
     "errorSpcMessage"
 })
-@XmlRootElement(name = "CreateNewClaim_Output", namespace = "https://eco.copyright.gov/WebServices")
+@XmlRootElement(name = "CreateNewClaim_Output", namespace = "https://eservice.eco.loc.gov/WebServices")
 public class CreateNewClaimOutput {
 
-    @XmlElement(name = "BatchNumber", namespace = "https://eco.copyright.gov/WebServices", required = true)
+    @XmlElement(name = "BatchNumber", namespace = "https://eservice.eco.loc.gov/WebServices", required = true)
     protected String batchNumber;
-    @XmlElement(name = "BulkSubmissionStatus", namespace = "https://eco.copyright.gov/WebServices", required = true)
+    @XmlElement(name = "BulkSubmissionStatus", namespace = "https://eservice.eco.loc.gov/WebServices", required = true)
     protected String bulkSubmissionStatus;
-    @XmlElement(name = "Error_spcCode", namespace = "https://eco.copyright.gov/WebServices", required = true)
+    @XmlElement(name = "Error_spcCode", namespace = "https://eservice.eco.loc.gov/WebServices", required = true)
     protected String errorSpcCode;
-    @XmlElement(name = "Error_spcMessage", namespace = "https://eco.copyright.gov/WebServices", required = true)
+    @XmlElement(name = "Error_spcMessage", namespace = "https://eservice.eco.loc.gov/WebServices", required = true)
     protected String errorSpcMessage;
 
     /**

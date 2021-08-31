@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "claims"
 })
-@XmlRootElement(name = "ResubmitClaim_Input", namespace = "https://eco.copyright.gov/WebServices")
+@XmlRootElement(name = "ResubmitClaim_Input", namespace = "https://eservice.eco.loc.gov/WebServices")
 public class ResubmitClaimInput {
 
     @XmlElement(name = "Claims", required = true)
