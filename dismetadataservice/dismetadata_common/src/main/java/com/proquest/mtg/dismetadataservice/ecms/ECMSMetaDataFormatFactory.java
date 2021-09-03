@@ -571,7 +571,7 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	        // DOI
 	        xPathfactory = XPathFactory.newInstance();
 	        xpath = xPathfactory.newXPath();
-			expr = xpath.compile("//ObjectID[@IDType=\\\"DOI\\\"]");
+			expr = xpath.compile("//ObjectID[@IDType=\"DOI\"]");
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
 
 	        for (int i = 0; i < nodeList.getLength(); i++) {
