@@ -13,24 +13,27 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="Claimant">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="ClaimantIntegrationId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="FirstName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="MiddleName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="LastName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="Address1" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="Address2" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="City" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="State" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="PostalCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="Country" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="Claimant"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="ClaimantIntegrationId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="OrganizationName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="FirstName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="MiddleName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="LastName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="Address1" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="Address2" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="City" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="State" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="PostalCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="Country" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="TransferStatement" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="TransferStatementOther" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -38,6 +41,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Claimant", propOrder = {
     "claimantIntegrationId",
+    "organizationName",
     "firstName",
     "middleName",
     "lastName",
@@ -46,12 +50,16 @@ import javax.xml.bind.annotation.XmlType;
     "city",
     "state",
     "postalCode",
-    "country"
+    "country",
+    "transferStatement",
+    "transferStatementOther"
 })
 public class Claimant {
 
     @XmlElement(name = "ClaimantIntegrationId")
     protected String claimantIntegrationId;
+    @XmlElement(name = "OrganizationName")
+    protected String organizationName;
     @XmlElement(name = "FirstName")
     protected String firstName;
     @XmlElement(name = "MiddleName")
@@ -70,6 +78,10 @@ public class Claimant {
     protected String postalCode;
     @XmlElement(name = "Country")
     protected String country;
+    @XmlElement(name = "TransferStatement")
+    protected String transferStatement;
+    @XmlElement(name = "TransferStatementOther")
+    protected String transferStatementOther;
 
     /**
      * Gets the value of the claimantIntegrationId property.
@@ -93,6 +105,30 @@ public class Claimant {
      */
     public void setClaimantIntegrationId(String value) {
         this.claimantIntegrationId = value;
+    }
+
+    /**
+     * Gets the value of the organizationName property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    /**
+     * Sets the value of the organizationName property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setOrganizationName(String value) {
+        this.organizationName = value;
     }
 
     /**
@@ -309,6 +345,54 @@ public class Claimant {
      */
     public void setCountry(String value) {
         this.country = value;
+    }
+
+    /**
+     * Gets the value of the transferStatement property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getTransferStatement() {
+        return transferStatement;
+    }
+
+    /**
+     * Sets the value of the transferStatement property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setTransferStatement(String value) {
+        this.transferStatement = value;
+    }
+
+    /**
+     * Gets the value of the transferStatementOther property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getTransferStatementOther() {
+        return transferStatementOther;
+    }
+
+    /**
+     * Sets the value of the transferStatementOther property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setTransferStatementOther(String value) {
+        this.transferStatementOther = value;
     }
 
 }

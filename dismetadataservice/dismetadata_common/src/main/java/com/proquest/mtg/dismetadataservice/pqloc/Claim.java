@@ -13,19 +13,19 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="Claim">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="SRNumber" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="CustomerClaimId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="TypeofWork" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="Deposits" type="{http://www.loc.gov/BulkClaim}Deposits"/>
- *         &lt;element name="Publication" type="{http://www.loc.gov/BulkClaim}Publication"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="Claim"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="SRNumber" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="CustomerClaimId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="TypeofWork" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="Deposits" type="{http://www.loc.gov/BulkClaim}Deposits"/&gt;
+ *         &lt;element name="Publication" type="{http://www.loc.gov/BulkClaim}Publication"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

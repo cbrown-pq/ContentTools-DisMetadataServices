@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 import com.proquest.mtg.dismetadataservice.jdbc.IJdbcConnectionPool;
 import com.proquest.mtg.dismetadataservice.loc.LOCRecordFactory;
@@ -20,7 +23,8 @@ public class LOCMetaDataProvider {
 	private final String ecmsMr3HeaderKey;
 	private final String ecmsMr3HeaderValue;	
 	private final String mr3ServiceUrlBase;
-
+	private final Logger logger = LoggerFactory.getLogger(LOCMetaDataProvider.class);
+	
 	@Inject
 	public LOCMetaDataProvider(IPubMetaDataProvider pubMetaDataProvider,
 			LOCRecordFactory locRecordFactory,
@@ -86,6 +90,7 @@ public class LOCMetaDataProvider {
 		claimList.add(getDataFor(ecmsData, mr3Data, excludeRestriction));
 		CreateNewClaimInput createNewClaimInput = new CreateNewClaimInput();
 		createNewClaimInput.setClaims(claims);
+		logger.info("LOCMetaDataProvider: "+ createNewClaimInput.toString());
 		return createNewClaimInput;
 	}
 	

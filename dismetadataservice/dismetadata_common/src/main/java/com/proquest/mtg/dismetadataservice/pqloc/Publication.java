@@ -1,6 +1,8 @@
 
 package com.proquest.mtg.dismetadataservice.pqloc;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -13,29 +15,30 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="Publication">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="YearofCompletion" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="PreregistrationNumber" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="PublishedWork" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="NationofFirstPublication" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="Dateoffirstpublication" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="StandardWorkIdentifierValue" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="StandardWorkIdentifierType" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="Titles" type="{http://www.loc.gov/BulkClaim}Titles"/>
- *         &lt;element name="Authors" type="{http://www.loc.gov/BulkClaim}Authors"/>
- *         &lt;element name="Claimants" type="{http://www.loc.gov/BulkClaim}Claimants"/>
- *         &lt;element name="LimitationOfClaim" type="{http://www.loc.gov/BulkClaim}LimitationOfClaim"/>
- *         &lt;element name="RightsAndPermissions" type="{http://www.loc.gov/BulkClaim}RightsAndPermissions"/>
- *         &lt;element name="Correspondent" type="{http://www.loc.gov/BulkClaim}Correspondent"/>
- *         &lt;element name="CertificateMailingAddress" type="{http://www.loc.gov/BulkClaim}CertificateMailingAddress"/>
- *         &lt;element name="Certification" type="{http://www.loc.gov/BulkClaim}Certification"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="Publication"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="YearofCompletion" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="PreregistrationNumber" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="PublishedWork" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="NationofFirstPublication" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="Dateoffirstpublication" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="StandardWorkIdentifierType" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="StandardWorkIdentifierValue" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="Titles" type="{http://www.loc.gov/BulkClaim}Titles"/&gt;
+ *         &lt;element name="Authors" type="{http://www.loc.gov/BulkClaim}Authors"/&gt;
+ *         &lt;element name="Claimants" type="{http://www.loc.gov/BulkClaim}Claimants"/&gt;
+ *         &lt;element name="LimitationOfClaim" type="{http://www.loc.gov/BulkClaim}LimitationOfClaim"/&gt;
+ *         &lt;element name="RightsAndPermissions" type="{http://www.loc.gov/BulkClaim}RightsAndPermissions"/&gt;
+ *         &lt;element name="Correspondent" type="{http://www.loc.gov/BulkClaim}Correspondent"/&gt;
+ *         &lt;element name="CertificateMailingAddress" type="{http://www.loc.gov/BulkClaim}CertificateMailingAddress"/&gt;
+ *         &lt;element name="SpecialHandling" type="{http://www.loc.gov/BulkClaim}SpecialHandling" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element name="Certification" type="{http://www.loc.gov/BulkClaim}Certification"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -47,8 +50,8 @@ import javax.xml.bind.annotation.XmlType;
     "publishedWork",
     "nationofFirstPublication",
     "dateoffirstpublication",
-    "standardWorkIdentifierValue",
     "standardWorkIdentifierType",
+    "standardWorkIdentifierValue",
     "titles",
     "authors",
     "claimants",
@@ -56,6 +59,7 @@ import javax.xml.bind.annotation.XmlType;
     "rightsAndPermissions",
     "correspondent",
     "certificateMailingAddress",
+    "specialHandling",
     "certification"
 })
 public class Publication {
@@ -70,10 +74,10 @@ public class Publication {
     protected String nationofFirstPublication;
     @XmlElement(name = "Dateoffirstpublication")
     protected String dateoffirstpublication;
-    @XmlElement(name = "StandardWorkIdentifierValue")
-    protected String standardWorkIdentifierValue;
     @XmlElement(name = "StandardWorkIdentifierType")
     protected String standardWorkIdentifierType;
+    @XmlElement(name = "StandardWorkIdentifierValue")
+    protected String standardWorkIdentifierValue;
     @XmlElement(name = "Titles", required = true)
     protected Titles titles;
     @XmlElement(name = "Authors", required = true)
@@ -88,6 +92,8 @@ public class Publication {
     protected Correspondent correspondent;
     @XmlElement(name = "CertificateMailingAddress", required = true)
     protected CertificateMailingAddress certificateMailingAddress;
+    @XmlElement(name = "SpecialHandling")
+    protected List<SpecialHandling> specialHandling;
     @XmlElement(name = "Certification", required = true)
     protected Certification certification;
 
@@ -212,30 +218,6 @@ public class Publication {
     }
 
     /**
-     * Gets the value of the standardWorkIdentifierValue property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStandardWorkIdentifierValue() {
-        return standardWorkIdentifierValue;
-    }
-
-    /**
-     * Sets the value of the standardWorkIdentifierValue property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStandardWorkIdentifierValue(String value) {
-        this.standardWorkIdentifierValue = value;
-    }
-
-    /**
      * Gets the value of the standardWorkIdentifierType property.
      * 
      * @return
@@ -257,6 +239,30 @@ public class Publication {
      */
     public void setStandardWorkIdentifierType(String value) {
         this.standardWorkIdentifierType = value;
+    }
+
+    /**
+     * Gets the value of the standardWorkIdentifierValue property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getStandardWorkIdentifierValue() {
+        return standardWorkIdentifierValue;
+    }
+
+    /**
+     * Sets the value of the standardWorkIdentifierValue property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setStandardWorkIdentifierValue(String value) {
+        this.standardWorkIdentifierValue = value;
     }
 
     /**
@@ -425,6 +431,35 @@ public class Publication {
      */
     public void setCertificateMailingAddress(CertificateMailingAddress value) {
         this.certificateMailingAddress = value;
+    }
+
+    /**
+     * Gets the value of the specialHandling property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the specialHandling property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getSpecialHandling().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link SpecialHandling }
+     * 
+     * 
+     */
+    public List<SpecialHandling> getSpecialHandling() {
+        if (specialHandling == null) {
+            specialHandling = new ArrayList<SpecialHandling>();
+        }
+        return this.specialHandling;
     }
 
     /**
