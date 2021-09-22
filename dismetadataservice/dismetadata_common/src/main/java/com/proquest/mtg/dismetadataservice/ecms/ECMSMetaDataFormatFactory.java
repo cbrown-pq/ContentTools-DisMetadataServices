@@ -492,10 +492,14 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 		           CmteMember cmteitem = new CmteMember();
 		           //Advisor advisor = new Advisor();
 		           if (nNode3.getNodeType() == Node.ELEMENT_NODE) {
-		        	   cmteitem.setLastName(nNode4.getTextContent());
-						cmteitem.setFirstName(nNode3.getTextContent());
-						cmteitem.setFullName(nNode5.getTextContent());
-						cmteresults2.add(cmteitem);
+				   if (null != nNode4) {
+		        	      cmteitem.setLastName(nNode4.getTextContent());
+				   }
+				   cmteitem.setFirstName(nNode3.getTextContent());
+				   if (null != nNode5) {
+				      cmteitem.setFullName(nNode5.getTextContent());
+				   }
+				   cmteresults2.add(cmteitem);
 		           }
 		    }
 	        result.setCmteMembers(cmteresults2);
