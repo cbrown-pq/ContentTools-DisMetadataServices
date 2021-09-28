@@ -107,6 +107,10 @@ public class MarcRecordFactoryBase {
 		return x.endsWith(".") ? x : x + ".";
 	}
 	
+	protected String endWithSemicolon(String x) {
+		return x.endsWith(";") ? x : x + "; ";
+	}
+	
 	protected String getTitleToInclude(DisPubMetaData disPubMetaData) {
 		String title = null;
 		String englishOverwriteTitle = (disPubMetaData.getTitle() == null) ? 
