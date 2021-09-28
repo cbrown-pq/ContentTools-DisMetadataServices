@@ -634,35 +634,27 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 		if (null != cmteMembers && !cmteMembers.isEmpty()) {
 			String cmteMemberString = "";
 			for (CmteMember curCmteMember : cmteMembers) {
-								if (!curCmteMember.getFullName().isEmpty())
-				{
-						cmteMemberString += endWithSemicolon(curCmteMember
-							.getFullName());
+				if (null != curCmteMember.getFirstName()
+						&& !curCmteMember.getFirstName().isEmpty()) {
+					cmteMemberString = cmteMemberString
+							+ curCmteMember.getFirstName();
 				}
-					else {
-						cmteMemberString += endWithSemicolon("");
+				if (null != curCmteMember.getMiddleName()
+						&& !curCmteMember.getMiddleName().isEmpty()) {
+					cmteMemberString = cmteMemberString + " "
+							+ curCmteMember.getMiddleName();
 				}
-				//if (null != curCmteMember.getFirstName()
-				//		&& !curCmteMember.getFirstName().isEmpty()) {
-				//	cmteMemberString = cmteMemberString
-				//			+ curCmteMember.getFirstName();
-				//}
-				//if (null != curCmteMember.getMiddleName()
-				//		&& !curCmteMember.getMiddleName().isEmpty()) {
-				//	cmteMemberString = cmteMemberString + " "
-				//			+ curCmteMember.getMiddleName();
-				//}
-				//if (null != curCmteMember.getLastName()
-				//		&& !curCmteMember.getLastName().isEmpty()) {
-				//	cmteMemberString = cmteMemberString + " "
-				//			+ curCmteMember.getLastName();
-				//}
-				//if (null != curCmteMember.getSuffix()
-				//		&& !curCmteMember.getSuffix().isEmpty()) {
-				//	cmteMemberString = cmteMemberString + "," + " "
-				//			+ curCmteMember.getSuffix();
-				//}
-				//cmteMemberString = cmteMemberString + "; ";
+				if (null != curCmteMember.getLastName()
+						&& !curCmteMember.getLastName().isEmpty()) {
+					cmteMemberString = cmteMemberString + " "
+							+ curCmteMember.getLastName();
+				}
+				if (null != curCmteMember.getSuffix()
+						&& !curCmteMember.getSuffix().isEmpty()) {
+					cmteMemberString = cmteMemberString + "," + " "
+							+ curCmteMember.getSuffix();
+				}
+				cmteMemberString = cmteMemberString + "; ";
 			}
 			if (null != cmteMemberString && !cmteMemberString.isEmpty()) {
 				cmteMemberString = cmteMemberString.substring(0,
