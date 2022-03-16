@@ -324,7 +324,7 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	        //34. Subject description  * Converted form of GenSubjValue@TermVocab=PQSUBJ
 	        xPathfactory = XPathFactory.newInstance();
 	        xpath = xPathfactory.newXPath();
-		expr = xpath.compile("//ClassTerm[@TermVocab=\\\"DISSSUBJ\\\"]/ClassExpansion\"");
+		expr = xpath.compile("//ClassTerm[@TermVocab=\"DISSSUBJ\"]/ClassExpansion\"");
 	        //expr = xpath.compile("//Terms/GenSubjTerm[@TermVocab=\"PQSUBJ\"]/GenSubjValue");
 	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
 	        List<Subject> subjectresults = null;
