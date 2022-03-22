@@ -579,6 +579,7 @@ public class DisPubMetaData {
         private String subjectGroupDesc;
         private String subjectCode;
         private String subjectDesc;
+        private String pqsubjectExp;
         private Integer sequenceNumber;
 
         public String getSubjectGroupDesc() {
@@ -604,7 +605,15 @@ public class DisPubMetaData {
         public void setSubjectDesc(String value) {
             this.subjectDesc = value;
         }
+        //CB
+        public String getpqSubjectExp() {
+            return pqsubjectExp;
+        }
 
+        public void setpqSubjectExp(String value) {
+            this.pqsubjectExp = value;
+        }
+        //CB.
         public Integer getSequenceNumber() {
             return sequenceNumber;
         }
