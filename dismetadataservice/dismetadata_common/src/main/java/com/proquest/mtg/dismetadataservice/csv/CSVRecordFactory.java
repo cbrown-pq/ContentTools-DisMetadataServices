@@ -700,9 +700,9 @@ public class CSVRecordFactory {
 
 		if (subjects != null && !subjects.isEmpty()) {
 			for (Subject curSubject : subjects) {
-				if (null != curSubject.getSubjectDesc()
-						&& !curSubject.getSubjectDesc().isEmpty()) {
-					subjDesc += endWithPipes(curSubject.getSubjectDesc());
+				if (null != curSubject.getpqSubjectExp()
+						&& !curSubject.getpqSubjectExp().isEmpty()) {
+					subjDesc += endWithPipes(curSubject.getpqSubjectExp());
 				}
 			}
 			if (subjDesc.endsWith(DELIMITER)) {
@@ -713,7 +713,7 @@ public class CSVRecordFactory {
 	}
 	
 	private void handlepqSubjectDesc() {
-		List<Subject> pqsubjects = curMetaData.getpqSubjects();
+		List<Subject> pqsubjects = curMetaData.getSubjects();
 		String pqsubjDesc = "";
 
 		if (pqsubjects != null && !pqsubjects.isEmpty()) {
