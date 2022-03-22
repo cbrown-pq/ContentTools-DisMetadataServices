@@ -322,7 +322,7 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	        }
 	        
 	        //34. Subject description  * Converted form of GenSubjValue@TermVocab=PQSUBJ
-	        xPathfactory = XPathFactory.newInstance();
+	        /*xPathfactory = XPathFactory.newInstance();
 	        xpath = xPathfactory.newXPath();
 		expr = xpath.compile("//ClassTerm[@TermVocab=\"DISSSUBJ\"]/ClassExpansion\"");
 	        //expr = xpath.compile("//Terms/GenSubjTerm[@TermVocab=\"PQSUBJ\"]/GenSubjValue");
@@ -342,7 +342,46 @@ import com.proquest.mtg.dismetadataservice.datasource.DisPubMetaData.Advisor;
 	              pqsubjectresults.add(genSubj);
 	           }
 	        }
-	        result.setpqSubjects(pqsubjectresults);
+	        result.setpqSubjects(pqsubjectresults);*/
+		    
+	        //34. Subject description  * Converted form of GenSubjValue@TermVocab=PQSUBJ
+	        xPathfactory = XPathFactory.newInstance();
+	        xpath = xPathfactory.newXPath();
+	        expr = xpath.compile("//Terms/GenSubjTerm[@TermVocab=\"PQSUBJ\"]/GenSubjValue");
+	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+	        List<Subject> subjectresults = null;
+	        subjectresults = Lists.newArrayList();
+	        List<Subject> pqsubjectresults = null;
+	        pqsubjectresults = Lists.newArrayList();
+
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	           Node nNode = nodeList.item(i);
+	           
+	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	        	   System.out.println("EXPANSION :" +nNode.getTextContent());
+	        	  Subject genSubj = new Subject();
+	              genSubj.setSubjectDesc(nNode.getTextContent());
+	              subjectresults.add(genSubj);
+	           }
+	        }
+	        
+	        
+	        //34.5 PQ Subject description  * Converted form of GenSubjValue@TermVocab=PQSUBJ
+	        xPathfactory = XPathFactory.newInstance();
+	        xpath = xPathfactory.newXPath();
+	        expr = xpath.compile("//Terms/ClassTerm[@TermVocab=\"DISSSUBJ\"]/ClassExpansion");
+	        nodeList = (NodeList) expr.evaluate(ecmsdoc, XPathConstants.NODESET);
+
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	           Node nNode = nodeList.item(i);
+	           
+	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	        	   System.out.println("PQSUBJ :" +nNode.getTextContent());
+	        	  Subject genSubj = new Subject();
+	              genSubj.setpqSubjectExp(nNode.getTextContent());
+	              subjectresults.add(genSubj);
+	           }
+	        }
 	        
 	        
 	        //35. Keywords  * Flex term value for FlexTerm@FlexTermName=DissPaperKwd
