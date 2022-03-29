@@ -137,10 +137,12 @@ public class CSVRecordFactory {
 				CSVRecordFactory.class.getDeclaredMethod("handleVolumeIssue"));
 		kAllHeaders.put(CSVHeaders.kActiveSalesRestrictionCode,
 				CSVRecordFactory.class.getDeclaredMethod("handleActiveSalesRestrictionCode"));
-		kAllHeaders.put(CSVHeaders.kSalesRestrictionCode,
-				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionCode"));
 		kAllHeaders.put(CSVHeaders.kSalesRestrictionDesc,
 				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionDesc"));
+		kAllHeaders.put(CSVHeaders.kSalesRestrictionCode,
+				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionCode"));
+		//kAllHeaders.put(CSVHeaders.kSalesRestrictionDesc,
+		//		CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionDesc"));
 		kAllHeaders.put(CSVHeaders.kSalesRestrictionStartDate,
 				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionStartDate"));
 		kAllHeaders.put(CSVHeaders.kSalesRestrictionEndDate,
@@ -728,6 +730,7 @@ public class CSVRecordFactory {
 			}
 		}
 		addField(pqsubjDesc);
+		//addField("foo");
 	}
 
 	private void handleSubjectCode() {
@@ -1378,4 +1381,7 @@ public class CSVRecordFactory {
 	private String endsWithPunctuationMark(String x) {
 		return x.matches("^.+[\\.,\\?;:!]$") ? x : x + ".";
 	}
+
+
+
 }
