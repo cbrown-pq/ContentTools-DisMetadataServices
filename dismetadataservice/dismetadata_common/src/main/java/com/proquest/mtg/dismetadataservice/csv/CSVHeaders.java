@@ -44,7 +44,7 @@ public class CSVHeaders {
 	public static final String kKeyword = "KEYWORD";
 	public static final String kKeywordSource = "KEYWORD SOURCE";
 	public static final String kSalesRestrictionCode = "SALES RESTRICT CODE";
-	public static final String kSalesRestrictionDesc = "SALES RESTRICT DESC";
+	public static final String kSalesRestrictionDesc = "ACTIVE SALES RESTRICT DESC";
 	public static final String kSalesRestrictionStartDate = "SALES RESTRICT STARTDT";
 	public static final String kSalesRestrictionEndDate = "SALES RESTRICT ENDDT";
 	public static final String kDissertationTypeCode = "DISS TYPE CODE";
