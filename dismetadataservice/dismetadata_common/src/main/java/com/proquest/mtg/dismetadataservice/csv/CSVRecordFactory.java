@@ -138,7 +138,7 @@ public class CSVRecordFactory {
 		kAllHeaders.put(CSVHeaders.kActiveSalesRestrictionCode,
 				CSVRecordFactory.class.getDeclaredMethod("handleActiveSalesRestrictionCode"));
 		kAllHeaders.put(CSVHeaders.kSalesRestrictionDesc,
-				CSVRecordFactory.class.getDeclaredMethod("handleFormatRestrictionDesc"));
+				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionDesc"));
 		kAllHeaders.put(CSVHeaders.kSalesRestrictionCode,
 				CSVRecordFactory.class.getDeclaredMethod("handleSalesRestrictionCode"));
 		//kAllHeaders.put(CSVHeaders.kSalesRestrictionDesc,
