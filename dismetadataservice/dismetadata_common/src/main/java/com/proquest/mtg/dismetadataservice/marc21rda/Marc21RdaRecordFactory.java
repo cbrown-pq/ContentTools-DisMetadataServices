@@ -186,16 +186,16 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 
 		} else {
 			//for (SalesRestriction salesRrestriction : saleRestrictions) {
-			//	String restrictionCode = salesRrestriction.getCode();
-			//	if (null != restrictionCode && !restrictionCode.isEmpty())
-			//		if (restrictionCode.equals("5"))
-			//			accessrestrictionNote = makeFieldDataFrom(' ', ' ',
-			//					'a', restriction3rdPartyVendors);
-			//		else if (restrictionCode.equals("8"))
-			//			accessrestrictionNote = makeFieldDataFrom(' ', ' ',
-			//					'a', restriction3rdPartyIndexing);
-			//		else
-						accessrestrictionNote = makeFieldDataFrom(' ', ' ',
+				//String restrictionCode = salesRrestriction.getCode();
+				//if (null != restrictionCode && !restrictionCode.isEmpty())
+				//	if (restrictionCode.equals("5"))
+				//		accessrestrictionNote = makeFieldDataFrom(' ', ' ',
+				//				'a', restriction3rdPartyVendors);
+				//	else if (restrictionCode.equals("8"))
+				//		accessrestrictionNote = makeFieldDataFrom(' ', ' ',
+				//				'a', restriction3rdPartyIndexing);
+				//	else
+				accessrestrictionNote = makeFieldDataFrom(' ', ' ',
 								'a', restrictionMessageForPQ);
 				accessrestrictionNote = endWithPeriod(accessrestrictionNote);
 				addField(MarcTags.kAccessRestrictionNote, accessrestrictionNote);
