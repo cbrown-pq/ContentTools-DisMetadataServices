@@ -195,8 +195,8 @@ public class Marc21RdaRecordFactory extends MarcRecordFactoryBase {
 			//			accessrestrictionNote = makeFieldDataFrom(' ', ' ',
 			//					'a', restriction3rdPartyIndexing);
 			//		else
-			//			accessrestrictionNote = makeFieldDataFrom(' ', ' ',
-			//					'a', restrictionMessageForPQ);
+						accessrestrictionNote = makeFieldDataFrom(' ', ' ',
+								'a', restrictionMessageForPQ);
 				accessrestrictionNote = endWithPeriod(accessrestrictionNote);
 				addField(MarcTags.kAccessRestrictionNote, accessrestrictionNote);
 			//}
