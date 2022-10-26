@@ -55,6 +55,8 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 
 		handleRecordId(); /*001*/
 		handleTimeStamp(); /*005*/
+		handleAdditionalMaterial(); /*006*/
+		handleElectronicResource(); /*007*/
 		handleFixedLengthElements(); /*008*/
 		handleISBN(); /*020*/
 		handleSystemControlNumber(); /*035*/
@@ -364,6 +366,20 @@ public class USMarcRecordFactory extends MarcRecordFactoryBase {
 			addField(MarcTags.kSubjectCode,
 					makeFieldDataFrom(' ', ' ', 'a', code));
 		}
+	}
+
+	private void handleAdditionalMaterial(String val) {
+	   AdditionalMaterialElement += "m     o  d       ";
+	   if (null != val && !val.isEmpty()) {
+	     addField(MarcTags.kAdditionalMaterial,AdditionalMaterialElement);
+	   }
+	}
+
+	private void handleElectronicResource(String val) {
+	   ElectronicResourceElement += "cr#unu||||||||";
+	   if (null != val && !val.isEmpty()) {
+	     addField(MarcTags.kElectronicResource,ElectronicResourceElement);
+	    }
 	}
 
 	private void handleFixedLengthElements() {

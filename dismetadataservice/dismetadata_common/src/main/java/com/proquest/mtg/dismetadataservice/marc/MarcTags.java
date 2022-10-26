@@ -10,6 +10,8 @@ import com.google.common.collect.ImmutableSet;
 public class MarcTags {
 	public static final String kRecId = "001";
 	public static final String kTransactionTimestamp = "005";
+	public static final string kAdditionalMaterial = "006";
+	public static final string kElectronicResource = "007";
 	public static final String kFiexedLengthDataElements = "008";
 	public static final String kIsbn = "020";
 	public static final String kSystemControlNumber = "035";
@@ -48,6 +50,8 @@ public class MarcTags {
 	public static final Set<String> kAllTags = ImmutableSet.of(
 			kRecId,
 			kTransactionTimestamp,
+			kAdditionalMaterial,
+			kElectronicResource,
 			kFiexedLengthDataElements,
 			kIsbn,
 			kSystemControlNumber,
