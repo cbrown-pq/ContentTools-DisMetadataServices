@@ -1,5 +1,0 @@
-DO NOT REMOVE
-
-This file used by the unit test suites to locate the appRoorDir by invoking: 
-
-classLoader.getResource(FakeAppRootDir/ResourceLocator.txt")
